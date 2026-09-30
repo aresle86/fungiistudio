@@ -1,7 +1,9 @@
 // POST /functions/v1/note-submit  { text, name?, city?, email?, paper?, hp? }
 // Saves a visitor note as "pending" and emails the studio an approve / reject link.
-// Secrets (Supabase → Edge Functions → Secrets): RESEND_API_KEY, NOTIFY_TO (comma-separated), IP_SALT
-// Optional: NOTIFY_FROM (defaults to Resend's test sender until the domain is verified), ALLOWED_ORIGINS, SITE_URL
+// Public endpoint (verify_jwt off): protected by honeypot, length limits and a per-visitor rate limit.
+// Secret to add (Supabase → Edge Functions → Secrets): RESEND_API_KEY
+// Optional: NOTIFY_TO (comma-separated, default ares.le@gmail.com), NOTIFY_FROM (default: Resend's test sender
+// until the domain is verified), IP_SALT (default: derived from the service key), ALLOWED_ORIGINS, SITE_URL
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const SB = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -44,7 +46,7 @@ Deno.serve(async (req) => {
 
   // rate limit: at most 3 notes per visitor per 10 minutes, 20 per day
   const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
-  const ip_hash = await sha(ip + (Deno.env.get("IP_SALT") ?? "fungii"));
+  const ip_hash = await sha(ip + (Deno.env.get("IP_SALT") ?? Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "fungii"));
   const since = (ms: number) => new Date(Date.now() - ms).toISOString();
   const [{ count: c10 }, { count: cDay }] = await Promise.all([
     SB.from("notes").select("id", { count: "exact", head: true }).eq("ip_hash", ip_hash).gte("created_at", since(10 * 60e3)),
@@ -58,7 +60,7 @@ Deno.serve(async (req) => {
   if (error || !data) return json(req, { error: "save_failed" }, 500);
 
   // email the studio (a failed email never loses the note: it stays pending in the table)
-  const key = Deno.env.get("RESEND_API_KEY"), to = (Deno.env.get("NOTIFY_TO") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  const key = Deno.env.get("RESEND_API_KEY"), to = (Deno.env.get("NOTIFY_TO") || "ares.le@gmail.com").split(",").map((s) => s.trim()).filter(Boolean);
   if (key && to.length) {
     const site = (Deno.env.get("SITE_URL") ?? "https://aresle86.github.io/fungiistudio/").replace(/\/?$/, "/");
     const base = `${site}moderate.html?id=${data.id}&t=${data.token}`;
@@ -78,7 +80,8 @@ Deno.serve(async (req) => {
         to, subject: `New note on the wall: “${text.slice(0, 40)}${text.length > 40 ? "…" : ""}”`, html,
         ...(email ? { reply_to: email } : {}),
       }),
-    }).catch(() => {});
-  }
+    }).then(async (r) => { if (!r.ok) console.error("resend failed", r.status, (await r.text()).slice(0, 300)); })
+      .catch((e) => console.error("resend error", String(e)));
+  } else console.warn("RESEND_API_KEY is not set: note saved, no email sent");
   return json(req, { ok: true, id: data.id });
 });
