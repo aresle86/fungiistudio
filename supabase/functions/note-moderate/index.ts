@@ -1,6 +1,7 @@
 // The approve / reject API behind moderate.html (Supabase can't serve HTML pages itself).
-// GET  ?id=…&t=…                → { text, name, city, status }   (the link in the email opens moderate.html,
-// POST { id, t, a }             → applies "approve" | "reject"     which calls this; mail scanners can't approve)
+// Public endpoint (verify_jwt off): every call must carry the note's secret token from the email link.
+// GET  ?id=…&t=…                → { text, name, city, paper, status }
+// POST { id, t, a }             → applies "approve" | "reject"
 import { createClient } from "npm:@supabase/supabase-js@2";
 const SB = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 const ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ?? "https://fungiistudio.com,https://www.fungiistudio.com,https://aresle86.github.io").split(",").map((s) => s.trim());
