@@ -3,7 +3,7 @@
 // POST { id, t, a }             → applies "approve" | "reject"     which calls this; mail scanners can't approve)
 import { createClient } from "npm:@supabase/supabase-js@2";
 const SB = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-const ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ?? "https://aresle86.github.io").split(",").map((s) => s.trim());
+const ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ?? "https://fungiistudio.com,https://www.fungiistudio.com,https://aresle86.github.io").split(",").map((s) => s.trim());
 const cors = (req: Request) => {
   const o = req.headers.get("origin") ?? "";
   return { "Access-Control-Allow-Origin": ORIGINS.includes(o) || o.startsWith("http://localhost") ? o : ORIGINS[0],

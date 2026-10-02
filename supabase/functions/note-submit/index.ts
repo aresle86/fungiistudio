@@ -7,7 +7,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const SB = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-const ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ?? "https://aresle86.github.io").split(",").map((s) => s.trim());
+const ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ?? "https://fungiistudio.com,https://www.fungiistudio.com,https://aresle86.github.io").split(",").map((s) => s.trim());
 
 function cors(req: Request) {
   const o = req.headers.get("origin") ?? "";
@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
   // email the studio (a failed email never loses the note: it stays pending in the table)
   const key = Deno.env.get("RESEND_API_KEY"), to = (Deno.env.get("NOTIFY_TO") || "ares.le@gmail.com").split(",").map((s) => s.trim()).filter(Boolean);
   if (key && to.length) {
-    const site = (Deno.env.get("SITE_URL") ?? "https://aresle86.github.io/fungiistudio/").replace(/\/?$/, "/");
+    const site = (Deno.env.get("SITE_URL") ?? "https://fungiistudio.com/").replace(/\/?$/, "/");
     const base = `${site}moderate.html?id=${data.id}&t=${data.token}`;
     const btn = (href: string, label: string, bg: string) =>
       `<a href="${href}" style="display:inline-block;padding:12px 18px;margin-right:8px;background:${bg};color:#111;border:2px solid #111;font:bold 14px monospace;text-decoration:none">${label}</a>`;
