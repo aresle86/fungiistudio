@@ -615,6 +615,7 @@ var WORDS=[
    (Titles drawn in 3D re-render from these strings on load.)
    ========================================================= */
 window.COPY = {
+  grainDefault: 'none',   // paper grain on first visit: 'none', 'a', 'warm' (B), 'pink' or 'blue'
   // backend for the note wall (public values only: the project URL and the publishable key)
   backend: { url: 'https://zgfanxtjdvioxpgpbcke.supabase.co', key: 'sb_publishable_C9yQE4moNWh6YPf6Oofdjg_hHrutuok' },
   nav: { reel: 'Reel', work: 'Work', studio: 'Studio', contact: 'Contact',
@@ -734,7 +735,7 @@ window.COPY = {
   contact: {
     title: ['Got', 'a', 'brief?'],
     lead: 'Write to us. We answer within a day.',
-    email: 'ares.le@gmail.com',
+    email: 'hello@fungiistudio.com',
     instagram: 'fungii.studio',
     whatsapp: '+84 913 823 864',
     place: 'Fungii studio · Saigon · 10.7769° N 106.7009° E',
@@ -1583,8 +1584,8 @@ const navBtns=[...document.querySelectorAll('#nav button')];
     for(let i=0;i<d.data.length;i+=4){const on=Math.random()<dens;if(rgb){d.data[i]=rgb[0];d.data[i+1]=rgb[1];d.data[i+2]=rgb[2];}else{const v=Math.random()*255|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;}d.data[i+3]=on?alpha:0;}x.putImageData(d,0,0);return 'url('+c.toDataURL()+')';};
   const MODES=[{k:'a',n:'A'},{k:'warm',n:'B',bg:tile('#B5B0AA',.4,170),blend:'multiply',op:.5},{k:'pink',n:'Pink',bg:tile('#FF55BB',.28,150),blend:'multiply',op:.4},{k:'blue',n:'Blue',bg:tile('#0096E8',.28,150),blend:'multiply',op:.35},
     {k:'none',n:'off',off:true}];
-  const g=$('#grain'),b=$('#grainBtn');let m=0;try{m=Math.max(0,MODES.findIndex(q=>q.k===(localStorage.getItem('fg-grain')||'a')));}catch(e){}
-  const set=()=>{const M=MODES[m];g.className=M.off?'g-b':M.k==='a'?'g-a':'g-t';g.style.backgroundImage=M.bg||'';g.style.mixBlendMode=M.blend||'';g.style.opacity=M.op!=null?M.op:'';b.textContent=M.off?'No grain':'Grain '+M.n;try{localStorage.setItem('fg-grain',M.k);}catch(e){}};set();
+  const g=$('#grain'),b=$('#grainBtn');const DEF=MODES.findIndex(q=>q.k===(COPY.grainDefault||'none'));let m=Math.max(0,DEF);try{const k=localStorage.getItem('fg-grain2');const i=MODES.findIndex(q=>q.k===k);if(i>=0)m=i;}catch(e){}
+  const set=()=>{const M=MODES[m];g.className=M.off?'g-b':M.k==='a'?'g-a':'g-t';g.style.backgroundImage=M.bg||'';g.style.mixBlendMode=M.blend||'';g.style.opacity=M.op!=null?M.op:'';b.textContent=M.off?'No grain':'Grain '+M.n;try{localStorage.setItem('fg-grain2',M.k);}catch(e){}};set();
   b.addEventListener('click',()=>{m=(m+1)%MODES.length;set();});})();
 // click targets that follow 3D objects
 const hits=[];function hit(label,obj,fn,when){const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',label);b.hidden=true;$('#hits').appendChild(b);b.addEventListener('click',fn);const H={b,obj,when};hits.push(H);return H;}
