@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed."><meta name="theme-color" content="#F5F5F3">
 <meta property="og:type" content="website"><meta property="og:title" content="Fungii Studio · AI film, properly directed"><meta property="og:description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed.">
-<meta property="og:image" content="og.jpg"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://fungiistudio.com/og.jpg"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Fungii Studio · AI film, properly directed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -156,6 +156,7 @@ body.cf-drag,body.cf-drag *{cursor:grabbing!important;user-select:none}
 #ov[hidden]{display:none}
 #ovMedia{display:flex;align-items:center;justify-content:center;min-height:0;height:100%}
 #ovMedia video{max-width:100%;max-height:calc(100vh - 130px);background:#111;border:2px solid #111;box-shadow:10px 10px 0 #111;display:block}
+#ovMedia .yt{width:100%;max-width:calc((100vh - 130px) * 16 / 9);aspect-ratio:16/9;background:#111;border:2px solid #111;box-shadow:10px 10px 0 #111}#ovMedia .yt.v{aspect-ratio:9/16;width:auto;height:calc(100vh - 130px);max-width:100%}#ovMedia .yt iframe{width:100%;height:100%;border:0;display:block}#ovMedia img{max-width:100%;max-height:calc(100vh - 130px);display:block;border:2px solid #111}
 #ovInfo{display:flex;flex-direction:column;gap:14px;max-width:460px;max-height:100%;overflow:auto;scrollbar-width:none}
 #ovInfo .kick{font:11px/1 var(--pix);letter-spacing:.08em}
 #ovInfo h3{margin:0;font:900 clamp(40px,5vw,84px)/.88 var(--grot);font-stretch:118%;letter-spacing:-.03em;text-wrap:balance}#ovInfo h3.long{font-size:clamp(30px,3.3vw,54px);line-height:.92}
@@ -242,7 +243,7 @@ body.cf-drag,body.cf-drag *{cursor:grabbing!important;user-select:none}
   #s7txt .place{display:none}
   #wallGrid{grid-template-columns:1fr 1fr;gap:20px 14px}.nf{grid-column:1 / -1}.note{min-height:150px;padding:22px 12px 10px}.note p{font-size:13px}#wall h3{font-size:42px}
   #ov{grid-template-columns:1fr;grid-template-rows:auto;align-content:start;overflow:auto;padding-top:calc(64px + env(safe-area-inset-top,0px))}
-  #ovMedia video{max-height:56vh;box-shadow:6px 6px 0 #111}
+  #ovMedia video{max-height:56vh;box-shadow:6px 6px 0 #111}#ovMedia .yt{max-width:100%;box-shadow:6px 6px 0 #111}#ovMedia .yt.v{height:auto;width:min(100%,calc(62vh * 9 / 16));margin:0 auto}
 }
 @media (max-height:520px) and (min-aspect-ratio:13/10){
   #miniLogo{width:72px}#nav button{padding:7px 11px;font-size:11px}#nav button.hot{padding:5.5px 12px}
@@ -632,8 +633,11 @@ window.COPY = {
     sub: 'Selected work, 2026',
     play: 'Play with sound',
     more: 'Explore more work',
-    video: 'media/thefly.mp4',
-    poster: 'media/thefly.jpg'
+    title: 'Fungii Showreel 2026', format: 'Showreel · 16:9 · 2:40',
+    video: 'media/showreel-loop.mp4',   // 30 s silent loop that plays in the scene
+    full: 'media/showreel.mp4',         // full reel with sound (1080p) for "Play with sound"
+    youtube: '',                        // paste the reel's YouTube link here to play it from YouTube instead
+    poster: 'media/showreel.jpg'
   },
 
   taste: { all: 'All', done: 'DONE', with: 'with', taste: 'Taste.', hint: 'Grab the shaker · sprinkle anywhere', clear: 'Clear salt' },
@@ -676,36 +680,54 @@ window.COPY = {
     // tags = what Fungii did on the job (Idea, Script, Direction, Art direction, Production, AI generation, Edit, Sound…)
     // featured: false keeps a film in the index only (not on the ring).
     items: [
+      { id: 'mientay', title: 'Miền Tây Morning Run', short: 'Miền Tây Morning Run', client: 'Fungii original', year: '2026', format: 'AI short film · 16:9 · 1:06',
+        line: 'Morning walks with your dog: hectic, exhausting, unexpectedly magical.',
+        desc: 'Morning walks with your dog can be hectic, exhausting, and unexpectedly magical. Where should we race next?',
+        tags: ['Idea', 'Direction', 'AI generation', 'Edit'],
+        youtube: 'https://youtu.be/gCXsMaFxA1Q',
+        loop: 'media/mientay-loop.mp4', poster: 'media/mientay.jpg', vertical: false },
+      { id: 'clog', title: 'A Giant Clog Falls From the Sky', short: 'Giant Clog', client: 'Fungii experiment', year: '2026', format: 'AI VFX short · 9:16 · 0:42',
+        line: 'Arrival. Crash. Drop. Release.',
+        desc: 'An AI VFX short: a giant clog arrives over the city, crashes, drops and releases, all in one compact sequence.',
+        tags: ['Idea', 'AI VFX', 'Edit'],
+        youtube: 'https://youtube.com/shorts/l8XKYtHaxtA',
+        loop: 'media/clog-loop.mp4', poster: 'media/clog.jpg', vertical: true },
+      { id: 'testrun', title: 'A test run.', short: 'A test run.', client: 'Fungii experiment', year: '2026', format: 'Live action + AI VFX test · 9:16 · 0:19',
+        line: 'Shot for real. Restyled in post.',
+        desc: 'A test in blending real footage with AI post-production: filmed for real, then wardrobe and scenery swapped with AI. A fast little chase of movement, timing and playful visual energy.',
+        tags: ['Direction', 'Shoot', 'AI VFX', 'Edit'],
+        youtube: 'https://youtube.com/shorts/5SJ2yWSOei8',
+        loop: 'media/testrun-loop.mp4', poster: 'media/testrun.jpg', vertical: true },
       { id: 'thefly', title: 'May All Your Problems Disappear — Ep. 1: The Flies', short: 'The Flies', client: 'Fungii original', year: '2026', format: 'AI comedy short · 16:9 · 1:27',
         line: 'A quiet coffee. A small nuisance. An unexpectedly simple solution.',
         desc: 'Episode 1: The Flies. An AI-made comedy short about wishing a problem away.',
         tags: ['Idea', 'Script', 'Direction', 'AI generation', 'Edit'],
         youtube: 'https://youtu.be/aA589JAMHjY',
-        src: 'media/thefly.mp4', loop: 'media/thefly-loop.mp4', poster: 'media/thefly.jpg', vertical: false },
+        loop: 'media/thefly-loop.mp4', poster: 'media/thefly.jpg', vertical: false },
       { id: 'fantasyball', title: 'FantasyBall', short: 'FantasyBall', client: 'Fungii original', year: '2026', format: 'AI fantasy sports film · 16:9 · 1:35',
         line: 'An ordinary court. A less ordinary imagination.',
         desc: 'FantasyBall transforms a sports setting into a playful fantasy world through AI filmmaking.',
         tags: ['Idea', 'Direction', 'Art direction', 'AI generation', 'Edit'],
         youtube: 'https://youtu.be/lPwJLjQ7Ogo',
-        src: 'media/fantasyball.mp4', loop: 'media/fantasyball-loop.mp4', poster: 'media/fantasyball.jpg', vertical: false },
+        loop: 'media/fantasyball-loop.mp4', poster: 'media/fantasyball.jpg', vertical: false },
       { id: 'minice', title: 'Mì Nice', short: 'Mì Nice', client: 'Self-initiated · an old pitch, reimagined', year: '2026', format: 'AI product film · 16:9 · 0:28',
         line: 'Some ideas spend years in a folder called “failed pitches.” This one finally got a film.',
         desc: 'We revisited an old storyboard that never made it to production and made a full AI film, exploring visual treatments, product sequences and how consistently AI can hold product details across shots. A self-initiated revisit, not an official brand advertisement.',
         tags: ['Idea', 'Storyboard', 'Direction', 'AI generation', 'Edit'],
         youtube: 'https://youtu.be/qZ1rU-GTnlE',
-        src: 'media/minice.mp4', loop: 'media/minice-loop.mp4', poster: 'media/minice.jpg', vertical: false },
+        loop: 'media/minice-loop.mp4', poster: 'media/minice.jpg', vertical: false },
       { id: 'lemonup', title: 'LemonUP', short: 'LemonUP', client: 'Fungii experiment', year: '2026', format: 'AI product film · 9:16 · 0:36',
         line: 'A character. A cursor. A change of scene.',
         desc: 'A playful approach to an AI product film, with character, wardrobe, product and environment moving under one creative direction.',
         tags: ['Idea', 'Art direction', 'AI generation', 'Edit'],
         youtube: 'https://youtube.com/shorts/0aAXEBq8u8I',
-        src: 'media/lemonup.mp4', loop: 'media/lemonup-loop.mp4', poster: 'media/lemonup.jpg', vertical: true },
+        loop: 'media/lemonup-loop.mp4', poster: 'media/lemonup.jpg', vertical: true },
       { id: 'trungthu', title: 'Trung Thu Rất Khả Thi', short: 'Trung Thu Rất Khả Thi', client: 'Fungii original', year: '2026', format: 'AI short film · 9:16 · 4:03',
         line: 'A journey home for Mid-Autumn Festival, through a world of giant lanterns.',
         desc: 'An AI-made short film exploring character, atmosphere and a little festive imagination.',
         tags: ['Idea', 'Script', 'Direction', 'AI generation', 'Edit', 'Sound'],
         youtube: 'https://youtu.be/NmTx9bEm7Vs',
-        src: 'media/trungthu.mp4', loop: 'media/trungthu-loop.mp4', poster: 'media/trungthu.jpg', vertical: true }
+        loop: 'media/trungthu-loop.mp4', poster: 'media/trungthu.jpg', vertical: true }
     ]
   },
 
@@ -1578,7 +1600,7 @@ function trackHits(){for(const H of hits){if(!H.when()||!H.obj.visible){H.b.hidd
   if(x0>1e8||x1<0||y1<0||x0>W||y0>H0()){H.b.hidden=true;continue;}H.b.hidden=false;const cs='left:'+x0.toFixed(1)+'px;top:'+y0.toFixed(1)+'px;width:'+(x1-x0).toFixed(1)+'px;height:'+(y1-y0).toFixed(1)+'px';if(H.cs!==cs){H.cs=cs;H.b.style.cssText=cs;}}}
 const H0=()=>H;
 const near=(k,w)=>()=>Math.abs(Ts-k)<(w||.3)&&!dlgOpen();
-const openReel=()=>openOv([{title:'Showreel',client:'Fungii studio',year:'2026',format:'Reel',role:'Ares & Nou',desc:COPY.reel.sub,src:COPY.reel.video,poster:COPY.reel.poster}],0,COPY.reel.label);
+const openReel=()=>openOv([{title:COPY.reel.title||'Showreel',client:'Fungii studio',year:'2026',format:COPY.reel.format||'Reel',role:'Ares & Nou',desc:COPY.reel.sub,src:COPY.reel.full||COPY.reel.video,youtube:COPY.reel.youtube||'',poster:COPY.reel.poster}],0,COPY.reel.label);
 reelWrap.querySelector('.rw-play').addEventListener('click',openReel);reelVid.addEventListener('click',openReel);reelWrap.querySelector('.rw-more').addEventListener('click',()=>jump(6));
 {const sH=hit('Write now',bag.userData.stk,()=>{const b=document.getElementById('wallOpen');if(b)b.click();},near(7,.35));sH.b.addEventListener('pointerenter',()=>{bag.userData.hovS=1;});sH.b.addEventListener('pointerleave',()=>{bag.userData.hovS=0;});}
 {const pH=hit((COPY.contact.wall&&COPY.contact.wall.rowText)||'Leave a note',bag.userData.pad,()=>{const b=document.getElementById('wallOpen');if(b)b.click();},near(7,.35));pH.b.addEventListener('pointerenter',()=>{bag.userData.hov=1;});pH.b.addEventListener('pointerleave',()=>{bag.userData.hov=0;});pH.b.addEventListener('focus',()=>{bag.userData.hov=1;});pH.b.addEventListener('blur',()=>{bag.userData.hov=0;});}
@@ -1674,10 +1696,15 @@ $('#idxClose').addEventListener('click',()=>dlgHide(idx));
 
 // overlay
 const ov=$('#ov');let ovList=[],ovI=0,ovRet=null;
+const ytId=u=>{const m=String(u||'').match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/);return m?m[1]:'';};
 function renderOv(){const it=ovList[ovI];$('#ovKick').textContent=ovKick+(ovList.length>1?'  ·  '+String(ovI+1).padStart(2,'0')+'/'+String(ovList.length).padStart(2,'0'):'');$('#ovTitle').textContent=it.title;$('#ovTitle').classList.toggle('long',it.title.length>26);
   $('#ovMeta').innerHTML=[['CLIENT',it.client],['YEAR',it.year],['FORMAT',it.format],['CREDITS',it.role]].filter(a=>a[1]).map(a=>'<dt>'+a[0]+'</dt><dd>'+esc(a[1])+'</dd>').join('')+(it.tags&&it.tags.length?'<dt>FUNGII DID</dt><dd class="tags">'+it.tags.map((t,k)=>'<span style="background:'+TAGC[k%TAGC.length]+'">'+esc(t)+'</span>').join('')+'</dd>':'');$('#ovDesc').textContent=it.desc||'';
   $('#ovYt').hidden=!it.youtube;if(it.youtube){$('#ovYt').href=it.youtube;$('#ovYt').textContent=COPY.work.youtube+' ↗';}
-  $('#ovMedia').innerHTML='<video controls playsinline preload="metadata" poster="'+esc(it.poster||'')+'" src="'+esc(it.src)+'"></video>';const v=$('#ovMedia video');v.play().catch(()=>{});
+  // full films play from YouTube (keeps 1080p+ and the views on the channel); a local mp4 is the fallback
+  const yid=ytId(it.youtube);
+  if(yid&&!it.preferSrc){$('#ovMedia').innerHTML='<div class="yt'+(it.vertical?' v':'')+'"><iframe src="https://www.youtube-nocookie.com/embed/'+yid+'?autoplay=1&rel=0&playsinline=1&modestbranding=1" title="'+esc(it.title)+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>';}
+  else if(it.src){$('#ovMedia').innerHTML='<video controls playsinline preload="metadata" poster="'+esc(it.poster||'')+'" src="'+esc(it.src)+'"></video>';const v=$('#ovMedia video');v.play().catch(()=>{});}
+  else $('#ovMedia').innerHTML='<img src="'+esc(it.poster||'')+'" alt="">';
   $('#ovPrev').hidden=$('#ovNext').hidden=ovList.length<2;}
 let ovKick='';
 function openOv(list,i,kick,ret){ovList=list;ovI=i;ovKick=kick||'';renderOv();dlgShow(ov,ret||document.activeElement,$('#ovClose'));if(reelVid&&!reelVid.paused)reelVid.pause();}
