@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jABGwJRGnbec43SY6G2PqLWojwcv3mE0su7e5YXbJAY=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-C2/dekI8EW2pBUGBsr9d/dc7VlJeywy0Ent0eFGkGyM='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed."><meta name="theme-color" content="#F5F5F3">
 <meta property="og:type" content="website"><meta property="og:title" content="Fungii Studio · AI film, properly directed"><meta property="og:description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed.">
 <meta property="og:image" content="https://fungiistudio.com/og.jpg"><meta name="twitter:card" content="summary_large_image">
@@ -916,7 +916,7 @@ function OPEN_HEAD(kind,layer,o){
 
 window.LOGO_D=LOGO_D;
 </script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.min.js","three/addons/":"./vendor/addons/"}}</script>
 <script type="module">
 
 import * as THREE from 'three';
@@ -1036,17 +1036,30 @@ addEventListener('error',e=>showErr('Error: '+(e.message||e.error)+' ('+(e.filen
 addEventListener('unhandledrejection',e=>showErr('Error: '+((e.reason&&e.reason.message)||e.reason)));
 {const tc=document.createElement('canvas');if(!(tc.getContext('webgl2'))){showErr('This browser has WebGL 2 switched off. In Chrome: Settings → System → turn on “Use graphics acceleration when available”, then relaunch Chrome.');throw new Error('no webgl2');}}
 /* ---------- renderer / scene ---------- */
+const IMGP=new Map();function prefetchImg(src){if(!src)return Promise.resolve(null);if(!IMGP.has(src))IMGP.set(src,new Promise(r=>{const im=new Image();im.decoding='async';im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src;}));return IMGP.get(src);}
+prefetchImg(COPY.reel.poster);(COPY.work.items||[]).forEach(it=>prefetchImg(it.poster));
 await fontsReady;
 const R=makeRenderer($('#world'));
 // iOS caps total canvas memory: once a static canvas texture is on the GPU, drop its canvas
-function freeTex(){const q=window.__texQ||[];const keep=[];while(q.length){const t=q.shift();const c=t.image;if(!c||!c.getContext)continue;if(t.userData&&t.userData.keep){keep.push(t);continue;}try{R.initTexture(t);}catch(e){keep.push(t);continue;}t.image={width:c.width,height:c.height};c.width=c.height=1;}q.push(...keep);}
+function freeTex(){const q=window.__texQ||[];const keep=[];while(q.length){const t=q.shift();if(t.userData&&t.userData.pending){keep.push(t);continue;}const c=t.image;if(!c||!c.getContext)continue;if(t.userData&&t.userData.keep){keep.push(t);continue;}try{R.initTexture(t);}catch(e){keep.push(t);continue;}t.image={width:c.width,height:c.height};c.width=c.height=1;}q.push(...keep);}
 const CSSR=new CSS3DRenderer();CSSR.domElement.id='css3d';document.getElementById('stage').insertBefore(CSSR.domElement,document.getElementById('hits'));
 const scene=new THREE.Scene();scene.background=PAPER.clone();roomEnv(R,scene);
 scene.fog=new THREE.Fog(PAPER.clone(),2600,9500);
 const cam=new THREE.PerspectiveCamera(40,W/H,5,40000);
 const FOV2=Math.tan(20*Math.PI/180);
 const basic=(map,extra)=>new THREE.MeshBasicMaterial(Object.assign({map,alphaTest:.04,alphaToCoverage:true,side:THREE.DoubleSide,toneMapped:false},extra||{}));
-async function svgTex(svg,px){px=px||1024;if(MOBILE)px=Math.round(px*.75);const c=await rasterSticker(svg,px);if(!c)return null;const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;t.userData={w:c.width,h:c.height};(window.__texQ=window.__texQ||[]).push(t);return t;}
+const LAZY=[];let lazyOn=false,LZ_ST=1;window.__lazyLeft=()=>LAZY.length;
+function svgBox(svg){const tag=(String(svg).match(/<svg\b[^>]*>/i)||[''])[0];const m=tag.match(/viewBox\s*=\s*["']\s*([-+\d.eE]+)[\s,]+([-+\d.eE]+)[\s,]+([-+\d.eE]+)[\s,]+([-+\d.eE]+)/);return m&&+m[3]>0&&+m[4]>0?{w:+m[3],h:+m[4]}:null;}
+async function svgTex(svg,px,now){px=px||1024;if(MOBILE)px=Math.round(px*.75);const b=now?null:svgBox(svg);
+  if(!b){const c=await rasterSticker(svg,px);if(!c)return null;const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;t.userData={w:c.width,h:c.height};(window.__texQ=window.__texQ||[]).push(t);return t;}
+  const t=new THREE.Texture();t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;t.userData={w:px,h:Math.ceil(b.h*px/b.w),pending:true};
+  t.userData.ready=new Promise(res=>LAZY.push({t,svg,px,res,st:LZ_ST}));(window.__texQ=window.__texQ||[]).push(t);return t;}
+async function drainLazy(){if(lazyOn)return;lazyOn=true;let n=0;
+  const pick=()=>{let bi=0;const cur=isFinite(Ts)?Ts:0;let bc=1e9;LAZY.forEach((q,k)=>{const c=Math.abs(q.st-cur)-(q.st>=cur?.3:0)+k*1e-4;if(c<bc){bc=c;bi=k;}});return LAZY.splice(bi,1)[0];};
+  while(LAZY.length){const batch=[];while(batch.length<3&&LAZY.length)batch.push(pick());
+    await Promise.all(batch.map(async j=>{let c=null;try{c=await rasterSticker(j.svg,j.px);}catch(e){}const t=j.t;if(c){t.image=c;t.needsUpdate=true;}t.userData.pending=false;j.res(t);}));
+    n+=batch.length;if(n%12<3)freeTex();await new Promise(r=>setTimeout(r,0));}
+  lazyOn=false;freeTex();}
 function alphaBottom(c){const x=c.getContext('2d'),w=c.width,h=c.height,d=x.getImageData(0,0,w,h).data;for(let y=h-1;y>0;y--){for(let i=0;i<w;i+=2)if(d[(y*w+i)*4+3]>128)return (y+1)/h;}return 1;}
 function card(tex,h){const w=h*tex.userData.w/tex.userData.h;const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),basic(tex));m.userData.w=w;m.userData.h=h;return m;}
 function bubbleTex(text,opt){opt=opt||{};const c=document.createElement('canvas'),x=c.getContext('2d'),F='30px Silkscreen, monospace';x.font=F;
@@ -1087,7 +1100,7 @@ const cycleFonts=(word,pat)=>[...word].map((ch,i)=>[ch,pat[i%pat.length][0],pat[
 function video(src,loop){const v=document.createElement('video');v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='none';v.crossOrigin='anonymous';v.dataset.src=src;v.ready=false;v.addEventListener('playing',()=>{v.ready=true;});v.style.cssText='position:fixed;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none';(document.getElementById('vids')||document.body).appendChild(v);return v;}
 function wantPlay(v,on){if(on){if(!v.src)v.src=v.dataset.src;if(v.paused)v.play().catch(()=>{});}else if(!v.paused)v.pause();}
 const texLoader=new THREE.TextureLoader();
-const imgTex=src=>{const t=texLoader.load(src);t.colorSpace=THREE.SRGBColorSpace;return t;};
+const imgTex=src=>{const t=new THREE.Texture();t.colorSpace=THREE.SRGBColorSpace;prefetchImg(src).then(im=>{if(im){t.image=im;t.needsUpdate=true;}});return t;};
 
 /* =========================================================
    WORLD MAP — station stops and the curves between them
@@ -1205,7 +1218,7 @@ const beam=(()=>{const c=canvasTex(256,256,(x,w,h)=>{const g=x.createLinearGradi
 const robotTex=[];for(const f of PROP_ROBOT.frames)robotTex.push(await svgTex(f,512));
 const robotCard=await prop(PROP_ROBOT,150,700,150);
 const A_VB='-40 -90 320 580';
-const aresTex=[];for(const f of ARES_SPR){aresTex.push(await svgTex(standalone(ares(f[1]),A_VB),640));}
+const aresTex=[];for(const f of ARES_SPR){aresTex.push(await svgTex(standalone(ares(f[1]),A_VB),640,!aresTex.length));}
 aresTex[0].userData.keep=true;const ARES_H=440*580/510,aresCard=new THREE.Mesh(new THREE.PlaneGeometry(ARES_H*320/580,ARES_H),basic(aresTex[0]));
 {const fb=alphaBottom(aresTex[0].image);aresCard.position.set(D1.x+6,FLOOR+ladder.userData.h*(1-PROP_LADDER.top)+ARES_H*(fb-.5)-4,D1.z+30);}G1.add(aresCard);
 const seqA=[0,0,11,11,0,0,4,5,6,0,7,7,8,8,0,11];
@@ -1226,7 +1239,7 @@ const screenMesh=new THREE.Mesh(new THREE.PlaneGeometry(1600,900),screenM);scree
 const bezM=new THREE.MeshStandardMaterial({color:'#1D1D1F',roughness:.5,transparent:true});
 // no bezel: the reel floats on its own (v12)
 
-const reelStk=card(await svgTex(STK.reel,768),210);reelStk.position.set(690,380,12);reelStk.rotation.z=-.1;screen.add(reelStk);
+LZ_ST=2;const reelStk=card(await svgTex(STK.reel,768),210);reelStk.position.set(690,380,12);reelStk.rotation.z=-.1;screen.add(reelStk);
 const moreSvg=dieCut('<rect x="10" y="10" width="440" height="120" rx="60"/>','#F2FFA0','<text x="44" y="88" textLength="330" lengthAdjust="spacingAndGlyphs" style="font-family:'+"'Bagel Fat One'"+',sans-serif;font-size:48px" fill="#111">'+esc(COPY.reel.more)+'</text><path d="M392 70 h34 m-14 -14 l14 14 -14 14" stroke="#111" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>','0 0 460 140','mo');
 const moreStk=card(await svgTex(moreSvg,900),130);moreStk.position.set(560,-470,14);moreStk.rotation.z=.05;screen.add(moreStk);
 const playStk=card(await svgTex(dieCut('<circle cx="70" cy="70" r="60"/>','#FF55BB','<path d="M55 42 L102 70 L55 98 Z" fill="#FBFBF8" stroke="#111" stroke-width="5" stroke-linejoin="round"/>','0 0 140 140','pl'),300),150);playStk.position.set(0,0,14);screen.add(playStk);
@@ -1239,12 +1252,12 @@ const reelObj=new CSS3DObject(reelWrap);reelObj.position.z=1.5;if(IOS){reelVid.s
    S3 · NÙ'S CORNER + the seven craft stickers
    ========================================================= */
 const G3=new THREE.Group();scene.add(G3);
-{const rt=await svgTex(PROP_NURUG.svg,1024);const rug=new THREE.Mesh(new THREE.PlaneGeometry(760,456),basic(rt));rug.rotation.x=-Math.PI/2;rug.position.set(D3.x+40,FLOOR+1,D3.z+40);G3.add(rug);
+LZ_ST=3;{const rt=await svgTex(PROP_NURUG.svg,1024);const rug=new THREE.Mesh(new THREE.PlaneGeometry(760,456),basic(rt));rug.rotation.x=-Math.PI/2;rug.position.set(D3.x+40,FLOOR+1,D3.z+40);G3.add(rug);
  const lt=await svgTex(PROP_NULAMP.svg,1024);const lamp=card(lt,560);lamp.position.set(D3.x-330,FLOOR+280,D3.z-60);lamp.userData.bx=-330;lamp.userData.d3=1;PORT_PROPS.push(lamp);G3.add(lamp);window.__nuLamp=lamp;}
 const nuGlow=(()=>{const t=canvasTex(256,256,(x,w,h)=>{const g=x.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);g.addColorStop(0,'rgba(242,255,160,.95)');g.addColorStop(.3,'rgba(242,255,160,.55)');g.addColorStop(1,'rgba(242,255,160,0)');x.fillStyle=g;x.fillRect(0,0,w,h);});
   const m=new THREE.Mesh(new THREE.PlaneGeometry(240,240),new THREE.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,toneMapped:false}));G3.add(m);return m;})();
 const N_VB='-40 -90 320 580';
-const nuTex=[];for(const f of NU_SPR){nuTex.push(await svgTex(standalone(nu(f[1]),N_VB),640));}
+const nuTex=[];for(const f of NU_SPR){nuTex.push(await svgTex(standalone(nu(f[1]),N_VB),640,!nuTex.length));}
 nuTex[0].userData.keep=true;const NU_H=440*580/510,nuCard=new THREE.Mesh(new THREE.PlaneGeometry(NU_H*320/580,NU_H),basic(nuTex[0]));{const fb=alphaBottom(nuTex[0].image);nuCard.position.set(D3.x+60,FLOOR+NU_H*(fb-.5)+2,D3.z+40);}G3.add(nuCard);
 const seqN=[4,5,4,5,6,7,7,8,8,9];
 const bubN=makeBubble(COPY.craft.bubbles,G3,190,'r');const nuBase=nuCard.position.clone();
@@ -1329,7 +1342,7 @@ freeTex();
    S5 · THE OPEN HEADS — 3/4, skull cut away, a tiny Ares / Nù working inside the pile of notes
    ========================================================= */
 const HS5=5.2;
-const BULB=await (async()=>{const on=pixBulb(0,0),off=on.replace(/#F2FFA0/g,'#A9A9A6').replace(/#FFFFFF/g,'#D0D0CC').replace(/#FF55BB/g,'none');return {on:await svgTex(standalone(on,'-16 -16 64 64'),256),off:await svgTex(standalone(off,'-16 -16 64 64'),256)};})();
+LZ_ST=5;const BULB=await (async()=>{const on=pixBulb(0,0),off=on.replace(/#F2FFA0/g,'#A9A9A6').replace(/#FFFFFF/g,'#D0D0CC').replace(/#FF55BB/g,'none');return {on:await svgTex(standalone(on,'-16 -16 64 64'),256),off:await svgTex(standalone(off,'-16 -16 64 64'),256)};})();
 async function ohLayer(kind,layer,o){return svgTex(standalone(OPEN_HEAD(kind,layer,o),OH.VB),900);}
 async function buildOpenHead(kind){
   const g=new THREE.Group(),inner=new THREE.Group();g.add(inner);
@@ -1341,12 +1354,13 @@ async function buildOpenHead(kind){
   const fb=alphaBottom(tt[0].image),feetY=-(g0.c+g0.iry+15)*HS5;tiny.position.set(0,feetY-TH/2+fb*TH,-6);inner.add(tiny);
   lay(await ohLayer(kind,'stacksF'),4);
   const faces={base:await ohLayer(kind,'front',{tag:'b'}),o:await ohLayer(kind,'front',{mouth:'o',spark:1,tag:'o'}),smile:await ohLayer(kind,'front',kind==='A'?{mouth:'smile',tag:'s'}:{mouth:'smile',blush:1,tag:'s'})};
-  const front=lay(faces.base,12);
+  const front=lay(faces.base,12);const eyesReady=faces.base.userData.ready||Promise.resolve();
   // eyes that follow the cursor: Nù's pupils, Ares' goggle glints
   const eyes=[],em=c=>new THREE.MeshBasicMaterial({color:c,toneMapped:false});
   const eye=(w,h,x,y,c,range)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w*HS5,h*HS5),em(c));m.position.set(x*HS5,-y*HS5,12.6);m.userData={x:x*HS5,y:-y*HS5,r:range*HS5};inner.add(m);eyes.push(m);return m;};
   if(kind==='N'){eye(5,7,-4.5,2.5,'#111',2.2);eye(5,7,16.5,2.5,'#111',2.2);}
   else{eye(12,4,-14,-2,'#FBFBF8',5);eye(18,4,21,0,'#6EE8FF',4);}
+  eyes.forEach(m=>{m.visible=false;});eyesReady.then(()=>eyes.forEach(m=>{m.visible=true;}));
   const bulb=new THREE.Mesh(new THREE.PlaneGeometry(64*HS5*.42,64*HS5*.42),basic(BULB.off));bulb.position.set((kind==='A'?-30:30)*HS5,-(g0.c-34)*HS5,2);inner.add(bulb);
   return {g,inner,tiny,front,faces,eyes,bulb,bulbT:-9,kind,expr:'base',until:0,nextBlink:2+Math.random()*3,blinkT:-9,
     setExpr(e,dur,t){this.expr=e;this.until=t+dur;this.front.material.map=this.faces[e];},
@@ -1363,12 +1377,12 @@ freeTex();
 const WORK_ALL=COPY.work.items,WORK=WORK_ALL.filter(it=>it.featured!==false);
 const polas=[];
 const TAGC=['#F2FFA0','#FFB8B0','#6EE8FF','#2BD1B0','#FF55BB','#FBFBF8'];
-const loadImg=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src;});
+const loadImg=src=>prefetchImg(src);
 function wrapText(x,str,maxW){const w=str.split(' '),out=[];let l='';for(const t of w){const tt=l?l+' '+t:t;if(x.measureText(tt).width>maxW&&l){out.push(l);l=t;}else l=tt;}if(l)out.push(l);return out;}
 async function coverCanvas(it,i,CW,PH,IH){const S=MOBILE?2:3,pad=20,c=document.createElement('canvas');c.width=(CW+pad*2)*S;c.height=(PH+IH+pad*2)*S;const x=c.getContext('2d');x.scale(S,S);x.translate(pad,pad);
   // no card frame (v12): just the picture, then the caption straight on the backdrop
   const im=await loadImg(it.poster);x.save();x.beginPath();x.roundRect(12,12,CW-24,PH-12,10);x.clip();x.fillStyle='#1D1D1F';x.fillRect(0,0,CW,PH);
-  if(im&&it.vertical){try{x.filter='blur(18px) brightness(.55)';}catch(e){}x.drawImage(im,-40,-40,CW+80,PH+80);x.filter='none';}x.restore();
+  if(im&&it.vertical){const sw=Math.ceil((CW+80)/8),sh=Math.ceil((PH+80)/8),sc=document.createElement('canvas');sc.width=sw;sc.height=sh;const sx=sc.getContext('2d');try{sx.filter='blur(2.2px) brightness(.55)';}catch(e){}sx.drawImage(im,0,0,sw,sh);x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.drawImage(sc,-40,-40,CW+80,PH+80);}x.restore();
   const ty=PH+14,SF=serifFor(it.short||it.title);let fs=36;x.font='italic 400 '+fs+'px '+SF;while(x.measureText(it.short||it.title).width>CW-60&&fs>20){fs--;x.font='italic 400 '+fs+'px '+SF;}
   x.fillStyle='#111';x.textBaseline='top';x.fillText(it.short||it.title,22,ty);
   x.font='12px Silkscreen';x.fillStyle='#5E5B57';x.textAlign='right';x.fillText(String(i+1).padStart(2,'0')+' · '+it.year,CW-22,ty+10);x.textAlign='left';
@@ -1732,7 +1746,7 @@ addEventListener('keydown',e=>{if(e.defaultPrevented||dlgOpen()||e.altKey||e.ctr
 const sndBtn=$('#snd');sndBtn.addEventListener('click',()=>{Snd.init();Snd.on=!Snd.on;if(Snd.ctx&&Snd.ctx.state==='suspended')Snd.ctx.resume();sndBtn.classList.toggle('on',Snd.on);sndBtn.setAttribute('aria-pressed',Snd.on);sndBtn.querySelector('span').textContent=Snd.on?'Sound on':'Sound off';if(Snd.on)Snd.jingle();});
 
 layout();addEventListener('resize',()=>{if(VW()!==W||VH()!==H)layout();});
-$('#loading').hidden=true;
+$('#loading').hidden=true;setTimeout(drainLazy,60);
 
 /* =========================================================
    LOOP

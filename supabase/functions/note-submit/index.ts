@@ -48,11 +48,13 @@ Deno.serve(async (req) => {
   const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
   const ip_hash = await sha(ip + (Deno.env.get("IP_SALT") ?? Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "fungii"));
   const since = (ms: number) => new Date(Date.now() - ms).toISOString();
-  const [{ count: c10 }, { count: cDay }] = await Promise.all([
+  // plus a site-wide ceiling, so someone rotating IPs can't flood the table or the studio's inbox
+  const [{ count: c10 }, { count: cDay }, { count: cAll }] = await Promise.all([
     SB.from("notes").select("id", { count: "exact", head: true }).eq("ip_hash", ip_hash).gte("created_at", since(10 * 60e3)),
     SB.from("notes").select("id", { count: "exact", head: true }).eq("ip_hash", ip_hash).gte("created_at", since(24 * 3600e3)),
+    SB.from("notes").select("id", { count: "exact", head: true }).gte("created_at", since(3600e3)),
   ]);
-  if ((c10 ?? 0) >= 3 || (cDay ?? 0) >= 20) return json(req, { error: "slow_down" }, 429);
+  if ((c10 ?? 0) >= 3 || (cDay ?? 0) >= 20 || (cAll ?? 0) >= 30) return json(req, { error: "slow_down" }, 429);
 
   const { data, error } = await SB.from("notes")
     .insert({ text, name, city, email, paper, ip_hash })
