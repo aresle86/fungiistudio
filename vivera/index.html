@@ -60,6 +60,7 @@ main{position:relative;z-index:1}
 .bar a,.bar button{pointer-events:auto}
 .bar a{color:var(--ink);text-decoration:none;opacity:.8}
 .bar a:hover{opacity:1}
+.bar .back{margin-right:auto}
 .sound{display:inline-flex;align-items:center;gap:10px;background:none;border:1px solid var(--line);color:var(--ink);font:inherit;letter-spacing:inherit;text-transform:inherit;
   padding:8px 12px;border-radius:999px;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .sound:focus-visible,.cta:focus-visible,.stage:focus-visible{outline:1px solid var(--grass-light);outline-offset:4px}
@@ -276,6 +277,7 @@ footer a{color:inherit}
 <div class="grain" aria-hidden="true"></div>
 
 <header class="bar">
+  <a class="back" href="/#play">← Fungii Playground</a>
   <button class="sound" id="soundBtn" type="button" aria-pressed="false"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="soundTxt">Sound off</span></button>
 </header>
 
@@ -423,10 +425,10 @@ footer a{color:inherit}
 </main>
 <footer>
   <span>VIVERA · a concept by Fungii Studio, Saigon</span>
-  <a href="/">fungiistudio.com</a>
+  <a href="/#play">fungiistudio.com</a>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="vendor/three.r128.min.js"></script>
 <script>
 (() => {
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
