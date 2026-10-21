@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-7rELjZtVoHMq8w8mIGYmpwgTEHD4dsAR7wH3g/BiEGE=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-3WxqvByLH3lzLNQy6v+MSCgChG8QcyETo7pyUc4Mi8A='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-k54Y+SMwIsPr16e89xcAFv6YEOc2VViY0RrwlqUu9MY=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-eeAESZmxmVckWBlfJ0ftTRt16COLnRrYzTIWd9xDiJU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed."><meta name="theme-color" content="#F5F5F3">
 <meta property="og:type" content="website"><meta property="og:title" content="Fungii Studio · AI film, properly directed"><meta property="og:description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed.">
 <meta property="og:image" content="https://fungiistudio.com/og.jpg"><meta name="twitter:card" content="summary_large_image">
@@ -734,6 +734,12 @@ window.COPY = {
     // tags = what Fungii did on the job (Idea, Script, Direction, Art direction, Production, AI generation, Edit, Sound…)
     // featured: false keeps a film in the index only (not on the ring).
     items: [
+      { id: 'vivera', title: 'VIVERA', short: 'VIVERA', client: 'Fungii original · product concept', year: '2026', format: 'AI product film · vertical · 0:59',
+        line: 'Not another world. Infinite ways to experience this one.',
+        desc: 'A fictional eyewear piece containing an essence purely extracted from imagination. Life flows; imagination unfolds.',
+        tags: ['Idea', 'Product design', 'AI generation', 'Edit'],
+        youtube: 'https://youtube.com/shorts/bsBTVXQ70Qk',
+        loop: 'media/vivera-loop.mp4', poster: 'media/vivera.jpg', vertical: true },
       { id: 'mientay', title: 'Miền Tây Morning Run', short: 'Miền Tây Morning Run', client: 'Fungii original', year: '2026', format: 'AI short film · 16:9 · 1:06',
         line: 'Morning walks with your dog: hectic, exhausting, unexpectedly magical.',
         desc: 'Morning walks with your dog can be hectic, exhausting, and unexpectedly magical. Where should we race next?',
@@ -797,6 +803,7 @@ window.COPY = {
         about: 'A fictional eyewear piece containing an essence purely extracted from imagination.',
         tags: ['Product concept', 'AI film', 'Website'],
         note: 'Concept by Fungii · not for sale',
+        youtube: 'https://youtube.com/shorts/bsBTVXQ70Qk',
         film: 'vivera/media/film.mp4', poster: 'vivera/media/film.jpg', backdrop: 'vivera/media/lily.jpg',
         site: 'vivera/' }
     ]
@@ -1721,8 +1728,8 @@ function layout(){W=VW();H=VH();if(typeof tasteEl!=='undefined')tasteEl._w=0;R.s
    $('#playCap p').textContent=P.kicker||'';$('#playCap h2').textContent=P.title||'Playground';$('#playHint').textContent=(TCH&&P.hintTouch)||P.hint||'';
    $('#playInfo h3').textContent=it.name;$('#playInfo .line').textContent=it.line||'';$('#playInfo .about').textContent=it.about||'';$('#playInfo .pnote').textContent=it.note||'';
    $('#playInfo .tags').innerHTML=(it.tags||[]).map((t,k)=>'<span style="background:'+TAGC[k%TAGC.length]+'">'+esc(t)+'</span>').join('');
-   const fb=$('#playFilm');fb.textContent='▶ '+(P.film||'Watch the film');fb.hidden=!it.film;
-   fb.addEventListener('click',()=>openOv([{title:it.name,client:'Fungii · product concept',year:it.year,format:'Concept film',desc:it.about,tags:it.tags,src:it.film,poster:it.poster}],0,(P.title||'Playground').toUpperCase()));
+   const fb=$('#playFilm');fb.textContent='▶ '+(P.film||'Watch the film');fb.hidden=!(it.film||it.youtube);
+   fb.addEventListener('click',()=>openOv([{title:it.name,client:'Fungii · product concept',year:it.year,format:'Concept film',desc:it.about,tags:it.tags,youtube:it.youtube||'',src:it.film,poster:it.poster,vertical:true}],0,(P.title||'Playground').toUpperCase()));
    const sa=$('#playSite');sa.textContent=(P.site||'Enter')+' '+it.name+' ↗';sa.href=it.site||'#';sa.hidden=!it.site;}}$('#workCap h2').innerHTML=COPY.work.title.split(' ').map(esc).join('<br>');
   $('#reelKick').textContent=COPY.reel.label;$('#reelSub').innerHTML='<span class="f-si">'+esc(COPY.reel.sub)+'</span>';$('#reelSub').style.cssText='margin:6px 0 0;font:italic 400 clamp(22px,2.4vw,36px)/1 var(--serif)';$('#reelKick').style.cssText='margin:0;font:11px/1 var(--pix);letter-spacing:.08em';
   $('#tasteHint p').textContent=COPY.taste.hint.toUpperCase();$('#clearSalt').textContent=COPY.taste.clear;
