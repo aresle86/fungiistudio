@@ -166,6 +166,13 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .check.bad{background:#FFE6E0}
 .check b{font:800 14px/1.2 var(--grot)}
 .check ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.tipjar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 14px;background:var(--card);border:1.5px solid var(--ink);padding:14px 16px;transition:box-shadow .3s,transform .3s}
+.tipjar p{margin:0;font:italic 400 20px/1.2 var(--serif)}
+.tipjar p small{display:block;font:12px/1.4 var(--mono);font-style:normal;color:var(--ink2);margin-top:4px}
+.tipjar a{font:12px/1 var(--pix);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-decoration:none;background:var(--lime);border:1.5px solid var(--ink);border-radius:999px;padding:11px 16px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap}
+.tipjar a:hover{background:#E6F58A}.tipjar a:focus-visible{outline:2px solid #0096E8;outline-offset:2px}
+.tipjar.lit{box-shadow:4px 4px 0 #FF55BB;transform:translateY(-2px)}
+.pcol{display:grid;gap:10px;align-content:start}
 .prompt{background:var(--ink);color:var(--paper);padding:14px;display:grid;gap:10px}
 .prompt .h{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .prompt .h span{font:10px/1 var(--pix);letter-spacing:.08em;text-transform:uppercase;color:var(--lime)}
@@ -207,7 +214,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
       <div class="explain" id="explain" aria-live="polite"></div>
     </section>
   </main>
-  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a></span></footer>
+  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a> · <a href="https://ko-fi.com/fungiistudio" target="_blank" rel="noopener">Tip us on Ko-fi ☕</a></span></footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
@@ -560,6 +567,7 @@ function promptBody(){
 }
 const STEP_COLORS={intro:'#F2FFA0',intent:'#FF55BB',size:'#2BD1B0',lens:'#6EE8FF',move:'#0096E8',out:'#FFB8B0'};
 const explain=document.getElementById('explain');
+const KOFI='https://ko-fi.com/fungiistudio';
 function tipCard(){return '<div class="card tip"><span class="kicker">How to use</span><p>New to this? Go step by step. Already know some of it? Click any step at the top to jump straight there. Steps you have not visited use a default. Going back to adjust keeps all your other choices.</p></div>';}
 function draw(){
   drawSteps();
@@ -609,7 +617,8 @@ function draw(){
       (m.id==='static'?'':row('Timing',S.dur.toFixed(1)+' s · '+EASES[S.ease].n+(AMT_MOVES.has(m.id)?' · '+AMTS[S.amt].n:''),'move'))+'</div></div>'+
       '<div class="nav"><button class="btn ghost" type="button" id="prev">Back</button><button class="btn" type="button" id="again">Start a new shot</button></div>';
     x='<div class="check '+(w.length?'bad':'ok')+'"><b>'+(w.length?'Feasibility: '+w.length+' conflict'+(w.length>1?'s':''):'Feasibility: these choices work together')+'</b>'+(w.length?'<ul>'+w.map(q=>'<li>'+q+'</li>').join('')+'</ul>':'')+'</div>'+
-      '<div class="prompt"><div class="h"><span>Camera block · Seedance</span><button class="btn sm" type="button" id="copy">Copy</button></div><pre id="ptext"></pre></div>';
+      '<div class="pcol"><div class="prompt"><div class="h"><span>Camera block · Seedance</span><button class="btn sm" type="button" id="copy">Copy</button></div><pre id="ptext"></pre></div>'+
+      '<div class="tipjar" id="tipjar"><p>Did this help?<small>Shot Lab is free. A small tip keeps it free and growing.</small></p><a href="'+KOFI+'" target="_blank" rel="noopener">Buy Fungii a coffee \u2615</a></div></div>';
   }
   panel.innerHTML=h;explain.innerHTML=x;panel.scrollTop=0;
   const Q=sel=>[...panel.querySelectorAll(sel),...explain.querySelectorAll(sel)];
@@ -637,7 +646,7 @@ function draw(){
   const mf=document.getElementById('mf'),mp=document.getElementById('mp');
   if(mf){mf.onclick=()=>{S.mode='frame';S.base=null;redraw();};mp.onclick=()=>{S.mode='pos';redraw();};}
   const cp=document.getElementById('copy');
-  if(cp)cp.onclick=()=>{const t=promptText(),ok=()=>{cp.textContent='Copied';setTimeout(()=>cp.textContent='Copy',1400);},
+  if(cp)cp.onclick=()=>{const t=promptText(),ok=()=>{cp.textContent='Copied';setTimeout(()=>cp.textContent='Copy',1400);const tj=document.getElementById('tipjar');if(tj){tj.classList.add('lit');setTimeout(()=>tj.classList.remove('lit'),1800);}},
     sel=()=>{const r=document.createRange();r.selectNodeContents(pt);const g=getSelection();g.removeAllRanges();g.addRange(r);cp.textContent='Selected · press Ctrl+C';};
     try{navigator.clipboard.writeText(t).then(ok,sel);}catch(e){sel();}};
   document.getElementById('caption').textContent=st.cap;
