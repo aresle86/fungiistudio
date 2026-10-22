@@ -16,7 +16,7 @@
 html,body{background:var(--paper);color:var(--ink)}
 body{font:15px/1.5 var(--grot);padding-inline:clamp(16px,2.6vw,36px);padding-block:14px 32px}
 button{font:inherit;color:inherit}
-.shell{max-width:1400px;margin:0 auto;display:grid;gap:16px}
+.shell{max-width:2560px;margin:0 auto;display:grid;gap:16px}
 
 .bar{display:flex;align-items:center;gap:14px 28px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1.5px solid var(--ink)}
 .brand{display:flex;align-items:center;gap:12px;margin-right:auto}
@@ -37,7 +37,7 @@ button{font:inherit;color:inherit}
 .stephint{margin:0;font-size:13px;color:var(--ink2);flex-basis:100%;text-align:right}
 button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 
-.app{display:grid;grid-template-columns:400px minmax(0,1fr);gap:20px;align-items:start}
+.app{display:grid;grid-template-columns:clamp(400px,24vw,560px) minmax(0,1fr);gap:20px;align-items:start}
 @media (max-width:1100px){.app{grid-template-columns:350px minmax(0,1fr);gap:16px}}
 @media (max-width:760px){.app{grid-template-columns:1fr}}
 .viewer{display:grid;gap:12px;align-content:start;min-width:0}
@@ -184,6 +184,9 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 @media (max-width:560px){.panel h2{font-size:26px}.steps .v{display:none}.steps .t{font-size:12px}.bezel{padding:8px}.chips span:nth-child(n+4){display:none}.mapwrap{aspect-ratio:16/10}.legend{font-size:11px}}
 @media (prefers-reduced-motion:reduce){.opt{transition:none}}
 @media (max-width:760px){.viewer{display:contents}.viewtop{order:1}.caption{order:2}.panel{order:3}.explain{order:4}}
+/* big screens: fill the width, keep the reading panel comfortable */
+@media (min-width:1700px){body{font-size:16px}.lead{font-size:clamp(46px,2.6vw,64px)}.panel h2{font-size:clamp(30px,1.9vw,44px)}.caption{font-size:20px;max-width:80ch}.app{gap:24px}}
+@media (min-width:2200px){body{font-size:17px}.caption{font-size:22px}}
 </style>
 
 <div class="shell">
