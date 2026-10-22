@@ -25,7 +25,6 @@ button{font:inherit;color:inherit}
 .brand h1{margin:0;line-height:0}.brand h1 img{height:26px;width:auto;display:block}
 @media (max-width:560px){.brand h1 img{height:20px}.brand>img{height:32px}}
 :root{--stripe:linear-gradient(90deg,#0097EA 0% 5.76%,#F7F7F7 5.76% 12.16%,#2ACFAD 12.16% 20.54%,#F6FF9E 20.54% 30.39%,#0097EA 30.39% 39.6%,#6FE9FF 39.6% 49.58%,#FF54B9 49.58% 60.4%,#FFBCB5 60.4% 71.4%,#FF4B32 71.4% 84.9%,#2ACFAD 84.9% 89.12%,#F6FF9E 89.12% 100%)}
-body::before{content:"";display:block;height:6px;margin:-14px calc(-1 * clamp(16px,2.6vw,36px)) 12px;background:var(--stripe)}
 .brand b{font:900 22px/1 var(--grot);font-stretch:118%;letter-spacing:-.02em}
 .brand small{display:block;font:10px/1 var(--pix);letter-spacing:.08em;color:var(--ink3);margin-top:4px;text-transform:uppercase}
 .steps{display:flex;gap:6px;flex-wrap:wrap;list-style:none;margin:0;padding:0}
@@ -84,7 +83,8 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .lg.subj{width:10px;height:10px;border-radius:50%;background:#FF1F8E}
 .lg.fr{width:26px;height:10px;background:radial-gradient(circle at 5px 5px,#2BD1B0 4px,transparent 4.5px),radial-gradient(circle at 13px 5px,#1E1C1F 4px,transparent 4.5px),radial-gradient(circle at 21px 5px,#FFB8B0 4px,transparent 4.5px)}
 .lg.hgt{width:6px;height:12px;background:#111}
-.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;border-top:1.5px solid var(--ink);padding-top:12px;font:10px/1.6 var(--pix);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;border-top:1.5px solid var(--ink);padding-top:18px;position:relative;font:10px/1.6 var(--pix);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.foot::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--stripe)}
 .foot a{color:var(--ink);text-underline-offset:3px}
 .strip{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;color:var(--paper)}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
