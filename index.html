@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ki3PKrTorykVv3cyKH1iFcDa61woRP7qsXTBUaTr+Dc=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-q9iBgf2rtntCEaSYJj553ripq43UDuBkXXcpNsFcfJY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-zRISxhhAmby9D6UrF48pbbfjCNZftoLu0mRl+Q16ZWc=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-Mb47A7nJ+XxvUniMwNJiJS1NErCiOl2hZgv9rAa3d7s='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed."><meta name="theme-color" content="#F5F5F3">
 <meta property="og:type" content="website"><meta property="og:title" content="Fungii Studio · AI film, properly directed"><meta property="og:description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed.">
 <meta property="og:image" content="https://fungiistudio.com/og.jpg"><meta name="twitter:card" content="summary_large_image">
@@ -817,7 +817,7 @@ window.COPY = {
         about: 'A free, hands-on lesson in camera language for AI video. Pick the moment, the shot size, the lens and one of 27 camera moves, watch vinyl toys act it out in a tiny film plaza, then copy a camera block ready for Seedance.',
         tags: ['Learning tool', 'Web app', 'Free'],
         note: 'Made by Fungii · free to use',
-        backText: ['Shot', 'Lab'], backKick: 'FUNGII LAB · CAMERA LANGUAGE', backColor: '#0096E8',
+        backLogo: 'shotlab/logo.png', backKick: 'FUNGII LAB · CAMERA LANGUAGE', backColor: '#F5F5F3', backStripe: true,
         site: 'shotlab/' }
     ]
   },
@@ -1519,12 +1519,14 @@ const playBack=(()=>{const c=document.createElement('canvas');c.width=MOBILE?560
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.userData={keep:true};
   // a concept either has a backdrop photo, or big type behind the object
   function paint(it){x.clearRect(0,0,S,SH);x.save();rr();x.clip();x.fillStyle=it&&it.backColor||'#2F4A12';x.fillRect(0,0,S,SH);
-    if(it&&it.backText){const k=S/760,L=it.backText;
-      x.strokeStyle='rgba(245,245,243,.22)';x.lineWidth=2*k;for(let g=48*k;g<SH;g+=48*k){x.beginPath();x.moveTo(0,g);x.lineTo(S,g);x.stroke();}for(let g=48*k;g<S;g+=48*k){x.beginPath();x.moveTo(g,0);x.lineTo(g,SH);x.stroke();}
-      x.fillStyle='#F5F5F3';x.textBaseline='alphabetic';x.font='900 '+Math.round(290*k)+'px Archivo';x.textAlign='center';x.fillText(L[0],S/2,262*k);
-      x.font='italic 400 '+Math.round(300*k)+'px "Instrument Serif"';x.fillText(L[1],S/2,490*k);x.textAlign='left';
-      x.fillStyle='#F2FFA0';x.fillRect(36*k,SH-60*k,(x.font='400 '+Math.round(22*k)+'px Silkscreen',x.measureText(it.backKick||'').width)+28*k,40*k);
-      x.fillStyle='#111';x.fillText(it.backKick||'',50*k,SH-32*k);}
+    if(it&&(it.backText||it.backLogo)){const k=S/760;
+      x.strokeStyle=it.backLogo?'rgba(17,17,17,.07)':'rgba(245,245,243,.22)';x.lineWidth=2*k;for(let g=48*k;g<SH;g+=48*k){x.beginPath();x.moveTo(0,g);x.lineTo(S,g);x.stroke();}for(let g=48*k;g<S;g+=48*k){x.beginPath();x.moveTo(g,0);x.lineTo(g,SH);x.stroke();}
+      if(it.backStripe){const H=22*k;[['#0097EA',0,5.76],['#F7F7F7',5.76,12.16],['#2ACFAD',12.16,20.54],['#F6FF9E',20.54,30.39],['#0097EA',30.39,39.6],['#6FE9FF',39.6,49.58],['#FF54B9',49.58,60.4],['#FFBCB5',60.4,71.4],['#FF4B32',71.4,84.9],['#2ACFAD',84.9,89.12],['#F6FF9E',89.12,100]].forEach(([c,a,b])=>{x.fillStyle=c;x.fillRect(S*a/100,0,S*(b-a)/100+1,H);});x.fillStyle='#111';x.fillRect(0,H,S,3*k);}
+      if(it.backText){const L=it.backText;x.fillStyle='#F5F5F3';x.textBaseline='alphabetic';x.font='900 '+Math.round(290*k)+'px Archivo';x.textAlign='center';x.fillText(L[0],S/2,262*k);
+        x.font='italic 400 '+Math.round(300*k)+'px "Instrument Serif"';x.fillText(L[1],S/2,490*k);x.textAlign='left';}
+      if(it.backKick){x.font='400 '+Math.round(22*k)+'px Silkscreen';const kw=x.measureText(it.backKick).width;x.fillStyle='#111';x.textAlign='center';x.fillText(it.backKick,S/2,(it.backLogo?250:SH-32)*k);x.textAlign='left';}
+      if(it.backLogo)prefetchImg(it.backLogo).then(im=>{if(!im||PLAY[PLI]!==it)return;const w=S*.84,h=w*im.height/im.width;x.save();rr();x.clip();x.drawImage(im,(S-w)/2,92*k,w,h);x.restore();t.needsUpdate=true;});
+      if(it.backLogo){x.save();x.lineWidth=12*k;x.strokeStyle='#111';rr();x.stroke();x.restore();}}
     x.restore();t.needsUpdate=true;
     if(it&&it.backdrop)prefetchImg(it.backdrop).then(im=>{if(!im||PLAY[PLI]!==it)return;x.clearRect(0,0,S,SH);x.save();rr();x.clip();const k=Math.max(S/im.width,SH/im.height),w=im.width*k,h=im.height*k;x.drawImage(im,(S-w)/2,(SH-h)/2,w,h);x.restore();t.needsUpdate=true;});}
   paint(PL);fontsReady.then(()=>paint(PLAY[PLI]));
