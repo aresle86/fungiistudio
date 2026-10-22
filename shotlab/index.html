@@ -170,6 +170,9 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .tipjar p{margin:0;font:italic 400 20px/1.2 var(--serif)}
 .tipjar p small{display:block;font:12px/1.4 var(--mono);font-style:normal;color:var(--ink2);margin-top:4px}
 .tipjar a{font:12px/1 var(--pix);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-decoration:none;background:var(--lime);border:1.5px solid var(--ink);border-radius:999px;padding:11px 16px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap}
+.cup{font:22px/0 system-ui,sans-serif;vertical-align:-3px;margin-left:4px}
+.foot .cup{font-size:16px;vertical-align:-2px}
+.tipjar a{display:inline-flex;align-items:center;gap:2px}
 .tipjar a:hover{background:#E6F58A}.tipjar a:focus-visible{outline:2px solid #0096E8;outline-offset:2px}
 .tipjar.lit{box-shadow:4px 4px 0 #FF55BB;transform:translateY(-2px)}
 .pcol{display:grid;gap:10px;align-content:start}
@@ -214,7 +217,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
       <div class="explain" id="explain" aria-live="polite"></div>
     </section>
   </main>
-  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a> · <a href="https://ko-fi.com/fungiistudio" target="_blank" rel="noopener">Tip us on Ko-fi ☕</a></span></footer>
+  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a> · <a href="https://ko-fi.com/fungiistudio" target="_blank" rel="noopener">Tip us on Ko-fi <span class="cup" aria-hidden="true">☕</span></a></span></footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
@@ -618,7 +621,7 @@ function draw(){
       '<div class="nav"><button class="btn ghost" type="button" id="prev">Back</button><button class="btn" type="button" id="again">Start a new shot</button></div>';
     x='<div class="check '+(w.length?'bad':'ok')+'"><b>'+(w.length?'Feasibility: '+w.length+' conflict'+(w.length>1?'s':''):'Feasibility: these choices work together')+'</b>'+(w.length?'<ul>'+w.map(q=>'<li>'+q+'</li>').join('')+'</ul>':'')+'</div>'+
       '<div class="pcol"><div class="prompt"><div class="h"><span>Camera block · Seedance</span><button class="btn sm" type="button" id="copy">Copy</button></div><pre id="ptext"></pre></div>'+
-      '<div class="tipjar" id="tipjar"><p>Did this help?<small>Shot Lab is free. A small tip keeps it free and growing.</small></p><a href="'+KOFI+'" target="_blank" rel="noopener">Buy Fungii a coffee \u2615</a></div></div>';
+      '<div class="tipjar" id="tipjar"><p>Did this help?<small>Shot Lab is free. A small tip keeps it free and growing.</small></p><a href="'+KOFI+'" target="_blank" rel="noopener">Buy Fungii a coffee <span class="cup" aria-hidden="true">\u2615</span></a></div></div>';
   }
   panel.innerHTML=h;explain.innerHTML=x;panel.scrollTop=0;
   const Q=sel=>[...panel.querySelectorAll(sel),...explain.querySelectorAll(sel)];
