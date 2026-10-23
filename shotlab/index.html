@@ -194,6 +194,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .foot .cup{font-size:16px;vertical-align:-2px}
 .tipjar a{display:inline-flex;align-items:center;gap:2px}
 .tipjar a:hover{background:#E6F58A}.tipjar a:focus-visible{outline:2px solid #0096E8;outline-offset:2px}
+.tipjar.idea a{background:#6EE8FF}.tipjar.idea a:hover{background:#9CF0FF}
 .tipjar.lit{box-shadow:4px 4px 0 #FF55BB;transform:translateY(-2px)}
 .pcol{display:grid;gap:10px;align-content:start}
 .prompt{background:var(--ink);color:var(--paper);padding:14px;display:grid;gap:10px}
@@ -240,7 +241,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
       <div class="explain" id="explain" aria-live="polite"></div>
     </section>
   </main>
-  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a> · <a href="https://ko-fi.com/fungiistudio" target="_blank" rel="noopener">Tip us on Ko-fi <span class="cup" aria-hidden="true">☕</span></a></span></footer>
+  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a> · <a href="mailto:hello@fungiistudio.com?subject=Shot%20Lab%20idea&amp;body=Hi%20Fungii%2C%0A%0AAn%20idea%20to%20make%20Shot%20Lab%20better%3A%0A%0A%0AWhat%20I%20was%20trying%20to%20do%3A%0A%0A%0A%28Optional%29%20A%20camera%20move%2C%20lens%20or%20moment%20I%27d%20love%20to%20see%20added%3A%0A%0A">Send an idea</a> · <a href="https://ko-fi.com/fungiistudio" target="_blank" rel="noopener">Tip us on Ko-fi <span class="cup" aria-hidden="true">☕</span></a></span></footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
@@ -594,6 +595,7 @@ function promptBody(){
 const STEP_COLORS={intro:'#F2FFA0',intent:'#FF55BB',size:'#2BD1B0',lens:'#6EE8FF',move:'#0096E8',out:'#FFB8B0'};
 const explain=document.getElementById('explain');
 const KOFI='https://ko-fi.com/fungiistudio';
+const FEEDBACK='mailto:hello@fungiistudio.com?subject=Shot%20Lab%20idea&body=Hi%20Fungii%2C%0A%0AAn%20idea%20to%20make%20Shot%20Lab%20better%3A%0A%0A%0AWhat%20I%20was%20trying%20to%20do%3A%0A%0A%0A%28Optional%29%20A%20camera%20move%2C%20lens%20or%20moment%20I%27d%20love%20to%20see%20added%3A%0A%0A';
 function tipCard(){return '<div class="card tip"><span class="kicker">How to use</span><p>New to this? Go step by step. Already know some of it? Click any step at the top to jump straight there. Steps you have not visited use a default. Going back to adjust keeps all your other choices.</p></div>';}
 function draw(){
   drawSteps();
@@ -608,7 +610,8 @@ function draw(){
       '<li><b>Read on the left.</b> Each step asks one question and explains the options.</li>'+
       '<li><b>Watch on the right.</b> The camera view and the set map update the moment you pick something.</li>'+
       '<li><b>Jump or go back any time.</b> Click any step at the top. Steps you skip start from a sensible default, and your other choices stay.</li>'+
-      '<li><b>Copy your prompt.</b> The last step turns your choices into a camera block for Seedance.</li></ol></div>';
+      '<li><b>Copy your prompt.</b> The last step turns your choices into a camera block for Seedance.</li></ol>'+
+      '<p class="segnote">Something missing or confusing? <a href="'+FEEDBACK+'">Email us an idea</a>. It helps us decide what to build next.</p></div>';
   }else if(st.key==='intent'){
     const it=intentObj();
     h='<div class="in"><span class="kicker">Step 1 of 4 · Intent</span><h2>'+st.q+'</h2><p class="intro">'+st.intro+'</p>'+optList(INTENTS,S.intent,()=>'','intent')+
@@ -644,7 +647,8 @@ function draw(){
       '<div class="nav"><button class="btn ghost" type="button" id="prev">Back</button><button class="btn" type="button" id="again">Start a new shot</button></div>';
     x='<div class="check '+(w.length?'bad':'ok')+'"><b>'+(w.length?'Feasibility: '+w.length+' conflict'+(w.length>1?'s':''):'Feasibility: these choices work together')+'</b>'+(w.length?'<ul>'+w.map(q=>'<li>'+q+'</li>').join('')+'</ul>':'')+'</div>'+
       '<div class="pcol"><div class="prompt"><div class="h"><span>Camera block · Seedance</span><button class="btn sm" type="button" id="copy">Copy</button></div><pre id="ptext"></pre></div>'+
-      '<div class="tipjar" id="tipjar"><p>Did this help?<small>Shot Lab is free. A small tip keeps it free and growing.</small></p><a href="'+KOFI+'" target="_blank" rel="noopener">Buy Fungii a coffee <span class="cup" aria-hidden="true">\u2615</span></a></div></div>';
+      '<div class="tipjar" id="tipjar"><p>Did this help?<small>Shot Lab is free. A small tip keeps it free and growing.</small></p><a href="'+KOFI+'" target="_blank" rel="noopener">Buy Fungii a coffee <span class="cup" aria-hidden="true">\u2615</span></a></div>'+
+      '<div class="tipjar idea"><p>Got an idea to make it better?<small>A move we should add, a step that confused you, anything. We read every email.</small></p><a href="'+FEEDBACK+'">Email us your idea \u2709</a></div></div>';
   }
   panel.innerHTML=h;explain.innerHTML=x;panel.scrollTop=0;
   const Q=sel=>[...panel.querySelectorAll(sel),...explain.querySelectorAll(sel)];
