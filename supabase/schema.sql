@@ -30,3 +30,18 @@ drop policy if exists "approved notes are public" on public.notes;
 create policy "approved notes are public" on public.notes
   for select to anon, authenticated
   using (status = 'approved');
+
+-- Shot Lab · feedback ideas from visitors (private: only the feedback-submit edge function reads or writes)
+create table if not exists public.feedback (
+  id          uuid primary key default gen_random_uuid(),
+  created_at  timestamptz not null default now(),
+  source      text not null default 'shotlab' check (char_length(source) <= 40),
+  text        text not null check (char_length(text) between 1 and 1000),
+  email       text check (email is null or char_length(email) <= 120),
+  context     text check (context is null or char_length(context) <= 300),
+  ip_hash     text
+);
+create index if not exists feedback_created on public.feedback (created_at desc);
+create index if not exists feedback_ip_created on public.feedback (ip_hash, created_at desc);
+alter table public.feedback enable row level security;
+revoke all on public.feedback from anon, authenticated;

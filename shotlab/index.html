@@ -194,6 +194,22 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .foot .cup{font-size:16px;vertical-align:-2px}
 .tipjar a{display:inline-flex;align-items:center;gap:2px}
 .tipjar a:hover{background:#E6F58A}.tipjar a:focus-visible{outline:2px solid #0096E8;outline-offset:2px}
+#ideaDlg{border:1.5px solid var(--ink);border-radius:0;padding:0;width:min(560px,calc(100vw - 32px));background:var(--card);color:var(--ink);box-shadow:8px 8px 0 #6EE8FF}
+#ideaDlg::backdrop{background:rgba(17,17,17,.45)}
+#ideaForm{display:grid;gap:10px;padding:22px}
+#ideaForm .ih{display:flex;justify-content:space-between;align-items:center}
+#ideaForm .ix{border:0;background:none;font-size:18px;cursor:pointer;color:var(--ink2);padding:4px 8px}
+#ideaForm h3{margin:0;font:900 26px/1.05 var(--grot);font-stretch:112%;letter-spacing:-.02em}
+#ideaForm .isub{margin:0 0 4px;font:italic 400 18px/1.3 var(--serif);color:var(--ink2)}
+#ideaForm .il{font:10px/1 var(--pix);letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);margin-top:4px}
+#ideaForm .il span{text-transform:none;letter-spacing:0;font:12px var(--mono)}
+#ideaForm textarea,#ideaForm input{font:15px/1.45 var(--grot);color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);padding:10px 12px;border-radius:0;width:100%;box-sizing:border-box;resize:vertical}
+#ideaForm textarea:focus,#ideaForm input:focus{outline:2px solid #0096E8;outline-offset:1px}
+#ideaForm .ihp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+#ideaForm .ib{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}
+#ideaMsg{font:13px/1.35 var(--mono);color:var(--ink2)}
+#ideaMsg.ok{color:#127a64}#ideaMsg.err{color:#C8321A}
+#ideaMsg a{color:inherit}
 .tipjar.idea a{background:#6EE8FF}.tipjar.idea a:hover{background:#9CF0FF}
 .tipjar.lit{box-shadow:4px 4px 0 #FF55BB;transform:translateY(-2px)}
 .pcol{display:grid;gap:10px;align-content:start}
@@ -241,7 +257,20 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
       <div class="explain" id="explain" aria-live="polite"></div>
     </section>
   </main>
-  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a> · <a href="mailto:hello@fungiistudio.com?subject=Shot%20Lab%20idea&amp;body=Hi%20Fungii%2C%0A%0AAn%20idea%20to%20make%20Shot%20Lab%20better%3A%0A%0A%0AWhat%20I%20was%20trying%20to%20do%3A%0A%0A%0A%28Optional%29%20A%20camera%20move%2C%20lens%20or%20moment%20I%27d%20love%20to%20see%20added%3A%0A%0A">Send an idea</a> · <a href="https://ko-fi.com/fungiistudio" target="_blank" rel="noopener">Tip us on Ko-fi <span class="cup" aria-hidden="true">☕</span></a></span></footer>
+  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a> · <a href="mailto:hello@fungiistudio.com?subject=Shot%20Lab%20idea&amp;body=Hi%20Fungii%2C%0A%0AAn%20idea%20to%20make%20Shot%20Lab%20better%3A%0A%0A%0AWhat%20I%20was%20trying%20to%20do%3A%0A%0A%0A%28Optional%29%20A%20camera%20move%2C%20lens%20or%20moment%20I%27d%20love%20to%20see%20added%3A%0A%0A" data-idea>Send an idea</a> · <a href="https://ko-fi.com/fungiistudio" target="_blank" rel="noopener">Tip us on Ko-fi <span class="cup" aria-hidden="true">☕</span></a></span></footer>
+  <dialog id="ideaDlg" aria-labelledby="ideaT">
+    <form id="ideaForm" method="dialog">
+      <div class="ih"><span class="kicker">Shot Lab · ideas</span><button type="button" class="ix" id="ideaX" aria-label="Close">✕</button></div>
+      <h3 id="ideaT">How could Shot Lab be better?</h3>
+      <p class="isub">A move we should add, a step that confused you, a feature you wish it had. Ares and Nou read every one.</p>
+      <label class="il" for="ideaText">Your idea</label>
+      <textarea id="ideaText" maxlength="1000" rows="5" required placeholder="e.g. Add a split-diopter shot, or let me save my favourite setups."></textarea>
+      <label class="il" for="ideaMail">Email <span>(optional, only if you'd like a reply)</span></label>
+      <input id="ideaMail" type="email" maxlength="120" autocomplete="email" placeholder="you@example.com">
+      <input id="ideaHp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="ihp">
+      <div class="ib"><span id="ideaMsg" role="status"></span><button type="submit" class="btn go" id="ideaGo">Send idea</button></div>
+    </form>
+  </dialog>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
@@ -518,6 +547,7 @@ const K=9/Math.sqrt(337);
 const vfov=d=>deg(2*Math.atan(Math.tan(rad(d)/2)*K));
 const hfov=v=>deg(2*Math.atan(Math.tan(rad(v)/2)*16/9));
 const sz=()=>SIZES.find(x=>x.id===S.size),ln=()=>LENSES.find(x=>x.id===S.lens),mv=()=>MOVES.find(x=>x.id===S.move);
+window.__shotCtx=()=>{try{return 'step: '+STEPS[S.step].key+' · '+sz().name+' · '+ln().id+'° '+ln().name+' · '+mv().name;}catch(e){return '';}};
 const distFor=(s,l)=>(s.h/2)/Math.tan(rad(vfov(l.id))/2);
 function base(){if(S.base==null)S.base=distFor(sz(),ln());return S.base;}
 function actualSize(){const fh=2*base()*Math.tan(rad(vfov(S.lens))/2);let b=SIZES[0],bd=1e9;SIZES.forEach(s=>{const d=Math.abs(Math.log(s.h/fh));if(d<bd){bd=d;b=s;}});return S.mode==='pos'?b:sz();}
@@ -611,7 +641,7 @@ function draw(){
       '<li><b>Watch on the right.</b> The camera view and the set map update the moment you pick something.</li>'+
       '<li><b>Jump or go back any time.</b> Click any step at the top. Steps you skip start from a sensible default, and your other choices stay.</li>'+
       '<li><b>Copy your prompt.</b> The last step turns your choices into a camera block for Seedance.</li></ol>'+
-      '<p class="segnote">Something missing or confusing? <a href="'+FEEDBACK+'">Email us an idea</a>. It helps us decide what to build next.</p></div>';
+      '<p class="segnote">Something missing or confusing? <a href="'+FEEDBACK+'" data-idea>Send us an idea</a>. It helps us decide what to build next.</p></div>';
   }else if(st.key==='intent'){
     const it=intentObj();
     h='<div class="in"><span class="kicker">Step 1 of 4 · Intent</span><h2>'+st.q+'</h2><p class="intro">'+st.intro+'</p>'+optList(INTENTS,S.intent,()=>'','intent')+
@@ -648,7 +678,7 @@ function draw(){
     x='<div class="check '+(w.length?'bad':'ok')+'"><b>'+(w.length?'Feasibility: '+w.length+' conflict'+(w.length>1?'s':''):'Feasibility: these choices work together')+'</b>'+(w.length?'<ul>'+w.map(q=>'<li>'+q+'</li>').join('')+'</ul>':'')+'</div>'+
       '<div class="pcol"><div class="prompt"><div class="h"><span>Camera block · Seedance</span><button class="btn sm" type="button" id="copy">Copy</button></div><pre id="ptext"></pre></div>'+
       '<div class="tipjar" id="tipjar"><p>Did this help?<small>Shot Lab is free. A small tip keeps it free and growing.</small></p><a href="'+KOFI+'" target="_blank" rel="noopener">Buy Fungii a coffee <span class="cup" aria-hidden="true">\u2615</span></a></div>'+
-      '<div class="tipjar idea"><p>Got an idea to make it better?<small>A move we should add, a step that confused you, anything. We read every email.</small></p><a href="'+FEEDBACK+'">Email us your idea \u2709</a></div></div>';
+      '<div class="tipjar idea"><p>Got an idea to make it better?<small>A move we should add, a step that confused you, anything. We read every one.</small></p><a href="'+FEEDBACK+'" data-idea>Share an idea \u2709</a></div></div>';
   }
   panel.innerHTML=h;explain.innerHTML=x;panel.scrollTop=0;
   const Q=sel=>[...panel.querySelectorAll(sel),...explain.querySelectorAll(sel)];
@@ -1116,5 +1146,32 @@ function drawMini(m,now){
 const _frame=frame;
 frame=function(now){_frame(now);minis.forEach(m=>drawMini(m,now));};
 draw();requestAnimationFrame(frame);
+})();
+</script>
+<script>
+(function(){
+  var URL_='https://zgfanxtjdvioxpgpbcke.supabase.co/functions/v1/feedback-submit',KEY='sb_publishable_C9yQE4moNWh6YPf6Oofdjg_hHrutuok';
+  var dlg=document.getElementById('ideaDlg'),form=document.getElementById('ideaForm'),txt=document.getElementById('ideaText'),mail=document.getElementById('ideaMail'),
+      hp=document.getElementById('ideaHp'),msg=document.getElementById('ideaMsg'),go=document.getElementById('ideaGo');
+  if(!dlg||typeof dlg.showModal!=='function')return;           // old browsers keep the plain email link
+  var say=function(t,c){msg.className=c||'';msg.innerHTML=t;};
+  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-idea]');if(!a)return;
+    e.preventDefault();say('');go.disabled=false;go.textContent='Send idea';dlg.showModal();setTimeout(function(){txt.focus();},30);});
+  document.getElementById('ideaX').onclick=function(){dlg.close();};
+  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
+  form.addEventListener('submit',function(e){e.preventDefault();
+    var t=txt.value.trim();if(t.length<3){say('Write a few words first.','err');txt.focus();return;}
+    go.disabled=true;go.textContent='Sending\u2026';say('');
+    var ctx=(window.__shotCtx&&window.__shotCtx())||'';
+    fetch(URL_,{method:'POST',headers:{'content-type':'application/json',apikey:KEY},body:JSON.stringify({text:t,email:mail.value.trim(),context:ctx,source:'shotlab',hp:hp.value})})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {s:r.status,j:j};});})
+      .then(function(r){
+        if(r.j&&r.j.ok){txt.value='';say('Thank you! Your idea is with us.','ok');go.textContent='Sent \u2713';setTimeout(function(){if(dlg.open)dlg.close();},1800);return;}
+        go.disabled=false;go.textContent='Send idea';
+        if(r.s===429)say('Lots of ideas right now. Please try again in a few minutes.','err');
+        else say('That didn\u2019t go through. You can <a href="mailto:hello@fungiistudio.com?subject=Shot%20Lab%20idea&body='+encodeURIComponent(t)+'">email it to us instead</a>.','err');})
+      .catch(function(){go.disabled=false;go.textContent='Send idea';
+        say('That didn\u2019t go through. You can <a href="mailto:hello@fungiistudio.com?subject=Shot%20Lab%20idea&body='+encodeURIComponent(t)+'">email it to us instead</a>.','err');});
+  });
 })();
 </script>
