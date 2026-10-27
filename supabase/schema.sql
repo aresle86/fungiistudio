@@ -45,3 +45,24 @@ create index if not exists feedback_created on public.feedback (created_at desc)
 create index if not exists feedback_ip_created on public.feedback (ip_hash, created_at desc);
 alter table public.feedback enable row level security;
 revoke all on public.feedback from anon, authenticated;
+
+-- Miệt Vườn (fungiistudio.com/mietvuon): online farms, no login.
+-- Each device registers an id + secret (only the sha256 of the secret is stored).
+-- Reads are public; every write goes through the mv_* functions, which check the secret.
+-- Friends (made with a farm code via mv_befriend) may write only plots/fps/inv/req/gifts of each other's farm.
+create extension if not exists pgcrypto with schema extensions;
+create table if not exists public.mv_farms (
+  id uuid primary key default gen_random_uuid(), data jsonb,
+  code text generated always as (upper(data->>'code')) stored,
+  created_at timestamptz not null default now(), updated_at timestamptz not null default now());
+create index if not exists mv_farms_code on public.mv_farms (code);
+create table if not exists public.mv_keys (id uuid primary key references public.mv_farms(id) on delete cascade, secret_hash text not null, created_at timestamptz not null default now());
+alter table public.mv_farms enable row level security;
+alter table public.mv_keys enable row level security;
+revoke all on public.mv_farms from anon, authenticated;
+revoke all on public.mv_keys from anon, authenticated;
+grant select on public.mv_farms to anon, authenticated;
+drop policy if exists "farms are readable" on public.mv_farms;
+create policy "farms are readable" on public.mv_farms for select to anon, authenticated using (true);
+-- realtime: alter publication supabase_realtime add table public.mv_farms;
+-- functions: mv_merge, mv_ok, mv_register, mv_set, mv_patch, mv_befriend, mv_xom (see migration "mietvuon_farms" in the Supabase dashboard)
