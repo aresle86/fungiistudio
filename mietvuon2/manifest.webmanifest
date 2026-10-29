@@ -1,0 +1,23 @@
+{
+ "name": "Miệt Vườn 2.0",
+ "short_name": "Miệt Vườn",
+ "lang": "vi",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#86B06A",
+ "theme_color": "#86B06A",
+ "icons": [
+  {
+   "src": "../apple-touch-icon.png",
+   "sizes": "180x180",
+   "type": "image/png"
+  },
+  {
+   "src": "../favicon.svg",
+   "sizes": "any",
+   "type": "image/svg+xml"
+  }
+ ]
+}
