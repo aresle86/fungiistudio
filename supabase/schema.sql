@@ -66,3 +66,7 @@ drop policy if exists "farms are readable" on public.mv_farms;
 create policy "farms are readable" on public.mv_farms for select to anon, authenticated using (true);
 -- realtime: alter publication supabase_realtime add table public.mv_farms;
 -- functions: mv_merge, mv_ok, mv_register, mv_set, mv_patch, mv_befriend, mv_xom (see migration "mietvuon_farms" in the Supabase dashboard)
+
+-- Miệt Vườn 2.0 (mv2_*): bảng mv2_farms, mv2_follows, mv2_events + các hàm mv2_register, mv2_save, mv2_restore,
+-- mv2_peek, mv2_follow, mv2_neighbors, mv2_act, mv2_inbox, mv2_ack. Đã áp dụng bằng migration "mv2_online_farms" (2026-10-29).
+-- Bảng khoá RLS, không có policy: mọi truy cập đi qua hàm SECURITY DEFINER kiểm tra mã vườn + mã bí mật.
