@@ -1067,6 +1067,16 @@ const NEWST = () => ({ v: 1, eco: 2, split: 1, open: OPEN0.slice(), fg: {}, xu: 
   A1: pl0('cai', .92, .8), A1b: pl0('hanh', .5, .8) } });
 let ST; try { ST = VISIT ? VISIT.state : JSON.parse(store.get('mv2-state') || 'null'); } catch (e) { ST = null; }
 if (!ST || ST.v !== 1 || !ST.plots) ST = NEWST();
+/* ---------- giờ trong vườn: một ngày 40 phút ngoài đời (bình minh 4 · ngày 28 · chạng vạng 4 · đêm 4) ---------- */
+const DAYM = 40, DSEG = [[0, 4, 5.0, 6.4], [4, 32, 6.4, 17.6], [32, 36, 17.6, 19.0], [36, 40, 19.0, 29.0]];
+const mAt = h => { if (h < 5) h += 24; for (const [m0, m1, h0, h1] of DSEG) if (h >= h0 && h <= h1) return m0 + (h - h0) / (h1 - h0) * (m1 - m0); return 0; };
+const hAt = m => { m = ((m % DAYM) + DAYM) % DAYM; for (const [m0, m1, h0, h1] of DSEG) if (m >= m0 && m < m1) return (h0 + (m - m0) / (m1 - m0) * (h1 - h0)) % 24; return 6; };
+if (ST.clk0 == null){ const fresh = !ST.seen || (!ST.seen.sold && (ST.gt || 0) < 120); ST.clk0 = Date.now() - mAt(fresh ? 6.2 : 9) * 60000; if (fresh) ST.d1 = 1; }   // vườn mới mở màn lúc sáng sớm
+if (ST.tm == null) ST.tm = ST.realTime === false ? 'fixed' : 'game';
+const HOLD = 16.4;   // lúc làm quen (chưa bán lần đầu) trời không qua khỏi buổi chiều
+function gameHour(ms = Date.now()){ if (ST.clk0 == null){ ST.clk0 = Date.now() - mAt(6.2) * 60000; ST.d1 = 1; } let m = (ms - ST.clk0) / 60000; if (!VISIT && ST.seen && !ST.seen.sold && ms >= Date.now() - 1000){ const cap = mAt(HOLD); if (m > cap){ ST.clk0 = ms - cap * 60000; m = cap; } } return hAt(m); }
+function toDay(){ if (ST.tm === 'real'){ const h = hourAt(Date.now()); return `sáng mai ${NONG.sun[0]} giờ`; } if (ST.tm !== 'game') return 'trời sáng'; const m = (((Date.now() - ST.clk0) / 60000) % DAYM + DAYM) % DAYM, d = (mAt(NONG.sun[0]) - m + DAYM) % DAYM; return `chừng ${Math.max(1, Math.ceil(d))} phút nữa trời sáng`; }
+const hourAt = ms => ST.tm === 'real' ? (d => d.getHours() + d.getMinutes() / 60)(new Date(ms)) : ST.tm === 'day' ? 10 : ST.tm === 'fixed' ? ST.ovr : gameHour(ms);
 function fillPlots(){ if (!ST.split){ for (const P of PLOTS){ if (!P.id.endsWith('b')) continue; const a = ST.plots[P.id.slice(0, -1)]; if (a && !ST.plots[P.id]) ST.plots[P.id] = JSON.parse(JSON.stringify(a)); } ST.split = 1; }   // liếp cũ thành hai liếp ngắn cùng cây
   for (const p of PLOTS) if (!ST.plots[p.id]) ST.plots[p.id] = pl0(null); }
 fillPlots();
@@ -1457,8 +1467,8 @@ const SMK0 = new T.Vector3(3.55, 1.9, -.05);
 const hemi = new T.HemisphereLight('#fff6e6', '#9aaa78', 1.85); S.add(hemi); const amb = new T.AmbientLight('#ffffff', .25); S.add(amb);
 const sun = new T.DirectionalLight('#fff0d0', 1.75); sun.castShadow = true; Object.assign(sun.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9, near: .5, far: 60 }); sun.shadow.bias = -.0004; sun.shadow.normalBias = .012; sun.shadow.radius = 4; S.add(sun); S.add(sun.target); sun.target.position.set(4.2, 0, 4.6);
 const KF = [
-  [0, '#2a3a66', '#1a2234', .55, '#9fb4ff', .32, .14, 1, '#24324f', .95],
-  [4.6, '#2a3a66', '#1a2234', .55, '#9fb4ff', .32, .14, 1, '#24324f', .95],
+  [0, '#4a5a8e', '#2a3346', .9, '#a8bcff', .42, .24, 1, '#2E3E62', 1.05],
+  [4.6, '#4a5a8e', '#2a3346', .9, '#a8bcff', .42, .24, 1, '#2E3E62', 1.05],
   [5.3, '#c89aa8', '#5a5a6a', 1.0, '#ff9a7a', .7, .17, .45, '#b08a8a', 1.0],
   [5.9, '#ffd6b4', '#b0a886', 2.0, '#ffb070', 1.7, .3, .05, '#c79a7a', 1.12],
   [6.6, '#ffe6c0', '#b4ae84', 2.15, '#ffc684', 1.9, .32, 0, '#9ab070', 1.14],
@@ -1466,9 +1476,9 @@ const KF = [
   [12, '#fff4e2', '#94a474', 1.45, '#fff0d8', 1.38, .2, 0, '#86B06A', .97],
   [16, '#ffe6c0', '#a0a070', 1.55, '#ffc27a', 1.75, .22, 0, '#8aa860', 1.03],
   [17.8, '#f6b896', '#8a7a70', 1.35, '#ff9a64', 1.4, .2, .2, '#a08a6a', 1.05],
-  [19, '#5a5a8a', '#2a2a3a', .7, '#9a8aff', .38, .13, .85, '#3a3f66', .95],
-  [20, '#2a3a66', '#1a2234', .55, '#9fb4ff', .32, .14, 1, '#24324f', .95],
-  [24, '#2a3a66', '#1a2234', .55, '#9fb4ff', .32, .14, 1, '#24324f', .95]];
+  [19, '#6a6a9a', '#3a3a4a', .95, '#a89aff', .45, .22, .85, '#454a72', 1.02],
+  [20, '#4a5a8e', '#2a3346', .9, '#a8bcff', .42, .24, 1, '#2E3E62', 1.05],
+  [24, '#4a5a8e', '#2a3346', .9, '#a8bcff', .42, .24, 1, '#2E3E62', 1.05]];
 const cA = new T.Color(), cB = new T.Color();
 function sky(h){ let i = 0; while (i < KF.length - 2 && KF[i + 1][0] <= h) i++; const a = KF[i], b = KF[i + 1], t = (h - a[0]) / Math.max(.001, b[0] - a[0]), s = t * t * (3 - 2 * t);
   const lc = (ia) => cA.set(a[ia]).lerp(cB.set(b[ia]), s).clone(), ln = ia => a[ia] + (b[ia] - a[ia]) * s;
@@ -1683,7 +1693,8 @@ function renderSheet(){ if (!SHEET) return; const { kind, arg } = SHEET; let h =
     if (left) h += `<div class="note">Hôm nay Ngoại còn ${left} việc nhờ con, mở Sổ coi nghe.</div>`; h += `<div class="acts"><button class="btn g" data-a="close">Đi làm vườn</button></div>`; }
   if (kind === 'set'){ shT.textContent = 'Cài đặt';
     h += `<div class="sub">Âm thanh và hình</div><div class="acts"><button class="btn" data-a="snd" aria-pressed="${ST.snd !== false}">${ST.snd !== false ? 'Âm thanh: bật' : 'Âm thanh: tắt'}</button></div><div class="acts"><span class="meta" style="min-width:64px">Đồ hoạ</span>${QL.map((n, i) => `<button class="btn" data-a="q" data-v="${i}" aria-pressed="${QI === i}">${n}</button>`).join('')}</div>`;
-    h += `<div class="sub">Trời</div><div class="acts"><button class="btn" data-a="real" aria-pressed="${ST.realTime}">Theo giờ thật</button>${[['Sáng', 6.4], ['Trưa', 12], ['Chiều', 16.8], ['Tối', 20.5]].map(([n, v]) => `<button class="btn" data-a="hour" data-v="${v}" aria-pressed="${!ST.realTime && ST.ovr === v}">${n}</button>`).join('')}</div>`;
+    h += `<div class="sub">Trời trong vườn</div><div class="acts">${[['game', 'Giờ trong vườn'], ['real', 'Theo giờ thật'], ['day', 'Luôn ban ngày']].map(([k, n]) => `<button class="btn${ST.tm === k ? ' g' : ''}" data-a="tm" data-k="${k}" aria-pressed="${ST.tm === k}">${n}</button>`).join('')}</div><div class="meta">${ST.tm === 'game' ? 'Một ngày trong vườn chừng 40 phút: sáng, trưa, chiều, tối đổi liền liền. Quà, việc, ghe chợ nổi vẫn tính theo ngày thật.' : ST.tm === 'real' ? 'Trời trong vườn y như ngoài đời, chơi buổi tối là thấy vườn ban đêm.' : 'Trời luôn sáng, dễ nhìn. Nong phơi lúc nào cũng có nắng.'}</div>`;
+    h += `<details class="uxm"><summary>Chỉnh tay giờ trong vườn</summary><div><div class="acts">${[['Sáng', 6.4], ['Trưa', 12], ['Chiều', 16.8], ['Tối', 20.5]].map(([n, v]) => `<button class="btn" data-a="hour" data-v="${v}" aria-pressed="${ST.tm === 'fixed' && ST.ovr === v}">${n}</button>`).join('')}</div></div></details>`;
     h += cloudHTML();
     h += `<div class="sub">Nhân vật</div><div class="acts"><button class="btn" data-a="avatar">Đổi nhân vật, tên vườn</button></div>`;
     h += `<details class="dev"${SHEET.dev ? ' open' : ''}><summary>Bản thử nghiệm</summary><div class="acts"><button class="btn" data-a="spd" aria-pressed="${ST.spd > 1}">Cây lớn nhanh ×60</button><button class="btn" data-a="gust">Gió thổi</button><span class="meta" id="fps">-- fps</span></div><div class="acts"><button class="btn" data-a="lvdn" ${(ST.lv || 1) <= 1 ? 'disabled' : ''}>‹ Xuống cấp</button><b class="lvnow">Cấp ${ST.lv || 1}</b><button class="btn g" data-a="lvup" ${(ST.lv || 1) >= XPN.length - 1 ? 'disabled' : ''}>Lên cấp ›</button><button class="btn" data-a="xu1k">+1000 xu</button></div><div class="note">Để thử cả vòng gieo, tưới, hái trong vài phút. Chơi thật thì tắt.</div></details>`;
@@ -1718,7 +1729,7 @@ shB.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if 
   else if (a === 'bpcook'){ bepCook(b.dataset.k); SHEET.pick = null; } else if (a === 'bptake'){ bepTake(+(b.dataset.n ?? b.dataset.k)); } else if (a === 'bpick'){ SHEET.pick = +b.dataset.n; } else if (a === 'bptakeall'){ bepTakeAll(); } else if (a === 'bplite'){ bepLite(); } else if (a === 'buycui'){ const n = +b.dataset.n; if (ST.xu >= CUI_PRICE * n && gbUsed() + n <= GB_CAP){ ST.xu -= CUI_PRICE * n; ST.gb.cui = (ST.gb.cui || 0) + n; save(); hud(); buyFx(b, ICON.cui, `+${n} bó củi`, CUI_PRICE * n); } else if (gbUsed() + n > GB_CAP) say('Gác bếp hết chỗ để củi rồi con.', 'dan'); }
   else if (a === 'ordgive'){ ordGive(b.dataset.k, b); } else if (a === 'orddrop'){ ordDrop(b.dataset.k); }
   else if (a === 'gocho'){ openSheet('cho'); SHEET.tab = 'ban'; renderSheet(); return; } else if (a === 'sell1'){ act.sell(b.dataset.k, 1); coinFly(b, 1); sfx('coin'); } else if (a === 'sellall'){ act.sell(b.dataset.k, STORE(b.dataset.k)[b.dataset.k]); coinFly(b, 4); sfx('coin'); } else if (a === 'sellevery'){ for (const k of Object.keys(ST.inv)) if (GD(k) && !GD(k).nosell && ST.inv[k] > 0) act.sell(k, ST.inv[k]); coinFly(b, 6); sfx('coin'); } else if (a === 'buyrom'){ const n = +b.dataset.n; if (ST.xu >= ROM_PRICE * n){ act.buyRom(n); buyFx(b, ICON.rom, `+${n} bó rơm`, ROM_PRICE * n); } else { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); } } else if (a === 'buylu'){ const c = luCost(); if (ST.xu >= c){ ST.xu -= c; ST.lu = (ST.lu || 0) + 1; save(); hud(); buyFx(b, UIC.lu, `Kho chứa được ${kCap()} món`, c); } }
-  else if (a === 'real'){ ST.realTime = true; save(); } else if (a === 'hour'){ ST.realTime = false; ST.ovr = +b.dataset.v; save(); } else if (a === 'gust') GUST = 1;
+  else if (a === 'real'){ ST.tm = 'real'; ST.realTime = true; save(); } else if (a === 'tm'){ ST.tm = b.dataset.k; ST.realTime = b.dataset.k === 'real'; save(); } else if (a === 'hour'){ ST.tm = 'fixed'; ST.realTime = false; ST.ovr = +b.dataset.v; save(); } else if (a === 'gust') GUST = 1;
   else if (a === 'q'){ QI = +b.dataset.v; store.set('mv3d-q', QI); applyQ(); } else if (a === 'spd'){ ST.spd = ST.spd > 1 ? 1 : 60; save(); }
   else if (a === 'lvup' || a === 'lvdn'){ const n = (ST.lv || 1) + (a === 'lvup' ? 1 : -1); if (n < 1 || n >= XPN.length) return; ST.qd = ST.qd || {}; if (a === 'lvup'){ ST.qd[n] = 1; ST.xp = Math.max(ST.xp || 0, XPN[n]); levelUp(n); } else { ST.lv = n; ST.xp = XPN[n]; } const reload = a === 'lvup' && n >= 4 && !ST.exp; if (reload) ST.exp = 1; save(); for (const P of PLOTS){ PV[P.id].key = null; refreshPlot(P.id); } hud(); avHud(); renderSheet(); if (reload) setTimeout(() => location.reload(), 900); }
   else if (a === 'snd'){ ST.snd = ST.snd === false; save(); if (ST.snd) sfx('pick'); }
@@ -1969,7 +1980,7 @@ const OBJD = {
   say: { name: 'lò sấy', title: 'Lò sấy', lv: 10, buy: 600, sheet: 'say', hi: 'Lò sấy gạch này Ngoại xây hồi trước để sấy mứt Tết. Bỏ củi vô, chạy cả đêm không cần nắng.' },
   ho: { name: 'hố ủ phân', title: 'Hố ủ phân', lv: 8, buy: 100, sheet: 'ho', hi: 'Hố này con bỏ lá rụng, lục bình, rau dư vô. Đủ đồ là Ngoại ủ, một ngày ra một bao phân. Bón liếp nào đất mệt là tốt lại liền.' } };
 const OBJK = Object.keys(OBJD);
-const sunAt = ms => { const h = new Date(ms).getHours(); return h >= NONG.sun[0] && h < NONG.sun[1]; };
+const sunAt = ms => { const h = hourAt(ms); return h >= NONG.sun[0] && h < NONG.sun[1]; };
 if (!ST.nong) ST.nong = { own: 0, at: null, trays: [null, null, null, null], done: 0, made: {} };
 if (!ST.khap) ST.khap = { own: 0, at: null, jars: [null, null], done: 0, made: {} };
 if (!ST.ho) ST.ho = { own: 0, at: null, mat: 0, t: 0, bags: 0, done: 0 };
@@ -1995,7 +2006,7 @@ const nong = {
   buy(at){ buyObj('nong', at); }, place(id){ return placeObj('nong', id); },
   put(i, k){ const N = ST.nong, d = PHOI[k]; if (!d || N.trays[i] || (ST.lv || 1) < d.lv || !phoiCan(k)) return; for (const [ik, n] of Object.entries(d.in)) STORE(ik)[ik] -= n;
     const fast = !N.done && !N.trays.some(t => t && t.fast); N.trays[i] = { k, t: fast ? NONG.first : d.t, T: fast ? NONG.first : d.t, fast }; sfx('pick'); buzz(10); gainXP(1); save(); hud();
-    if (!fast && !sunAt(Date.now())) say('Trời tối rồi, nong nằm yên đó, sáng mai nắng lên là khô tiếp. Không hư đâu con.', 'dan', { now: true }); },
+    if (!fast && !sunAt(Date.now())) say(`Trời tối rồi, nong nằm yên đó, ${toDay()} là khô tiếp. Không hư đâu con.`, 'dan', { now: true }); },
   take(i){ const N = ST.nong, t = N.trays[i]; if (!t || t.t > 0) return false; const on = PHOI[t.k].out || 1; if (gbUsed() + on > GB_CAP){ say('Gác bếp hết chỗ rồi con. Đem đồ khô ra chợ bán bớt nghe.', 'lo', { now: true }); return false; }
     STORE(t.k)[t.k] = (STORE(t.k)[t.k] || 0) + on; N.trays[i] = null; N.done = (N.done || 0) + 1; N.made[t.k] = 1; const P = PV[N.at]; if (P){ flyTo(ICON[t.k], P.cx, .3, P.cz); floatAt(P.cx, .6, P.cz, `+${on} ${PHOI[t.k].unit} ${PHOI[t.k].name.toLowerCase()}`); }
     sfx('pop'); gainXP(Math.round(PHOI[t.k].sell * on / 15)); save(); hud(); return true; },
@@ -2126,7 +2137,7 @@ function gioHit(cx, cy){ if (!gioOn() || VISIT) return null; ndc.set(cx / innerW
 const GHE = { lv: 10, mul: 1.6, from: 6 };
 if (!ST.ghe) ST.ghe = { d: '', o: null, done: 0 };
 const gheOn = () => (ST.lv || 1) >= GHE.lv;
-function gheSim(){ const g = ST.ghe; if (!gheOn() || VISIT) return; const dk = dayKey(); if (g.d === dk) return; if (new Date().getHours() < GHE.from) return; g.d = dk; try { const a = ordMake(), b = ordMake(), m = new Map(); for (const [k, q] of [...a.items, ...b.items]) m.set(k, (m.get(k) || 0) + q);
+function gheSim(){ const g = ST.ghe; if (!gheOn() || VISIT) return; const dk = dayKey(); if (g.d === dk) return; g.d = dk; try { const a = ordMake(), b = ordMake(), m = new Map(); for (const [k, q] of [...a.items, ...b.items]) m.set(k, (m.get(k) || 0) + q);
   const items = [...m.entries()].slice(0, 4).map(([k, q]) => [k, Math.min(PHOI[k] || SAY[k] || MUOI[k] || DISH[k] ? 2 : 8, Math.max(2, q))]), val = items.reduce((s2, [k, q]) => s2 + q * GD(k).sell, 0); g.o = { id: 'ghe' + Date.now(), who: pick(['Ghe bẹo cô Sáu', 'Ghe bẹo chú Mười', 'Ghe chợ nổi Cái Răng', 'Ghe bẹo dì Bảy']), why: 'đem ra chợ nổi Cái Răng bán', items, xu: Math.round(val * GHE.mul / 5) * 5, xp: 6 + items.length * 3, ghe: 1 }; } catch (e) {} }
 function gheGive(el){ const g = ST.ghe, o = g.o; if (!o || !ordCan(o)) return; for (const [k, q] of o.items) STORE(k)[k] -= q; ST.xu += o.xu; g.o = null; g.done = (g.done || 0) + 1; if (el) coinFly(el, 7); sfx('coin'); coinPop(`+${o.xu} xu · ${o.who}`, '#9fd36a'); gainXP(o.xp);
   say(pick(['Ghe bẹo nhổ sào đi rồi, mai lại ghé. Hàng nhà mình đem ra chợ nổi bán chạy lắm con.', 'Cô Sáu khen hàng nhà mình đẹp, dặn mai để dành thêm.']), 'vui', { now: true }); save(); hud(); }
@@ -2263,12 +2274,12 @@ function nongHTML(){ const N = ST.nong, sun = sunAt(Date.now());
   if (SHEET && SHEET.pick != null) return UX.pick('nput', SHEET.pick, PHOI, 'Nong');
   const done = N.trays.filter(t => t && t.t <= 0).length, run = N.trays.filter(t => t && t.t > 0), soon = run.length ? Math.min(...run.map(t => t.t)) : 0; let h = '';
   if (done) h += UX.hero(ICON[N.trays.find(t => t && t.t <= 0).k], `${done} nong khô rồi`, 'Lấy cất lên gác bếp nghe con', 'go');
-  else if (run.length) h += UX.hero(UIC.sun, sun ? 'Đang phơi nắng' : 'Trời tối, nong nằm yên', sun ? `Nong kế tiếp khô sau ${fmtT(soon)} nắng` : `Sáng mai ${NONG.sun[0]} giờ nắng lên là khô tiếp, không hư đâu`, sun ? '' : 'warn');
+  else if (run.length) h += UX.hero(UIC.sun, sun ? 'Đang phơi nắng' : 'Trời tối, nong nằm yên', sun ? `Nong kế tiếp khô sau ${fmtT(soon)} nắng` : `${toDay()[0].toUpperCase() + toDay().slice(1)}, nắng lên là khô tiếp`, sun ? '' : 'warn');
   else h += UX.hero(ICON.nong, '4 nong đang trống', 'Chạm một nong trống để phơi đồ', '');
   h += UX.cta([done ? UX.btn('ntakeall', `Lấy ${done} món khô`, { g: 1, img: ICON[N.trays.find(t => t && t.t <= 0).k] }) : '']);
   h += '<div class="slots">' + N.trays.map((t, i) => UX.slot(i, t, PHOI, 'npick', 'ntake', 'Nong', 'Khô rồi · chạm lấy')).join('') + '</div>';
   h += `<div class="uxs one" style="margin-top:10px">${UX.card('Gác bếp', `${gbUsed()}/${GB_CAP} <small>chỗ · đồ khô cất ở đây</small>`, UX.mbar(gbUsed() / GB_CAP, gbUsed() >= GB_CAP ? '#F08A6E' : '#C9A66B'))}</div>`;
-  h += UX.more('Cách phơi', `Phơi bằng nắng thật, từ ${NONG.sun[0]} giờ sáng tới ${NONG.sun[1]} giờ chiều. Trời tối nong nằm yên, không hư. Đồ khô bán ở chợ hay giao hàng xóm.<div class="acts">${moveBtn('nong')}</div>`); return h; }
+  h += UX.more('Cách phơi', `Phơi khi trong vườn có nắng, từ sáng tới chiều. Trời tối nong nằm yên, không hư. Đồ khô bán ở chợ hay giao hàng xóm.<div class="acts">${moveBtn('nong')}</div>`); return h; }
 
 /* --- khạp muối --- */
 function khapHTML(){ const K = ST.khap; if (SHEET && SHEET.pick != null) return UX.pick('kput', SHEET.pick, MUOI, 'Khạp');
@@ -2424,7 +2435,7 @@ function bepHitAt(cx, cy){ ndc.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) 
 /* ===== ghé vườn: bản đầu là vườn mẫu của Ngoại (cấp 3), bạn bè ghé vườn nhau từ cấp 5 cần lưu online ===== */
 const MAU = { lv: 3, picks: 2, water: 3 };
 function mauLeft(){ const d = dayKey(); if (!ST.mau || ST.mau.day !== d) ST.mau = { day: d, n: 0 }; return Math.max(0, MAU.picks - ST.mau.n); }
-function mauState(){ const m = NEWST(); m.lv = 12; m.xp = XPN[12]; m.exp = 1; m.split = 1; m.realTime = ST.realTime; m.ovr = ST.ovr; m.spd = 1; m.player = ST.player; m.seen = { hello: 1 }; m.qd = { 2: 1, 4: 1, 5: 1, 6: 1 };
+function mauState(){ const m = NEWST(); m.lv = 12; m.xp = XPN[12]; m.exp = 1; m.split = 1; m.realTime = ST.realTime; m.ovr = ST.ovr; m.tm = ST.tm; m.clk0 = ST.clk0; m.spd = 1; m.player = ST.player; m.seen = { hello: 1 }; m.qd = { 2: 1, 4: 1, 5: 1, 6: 1 };
   m.open = PLOTS.filter(P => /^[ABC]/.test(P.id)).map(P => P.id); m.fg = Object.fromEntries(Object.keys(CROPS).map(k => [k, 1])); m.ga = { hens: 6, rooster: 1, trough: 12, eggs: 4, acc: 0, lv: 2, brood: null };
   const plan = { A1: ['cai', 1.3], A1b: ['hanh', 1.3], A2: ['raumuong', .6], A2b: ['ot', 1.3, .9], B1: ['bap', 1.3], B1b: ['cachua', .7], B2: ['daubap', 1.3], B2b: ['mongtoi', .8], C1: ['cai', .4, 0], C1b: ['hanh', .5, 0], C2: ['ot', .5, 0], C2b: ['cachua', 1.3], G: ['khoqua', 1.3, 1], Gb: ['khoqua', 1.3, 1], D1: ['bap', .5], D1b: ['cai', 1.3] };
   m.plots = {}; for (const P of PLOTS){ const q = P.tree ? [P.tree, 1.3] : plan[P.id]; m.plots[P.id] = q && CROPS[q[0]] ? pl0(q[0], q[1], q[2] == null ? .85 : q[2]) : pl0(null, 0, .7); m.plots[P.id].soil = .95; }
@@ -2976,14 +2987,14 @@ function drawSunIcon(h){ const g = sic, n = U.uNight.value; g.clearRect(0, 0, 68
   g.restore(); }
 
 /* ---------- loop ---------- */
-HOUR = ST.realTime ? realHour() : ST.ovr; applyQ(); sky(HOUR);
+HOUR = hourAt(Date.now()); applyQ(); sky(HOUR);
 const clock = new T.Clock(); let fpsN = 0, fpsT = 0, lastUI = -1, saveT = 0, slowT = 0;
 const up = new T.Vector3(0, 1, 0), tv = new T.Vector3();
 let WALL = Date.now();
 function tick(){ const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime; U.uTime.value = t;
-  HOUR = ST.realTime ? realHour() : ST.ovr; sky(HOUR);
+  HOUR = hourAt(Date.now()); sky(HOUR);
   { const now = Date.now(); let rd = Math.max(0, Math.min((now - WALL) / 1000, 7 * 86400)); WALL = now; while (rd > 0){ const s = Math.min(60, rd); sim(s * ST.spd); rd -= s; } } slowT += dt; if (slowT > .4){ slowT = 0; for (const P of PLOTS) refreshPlot(P.id); checkTips(); rescue(); if (SHEET && SHEET.kind === 'plot') renderSheet(); }
-  ptTick(dt); strokeTick(dt); camTick(dt); glowTick(t); avTick(dt);
+  ptTick(dt); strokeTick(dt); camTick(dt); glowTick(t); avTick(dt); if (!VISIT && HOUR >= 17.8 && HOUR < 19 && ST.d1 && ST.seen && ST.seen.sold && !ST.seen.dem1) sayOnce('dem1', 'Chạng vạng rồi đó con, Ngoại thắp đèn dầu nghe. Ngày đầu trong vườn của con vậy là xong, tối vườn cũng đẹp lắm.', 'vui');
   if (sayT > 0){ sayT -= dt; if (sayT <= 0){ if (SAYQ.length){ const [a, b] = SAYQ.shift(); say(a, b, { now: true }); sayT = 4.5; } else ng.hidden = true; } }
   for (const d of WD){ if (!d.m.visible) continue; d.v -= dt * 3; d.m.position.y += d.v * dt; if (d.m.position.y < Y + .01) d.m.visible = false; } const night = U.uNight.value, day = 1 - night;
   // wind + gusts
