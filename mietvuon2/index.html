@@ -2564,7 +2564,7 @@ function bepTick(t){ const B = ST.bep; if (!B) return; const cooking = B.pots.so
 function bepHitAt(cx, cy){ ndc.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1); ray.setFromCamera(ndc, cam); return ray.intersectObjects(BEPV.b.visible ? [BEPV.hit, BEPW.hit] : [BEPW.hit], false).length > 0; }
 
 /* ===== ghé vườn: bản đầu là vườn mẫu của Ngoại (cấp 3), bạn bè ghé vườn nhau từ cấp 5 cần lưu online ===== */
-const MAU = { lv: 3, picks: 2, water: 3 };
+const MAU = { lv: 3, picks: 2, water: 3 }, DOICONG = 5;   // vườn bạn: tưới giùm tối đa 5 liếp mỗi ngày, mỗi liếp đổi được 1 lần hái ké
 function mauLeft(){ const d = dayKey(); if (!ST.mau || ST.mau.day !== d) ST.mau = { day: d, n: 0 }; return Math.max(0, MAU.picks - ST.mau.n); }
 function mauState(){ const m = NEWST(); m.lv = 12; m.xp = XPN[12]; m.exp = 1; m.split = 1; m.realTime = ST.realTime; m.ovr = ST.ovr; m.tm = ST.tm; m.clk0 = ST.clk0; m.spd = 1; m.player = ST.player; m.seen = { hello: 1 }; m.qd = { 2: 1, 4: 1, 5: 1, 6: 1 };
   m.open = PLOTS.filter(P => /^[ABC]/.test(P.id)).map(P => P.id); m.fg = Object.fromEntries(Object.keys(CROPS).map(k => [k, 1])); m.ga = { hens: 6, rooster: 1, trough: 12, eggs: 4, acc: 0, lv: 2, brood: null };
@@ -2583,7 +2583,7 @@ function visitPersist(){ try { sessionStorage.setItem('mv2-visit', JSON.stringif
 function visitStart(){ document.body.classList.add('visit'); const fr = VISIT.kind === 'ban'; const b = document.createElement('div'); b.className = 'card vbar'; b.innerHTML = `<div><b>${VISIT.name}</b><span id="vInfo"></span></div>${fr ? '<button class="btn" id="vMore">Quà · xin hạt</button>' : ''}<button class="btn g" id="vHome">Về vườn mình</button>`; document.body.appendChild(b); $('#vHome').addEventListener('click', visitHome); if (fr) $('#vMore').addEventListener('click', () => openSheet('visit')); visitInfo(); placeCtr();
   if (fr && CLOUD.cred) rpc('mv2_act', { p_code: CLOUD.cred.code, p_secret: CLOUD.cred.secret, p_other: VISIT.code, p_kind: 'visit', p_payload: {} }).catch(() => {});
   setTimeout(() => say(fr ? `Vườn của ${VISIT.owner} nè. Ở xóm mình đổi công: tưới giùm một liếp thì được hái ké một món đem về.` : `Vườn này Ngoại chăm đủ thứ cây nè con. Chạm vô liếp coi cây gì, liếp nào chín thì Ngoại cho hái ${VISIT.left} món đem về. Liếp nào khô thì tưới giùm Ngoại nghe.`, 'vui', { now: true }), 900); }
-function visitInfo(){ const el = $('#vInfo'); if (el) el.textContent = VISIT.kind === 'ban' ? `${VISIT.repay ? 'Lấy lại 1 món · ' : ''}Công đổi được ${VISIT.cong || 0} · tưới giùm ${VISIT.loot.water}/${MAU.water} · hái ké còn ${VISIT.left}` : `Còn hái được ${VISIT.left} món · đã tưới giùm ${VISIT.loot.water} liếp`; }
+function visitInfo(){ const el = $('#vInfo'); if (el) el.textContent = VISIT.kind === 'ban' ? `${VISIT.repay ? 'Lấy lại 1 món · ' : ''}Công đổi được ${VISIT.cong || 0} · tưới giùm ${VISIT.loot.water}/${DOICONG} · hái ké còn ${VISIT.left}` : `Còn hái được ${VISIT.left} món · đã tưới giùm ${VISIT.loot.water} liếp`; }
 const vact = (kind, payload) => rpc('mv2_act', { p_code: CLOUD.cred.code, p_secret: CLOUD.cred.secret, p_other: VISIT.code, p_kind: kind, p_payload: payload || {} });
 async function visitTap(id){ const P = PL[id], p = ST.plots[id], c = p && p.crop && CROPS[p.crop], fr = VISIT.kind === 'ban'; if (!c) return say(fr ? 'Liếp này đang để trống.' : 'Liếp này Ngoại để trống cho đất nghỉ đó con.', 'vui', { now: true }); const v = PV[id];
   if (VISIT.busy) return; const k0 = p.crop;
@@ -2595,7 +2595,7 @@ async function visitTap(id){ const P = PL[id], p = ST.plots[id], c = p && p.crop
     else VISIT.left--;
     VISIT.loot.picks = (VISIT.loot.picks || 0) + 1; VISIT.loot.inv[k0] = (VISIT.loot.inv[k0] || 0) + n; VISIT.loot.xp += 2;
     p.g = c.tree ? c.grow - c.re : 0; if (!c.tree && c.kind !== 'trellis') p.crop = null; refreshPlot(id); flyTo(ICON[k0], v.cx, .4, v.cz); floatAt(v.cx, .6, v.cz, `${fr ? 'Hái ké' : 'Hái'} +${n} ${c.unit} ${c.name.toLowerCase()}`, '#F5D27A'); sfx('cut', 4); visitPersist(); visitInfo(); return; }
-  if (!P.trellis && !p.helped && (p.moist <= .05 || (fr && p.moist < .9))){ if (VISIT.loot.water >= MAU.water) return say(fr ? 'Con tưới giùm nhiều rồi, để chủ vườn tưới nốt.' : 'Con tưới giùm nhiều rồi, để Ngoại tưới nốt.', 'vui', { now: true });
+  if (!P.trellis && !p.helped && (p.moist <= .05 || (fr && p.moist < .9))){ if (VISIT.loot.water >= (fr ? DOICONG : MAU.water)) return say(fr ? 'Con tưới giùm nhiều rồi, để chủ vườn tưới nốt.' : 'Con tưới giùm nhiều rồi, để Ngoại tưới nốt.', 'vui', { now: true });
     if (fr){ VISIT.busy = 1; try { const r = await vact('water', { id }); VISIT.busy = 0; if (!r || !r.ok) return say('Hôm nay con tưới giùm vườn này đủ rồi.', 'vui', { now: true }); } catch (e) { VISIT.busy = 0; return say('Mạng chập chờn quá, chưa tưới được con.', 'lo', { now: true }); } }
     p.moist = 1; p.helped = 1; VISIT.loot.water++; VISIT.loot.xp += 2; if (fr) VISIT.cong = (VISIT.cong || 0) + 1; refreshPlot(id); for (let k = 0; k < 10; k++) puff('drop', v.cx + R(-.4, .4), .5, v.cz + R(-.2, .2), 1, '#9cc6e0', .6); floatAt(v.cx, .6, v.cz, fr ? 'Tưới giùm · được hái ké 1 món' : 'Tưới giùm · +2 kinh nghiệm', '#9fd36a'); sfx('tick'); visitPersist(); visitInfo(); return; }
   if (fr) return say(`${c.name}${c.tree ? '' : ' ở ' + P.name.toLowerCase()} của ${VISIT.owner}, ${ripe(p) ? 'chín rồi' : 'đang lớn'}.`, 'vui', { now: true });
@@ -2652,7 +2652,7 @@ async function nbFollow(code){ const c = await cloudEnsure(); if (!c) throw new 
 async function visitFriend(code, repay){ closeSheet(); try { const r = await rpc('mv2_peek', { p_code: code }); if (!r || !r.data || !r.data.plots) return say('Vườn này chưa có gì, chắc bạn mới vô chơi.', 'dan', { now: true });
     const st = r.data; st.player = ST.player; st.seen = { hello: 1 }; st.qv2 = 1; st.real = new Date(r.updated_at).getTime();
     const myInv = [...Object.entries(ST.inv).filter(([k, n]) => n > 0 && GD(k) && k !== 'rom').map(([k, n]) => ({ k, n })), ...Object.entries(ST.seeds).filter(([k, n]) => n > 0).map(([k, n]) => ({ k, n, seed: 1 }))];
-    const v = { kind: 'ban', code, owner: r.name || 'bạn', name: /^vườn/i.test(r.garden || '') ? r.garden : `Vườn ${r.garden || r.name}`, myLv: ST.lv || 1, left: 2, repay: !!repay, myInv, state: st, loot: { inv: {}, xp: 0, water: 0, friend: r.name || 'bạn', giftOut: [] } };
+    const v = { kind: 'ban', code, owner: r.name || 'bạn', name: /^vườn/i.test(r.garden || '') ? r.garden : `Vườn ${r.garden || r.name}`, myLv: ST.lv || 1, left: DOICONG, repay: !!repay, myInv, state: st, loot: { inv: {}, xp: 0, water: 0, friend: r.name || 'bạn', giftOut: [] } };
     save(); sessionStorage.setItem('mv2-visit', JSON.stringify(v)); sfx('home'); setTimeout(() => location.reload(), 250); } catch (e) { say('Mạng chập chờn, chưa chèo qua được con.', 'lo', { now: true }); } }
 // sheet trong lúc ghé vườn bạn: xin hạt, để quà
 function visitSheetHTML(){ const V = VISIT; let h = `<div class="note">Mỗi ngày xin hạt một lần, để quà một món cho ${esc(V.owner)}.</div>`;
