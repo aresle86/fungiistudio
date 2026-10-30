@@ -581,7 +581,7 @@ body.visit .ui.bot .row,body.visit #tray,body.visit .top .coin,body.visit #avb,b
 <div class="bkov" id="book" hidden role="dialog" aria-label="Sổ vườn của Ngoại"><div class="bk" id="bk"></div></div>
 <div class="tray" id="tray"><button class="tl" id="tSeed" aria-label="Bao hạt"><img id="icSeed" alt=""><span class="tg">Hạt</span></button><button class="tl" id="tCan" aria-label="Thùng tưới" hidden><img id="icCan" alt=""><span class="tg">Tưới</span></button><button class="tl" id="tCut" aria-label="Cầm liềm" hidden><img id="icCut" alt=""><span class="tg">Liềm</span></button></div>
 <div class="card fan" id="fan" hidden></div><img id="ghost" hidden alt="">
-<div class="card seedbar" id="seedbar" hidden role="status"><img id="sbImg" alt=""><span id="sbTx"></span><button class="btn" id="sbX">Thôi</button></div>
+<div class="card seedbar" id="seedbar" hidden role="status"><img id="sbImg" alt=""><span id="sbTx"></span><button class="btn g" id="sbX">✓ Xong</button></div>
 <div id="fx" aria-hidden="true"></div>
 <div class="card" id="err" role="status"></div>
 
@@ -1712,7 +1712,7 @@ const sheet = $('#sheet'), shT = $('#shT'), shB = $('#shB'); let SHEET = null;
 const openSheet = (kind, arg) => { if (VISIT && kind !== 'visit') return; if (kind === 'ben') setTimeout(() => nbLoad(), 0); SHEET = { kind, arg }; $('#scrim').hidden = false; document.body.classList.add('sheeton'); { const f = document.getElementById('fan'); if (f) f.hidden = true; } renderSheet(); sheet.hidden = false; if (innerWidth <= 560){ ng.hidden = true; sayT = 0; } };
 const closeSheet = () => { SHEET = null; sheet.hidden = true; document.body.classList.remove('sheeton'); $('#scrim').hidden = true; };
 $('#scrim').addEventListener('pointerdown', e => { e.preventDefault(); closeSheet(); });
-addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (!$('#book').hidden) closeBook(); else if (SHEET) closeSheet(); else { const f = $('#fan'); if (f && !f.hidden){ f.hidden = true; if (typeof clearTool === 'function') clearTool(); } } });
+addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (!$('#book').hidden) closeBook(); else if (SHEET) closeSheet(); else { try { if (TOOL){ putAway(); return; } } catch (er) {} const f = $('#fan'); if (f && !f.hidden){ f.hidden = true; if (typeof clearTool === 'function') clearTool(); } } });
 $('#shX').addEventListener('click', closeSheet);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 function bar(v, col){ return `<span class="bar"><i style="width:${Math.round(Math.max(0, Math.min(1, v)) * 100)}%;background:${col}"></i></span>`; }
@@ -2876,7 +2876,7 @@ function sowAt(P, x, z){ const id = P.id, p = ST.plots[id], k = TOOL.k, c = CROP
   if (W.n >= need) finishSow(id); }
 function finishSow(id){ const v = PV[id], k = v.sow ? v.sow.k : TOOL.k; if (v.sowG){ S.remove(v.sowG); v.sowG = null; } v.sow = null; const [u0, v0, u1, v1] = PL[id].b;
   if (STROKE) STROKE.warned.add(id); v.prog.visible = false; v.prog.scale.x = .001; act.plant(id, k); sfx('pop'); for (let i = 0; i < 6; i++) puff('spark', R(u0, u1), .12, R(v0, v1), 1, pick(['#F5D27A', '#86B06A', '#FBF7EE']), .3); buzz(12);
-  if (TOOL && TOOL.kind === 'seed'){ if (ST.seeds[k] > 0 || ST.xu >= CROPS[k].seed) setTool({ kind: 'seed', k }); else { setTool(null); fan.hidden = false; renderFan(); } } }
+  if (TOOL && TOOL.kind === 'seed'){ if (ST.seeds[k] > 0 || ST.xu >= CROPS[k].seed){ const t2 = TOOL.temp2; setTool({ kind: 'seed', k, temp2: t2 }); if (!t2 && !STROKE) autoPutAway(); } else { setTool(null); fan.hidden = false; renderFan(); } } }
 
 /* ===== đợt G: vòng chọn tại chỗ: chạm bubble liếp trống hiện hạt ngay trên liếp, chạm hạt là gieo, kéo hạt qua nhiều liếp là gieo một lượt; cỏ rậm hiện nút dọn ngay tại chỗ ===== */
 const RING = $('#ring'); let RINGID = null;
@@ -2901,6 +2901,14 @@ RING.addEventListener('pointerdown', e => { const b = e.target.closest('.rgi'); 
   const up = ev => { if (ev.pointerId !== pid) return; done(); if (started){ if (TOOL && TOOL.temp2) setTool(null); hud(); return; } const id = RINGID; if (!id) return; const c = CROPS[k]; if (!(ST.seeds[k] > 0) && ST.xu < c.seed){ b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); say(`Còn thiếu ${c.seed - ST.xu} xu mua hạt ${c.name.toLowerCase()}.`, 'dan', { now: true }); return; } PEND = id; sowPend(k, b); RING.hidden = true; RINGID = null; hud(); };
   const cc = () => done(); addEventListener('pointermove', mv); addEventListener('pointerup', up); addEventListener('pointercancel', cc); });
 function ringBubs(){ for (const P of PLOTS){ const v = PV[P.id]; if (v && v.want === 's'){ const q = quickSeed(P); try { bubIcon(v.bub.s, q ? ICON[q] : UIC.seedbag); } catch (e) {} } } }
+
+/* cất đồ đang cầm: chạm chỗ trống, chuột phải, Esc; tự cất khi hết việc cho món đó */
+function putAway(msg){ if (!TOOL) return; const k = TOOL.kind; setTool(null); fan.hidden = true; PEND = null; sfx('pick'); buzz(8); if (msg){ const P = PLOTS.find(q => !hidP(q)); const c = cam.position; floatAt(ctl.target.x, .5, ctl.target.z, msg, '#FBF7EE'); } hud(); }
+function toolLeft(){ if (!TOOL) return 1; if (TOOL.kind === 'seed') return PLOTS.some(P => !hidP(P) && !locked(P) && ST.plots[P.id] && !ST.plots[P.id].crop && fits(TOOL.k, P));
+  if (TOOL.kind === 'water') return PLOTS.some(P => !hidP(P) && !locked(P) && !P.trellis && ST.plots[P.id] && ST.plots[P.id].crop && !ST.plots[P.id].dead && ST.plots[P.id].moist < .9);
+  return PLOTS.some(P => !hidP(P) && ST.plots[P.id] && ST.plots[P.id].crop && ripe(ST.plots[P.id])) || (() => { try { return weedOn(); } catch (e) { return false; } })(); }
+function autoPutAway(){ if (!TOOL || TOOL.temp) return; if (toolLeft()) return; const k = TOOL.kind; putAway(k === 'seed' ? 'Hết liếp trống, cất hạt rồi' : k === 'water' ? 'Liếp nào cũng ướt rồi, cất thùng tưới' : 'Hết việc cho liềm, cất rồi'); }
+canvas.addEventListener('contextmenu', e => { if (TOOL){ e.preventDefault(); putAway(); } });
 /* tưới */
 function wet(id, amt){ const p = ST.plots[id], v = PV[id]; if (condOf(p) === 'wilt' && !v.saved){ v.saved = 1; setTimeout(() => { gainXP(3); v.saved = 0; }, 0); } if (p.moist < .6) v.wLow = true; p.moist = Math.min(1, p.moist + amt); if (p.moist > 0) p.dry = 0;
   if (v.wLow && p.moist >= .95){ v.wLow = false; bump('water'); gainXP(1); floatAt(v.cx, .35, v.cz, 'Ướt đẫm', '#B5DCE1'); refreshPlot(id); } }
@@ -2939,7 +2947,8 @@ addEventListener('pointermove', e => { if (TOOL){ moveGhost(e.clientX, e.clientY
   const ey = aimY(e, e.clientY), steps = Math.max(1, Math.ceil(Math.hypot(e.clientX - STROKE.x, ey - STROKE.y) / 14)); for (let i = 1; i <= steps; i++){ const a = i / steps; strokeAt(STROKE.x + (e.clientX - STROKE.x) * a, STROKE.y + (ey - STROKE.y) * a, TOOL && TOOL.kind === 'water' ? 0 : .016); }
   STROKE.x = e.clientX; STROKE.y = ey; if (Math.hypot(e.clientX - STROKE.x0, e.clientY - STROKE.y0) > 8){ STROKE.moved = true; if (TOOL && TOOL.kind === 'seed') document.body.classList.add('drag'); } });
 addEventListener('pointerup', e => { if (!STROKE || e.pointerId !== STROKE.id) return; document.body.classList.remove('drag'); if (STROKE.moved) aimDrop(); else { AIM = null; AIMV.visible = false; } const s = STROKE; STROKE = null; ghost.classList.remove('pour', 'swing'); if (e.pointerType !== 'mouse') ghost.hidden = true;
-  if (!s.moved && TOOL && TOOL.kind === 'seed'){ const g = groundAt(e.clientX, aimY(e, e.clientY)), P = g && plotAt(g.x, g.z); if (P && !ST.plots[P.id].crop && !s.warned.has(P.id) && fits(TOOL.k, P) && (ST.seeds[TOOL.k] > 0 || ST.xu >= CROPS[TOOL.k].seed)) finishSow(P.id); }
+  if (!s.moved && TOOL && TOOL.kind === 'seed'){ const g = groundAt(e.clientX, aimY(e, e.clientY)), P = g && plotNear(g.x, g.z, .16); if (P && !ST.plots[P.id].crop && !s.warned.has(P.id) && fits(TOOL.k, P) && (ST.seeds[TOOL.k] > 0 || ST.xu >= CROPS[TOOL.k].seed)) finishSow(P.id); }
+  if (!s.moved && TOOL && !TOOL.temp && !TOOL.temp2){ const g = groundAt(e.clientX, e.clientY), near = g && (plotNear(g.x, g.z, .18) || (TOOL.kind === 'cut' && (() => { try { return weedOn() && weedNear(g.x, g.z, .4) >= 0; } catch (er) { return false; } })())); if (!near) putAway(); else autoPutAway(); } else if (TOOL && !TOOL.temp) autoPutAway();
   save(); hud(); });
 addEventListener('pointercancel', () => { STROKE = null; document.body.classList.remove('drag'); AIM = null; AIMV.visible = false; ghost.classList.remove('pour', 'swing'); if (!TOOL || TOOL.temp || MOBILE) ghost.hidden = true; });
 function strokeTick(dt){ if (STROKE && TOOL && TOOL.kind === 'water') strokeAt(STROKE.x, STROKE.y, dt); }
