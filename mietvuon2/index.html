@@ -318,7 +318,7 @@ div.it{cursor:default}
 @media (max-width:560px){ .fan{left:8px;right:80px;transform:none;max-width:none;bottom:calc(104px + env(safe-area-inset-bottom,0px));animation:none} .sk{width:66px} .sk img{width:48px;height:48px} }
 #scrim{position:fixed;inset:0;z-index:3;background:rgba(43,52,70,.14);animation:scIn .2s}@keyframes scIn{0%{opacity:0}}
 .sn .mkh{display:block;font-size:12px;font-weight:600;color:#9a7a5a;line-height:1.2}
-#bCho{position:relative}.kb{position:absolute;top:-6px;right:-8px;font-family:var(--f-game);font-size:12px;line-height:1;color:#fff;text-shadow:none;background:#E9A23A;border-radius:999px;padding:4px 7px 3px;box-shadow:0 0 0 2px #FBF7EE;white-space:nowrap;pointer-events:none}.kb.full{background:#C24A2E;animation:kbP 1.2s ease-in-out infinite}@keyframes kbP{50%{transform:scale(1.12)}}
+#bCho{position:relative}#bCho .kb{top:auto;bottom:24px;left:0;right:0;margin:0 auto;width:max-content;font-size:11px;padding:3px 6px 2px}.kb{position:absolute;top:-6px;right:-8px;font-family:var(--f-game);font-size:12px;line-height:1;color:#fff;text-shadow:none;background:#E9A23A;border-radius:999px;padding:4px 7px 3px;box-shadow:0 0 0 2px #FBF7EE;white-space:nowrap;pointer-events:none}.kb.full{background:#C24A2E;animation:kbP 1.2s ease-in-out infinite}@keyframes kbP{50%{transform:scale(1.12)}}
 
 /* ================= v40 · lớp hoàn thiện giao diện =================
    lưới 4/8px · bo góc 12/16/20 · bóng hai lớp (gờ cứng + bóng mềm) · ánh sáng từ trên: viền trong sáng ở mép trên */
@@ -590,7 +590,7 @@ body.visit .ui.bot .row,body.visit #tray,body.visit .top .coin,body.visit #avb,b
 .oit{position:relative;display:inline-flex;align-items:center;gap:2px;background:#F3EADB;border-radius:12px;padding:2px 8px 2px 2px}.oit img{width:36px;height:36px}.oit i{font-style:normal;font-family:var(--f-game);font-size:14px;color:#C24A2E}.oit.got i{color:#4F7D44}
 .ordr .oa{grid-column:2;grid-row:1/3;display:flex;align-items:center;gap:6px}
 .x.ox{width:32px;height:32px;font-size:20px}
-.ob{position:absolute;top:-6px;left:-6px;min-width:22px;box-sizing:border-box;text-align:center;font-family:var(--f-game);font-size:13px;line-height:1;color:#fff;text-shadow:none;background:#6E9F57;border-radius:999px;padding:4px 6px 3px;box-shadow:0 0 0 2px #FBF7EE;pointer-events:none}
+.ob{position:absolute;top:-4px;right:4px;min-width:22px;box-sizing:border-box;text-align:center;font-family:var(--f-game);font-size:13px;line-height:1;color:#fff;text-shadow:none;background:#6E9F57;border-radius:999px;padding:4px 6px 3px;box-shadow:0 0 0 2px #FBF7EE;pointer-events:none}
 @media (max-width:560px){ .ordr{grid-template-columns:minmax(0,1fr)} .ordr .oa{grid-column:1;grid-row:auto;justify-content:space-between} }
 /* ================= điện thoại ================= */
 @media (max-width:560px){
@@ -607,7 +607,8 @@ body.visit .ui.bot .row,body.visit #tray,body.visit .top .coin,body.visit #avb,b
   .tray{left:max(16px,env(safe-area-inset-left,0px))!important;right:auto!important;top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;transform:none!important;z-index:2}
   .tl{width:66px!important}.tl img{width:54px!important;height:54px!important}
   .fan{left:16px!important;right:16px!important;transform:none!important;max-width:none!important;bottom:calc(96px + env(safe-area-inset-bottom,0px))!important}
-  .ngoai{right:16px!important;bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
+  .ngoai{left:calc(max(16px,env(safe-area-inset-left,0px)) + 74px)!important;right:12px!important;bottom:calc(96px + env(safe-area-inset-bottom,0px))!important}   /* chừa cột Hạt/Rơm bên trái */
+  .ngoai .pt{margin-left:-26px!important}
   body.fanon .ngoai{bottom:calc(96px + var(--fanH,110px) + 4px + env(safe-area-inset-bottom,0px))!important}
   .ngoai .pt{width:112px;height:130px;margin:0 -18px -8px -18px}
   .ngoai p{font-size:15px;padding:8px 12px}
@@ -742,7 +743,7 @@ function waterMat(col, flow, waves){ const m = new T.MeshStandardMaterial({ colo
 
 /* ---------- beds & ditches ---------- */
 const Y = .035;
-function bed(u0, v0, u1, v1, opt = {}){ const g = new T.BoxGeometry(u1 - u0, .07, v1 - v0, Math.round((u1 - u0) * 5), 1, 3).toNonIndexed(); const p = g.attributes.position; for (let i = 0; i < p.count; i++){ const X = p.getX(i), Yv = p.getY(i), Z = p.getZ(i); if (Yv > 0) p.setY(i, Yv + Math.sin(X * 13 + Z * 7) * .006); p.setX(i, X + Math.sin(X * 31.7 + Z * 17.3) * .006); } g.computeVertexNormals(); M(g, C.soil, (u0 + u1) / 2, 0, (v0 + v1) / 2);
+function bed(u0, v0, u1, v1, opt = {}){ const g = new T.BoxGeometry(u1 - u0, .07, v1 - v0, Math.round((u1 - u0) * 5), 1, 3).toNonIndexed(); const p = g.attributes.position; for (let i = 0; i < p.count; i++){ const X = p.getX(i), Yv = p.getY(i), Z = p.getZ(i); if (Yv > 0){ p.setY(i, Yv + Math.sin(X * 13 + Z * 7) * .008 + .006); const hw = (u1 - u0) / 2, hl = (v1 - v0) / 2; p.setX(i, X * (1 - .045 / hw)); p.setZ(i, Z * (1 - .045 / hl)); } p.setX(i, p.getX(i) + Math.sin(X * 31.7 + Z * 17.3) * .006); } g.computeVertexNormals(); M(g, C.soil, (u0 + u1) / 2, 0, (v0 + v1) / 2);   // mép trên thu vào: liếp vun mô, không ra tấm ván
   if (opt.furrow) for (const t of opt.furrow) M(box(u1 - u0 - .06, .02, .07), C.soilL, (u0 + u1) / 2, Y, v0 + (v1 - v0) * t, { cast: false }); }
 const WM_D = waterMat(C.water, .12, .004);
 function basin(u0, v0, u1, v1, d, wl, wm, segX = 3){ const t = .03, cx = (u0 + u1) / 2, cz = (v0 + v1) / 2, w = u1 - u0, l = v1 - v0;
@@ -1020,7 +1021,7 @@ denBao(.86, 4.95, .4); denBao(6.98, 2.72, 2.2); denBao(3.55, 6.42, -.8);
 // ánh trăng dịu phủ vùng liếp ban đêm, đủ đọc cây và bubble
 const MOONFILL = new T.PointLight('#c9d6ff', 0, 11, .9); MOONFILL.position.set(3.6, 3.4, 4.6); S.add(MOONFILL);
 house(); const BEPW = bepHut(5.15, .05); strawStack(-.55, 2.65); namRomCluster(-.2, 3.0); coop(-.75, 3.75, Math.PI / 2); jar(.75, 2.35); firewood(4.05, -.35, Math.PI / 2);
-rocks(-1.0, 1.95, .8, 4); rocks(5.3, 8.05, .9, 3); rocks(.4, 8.0, 1, 3); rocks(10.55, 7.95, .8, 3); rocks(10.9, 6.85, .9, 3); rocks(6.6, -.6, 1.2, 4);
+rocks(-1.0, 1.95, .8, 4); rocks(5.3, 8.05, .9, 3); rocks(.4, 8.0, 1, 3); rocks(12.1, 7.95, .8, 3); rocks(12.0, 6.5, .9, 3); rocks(6.6, -.6, 1.2, 4);
 sway(.15, () => { log(5.0, -1.45, .4); });
 sway(.5, () => { tulips(1.0, 2.3, '#E25A3B', 5); tulips(3.85, 2.3, '#F08A6E', 5); tulips(.05, 3.45, '#EDB940', 4); vanTho(2.95, 2.3, 4); tulips(9.05, 5.5, '#E25A3B', 5); tulips(4.4, 7.75, '#F08A6E', 4); tulips(5.65, 7.65, '#EDB940', 4); tulips(-1.2, 5.3, '#E25A3B', 4); });
 sway(.6, () => { for (const x of [-.4, 1.4, 3.6, 4.9, 6.1, 9.4, 11]) reeds(x, R0 + .05, 6); });
@@ -1034,10 +1035,10 @@ if (EXP){ lily(9.1, (M4[1] + M4[3]) / 2, 0); lily(10.5, (M4[1] + M4[3]) / 2, 1);
 gianFrame(6.28, 2.9, 6.92, 6.2);
 sway(.45, () => { for (const v of [3.3, 4.6, 5.9]) sa(7.35, v); sa(1.2, 7.3, .8); });
 stones([[2.4, 1.95], [2.35, 2.25], [2.1, 2.5], [1.75, 2.5], [1.4, 2.56], [1.05, 2.5], [.7, 2.62], [.55, 2.85], [.62, 6.6], [.7, 6.9], [.9, 7.1]]);
-bush(2.0, 7.0); bush(10.35, 7.35, .8); bush(4.6, 7.3, .9); bush(-.5, 5.6, 1.1); bush(8.2, 3.2, .9);
-sway(1.1, () => { const n = Math.round(90 * QS[QI].fx); for (let i = 0; i < n; i++){ const x = R(-2, 10), z = R(-1, 9); if (x > .8 && x < 7.0 && z > 2.6 && z < 6.4) continue; if (x > 1 && x < 3.9 && z > -.6 && z < 2.5) continue; if (x > -5.15 && x < -1.45 && z > -.85 && z < 1.65) continue; if (x > 6.1 && x < 9.8 && z > 6.7 && z < 8.3) continue; if (x < -1.6 && z < -1.8) continue; if (z > 7.9) continue; tuft(x, z); } });
+bush(2.0, 7.0); bush(12.2, 7.2, .8); bush(4.6, 7.3, .9); bush(-.5, 5.6, 1.1); bush(8.2, 3.2, .9);
+sway(1.1, () => { const n = Math.round(90 * QS[QI].fx); for (let i = 0; i < n; i++){ const x = R(-2, 10), z = R(-1, 9); if (x > .8 && x < 7.0 && z > 2.6 && z < 6.4) continue; if (x > 1 && x < 3.9 && z > -.6 && z < 2.5) continue; if (x > -6.85 && x < -1.45 && z > -.85 && z < 1.95) continue; if (x > 6.2 && x < 11.6 && z > 6.32 && z < 8.3) continue; if (x < -1.6 && z < -1.8) continue; if (z > 7.9) continue; tuft(x, z); } });
 for (let i = 0; i < 26; i++){ const x = R(-2, 10), z = R(5.5, 8); if (x > .8 && x < 7 && z < 6.4) continue; if (x > 6.1 && x < 9.8 && z > 6.7) continue; const g = G(x, 0, z, R(0, 6)); for (let k = 0; k < 5; k++) M(ico(.018, 0), pick(['#fff7d6', '#ffd23f', '#ff8fb1']), Math.cos(k * 1.26) * .02, .04, Math.sin(k * 1.26) * .02, { p: g, cast: false }); M(ico(.012, 0), C.orange, 0, .05, 0, { p: g, cast: false }); }
-fence(EXP ? 11.75 : 8.1, 2.2, 7.0);   // mở góc vườn mới thì dời hàng rào ra ngoài sway(.45, () => { for (let k = 0; k < 12; k++){ const x = R(8.5, 11), z = R(2.4, 7); if (EXP && x > D1[0] - .3 && x < D1[2] + .3 && z > D1[1] - .8 && z < D1[3] + .8) continue; sa(x, z, .55, false); } }); bush(9.6, 6.4, .9);
+fence(EXP ? 11.75 : 8.1, 2.2, 7.0);   // mở góc vườn mới thì dời hàng rào ra ngoài sway(.45, () => { for (let k = 0; k < 12; k++){ const x = R(8.5, 11), z = R(2.4, 6.1); if (EXP && x > D1[0] - .3 && x < D1[2] + .3 && z > D1[1] - .8 && z < D1[3] + .8) continue; sa(x, z, .55, false); } }); bush(9.6, 6.0, .9);
 /* animals with wander data */
 const ANIM = [];
 const BLOCK = [[-1.3, 3.2, .22, 4.5], [-1.1, 2.1, .1, 3.15]]; // chuồng gà + cầu thang, cây rơm
@@ -1058,7 +1059,7 @@ function hyacinth(x, z){ const g = DYN(G(x, WLR + .01, z, R(0, 6))); for (let k 
   for (let k = 0; k < 3; k++) leaf(g, .14, .07, '#86B06A', k * 2.1, 1.0, { droop: .2, cast: false }); if (rnd() < .6) for (let k = 0; k < 4; k++) M(ico(.025, 0), '#b48ad8', R(-.04, .04), .14 + k * .02, R(-.04, .04), { p: g }); return g; }
 const HYZ = (x, z0) => (x > 1.2 && x < 5.3 && z0 < R0 + 1.7) ? R0 + 1.75 + (z0 - R0) * .15 : z0;   // né bến + ghe
 for (let i = 0; i < 10; i++){ const x = R(-4, 13), z0 = R(R0 + .25, R1 - .25); HYA.push({ g: hyacinth(x, HYZ(x, z0)), z0, sp: R(.05, .11), bob: R(0, 6) }); }
-sway(.3, () => { for (const x of [-2.4, -1.6, 5.75, 10.9, 11.6]){ const g = G(x, 0, R0 - .12, R(0, 6)); for (let k = 0; k < 9; k++) leaf(g, R(.7, 1.0), .12, pick(['#6E9F57', '#86B06A', '#4F7D44']), k * .7, R(.6, 1.2), { droop: .35, fold: .2, seg: 7 }); } });
+sway(.3, () => { for (const x of [-2.4, -1.6, 5.75, 12.3, 13.1]){ const g = G(x, 0, R0 - .12, R(0, 6)); for (let k = 0; k < 9; k++) leaf(g, R(.7, 1.0), .12, pick(['#6E9F57', '#86B06A', '#4F7D44']), k * .7, R(.6, 1.2), { droop: .35, fold: .2, seg: 7 }); } });
 const bx = 2.6; { const dg = G(bx, 0, 0);
   for (const z of [R0 - .1, R0 + .4, R0 + .9, R0 + 1.3]) for (const sx of [-.3, .3]){ M(cyl(.04, .045, .62, 7), '#6B4529', sx, .06, z, { p: dg }); M(new T.TorusGeometry(.047, .012, 3, 8), '#C9952A', sx, .27, z, { p: dg, r: [Math.PI / 2, 0, 0] }); }
   for (const sx of [-.27, .27]) M(box(.06, .05, 1.85), '#6B4529', sx, .16, R0 + .45, { p: dg });
@@ -1179,16 +1180,17 @@ for (const [id, k, x, z, nm] of [['T1', 'chuoi', 8.79, 1.96, 'Góc cây trái ·
   PLOTS.push({ id, b: [x - .45, z - .45, x + .45, z + .45], name: nm, tree: k, at: [x, z] });
 // bãi hông nhà (cấp 7): 12 ô cỏ bên trái nhà, con tự chọn ô nào đắp liếp, ô nào để cỏ, ô nào đặt nong phơi
 let SUA = null;   // chế độ Sửa vườn: { move: "nong" } khi đang dời nong
-const BAI = { lv: 7, cost: 50, x0: -5.05, z0: -.75, cw: .8, cl: .7, gap: .1, cols: 4 };
+const BAI = { lv: 7, cost: 50, x0: -6.75, z0: -.75, cw: 1.225, cl: .8, gap: .1, cols: 4 };   // lưới chung: 1 ô = 1 liếp ngắn
 for (let i = 0; i < 12; i++){ const c = i % BAI.cols, r = Math.floor(i / BAI.cols), u0 = BAI.x0 + c * (BAI.cw + BAI.gap), v0 = BAI.z0 + r * (BAI.cl + BAI.gap); PLOTS.push({ id: 'H' + (i + 1), b: [u0, v0, u0 + BAI.cw, v0 + BAI.cl], name: `Bãi hông nhà · ô ${i + 1}`, bai: true }); }
 // mé sông (cấp 9): 8 ô đất bồi phù sa dọc bờ sông bên phải bến
-const SONG = { lv: 9, cost: 60, x0: 6.2, z0: 6.8, cw: .8, cl: .62, gap: .1, cols: 4 };
+const SONG = { lv: 9, cost: 60, x0: 6.3, z0: 6.42, cw: 1.225, cl: .8, gap: .1, cols: 4 };
 for (let i = 0; i < 8; i++){ const c = i % SONG.cols, r = Math.floor(i / SONG.cols), u0 = SONG.x0 + c * (SONG.cw + SONG.gap), v0 = SONG.z0 + r * (SONG.cl + SONG.gap); PLOTS.push({ id: 'S' + (i + 1), b: [u0, v0, u0 + SONG.cw, v0 + SONG.cl], name: `Mé sông · ô ${i + 1}`, bai: true, zone: 'song', lv: SONG.lv, cost: SONG.cost }); }
 // sau nhà (cấp 11): 10 ô sau lưng nhà, phải dọn tre gai (việc lên cấp 12) mới đắp liếp được
-const SAU = { lv: 11, cost: 70, x0: -6.3, z0: -3.4, cw: .8, cl: .65, gap: .1, cols: 5 };
+const SAU = { lv: 11, cost: 70, x0: -8.15, z0: -3.75, cw: 1.225, cl: .8, gap: .1, cols: 5 };
 for (let i = 0; i < 10; i++){ const c = i % SAU.cols, r = Math.floor(i / SAU.cols), u0 = SAU.x0 + c * (SAU.cw + SAU.gap), v0 = SAU.z0 + r * (SAU.cl + SAU.gap); PLOTS.push({ id: 'N' + (i + 1), b: [u0, v0, u0 + SAU.cw, v0 + SAU.cl], name: `Sau nhà · ô ${i + 1}`, bai: true, zone: 'sau', lv: SAU.lv, cost: SAU.cost }); }
-const SAUC = { x: SAU.x0 + 2.2, z: SAU.z0 + .7 };
-const SONGC = { x: SONG.x0 + 1.75, z: SONG.z0 + .67 };
+const ZW = Z => Z.cols * (Z.cw + Z.gap) - Z.gap, ZL = (Z, n) => Math.ceil(n / Z.cols) * (Z.cl + Z.gap) - Z.gap;
+const SAUC = { x: SAU.x0 + ZW(SAU) / 2, z: SAU.z0 + ZL(SAU, 10) / 2 };
+const SONGC = { x: SONG.x0 + ZW(SONG) / 2, z: SONG.z0 + ZL(SONG, 8) / 2 };
 const BAIC = { x: BAI.x0 + (BAI.cols * (BAI.cw + BAI.gap) - BAI.gap) / 2, z: BAI.z0 + (3 * (BAI.cl + BAI.gap) - BAI.gap) / 2 };
 const PL = Object.fromEntries(PLOTS.map(p => [p.id, p]));
 const STAGE = ['Mới gieo', 'Nảy mầm', 'Cây non', 'Ra hoa', 'Chín'];
@@ -1514,7 +1516,8 @@ function bubbleK(kind){ const g = DYN(G(0, 0, 0)); g.scale.setScalar(.9); const 
   const hit = new T.Mesh(new T.SphereGeometry(.24, 8, 6), new T.MeshBasicMaterial({ visible: false })); g.add(hit); hit.userData.bub = kind; g.visible = false; return g; }
 for (const P of PLOTS){ const [u0, v0, u1, v1] = P.b, cx = (u0 + u1) / 2, cz = (v0 + v1) / 2, w = u1 - u0, l = v1 - v0, root = DYN(G(0, 0, 0)), v = PV[P.id] = { root, crop: G(0, 0, 0, 0, root), key: null };
   if (!P.trellis && !P.tree){ v.soilMat = new T.MeshStandardMaterial({ color: '#8A5D3B', flatShading: true, roughness: .95 }); v.soilMat.userData = {}; const sm = new T.Mesh(new T.BoxGeometry(w - .03, .006, l - .03), v.soilMat); sm.position.set(cx, Y + .002, cz); sm.receiveShadow = true; root.add(sm);
-    ROOT = v.furrow = G(0, 0, 0, 0, root); for (let k = 1; k < 5; k++) M(box(w - .1, .014, .05), '#9E6A42', cx, Y + .008, v0 + l * k / 5, { cast: false, sway: 0 });
+    ROOT = v.furrow = G(0, 0, 0, 0, root); { const ps = sd; sd = 600 + P.id.charCodeAt(0) * 3 + P.id.length * 11 + (P.id.charCodeAt(1) || 0); for (let k = 1; k < 4; k++){ let x = u0 + .08 + R(0, .06); const zz = v0 + l * k / 4; while (x < u1 - .14){ const sl = Math.min(R(.12, .3), u1 - .08 - x); M(box(sl, .012, R(.035, .05)), pick(['#9E6A42', '#A57250', '#93603C']), x + sl / 2, Y + .008, zz + R(-.02, .02), { r: [0, R(-.08, .08), 0], cast: false, sway: 0 }); x += sl + R(.03, .09); } }
+      for (let k = 0; k < Math.round(w * l * 26); k++) M(ico(R(.012, .022), 0), pick(['#7A5236', '#9E6A42', '#6B4529']), R(u0 + .06, u1 - .06), Y + .01, R(v0 + .05, v1 - .05), { s: [1, .55, 1], cast: false, sway: 0 }); sd = ps; }
     ROOT = v.cracks = G(0, 0, 0, 0, root); for (let k = 0; k < 9; k++) M(box(R(.15, .35), .004, .012), '#6B4529', R(u0 + .2, u1 - .2), Y + .008, R(v0 + .1, v1 - .1), { r: [0, R(0, 3.14), 0], cast: false, sway: 0 });
     ROOT = v.mulch = G(0, 0, 0, 0, root); for (let i = 0; i < w * l * 90; i++) M(box(R(.1, .2), .012, .018), pick(['#C9952A', '#B48560', '#B8913E']), R(u0 + .04, u1 - .04), Y + .009, R(v0 + .04, v1 - .04), { r: [R(-.1, .1), R(0, 3.14), 0], cast: false, sway: 0 });
     ROOT = S; for (const gName of ['furrow', 'cracks', 'mulch']){ const gg = v[gName], ms = mergeMeshes(gg); gg.clear(); ms.forEach(m => gg.add(m)); } }
@@ -1523,9 +1526,12 @@ for (const P of PLOTS){ const [u0, v0, u1, v1] = P.b, cx = (u0 + u1) / 2, cz = (
   if (isBed(P)){ const wg = new T.Group(); root.add(wg); const pr = ROOT; ROOT = wg; const ps = sd; sd = 900 + P.id.charCodeAt(0) * 7 + P.id.length;
     M(box(w + .02, .05, l + .02), '#6E9A4A', cx, Y + .01, cz, { cast: false, sway: 0 }); sway(.9, () => { for (let i = 0; i < 30; i++) tuft(R(u0 + .06, u1 - .06), R(v0 + .06, v1 - .06)); for (let i = 0; i < 4; i++){ const g = G(R(u0 + .1, u1 - .1), Y, R(v0 + .1, v1 - .1), R(0, 6)); for (let k = 0; k < 7; k++) leaf(g, R(.22, .32), .025, pick(['#5a8e3a', '#7aa84a', '#8fb85a']), k * .9, R(.9, 1.2), { droop: .5, cast: false }); } });
     sd = ps; ROOT = pr; const ms = mergeMeshes(wg); wg.clear(); ms.forEach(m => wg.add(m)); v.weed = wg; }
-  if (P.bai){ const bg = new T.Group(); for (const ch of [...root.children]) if (ch !== v.weed) bg.add(ch); root.add(bg); v.bedG = bg; const pr = ROOT; ROOT = bg; bed(u0, v0, u1, v1); ROOT = pr; if (v.weed) v.weed.position.y = -.035; }
+  if (P.bai){ const bg = new T.Group(); for (const ch of [...root.children]) if (ch !== v.weed) bg.add(ch); root.add(bg); v.bedG = bg; const pr = ROOT; ROOT = bg; bed(u0, v0, u1, v1); ROOT = pr; if (v.weed) v.weed.position.y = -.035;
+    const bare = v.bare = G(0, 0, 0, 0, root); v.bareMat = new T.MeshStandardMaterial({ color: '#8A5D3B', flatShading: true, roughness: 1 }); { const bm = new T.Mesh(new T.BoxGeometry(w - .08, .03, l - .08, 3, 1, 2), v.bareMat); bm.position.set(cx, .0, cz); bm.receiveShadow = true; bare.add(bm); }
+    { const pr2 = ROOT; ROOT = bare; const ps = sd; sd = 1300 + P.id.charCodeAt(0) + P.id.length * 17; for (let k = 0; k < Math.round(w * l * 30); k++) M(ico(R(.02, .045), 0), pick(['#7A5236', '#9E6A42', '#8A5D3B', '#A57250']), R(u0 + .08, u1 - .08), .02, R(v0 + .07, v1 - .07), { s: [1, .6, 1], r: [0, R(0, 6), 0], cast: false, sway: 0 }); for (let k = 0; k < 6; k++) tuft(pick([u0 + .03, u1 - .03, R(u0, u1)]), pick([v0 + .03, v1 - .03])); sd = ps; ROOT = pr2; const ms = mergeMeshes(bare); const keep = bare.children.filter(c => c.material === v.bareMat); bare.clear(); keep.forEach(c => bare.add(c)); ms.forEach(m => { if (m.material !== v.bareMat) bare.add(m); }); }
+    bare.visible = false; }
   v.bub = { s: bubbleK('s'), w: bubbleK('w'), u: bubbleK('u'), h: bubbleK('h'), p: bubbleK('p'), d: bubbleK('h') }; v.bubY = .3; v.cx = cx; v.cz = cz;
-  const hh = P.tree ? 2.4 : 1.2, hit = new T.Mesh(new T.BoxGeometry(w, hh, l), new T.MeshBasicMaterial({ visible: false })); hit.position.set(cx, hh / 2, cz); hit.userData.plot = P.id; S.add(hit); HITS.push(hit);
+  const hh = P.tree ? 2.4 : P.bai ? .6 : 1.2, hit = new T.Mesh(new T.BoxGeometry(w, hh, l), new T.MeshBasicMaterial({ visible: false })); hit.position.set(cx, hh / 2, cz); hit.userData.plot = P.id; S.add(hit); HITS.push(hit);
   for (const k in v.bub){ v.bub[k].children.find(c => c.userData.bub).userData.plot = P.id; } }
 const TEXC = {}; const texOf = url => TEXC[url] || (TEXC[url] = (() => { const x = new T.TextureLoader().load(url); x.colorSpace = T.SRGBColorSpace; return x; })());
 function bubIcon(g, url){ const pl = g.userData.pl; if (!pl || !url || pl.userData.url === url) return; pl.material.map = texOf(url); pl.material.needsUpdate = true; pl.userData.url = url; }
@@ -1535,7 +1541,9 @@ function refreshPlot(id){ const p = ST.plots[id], v = PV[id], P = PL[id]; buildC
   v.want = !p.crop ? (seedFor(P) ? 's' : null) : p.dead ? 'p' : condOf(p) === 'wilt' ? 'u' : ripe(p) ? 'h' : (!P.trellis && p.moist <= 0) ? 'w' : null;
   if (P.tree){ const on = unlocked(P.tree); v.root.visible = on; if (!on) v.want = null; }
   if (v.weed){ const lk = locked(P); v.weed.visible = lk; if (lk){ v.want = nOpen() < bedCap() ? 'd' : null; v.bubY = .55; try { bubIcon(v.bub.d, UIC.sickle); } catch (e) {} } }
-  if (P.bai){ const on = !hidP(P), lk = locked(P), nh = (() => { try { return !!objAt(id); } catch (e) { return false; } })(); v.root.visible = on; v.bedG.visible = on && !lk; if (v.weed) v.weed.visible = on && lk && !nh; if (!on || nh) v.want = null; else if (lk){ v.want = (SUA && !SUA.move) || (!SUA && !ST.open.some(i => i[0] === id[0])) ? 'd' : null; v.bubY = .4; try { bubIcon(v.bub.d, ICON.cuoc || UIC.sickle); } catch (e) {} } }
+  if (P.bai){ const on = !hidP(P), lk = locked(P), nh = (() => { try { return !!objAt(id); } catch (e) { return false; } })(), ls = landSt(id), L = ST.land && ST.land[id], cw = ls === 'cong' ? (L.w || 0) : 0;
+    v.root.visible = on; v.bedG.visible = on && !lk; if (v.weed) v.weed.visible = on && lk && !nh && (ls === 'wild' || (ls === 'cong' && cw === 0)); if (v.bare){ v.bare.visible = on && lk && !nh && (ls === 'ai' || ls === 'own' || (ls === 'cong' && cw > 0)); v.bareMat.color.set(ls === 'ai' ? '#B4906A' : ls === 'cong' ? '#9C7350' : '#7E5434'); }
+    if (!on || nh) v.want = null; else if (lk){ v.want = ls === 'cong' || (ls === 'wild' && !SUA && !zCells(zoneOf(P)).some(Q => landSt(Q.id) !== 'wild')) ? 'd' : null; v.bubY = .4; try { bubIcon(v.bub.d, ls === 'cong' && cw === 0 ? UIC.sickle : (ICON.cuoc || UIC.sickle)); } catch (e) {} } }
   try { if (v.want === 'h') bubIcon(v.bub.h, ICON[p.crop]); else if (v.want === 's'){ const q = (() => { try { return quickSeed(P); } catch (e) { return null; } })(); bubIcon(v.bub.s, q ? ICON[q] : UIC.seedbag); } } catch (e) {}
   for (const k in v.bub) v.bub[k].visible = v.want === k;
   if (v.soilMat){ v.soilMat.visible = !locked(P); const m = Math.min(1, p.moist * 1.6); v.soilMat.color.copy(SOILC.dry).lerp(SOILC.mid, Math.min(1, m * 2)).lerp(SOILC.wet, Math.max(0, m * 2 - 1) * .7).lerp(SOILC.tired, Math.max(0, (.5 - p.soil) * 1.6));
@@ -1849,7 +1857,7 @@ shB.addEventListener('toggle', e => { if (e.target.classList && e.target.classLi
 shB.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (!b || b.disabled) return; const a = b.dataset.a, id = SHEET && SHEET.arg;
   if (a === 'book') { openBook('giong'); return; } if (a === 'close'){ closeSheet(); return; } if (a === 'goto'){ if (b.dataset.k === '__ga'){ closeSheet(); camTo(new T.Vector3(COOPC.x, .3, COOPC.z), 1.9); return; } const v = PV[b.dataset.k]; closeSheet(); camTo(new T.Vector3(v.cx, .3, v.cz), 1.9); return; } if (a === 'avatar'){ openIntro(); return; } if (a === 'plant') act.plant(id, b.dataset.k); else if (a === 'water') act.water(id); else if (a === 'mulch') act.mulch(id); else if (a === 'harvest') act.harvest(id); else if (a === 'pull') act.pull(id);
   else if (a === 'pickseed'){ closeSheet(); openSeedFor(id); return; }
-  else if (a === 'openbed'){ act.openBed(id); }
+  else if (a === 'openbed'){ act.openBed(id); } else if (a === 'khai'){ landStart(id); return; } else if (a === 'lwork'){ closeSheet(); landWork(id); return; }
   else if (a === 'nput'){ nong.put(+b.dataset.n, b.dataset.k); SHEET.pick = null; } else if (a === 'npick'){ SHEET.pick = +b.dataset.n; } else if (a === 'pickback'){ SHEET.pick = null; } else if (a === 'ntakeall'){ nong.takeAll(); } else if (a === 'noop'){ } else if (a === 'ntake'){ nong.take(+b.dataset.n); } else if (a === 'obuy'){ const at = SHEET && SHEET.kind === 'plot' ? SHEET.arg : null; closeSheet(); buyObj(b.dataset.k, at); return; } else if (a === 'ohere'){ placeObj(b.dataset.k, id); }
   else if (a === 'oopen'){ openSheet(OBJD[b.dataset.k].sheet); return; } else if (a === 'omove'){ closeSheet(); suaOn(true, b.dataset.k); return; }
   else if (a === 'kput'){ khap.put(+b.dataset.n, b.dataset.k); SHEET.pick = null; } else if (a === 'kpick' || a === 'spick'){ SHEET.pick = +b.dataset.n; } else if (a === 'ktakeall'){ khap.takeAll(); } else if (a === 'stakeall'){ lsay.takeAll(); } else if (a === 'ktake'){ khap.take(+b.dataset.n); } else if (a === 'hobon'){ hoBon(); } else if (a === 'horau'){ hoRau(); } else if (a === 'bon'){ hoBon(id); }
@@ -1931,9 +1939,9 @@ const act = {
     Object.assign(p, { crop: null, g: 0, dry: 0, dead: false, wiltT: 0, cut: 0 }); refreshPlot(id); save(); closeSheet();
     if (story) sayOnce('story_' + k0, STORY[k0], 'vui'); else if (same) say('Liếp này trồng ${c.name.toLowerCase()} mấy vụ liền rồi. Đổi thứ khác thử coi.', 'dan'); else if (!ST.seen.sell) sayOnce('sell', 'Hái được rồi! Đem ra chợ bán lấy xu mua hạt mới nghe.', 'nhay'); else if (n >= 10) bark(pick(['Chà, được cả rổ!', 'Bữa nay trúng mùa dữ hen!', `Trời, được tới ${n} ${c.unit} lận!`]), 'nhay'); else if (k0 === 'cai' && Math.random() < .3) bark(pick(['Mớ cải này lá non mướt.', 'Chừa một ít nấu canh là vừa.'])); else if (Math.random() < .12) bark('Mớ rau này mà nấu nồi canh, khỏi đi chợ luôn.'); return true; },
   pull(id){ avGo(id); const p = ST.plots[id]; p.cut = 0; const [u0, v0, u1, v1] = PL[id].b; for (let i = 0; i < 10; i++) puff('leaf', R(u0, u1), .12, R(v0, v1), 1, pick(['#8A5D3B', '#C9952A', C.leafM]), .5); Object.assign(p, { crop: null, g: 0, dry: 0, dead: false, wiltT: 0 }); refreshPlot(id); save(); closeSheet(); },
-  openBed(id){ const P = PL[id]; if (!locked(P)) return; if (P.bai && objAt(id)) return say(`Ô này đang đặt ${OBJD[objAt(id)].name}. Dời đi rồi mới đắp liếp được con.`, 'dan'); if (!P.bai && nOpen() >= bedCap()) return say(`Tới cấp ${bedNext()} mới đắp thêm được con.`, 'dan'); const c0 = P.bai ? (P.cost || BAI.cost) : bedCost(); if (ST.xu < c0) return say(`Đắp liếp tốn ${c0} xu, còn thiếu ${c0 - ST.xu} xu.`, 'dan');
+  openBed(id){ const P = PL[id]; if (!locked(P)) return; if (P.bai && objAt(id)) return say(`Ô này đang đặt ${OBJD[objAt(id)].name}. Dời đi rồi mới đắp liếp được con.`, 'dan'); if (P.bai && !landOwn(id)) return say('Ô này chưa khai hoang con. Khai hoang xong mới đắp liếp được.', 'dan'); if (!P.bai && nOpen() >= bedCap()) return say(`Tới cấp ${bedNext()} mới đắp thêm được con.`, 'dan'); const c0 = P.bai ? 0 : bedCost(); if (ST.xu < c0) return say(`Đắp liếp tốn ${c0} xu, còn thiếu ${c0 - ST.xu} xu.`, 'dan');
     ST.xu -= c0; ST.open.push(id); const [u0, v0, u1, v1] = P.b; for (let i = 0; i < 18; i++) puff('leaf', R(u0, u1), .15, R(v0, v1), 1, pick(['#6E9A4A', '#8fb85a', '#8A5D3B']), .7); for (let i = 0; i < 10; i++) puff('seed', R(u0, u1), .2, R(v0, v1), 1, pick(['#8A5D3B', '#6B4529']), .5);
-    ST.plots[id] = pl0(null, 0, .5); if (P.zone === 'song') ST.plots[id].soil = 1; coinPop(`-${c0} xu · đắp liếp mới`, '#F08A6E'); sfx('pop'); buzz(25); avGo(id); gainXP(2); closeSheet(); for (const Q of PLOTS) refreshPlot(Q.id); save(); hud(); sayOnce('bed1', 'Liếp mới đắp đất còn tơi, gieo gì cũng lên. Đắp thêm thì tốn hơn chút đó con.', 'vui'); },
+    ST.plots[id] = pl0(null, 0, .5); if (P.zone === 'song') ST.plots[id].soil = 1; if (c0) coinPop(`-${c0} xu · đắp liếp mới`, '#F08A6E'); sfx('pop'); buzz(25); avGo(id); gainXP(2); closeSheet(); for (const Q of PLOTS) refreshPlot(Q.id); save(); hud(); sayOnce('bed1', 'Liếp mới đắp đất còn tơi, gieo gì cũng lên. Đắp thêm thì tốn hơn chút đó con.', 'vui'); },
   sell(k, n){ const SRC = STORE(k); n = Math.min(n, SRC[k] || 0); if (!n) return; const v = sellValue(k, n), pr0 = priceNow(k); SRC[k] -= n; ST.xu += v; const mk = mkDay(); mk.s[k] = (mk.s[k] || 0) + n; coinPop(`+${v} xu · bán ${n} ${GD(k).unit}`); if (priceNow(k) < pr0) sayOnce('mkdrop', `Bữa nay ${GD(k).name.toLowerCase()} nhiều quá, giá xuống rồi. Coi giá rồi hẵng bán nghe.`, 'dan'); save(); hud(); bump('sell', n); sayOnce('sold', 'Có đồng ra đồng vô rồi hen.', 'vui'); },
   buyRom(n){ if (ST.xu < ROM_PRICE * n) return; ST.xu -= ROM_PRICE * n; ST.inv.rom = (ST.inv.rom || 0) + n; save(); hud(); bump('buyrom', n); } };
 /* ---------- Sổ vườn của Ngoại: Sổ giống · Kho · Việc của Ngoại ---------- */
@@ -2054,10 +2062,10 @@ function levelUp(n){ ST.lv = n; save(); try { lvCelebrate(n); } catch (e) { cons
   if (n === SAU.lv){ say('Sau nhà tre gai mọc kín hết rồi. Dọn sạch thì có thêm mười ô đất tốt. Mở Sổ coi việc Ngoại dặn nghe.', 'vui', { idle: true }); setTimeout(() => { if (!VISIT) camTo(new T.Vector3(SAUC.x, .3, SAUC.z), Math.max(cam.zoom, DEFZ() * 1.05)); }, 1600); }
   if (n === 12) say('Cấp mười hai rồi. Dừa mé sông trồng được rồi, có dừa là làm mứt dừa Tết. Chờ mùa xoài đầu tiên nghe con, Ngoại có cái này giao cho con.', 'vui', { idle: true });
   if (n === 8) say('Ngoài chợ có bán khạp da lươn với đồ đào hố ủ phân. Mua về đặt ở bãi hông nhà, Ngoại chỉ muối dưa, ủ phân.', 'vui', { idle: true });
-  if (n === SONG.lv){ say('Đất bồi mé sông màu mỡ lắm, Ngoại cho con mở tám ô ngoài đó. Rảnh ra bến thả cần câu cá rô, cá lóc.' + (ST.vit.fixed ? ' Lò ấp trấu cạnh chuồng vịt cũng dùng được rồi.' : ''), 'vui', { idle: true }); setTimeout(() => { if (!VISIT) camTo(new T.Vector3(SONGC.x, .3, SONGC.z), Math.max(cam.zoom, DEFZ() * 1.1)); }, 1600); }
-  if (n === BAI.lv){ say('Ngoại phát sạch bãi cỏ bên hông nhà rồi. Mười hai ô đó con muốn đắp liếp hay đặt nong phơi chỗ nào là tùy con. Bấm nút Sửa vườn mà làm.', 'vui', { idle: true }); setTimeout(() => { if (!VISIT) camTo(new T.Vector3(BAIC.x + .4, .3, BAIC.z + .3), Math.max(cam.zoom, DEFZ() * 1.1)); }, 1600); } }
+  if (n === SONG.lv){ say('Đất bồi mé sông màu mỡ lắm, con khai hoang dần tám ô ngoài đó nghe. Rảnh ra bến thả cần câu cá rô, cá lóc.' + (ST.vit.fixed ? ' Lò ấp trấu cạnh chuồng vịt cũng dùng được rồi.' : ''), 'vui', { idle: true }); setTimeout(() => { if (!VISIT) camTo(new T.Vector3(SONGC.x, .3, SONGC.z), Math.max(cam.zoom, DEFZ() * 1.1)); }, 1600); }
+  if (n === BAI.lv){ say('Bãi cỏ bên hông nhà giờ con khai hoang được rồi. Làm từng ô, đất ải xong thì đắp liếp hay đặt nong tùy con. Hai ô đầu Ngoại phụ nửa tiền.', 'vui', { idle: true }); setTimeout(() => { if (!VISIT) camTo(new T.Vector3(BAIC.x + .4, .3, BAIC.z + .3), Math.max(cam.zoom, DEFZ() * 1.1)); }, 1600); } }
 function doQuest(n){ const q = QUEST[n]; if (!q || (ST.qd || {})[n]) return; if (q.t === 'pay'){ if (ST.xu < q.xu) return say(`Còn thiếu ${q.xu - ST.xu} xu nữa con.`, 'dan'); ST.xu -= q.xu; coinPop(`-${q.xu} xu`, '#F08A6E'); }
-  ST.qd = ST.qd || {}; ST.qd[n] = 1; if (q.exp){ ST.exp = 1; } if (n === 12){ for (const P of PLOTS) if (P.zone === 'sau') refreshPlot(P.id); for (let i = 0; i < 40; i++) puff('leaf', R(SAU.x0, SAU.x0 + 4.4), .3, R(SAU.z0, SAU.z0 + 1.4), 1, pick(['#5a8e3a', '#7aa84a', C.bamboo]), .9); say('Dọn sạch tre gai rồi! Mười ô sau nhà đất còn tơi, con đắp liếp trồng gì cũng được.', 'vui', { now: true }); } save(); hud(); checkLevel(); if (q.exp){ closeBook(); say('Ngoại với con dọn góc vườn liền nè…', 'vui', { now: true }); setTimeout(() => { save(); location.reload(); }, 1600); } }
+  ST.qd = ST.qd || {}; ST.qd[n] = 1; if (q.exp){ ST.exp = 1; } if (n === 12){ for (const P of PLOTS) if (P.zone === 'sau') refreshPlot(P.id); for (let i = 0; i < 40; i++) puff('leaf', R(SAU.x0, SAU.x0 + ZW(SAU)), .3, R(SAU.z0, SAU.z0 + ZL(SAU, 10)), 1, pick(['#5a8e3a', '#7aa84a', C.bamboo]), .9); say('Dọn sạch tre gai rồi! Mười ô sau nhà giờ khai hoang được, làm từ từ nghe con.', 'vui', { now: true }); } save(); hud(); checkLevel(); if (q.exp){ closeBook(); say('Ngoại với con dọn góc vườn liền nè…', 'vui', { now: true }); setTimeout(() => { save(); location.reload(); }, 1600); } }
 /* phát cỏ mé mương: bụi cỏ cao mọc dọc mé mương, chạm hay vuốt liềm qua là phát, mỗi bụi +1 kinh nghiệm */
 const WEEDP = (() => { const a = [], L = (n, x0, x1, f) => { for (let i = 0; i < n; i++) a.push(f(x0 + (x1 - x0) * i / (n - 1), i)); };
   L(6, 1.35, 5.85, (x, i) => [x + (i % 2 ? .1 : -.06), i % 2 ? 4.09 : 3.67]); L(5, 1.6, 5.6, (x, i) => [x, i % 2 ? 5.39 : 5.01]); L(3, 3.3, 5.9, (z, i) => [i % 2 ? 6.82 : 6.38, z]); return a; })();
@@ -2167,12 +2175,12 @@ if (!ST.khap) ST.khap = { own: 0, at: null, jars: [null, null], done: 0, made: {
 if (!ST.ho) ST.ho = { own: 0, at: null, mat: 0, t: 0, bags: 0, done: 0 };
 const nongOn = () => (ST.lv || 1) >= NONG.lv, objOn = k => (ST.lv || 1) >= OBJD[k].lv;
 const objAt = id => OBJK.find(k => ST[k] && ST[k].own && ST[k].at === id) || null;
-const freeCell = () => { const c = PLOTS.find(P => P.bai && !hidP(P) && locked(P) && !objAt(P.id)); return c ? c.id : null; };
+const freeCell = () => { const c = PLOTS.find(P => P.bai && !hidP(P) && locked(P) && !objAt(P.id) && (ST.land[P.id] || {}).st === 'own'); return c ? c.id : null; };
 function objPuff(id){ const [u0, v0, u1, v1] = PL[id].b; for (let i = 0; i < 12; i++) puff('leaf', R(u0, u1), .12, R(v0, v1), 1, pick(['#C9A66B', '#E3C46A', '#86B06A']), .6); }
-function buyObj(k, at){ const D = OBJD[k], O = ST[k]; if (O.own || !objOn(k)) return; if (!(at && PL[at] && PL[at].bai && locked(PL[at]) && !objAt(at))) at = freeCell();
-  if (!at) return say('Bãi hết ô cỏ trống rồi con. Bấm Sửa vườn, san bớt một liếp trống ra mới có chỗ.', 'dan', { now: true }); if (ST.xu < D.buy) return say(`${D.title} ${D.buy} xu, con còn thiếu ${D.buy - ST.xu} xu.`, 'dan');
+function buyObj(k, at){ const D = OBJD[k], O = ST[k]; if (O.own || !objOn(k)) return; if (!(at && PL[at] && PL[at].bai && locked(PL[at]) && !objAt(at) && landOwn(at))) at = freeCell();
+  if (!at) return say('Chưa có ô đất trống để đặt con. Khai hoang thêm một ô, hay san bớt một liếp trống.', 'dan', { now: true }); if (ST.xu < D.buy) return say(`${D.title} ${D.buy} xu, con còn thiếu ${D.buy - ST.xu} xu.`, 'dan');
   ST.xu -= D.buy; O.own = 1; O.at = at; coinPop(`-${D.buy} xu · ${D.name}`, '#F08A6E'); sfx('up'); save(); refreshPlot(at); hud(); objPuff(at); say(D.hi, 'vui', { now: true }); camTo(new T.Vector3(PV[at].cx, .3, PV[at].cz), Math.max(cam.zoom, DEFZ() * 1.2)); }
-function placeObj(k, id){ const O = ST[k], P = PL[id]; if (!O || !O.own || !P || !P.bai || hidP(P) || !locked(P) || objAt(id)) return false; const old = O.at; O.at = id; save(); if (old) refreshPlot(old); refreshPlot(id); objPuff(id); sfx('pop'); buzz(12); return true; }
+function placeObj(k, id){ const O = ST[k], P = PL[id]; if (!O || !O.own || !P || !P.bai || hidP(P) || !locked(P) || objAt(id) || !landOwn(id)) return false; const old = O.at; O.at = id; save(); if (old) refreshPlot(old); refreshPlot(id); objPuff(id); sfx('pop'); buzz(12); return true; }
 function objRoot(V, k, t){ const O = ST[k], on = !!(O && O.own && O.at && PV[O.at] && !hidP(PL[O.at])); V.root.visible = on; if (V.b) V.b.visible = false; if (!on) return null; const v = PV[O.at]; V.root.position.set(v.cx, 0, v.cz); return v; }
 function objBub(V, v, url, t, y = .62){ const b = V.b; b.visible = true; try { bubIcon(b, url); } catch (e) {} b.quaternion.copy(cam.quaternion); b.position.set(v.cx, y + Math.sin(t * 2) * .035, v.cz); b.scale.setScalar(.85 * BUBS * (1 + .07 * Math.abs(Math.sin(t * 3)))); }
 function bubHit(V, cx, cy){ if (!V.b || !V.b.visible) return false; ndc.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1); ray.setFromCamera(ndc, cam); return ray.intersectObject(V.hb, false).length > 0; }
@@ -2271,8 +2279,8 @@ function loTick(t){ const on = loOn(), L = ST.lo; LOV.root.visible = on; LOV.b.v
 function loHit(cx, cy){ if (!loOn()) return null; ndc.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1); ray.setFromCamera(ndc, cam); const hs = ray.intersectObjects([LOV.hb, LOV.hit].filter(h => h.visible !== false && (!h.parent || h.parent.visible !== false)), false); return hs.length ? (hs[0].object === LOV.hb ? 'bub' : 'lo') : null; }
 /* --- bờ mé sông (việc lên cấp 10): hàng cừ tre đóng dọc bờ, đất đắp phía sau --- */
 const BOV = (() => { const root = DYN(G(0, 0, 0)), pr = ROOT; ROOT = root; const z = R0 - .06;
-  for (let x = SONG.x0 - .1; x <= SONG.x0 + 3.65; x += .09) M(cyl(.018, .022, R(.2, .28), 5), pick([C.bamboo, '#B8A25A', '#A8904a']), x, .02, z, { p: root });
-  for (const y of [.07, .15]) M(box(3.8, .02, .02), '#8A6A3A', SONG.x0 + 1.77, y, z - .025, { p: root }); M(box(3.8, .05, .16), '#7A5236', SONG.x0 + 1.77, .0, z - .1, { p: root, cast: false });
+  for (let x = SONG.x0 - .1; x <= SONG.x0 + ZW(SONG) + .1; x += .09) M(cyl(.018, .022, R(.2, .28), 5), pick([C.bamboo, '#B8A25A', '#A8904a']), x, .02, z, { p: root });
+  for (const y of [.07, .15]) M(box(ZW(SONG) + .3, .02, .02), '#8A6A3A', SONG.x0 + ZW(SONG) / 2, y, z - .025, { p: root }); M(box(ZW(SONG) + .3, .05, .16), '#7A5236', SONG.x0 + ZW(SONG) / 2, .0, z - .1, { p: root, cast: false });
   ROOT = pr; const ms = mergeMeshes(root); root.clear(); ms.forEach(m => root.add(m)); root.visible = false; return { root }; })();
 function boTick(){ BOV.root.visible = (ST.lv || 1) >= SONG.lv && !!(ST.qd || {})[10]; }
 /* --- lò sấy (cấp 10): chạy cả đêm, tốn củi; sấy mứt khế, xoài, dừa; ớt chuối nhanh gấp đôi nong --- */
@@ -2338,11 +2346,70 @@ function gheTick(t){ const on = gheOn() && !!ST.ghe.o && !VISIT; GHEV.root.visib
 function gheHit(cx, cy){ if (!GHEV.root.visible) return false; ndc.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1); ray.setFromCamera(ndc, cam); return ray.intersectObjects([GHEV.hb, GHEV.hit], false).length > 0; }
 /* --- tre gai sau nhà (cấp 11): bụi tre gai che đất, dọn xong (việc lên cấp 12) thì mở 10 ô --- */
 const TREV = (() => { const root = DYN(G(0, 0, 0)), pr = ROOT; ROOT = root; const ps = sd; sd = 4242;
-  sway(.35, () => { for (let k = 0; k < 16; k++){ const x = R(SAU.x0, SAU.x0 + 4.4), z = R(SAU.z0, SAU.z0 + 1.4), g = G(x, 0, z, R(0, 6)); for (let j = 0; j < 7; j++){ const h = R(.9, 1.6), tx = R(-.18, .18), tz = R(-.18, .18), lx = R(-.12, .12), lz = R(-.12, .12); M(cyl(.016, .024, h, 5), pick([C.bamboo, '#8FA04A', '#A8A050', '#7A8A3A']), lx, h / 2, lz, { p: g, r: [tz * .9, 0, -tx * .9] });
+  sway(.35, () => { for (let k = 0; k < 26; k++){ const x = R(SAU.x0, SAU.x0 + ZW(SAU)), z = R(SAU.z0, SAU.z0 + ZL(SAU, 10)), g = G(x, 0, z, R(0, 6)); for (let j = 0; j < 7; j++){ const h = R(.9, 1.6), tx = R(-.18, .18), tz = R(-.18, .18), lx = R(-.12, .12), lz = R(-.12, .12); M(cyl(.016, .024, h, 5), pick([C.bamboo, '#8FA04A', '#A8A050', '#7A8A3A']), lx, h / 2, lz, { p: g, r: [tz * .9, 0, -tx * .9] });
       const top = G(lx - tx * h * .45, h * .92, lz + tz * h * .45, R(0, 6), g); for (let q = 0; q < 6; q++) leaf(top, R(.22, .34), .045, pick(['#5a8e3a', '#7aa84a', '#6E9F57', '#4F7D44']), q * 1.05, R(.6, 1.1), { droop: .7, cast: false }); }
     for (let j = 0; j < 5; j++) leaf(g, R(.3, .45), .06, pick(['#5a8e3a', '#7aa84a']), j * 1.25, R(.4, .8), { droop: .3, cast: false }); } });
   sd = ps; ROOT = pr; const ms = mergeMeshes(root); root.clear(); ms.forEach(m => root.add(m)); root.visible = false; return { root }; })();
-function treTick(){ TREV.root.visible = (ST.lv || 1) >= SAU.lv && !(ST.qd || {})[12]; }
+function treTick(){ TREV.root.visible = !(ST.qd || {})[12]; }
+/* --- khai hoang: trả xu → làm công tại chỗ (2 lượt) → chờ đất ải (tối đa 2 ô một lúc) → đất của con --- */
+const LANDZ = { bai: { base: 100, ai: [20, 45], cong: ['Phát cỏ', 'Cuốc đất'], drop: 'rom' }, song: { base: 160, ai: [45, 90], cong: ['Đắp bờ', 'Cuốc đất'], drop: 'cui' }, sau: { base: 200, ai: [60, 120], cong: ['Chặt gốc tre', 'Cuốc đất'], drop: 'tre' } };
+if (!ST.land) ST.land = {};
+function zoneOf(P){ return P.zone || 'bai'; } function zCells(zk){ return PLOTS.filter(P => P.bai && zoneOf(P) === zk); }
+function landSt(id){ const P = PL[id]; if (!P || !P.bai) return 'own'; if (ST.open.includes(id)) return 'own'; try { if (objAt(id)) return 'own'; } catch (e) {} const L = ST.land && ST.land[id]; return L ? L.st : 'wild'; }
+function landOwn(id){ return landSt(id) === 'own'; } const landBusy = () => Object.values(ST.land).filter(L => L.st === 'cong' || L.st === 'ai').length;
+const landStarted = zk => zCells(zk).filter(P => landSt(P.id) !== 'wild').length;
+const landCost = zk => { const k = landStarted(zk); return Math.round(LANDZ[zk].base * Math.pow(1.05, k) * (k < 2 ? .5 : 1)); };
+const landWait = zk => { const n = zCells(zk).length, k = Math.max(0, landStarted(zk) - 1), [a, b] = LANDZ[zk].ai; return Math.round(a + (b - a) * Math.min(1, k / Math.max(1, n - 1))); };
+const fmtMin = m => m >= 60 ? `${Math.floor(m / 60)} giờ${m % 60 ? ' ' + (m % 60) + ' phút' : ''}` : `${Math.max(1, Math.round(m))} phút`;
+for (const P of PLOTS) if (P.bai && (ST.open.includes(P.id) || (() => { try { return !!objAt(P.id); } catch (e) { return false; } })())) ST.land[P.id] = { st: 'own' };   // save cũ: ô đã đắp hay đặt đồ là đất của con
+for (const P of PLOTS) if (P.bai) refreshPlot(P.id);
+function landStart(id){ const P = PL[id]; if (!P || !P.bai || hidP(P) || landSt(id) !== 'wild') return; const zk = zoneOf(P), c = landCost(zk);
+  if (landBusy() >= 2) return say('Đang khai hoang hai ô rồi con, xong một ô rồi hẵng làm thêm.', 'dan', { now: true }); if (ST.xu < c) return say(`Khai hoang ô này tốn ${c} xu, còn thiếu ${c - ST.xu} xu.`, 'dan', { now: true });
+  ST.xu -= c; ST.land[id] = { st: 'cong', w: 0, m: landWait(zk) }; coinPop(`-${c} xu · vôi, phân lót`, '#F08A6E'); sfx('pop'); closeSheet(); refreshPlot(id); save(); hud(); avGo(id);
+  bark(`${LANDZ[zk].cong[0]} trước, rồi cuốc đất. Chạm vô ô mà làm nghe.`); }
+function landWork(id){ const L = ST.land[id], P = PL[id]; if (!L || L.st !== 'cong') return; const zk = zoneOf(P), [u0, v0, u1, v1] = P.b;
+  for (let i = 0; i < 16; i++) puff('leaf', R(u0, u1), .14, R(v0, v1), 1, L.w ? pick(['#8A5D3B', '#6B4529', '#A57250']) : pick(['#6E9A4A', '#8fb85a', '#5a8e3a']), .7); sfx(L.w ? 'pop' : 'pick'); buzz(15); avGo(id);
+  L.w++; gainXP(1); if (L.w === 1){ const d = LANDZ[zk].drop; if (d === 'rom') ST.inv.rom = (ST.inv.rom || 0) + 1; else if (d === 'cui'){ ST.gb = ST.gb || {}; ST.gb.cui = (ST.gb.cui || 0) + 1; } else ST.tre = (ST.tre || 0) + 1; floatAt(PV[id].cx, .5, PV[id].cz, d === 'rom' ? '+1 rơm' : d === 'cui' ? '+1 củi' : '+1 cây tre', '#FBF7EE'); }
+  if (L.w >= 2){ L.st = 'ai'; L.end = Date.now() + (L.m || 20) * 60000; delete L.w; sayOnce('ai1', 'Cuốc lên rồi để đất phơi ải cho tơi, chừng ít bữa là trồng được. Con đi làm việc khác đi.', 'vui'); }
+  refreshPlot(id); save(); hud(); }
+function landCheck(){ const now = Date.now(); let n = 0; for (const [id, L] of Object.entries(ST.land)){ if (L.st === 'ai' && now >= L.end){ L.st = 'own'; delete L.end; n++; if (PV[id]){ refreshPlot(id); const [u0, v0, u1, v1] = PL[id].b; for (let i = 0; i < 10; i++) puff('seed', R(u0, u1), .2, R(v0, v1), 1, pick(['#8A5D3B', '#B48560']), .5); } } }
+  if (n){ save(); if (!VISIT) bark(n > 1 ? `Có ${n} ô đất ải xong rồi con, đắp liếp hay đặt đồ được rồi.` : 'Ô đất phơi ải xong rồi con, giờ đắp liếp hay đặt đồ tùy con.'); } }
+/* --- đất ba trạng thái: của con (rào ranh tre) · khai hoang được (cọc tre căng dây) · chưa tới (bụi rậm, sương, bảng cấp) --- */
+const ZONES = [{ k: 'bai', Z: BAI, pre: 'H', n: 12, name: 'Bãi hông nhà', base: 100 }, { k: 'song', Z: SONG, pre: 'S', n: 8, name: 'Mé sông', base: 160 }, { k: 'sau', Z: SAU, pre: 'N', n: 10, name: 'Sau nhà', base: 200 }];
+const zOpen = z => !hidP(PL[z.pre + '1']), ownCell = id => { const P = PL[id]; return !!P && !hidP(P) && landOwn(id); };
+const LANDV = (() => { const fogTx = (() => { const cv = document.createElement('canvas'); cv.width = cv.height = 128; const g = cv.getContext('2d'), gr = g.createRadialGradient(64, 64, 6, 64, 64, 64); gr.addColorStop(0, 'rgba(250,248,240,.95)'); gr.addColorStop(.6, 'rgba(246,244,236,.55)'); gr.addColorStop(1, 'rgba(246,244,236,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); const t = new T.CanvasTexture(cv); t.colorSpace = T.SRGBColorSpace; return t; })();
+  return ZONES.map((z, zi) => { const Z = z.Z, rows = Math.ceil(z.n / Z.cols), W = Z.cols * (Z.cw + Z.gap) - Z.gap, L = rows * (Z.cl + Z.gap) - Z.gap, cx = Z.x0 + W / 2, cz = Z.z0 + L / 2;
+    const v = { z, rows, W, L, cx, cz, sig: '', lv: Z.lv };
+    // chưa tới: bụi rậm che kín + sương mờ (sau nhà dùng sẵn bụi tre gai)
+    v.wild = DYN(G(0, 0, 0)); { const pr = ROOT; ROOT = v.wild; const ps = sd; sd = 7100 + zi * 97;
+      if (z.k !== 'sau') sway(.8, () => { const n = Math.round(W * L * 9); for (let i = 0; i < n; i++){ const g = G(R(Z.x0 - .1, Z.x0 + W + .1), 0, R(Z.z0 - .1, Z.z0 + L + .1), R(0, 6)), tall = z.k === 'song';
+          for (let k = 0; k < (tall ? 6 : 8); k++) leaf(g, tall ? R(.45, .75) : R(.28, .46), tall ? .02 : .04, pick(tall ? ['#7d9a48', '#8FA04A', '#6E8A3E', '#A8A050'] : ['#4F7D44', '#5a8e3a', '#6E9F57', '#7a9a3e']), k * .8, R(1, 1.35), { droop: tall ? .25 : .5, cast: false }); }
+        for (let i = 0; i < Math.round(W * L * 1.2); i++) M(ico(R(.14, .24), 1), pick(['#4F7D44', '#5E8A3A', '#466E3A']), R(Z.x0, Z.x0 + W), R(.05, .12), R(Z.z0, Z.z0 + L), { s: [1, .75, 1], cast: false }); });
+      M(box(W + .3, .02, L + .3), '#5E8A42', cx, .005, cz, { cast: false, sway: 0 });
+      sd = ps; ROOT = pr; const ms = mergeMeshes(v.wild); v.wild.clear(); ms.forEach(m => v.wild.add(m)); }
+    v.fog = new T.Group(); S.add(v.fog); for (let i = 0; i < 4; i++){ const m = new T.Mesh(new T.PlaneGeometry(W * .8 + 1, L * .8 + 1), new T.MeshBasicMaterial({ map: fogTx, transparent: true, opacity: .5, depthWrite: false })); m.rotation.x = -Math.PI / 2; m.position.set(cx + (i % 2 ? .5 : -.5) * W * .3, .28 + i * .07, cz + (i < 2 ? -.3 : .3) * L * .4); m.renderOrder = 6; m.userData.keep = true; m.userData.ph = i * 1.7; v.fog.add(m); }
+    // bảng gỗ ở góc khu: tên khu + cấp mở (đổi chữ khi khu mở)
+    v.sign = G(Z.x0 - .35, 0, Z.z0 + L + .3, Math.PI / 4); v.sign.scale.setScalar(1.45); for (const sx of [-.3, .3]) M(cyl(.03, .035, .75, 6), '#8A5D3B', sx, .375, 0, { p: v.sign }); M(box(.78, .34, .05), '#B48560', 0, .62, 0, { p: v.sign }); M(box(.86, .04, .12), '#6B4529', 0, .81, 0, { p: v.sign });
+    v.signPl = new T.Mesh(new T.PlaneGeometry(.72, .28), new T.MeshStandardMaterial({ roughness: .9 })); v.signPl.position.set(0, .62, .028); v.signPl.userData.keep = true; v.sign.add(v.signPl); v.signTxt = '';
+    // khai hoang được: mỗi ô bốn cọc tre căng dây
+    v.stakes = {}; for (let i = 0; i < z.n; i++){ const id = z.pre + (i + 1), P = PL[id], [u0, v0, u1, v1] = P.b, g = DYN(G(0, 0, 0)), pr = ROOT; ROOT = g; const e = .05, ps = sd; sd = 300 + i * 13 + zi * 71;
+      const cn = [[u0 + e, v0 + e], [u1 - e, v0 + e], [u1 - e, v1 - e], [u0 + e, v1 - e]]; sway(0, () => { for (const [x, zz] of cn){ const h = R(.1, .13); M(cyl(.01, .013, h, 4), '#E3C98A', x, h / 2, zz, { cast: false }); M(box(.05, .03, .004), '#D9573A', x + .025, h - .02, zz, { cast: false }); }
+        for (let k = 0; k < 4; k++){ const [ax, az] = cn[k], [bx, bz] = cn[(k + 1) % 4], len = Math.hypot(bx - ax, bz - az); M(box(len, .005, .005), '#F3E6C4', (ax + bx) / 2, .07, (az + bz) / 2, { r: [0, -Math.atan2(bz - az, bx - ax), 0], cast: false }); } });   // cọc thấp có cờ đỏ, dây trắng sát đất: khác hẳn rào tre
+      sd = ps; ROOT = pr; const ms = mergeMeshes(g); g.clear(); ms.forEach(m => g.add(m)); g.visible = false; v.stakes[id] = g; }
+    v.fence = DYN(G(0, 0, 0)); return v; }); })();
+function landFence(v){ const z = v.z, Z = z.Z, g = v.fence; while (g.children.length){ const c = g.children.pop(); c.geometry && c.geometry.dispose(); } const own = new Set(); for (let i = 0; i < z.n; i++) if (ownCell(z.pre + (i + 1))) own.add(i);
+  const has = (c, r) => c >= 0 && c < Z.cols && r >= 0 && r < v.rows && own.has(r * Z.cols + c), h = Z.gap / 2, pr = ROOT; ROOT = g;
+  const seg = (ax, az, bx, bz) => { const len = Math.hypot(bx - ax, bz - az), ang = -Math.atan2(bz - az, bx - ax), n = Math.max(1, Math.round(len / .32)); for (let k = 0; k <= n; k++){ const t = k / n; M(cyl(.02, .024, .36, 5), '#B8925A', ax + (bx - ax) * t, .18, az + (bz - az) * t, { sway: 0 }); } for (const y of [.13, .28]) M(cyl(.012, .012, len, 4), '#8A6A3A', (ax + bx) / 2, y, (az + bz) / 2, { r: [0, ang, Math.PI / 2], sway: 0 }); };
+  for (const i of own){ const c = i % Z.cols, r = Math.floor(i / Z.cols), [u0, v0, u1, v1] = PL[z.pre + (i + 1)].b;
+    if (!has(c - 1, r)) seg(u0 - h, v0 - h, u0 - h, v1 + h); if (!has(c + 1, r)) seg(u1 + h, v0 - h, u1 + h, v1 + h); if (!has(c, r - 1)) seg(u0 - h, v0 - h, u1 + h, v0 - h); if (!has(c, r + 1)) seg(u0 - h, v1 + h, u1 + h, v1 + h); }
+  ROOT = pr; }
+let LANDN = 0;
+function landTick(t){ if ((LANDN % 60) === 0) landCheck(); if (VISIT) { for (const v of LANDV){ v.wild.visible = v.fog.visible = v.sign.visible = false; } } const lv = ST.lv || 1;
+  for (const v of LANDV){ const z = v.z, on = zOpen(z), sau = z.k === 'sau'; v.wild.visible = !on && !sau; v.fog.visible = !on; for (const m of v.fog.children) m.material.opacity = .2 + .1 * Math.sin((t || 0) * .4 + m.userData.ph);
+    let left = 0; for (let i = 0; i < z.n; i++){ const id = z.pre + (i + 1), o = on && landSt(id) === 'wild'; v.stakes[id].visible = o; if (o) left++; }
+    const txt = !on ? (lv < z.Z.lv ? `${z.name}|Cấp ${z.Z.lv} mới mở` : `${z.name}|Dọn tre gai trước`) : left ? `${z.name}|Khai hoang · ${landCost(z.k)} xu` : '';
+    v.sign.visible = !!txt && !VISIT; if (txt && txt !== v.signTxt){ v.signTxt = txt; const [a, b] = txt.split('|'); if (v.signPl.material.map) v.signPl.material.map.dispose(); v.signPl.material.map = txtTex([[a, '72px "Paytone One", sans-serif', '#FBF7EE', 92], [b, '50px "Paytone One", sans-serif', '#F5D27A', 166]]); v.signPl.material.needsUpdate = true; }
+    if ((LANDN++ % 20) === 0 || !v.sig){ let sg = on ? '1' : '0'; for (let i = 0; i < z.n; i++) sg += ownCell(z.pre + (i + 1)) ? 1 : 0; if (sg !== v.sig){ v.sig = sg; landFence(v); } v.fence.visible = on; } } }
 /* --- Sổ vườn: mùa xoài đầu tiên ở cấp 12, Ngoại trao Sổ vườn --- */
 function soVuon(){ if ((ST.lv || 1) < 12 || ST.sovuon) return; ST.sovuon = 1; save(); setTimeout(() => { say('Mùa xoài đầu tay của con đó. Cuốn sổ này Ngoại ghi bao nhiêu năm rồi, giờ con giữ nghen. Mùa sau nhớ ghi tiếp cho Ngoại.', 'vui', { now: true }); try { confetti($('#avb')); confetti($('#bSo')); } catch (e) {} sfx('up'); }, 900); }
 
@@ -2371,12 +2438,12 @@ function cauTap(){ const C2 = ST.cau; if (C2.d !== dayKey()){ C2.d = dayKey(); C
 
 /* Sửa vườn: chạm ô bãi để đắp liếp, san lại thành cỏ, đặt hay dời đồ (nong, khạp, hố ủ) */
 const zoneName = P => P.zone === 'song' ? 'Đất bồi mé sông' : P.zone === 'sau' ? 'Đất sau nhà' : 'Bãi cỏ';
-function suaTitle(id){ const P = PL[id], p = ST.plots[id], ok = objAt(id); return ok ? OBJD[ok].title : locked(P) ? zoneName(P) : p.crop ? CROPS[p.crop].name : 'Liếp trống'; }
-function baiSan(id){ const P = PL[id], p = ST.plots[id]; if (!P || !P.bai || locked(P) || p.crop) return; ST.open = ST.open.filter(i => i !== id); ST.plots[id] = pl0(null); PV[id].key = null; refreshPlot(id);
+function suaTitle(id){ const P = PL[id], p = ST.plots[id], ok = objAt(id); return ok ? OBJD[ok].title : locked(P) ? (landOwn(id) ? 'Đất trống' : 'Đất hoang') : p.crop ? CROPS[p.crop].name : 'Liếp trống'; }
+function baiSan(id){ const P = PL[id], p = ST.plots[id]; if (!P || !P.bai || locked(P) || p.crop) return; ST.open = ST.open.filter(i => i !== id); ST.land[id] = { st: 'own' }; ST.plots[id] = pl0(null); PV[id].key = null; refreshPlot(id);
   const [u0, v0, u1, v1] = P.b; for (let i = 0; i < 14; i++) puff('leaf', R(u0, u1), .12, R(v0, v1), 1, pick(['#6E9A4A', '#8fb85a']), .6); sfx('pick'); save(); hud(); }
 function suaOn(on, move){ if (on && (VISIT || !baiOn())) return; SUA = on ? { move: move || null } : null; document.body.classList.toggle('sua', !!SUA); const b = $('#suaBar'); if (b) b.hidden = !SUA; suaTx();
-  for (const P of PLOTS) if (P.bai) refreshPlot(P.id); if (SUA){ closeSheet(); const O = move && ST[move] && PV[ST[move].at]; camTo(O ? new T.Vector3(O.cx, .3, O.cz) : new T.Vector3(BAIC.x + .4, .3, BAIC.z + .3), Math.max(cam.zoom, DEFZ() * 1.15)); sayOnce('sua1', 'Bãi hông nhà con muốn đắp liếp chỗ nào, để cỏ chỗ nào, đặt đồ chỗ nào là tùy con. Chạm từng ô mà sửa nghe.', 'vui'); } }
-function suaTx(){ const t = $('#suaTx'); if (t && SUA) t.textContent = SUA.move ? `Chạm một ô cỏ để đặt ${OBJD[SUA.move].name}` : 'Chạm từng ô: đắp liếp, san cỏ, đặt đồ'; }
+  for (const P of PLOTS) if (P.bai) refreshPlot(P.id); if (SUA){ closeSheet(); const O = move && ST[move] && PV[ST[move].at]; camTo(O ? new T.Vector3(O.cx, .3, O.cz) : new T.Vector3(BAIC.x + .4, .3, BAIC.z + .3), Math.max(cam.zoom, DEFZ() * 1.15)); sayOnce('sua1', 'Ô nào là đất của con thì đắp liếp hay đặt đồ tùy con. Ô cỏ thì khai hoang trước. Chạm từng ô mà sửa nghe.', 'vui'); } }
+function suaTx(){ const t = $('#suaTx'); if (t && SUA) t.textContent = SUA.move ? `Chạm một ô cỏ để đặt ${OBJD[SUA.move].name}` : 'Chạm từng ô: khai hoang, đắp liếp, đặt đồ'; }
 
 /* ===== UX kit cho bảng: điều con muốn biết nhất nằm trên cùng (hero), việc chính kế đó (nút to), chi tiết bên dưới, luật chơi gấp lại ===== */
 const c01 = v => Math.max(0, Math.min(1, v));
@@ -2512,12 +2579,16 @@ function gioHTML(){ const g = ST.gio, left = g.d === dayKey() ? GIO.day - g.n : 
 /* --- ô bãi: đắp liếp, đặt đồ --- */
 function suaHTML(id){ const P = PL[id], p = ST.plots[id], ok = objAt(id), cost = P.cost || BAI.cost; let h = '';
   if (ok){ const D = OBJD[ok]; return UX.hero(ICON[ok], D.title, 'Đang đặt ở ô này') + UX.cta([UX.btn('oopen', `Mở ${D.name}`, { g: 1, k: ok, img: ICON[ok] }), `<button class="btn" data-a="omove" data-k="${ok}"><span>Dời qua ô khác</span></button>`]); }
-  if (locked(P)){ h += UX.hero(ICON.cuoc || UIC.sickle, zoneName(P), P.zone === 'song' ? 'Đất phù sa màu mỡ, đắp xong đất tốt sẵn' : 'Đắp liếp để trồng, hay đặt đồ ở ô này');
-    h += UX.cta([UX.btn('openbed', 'Đắp liếp', { g: 1, img: UIC.seedbag, dis: ST.xu < cost, sub: `${cost} xu` })]);
+  if (locked(P)){ const ls = landSt(id), zk = zoneOf(P), Lz = LANDZ[zk], L = ST.land[id];
+    if (ls === 'wild'){ const c = landCost(zk), busy = landBusy() >= 2; h += UX.hero(ICON.cuoc || UIC.sickle, 'Đất hoang', `${Lz.cong[0]}, cuốc đất rồi phơi ải chừng ${fmtMin(landWait(zk))} là thành đất của con`); h += UX.cta([UX.btn('khai', 'Khai hoang', { g: 1, img: UIC.coin, dis: ST.xu < c || busy, sub: `${c} xu` })]); h += `<div class="note">${busy ? 'Đang khai hoang hai ô rồi, xong một ô mới làm thêm được.' : landStarted(zk) < 2 ? 'Hai ô đầu Ngoại phụ nửa tiền.' : 'Ô sau tốn hơn ô trước một chút.'}</div>`; return h; }
+    if (ls === 'cong') return h + UX.hero(L.w ? (ICON.cuoc || UIC.sickle) : UIC.sickle, Lz.cong[L.w || 0], `Bước ${(L.w || 0) + 1}/2 · chạm vô ô ngoài vườn là làm`) + UX.cta([UX.btn('lwork', Lz.cong[L.w || 0], { g: 1, img: L.w ? (ICON.cuoc || UIC.sickle) : UIC.sickle })]);
+    if (ls === 'ai') return h + UX.hero(ICON.cuoc || UIC.sickle, 'Đất đang phơi ải', `Còn ${fmtMin(Math.max(1, (L.end - Date.now()) / 60000))} · thoát game đất vẫn ải`);
+    h += UX.hero(ICON.cuoc || UIC.sickle, 'Đất của con', P.zone === 'song' ? 'Đất phù sa màu mỡ, đắp liếp là đất tốt sẵn' : 'Đắp liếp để trồng, hay đặt đồ ở ô này');
+    h += UX.cta([UX.btn('openbed', 'Đắp liếp', { g: 1, img: UIC.seedbag })]);
     const objs = OBJK.filter(objOn); if (objs.length) h += UX.title('Hay đặt đồ ở đây') + '<div class="upg">' + objs.map(k => { const O = ST[k], D = OBJD[k]; return O.own ? UX.upc('ohere', ICON[k], `Dời ${D.name} về đây`, null, { k, why: 'đang ở ô khác' }) : UX.upc('obuy', ICON[k], D.title, D.buy, { k, dis: ST.xu < D.buy }); }).join('') + '</div>';
     return h; }
   if (p.crop) return UX.hero(ICON[p.crop], CROPS[p.crop].name, 'Hái xong, liếp trống rồi mới san lại được con');
-  return UX.hero(UIC.seedbag, 'Liếp trống', 'Gieo hạt, hay san lại thành cỏ để đặt đồ') + UX.cta([UX.btn('pickseed', 'Chọn hạt để gieo', { g: 1, img: UIC.seedbag }), `<button class="btn" data-a="bsan"><span>San thành cỏ</span></button>`]); }
+  return UX.hero(UIC.seedbag, 'Liếp trống', 'Gieo hạt, hay san phẳng thành đất trống để đặt đồ') + UX.cta([UX.btn('pickseed', 'Chọn hạt để gieo', { g: 1, img: UIC.seedbag }), `<button class="btn" data-a="bsan"><span>San thành đất trống</span></button>`]); }
 /* --- bếp: thêm dòng trạng thái trên cùng --- */
 /* --- Sổ · Việc của Ngoại: cấp, việc lên cấp, việc hôm nay — có hình, có thanh tiến độ --- */
 const LVFEAT = { 2: [['la', 'Việc lặt vặt']], 3: [['cho', 'Đơn nhà bên'], ['sau', 'Bắt sâu']], 4: [['trungchien', 'Bếp Ngoại'], ['cui', 'Nhặt củi'], ['cuoc', 'Góc vườn mới']], 5: [['mai', 'Mua gà, ấp trứng']], 6: [['vitmai', 'Chuồng vịt']],
@@ -2820,8 +2891,9 @@ addEventListener('pointerup', e => { if (!G0 || e.pointerId !== G0.pid) return; 
   if (cauHit(e.clientX, e.clientY)){ cauTap(); return; } if (sayHit(e.clientX, e.clientY)){ lsay.takeAll(); openSheet('say'); return; } if (gheHit(e.clientX, e.clientY)){ openSheet('cho'); SHEET.tab = 'don'; renderSheet(); return; }
   { const gh = gioHit(e.clientX, e.clientY); if (gh){ const g = ST.gio; if (g.on && g.t <= 0) gio.take(); else if (gh === 'bub' && !g.on) gio.put(); else openSheet('gio'); hud(); return; } }
   { const hid = g.id || plotHit(e.clientX, e.clientY), HP = hid && PL[hid];
-    if (SUA && SUA.move){ const mk = SUA.move; if (HP && HP.bai && locked(HP) && !objAt(hid) && placeObj(mk, hid)){ SUA.move = null; suaTx(); for (const P of PLOTS) if (P.bai) refreshPlot(P.id); say(mk === 'nong' ? 'Để đây được đó, chỗ này có nắng.' : `Đặt ${OBJD[mk].name} ở đây rồi nè.`, 'vui', { now: true }); } else say('Chỉ đặt được trên ô cỏ trống ở bãi hông nhà hay mé sông con.', 'dan', { now: true }); return; }
+    if (SUA && SUA.move){ const mk = SUA.move; if (HP && HP.bai && locked(HP) && !objAt(hid) && landOwn(hid) && placeObj(mk, hid)){ SUA.move = null; suaTx(); for (const P of PLOTS) if (P.bai) refreshPlot(P.id); say(mk === 'nong' ? 'Để đây được đó, chỗ này có nắng.' : `Đặt ${OBJD[mk].name} ở đây rồi nè.`, 'vui', { now: true }); } else say('Chỉ đặt được trên ô đất của con còn trống, chưa đắp liếp.', 'dan', { now: true }); return; }
     { const ok = HP && HP.bai && objAt(hid); if (ok){ if (ok === 'nong') nong.takeAll(); if (ok === 'khap') khap.takeAll(); if (ok === 'say') lsay.takeAll(); openSheet(SUA ? 'plot' : OBJD[ok].sheet, hid); return; } }
+    if (HP && HP.bai && !SUA && landSt(hid) === 'cong'){ landWork(hid); return; }
     if (HP && HP.bai && (SUA || locked(HP))){ openSheet('plot', hid); return; } }
   if (bepHitAt(e.clientX, e.clientY)){ if ((ST.lv || 1) >= BEP.lv && ST.bep && ST.bep.lit) bepTakeAll(); openSheet('bep'); return; } }
   if (!VISIT){ ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(ndc, cam); for (const [k, P] of Object.entries(PENS)){ if (P.st().fixed) continue; const hs = [P.V.b.children.find(c => c.userData.bub)]; if (k === 'ga') hs.push(GAV.hits[0]); else hs.push(...P.V.g.children); const hc = ray.intersectObjects(hs.filter(Boolean), true)[0]; if (hc){ if (penOpen(k)) penRing(k); else bark(P.pre); return; } } }
@@ -3332,8 +3404,8 @@ function tick(){ const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTi
     if (dd < .03){ if (rnd() < .5 && a.kind !== 'duck') a.peck = .6; a.tgt.set(a.home.x + R(-a.rad, a.rad), 0, a.home.z + R(-a.rad, a.rad)); for (const [x0, z0, x1, z1] of BLOCK) if (a.tgt.x > x0 && a.tgt.x < x1 && a.tgt.z > z0 && a.tgt.z < z1) a.tgt.x = x1 + R(.03, .15); if (a.kind !== 'duck' && a.home.x > .2) a.tgt.x = Math.max(a.tgt.x, .3); }
     else { tv.normalize(); const want = Math.atan2(-tv.z, tv.x); let dr = want - g.rotation.y; dr = Math.atan2(Math.sin(dr), Math.cos(dr)); g.rotation.y += dr * Math.min(1, dt * 5); if (Math.abs(dr) < .6){ g.position.addScaledVector(tv, Math.min(dd, a.spd * dt)); g.position.y = Math.abs(Math.sin(a.t * 14)) * .012; } } }
   // bubbles billboard + bob
-  gaTick(t); try { ringPos(); oddTick(t); weedTick(t); ordTick(t); bepTick(t); vitTick(t); } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } try { nongTick(t); khapTick(t); hoTick(t); loTick(t); cauTick(t, dt); boTick(); sayTick(t, dt); gioTick(t); gheTick(t); treTick(); } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } const KFNOW = kFull(); for (const P of PLOTS){ const v = PV[P.id]; if (!v.want) continue; const bg = v.bub[v.want]; bg.quaternion.copy(cam.quaternion); bg.position.set(v.cx, v.bubY + Math.sin(t * 2 + v.cx) * .035, v.cz); bg.scale.setScalar(.9); if (v.want === 'u') bg.scale.setScalar(.9 * (1 + .12 * Math.max(0, Math.sin(t * 6)))); else if (v.want === 'h'){ const kf = KFNOW; bg.scale.setScalar(kf ? .8 : .9 * (1 + .07 * Math.abs(Math.sin(t * 3 + v.cx)))); const pl = bg.userData.pl; if (pl) pl.material.opacity = kf ? .4 : 1; } else if (v.want === 's') bg.scale.setScalar(.8); if (BUBS !== 1) bg.scale.multiplyScalar(BUBS); }
-  ctl.update(); const tg = ctl.target; tg.x = Math.max((ST.lv || 1) >= SAU.lv ? -4.6 : baiOn() ? -3.6 : -1, Math.min(11.5, tg.x)); tg.z = Math.max((ST.lv || 1) >= SAU.lv ? -2.4 : -.5, Math.min(10, tg.z));
+  gaTick(t); try { ringPos(); oddTick(t); weedTick(t); ordTick(t); bepTick(t); vitTick(t); } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } try { nongTick(t); khapTick(t); hoTick(t); loTick(t); cauTick(t, dt); boTick(); sayTick(t, dt); gioTick(t); gheTick(t); treTick(); try { landTick(t); } catch (e) { if (!window.__le){ window.__le = 1; console.warn('land', e); } } } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } const KFNOW = kFull(); for (const P of PLOTS){ const v = PV[P.id]; if (!v.want) continue; const bg = v.bub[v.want]; bg.quaternion.copy(cam.quaternion); bg.position.set(v.cx, v.bubY + Math.sin(t * 2 + v.cx) * .035, v.cz); bg.scale.setScalar(.9); if (v.want === 'u') bg.scale.setScalar(.9 * (1 + .12 * Math.max(0, Math.sin(t * 6)))); else if (v.want === 'h'){ const kf = KFNOW; bg.scale.setScalar(kf ? .8 : .9 * (1 + .07 * Math.abs(Math.sin(t * 3 + v.cx)))); const pl = bg.userData.pl; if (pl) pl.material.opacity = kf ? .4 : 1; } else if (v.want === 's') bg.scale.setScalar(.8); if (BUBS !== 1) bg.scale.multiplyScalar(BUBS); }
+  ctl.update(); const tg = ctl.target; tg.x = Math.max(-6.6, Math.min(11.5, tg.x)); tg.z = Math.max(-2.8, Math.min(10, tg.z));   // thấy được cả đất chưa mở
   r.render(S, cam);
   // UI
   fpsN++; fpsT += dt; if (fpsT > .5){ const fe = $('#fps'); if (fe) fe.textContent = Math.round(fpsN / fpsT) + ' fps'; fpsN = 0; fpsT = 0; }
