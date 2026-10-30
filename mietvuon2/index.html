@@ -318,6 +318,40 @@ div.it{cursor:default}
 .fl.cp{font-size:17px!important}.fl.buyl{position:fixed;z-index:9;font-size:16px;animation:fl 1.1s ease-out forwards}.btn.shake{animation:skSh .3s}
 #bCtr{right:max(16px,env(safe-area-inset-right,0px));width:72px}
 #bSua{right:max(16px,env(safe-area-inset-right,0px));width:72px;bottom:auto!important}body.sua #bSua{box-shadow:0 0 0 3px #F5D27A,0 4px 0 #4A2F1E!important}
+/* ===== UX kit cho bảng: trạng thái trước, việc chính, rồi chi tiết ===== */
+.uxh{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:18px;background:linear-gradient(180deg,#FFF8E8,#F6EBD3);box-shadow:inset 0 0 0 2px #EADBB8;margin:2px 0 10px}
+.uxh.go{background:linear-gradient(180deg,#F3FBE9,#E2F1D0);box-shadow:inset 0 0 0 2px #B9DB9A}
+.uxh.warn{background:linear-gradient(180deg,#FFF3EA,#FCE0D0);box-shadow:inset 0 0 0 2px #F2B79C}
+.uxh .hi{width:62px;height:62px;flex:none;position:relative;display:grid;place-items:center}.uxh .hi>img{width:62px;height:62px;filter:drop-shadow(0 3px 0 rgba(74,47,30,.18))}
+.uxh .hi .ring{position:absolute;inset:-4px;width:auto;height:auto}
+.uxh .tx{min-width:0;flex:1}.uxh b{display:block;font-family:var(--f-game);font-weight:400;font-size:20px;color:#4A2F1E;line-height:1.15}
+.uxh .tx>span{display:block;font-size:13.5px;font-weight:600;color:#8A5D3B;margin-top:3px;line-height:1.35}
+.uxs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}.uxs.one{grid-template-columns:1fr}
+.uxc{background:#FFFBF2;border-radius:14px;padding:8px 10px 9px;box-shadow:inset 0 0 0 1.5px #EFE3C8;min-width:0}
+.uxc .l{display:block;font-size:12px;font-weight:700;color:#A07A55}.uxc .v{display:flex;align-items:center;gap:6px;margin-top:3px;font-family:var(--f-game);font-size:17px;color:#4A2F1E;line-height:1.1}.uxc .v small{font-family:inherit;font-size:12px;color:#A07A55}
+.uxc.warn{box-shadow:inset 0 0 0 2px #F2B79C;background:#FFF6F0}.uxc.go{box-shadow:inset 0 0 0 2px #B9DB9A;background:#F6FBEF}
+.pips{display:flex;flex-wrap:wrap;gap:1px;margin-top:5px}.pips img{width:20px;height:20px}.pips img.off{opacity:.2;filter:grayscale(1)}.pips .more{font-size:12px;font-weight:800;color:#8A5D3B;align-self:center;margin-left:3px}
+.ring{--p:0;--c:#E9B23A;width:52px;height:52px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p) * 1turn),rgba(214,197,160,.55) 0);display:grid;place-items:center;flex:none;-webkit-mask:radial-gradient(circle,transparent 58%,#000 60%);mask:radial-gradient(circle,transparent 58%,#000 60%)}
+.mbar{height:9px;border-radius:6px;background:#EADFC8;overflow:hidden;margin-top:6px}.mbar i{display:block;height:100%;border-radius:6px}
+.cta{display:flex;gap:8px;margin:0 0 10px}.cta .btn{flex:1;min-height:50px;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px}.cta .btn img{width:30px;height:30px;margin:-8px 0}.cta .btn small{display:block;font-size:11px;opacity:.9}
+.uxt{font-family:var(--f-game);font-size:15px;color:#6B4529;margin:14px 0 6px;display:flex;align-items:center;gap:6px}.uxt small{font-family:inherit;font-size:12px;color:#A07A55;margin-left:auto}
+.upg{display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:8px}
+.upc{appearance:none;border:0;font:inherit;text-align:left;cursor:pointer;display:flex;gap:8px;align-items:center;padding:9px 10px;border-radius:14px;background:#FFFBF2;box-shadow:inset 0 0 0 1.5px #EFE3C8,0 3px 0 #E3D2AE;color:#4A2F1E}
+.upc img{width:36px;height:36px;flex:none}.upc b{display:block;font-family:var(--f-game);font-weight:400;font-size:14px;line-height:1.15}.upc span{display:flex;align-items:center;gap:3px;font-size:12px;font-weight:800;color:#C9952A;margin-top:2px}.upc span img{width:16px;height:16px}
+.upc:disabled{opacity:.5;cursor:default;box-shadow:inset 0 0 0 1.5px #EFE3C8}.upc .why{color:#A07A55;font-weight:700}
+.uxm{margin-top:12px;border-radius:12px;background:#F6EEDC}.uxm summary{cursor:pointer;padding:9px 12px;font-weight:700;color:#8A5D3B;font-size:13px;list-style:none}.uxm summary::-webkit-details-marker{display:none}
+.uxm summary::before{content:"?";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#C9A66B;color:#fff;font-size:12px;margin-right:7px}.uxm>div{padding:0 12px 11px;font-size:13px;color:#6B4529;line-height:1.5}.uxm .acts{margin-top:8px}
+.slots{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.slot{appearance:none;border:0;font:inherit;cursor:pointer;position:relative;border-radius:16px;background:#FFFBF2;box-shadow:inset 0 0 0 1.5px #EFE3C8,0 3px 0 #E3D2AE;padding:9px 10px;display:flex;align-items:center;gap:9px;min-height:70px;text-align:left;color:#4A2F1E}
+.slot .ring{width:50px;height:50px}.slot .si{position:relative;width:50px;height:50px;flex:none;display:grid;place-items:center}.slot .si img{width:38px;height:38px}.slot .si .ring{position:absolute;inset:0}
+.slot b{display:block;font-family:var(--f-game);font-weight:400;font-size:14.5px;line-height:1.15}.slot span{display:block;font-size:12px;font-weight:700;color:#A07A55;margin-top:2px}
+.slot.empty{background:rgba(255,251,242,.5);box-shadow:inset 0 0 0 2px #DCCBA6;border:0;outline:2px dashed #CDB98E;outline-offset:-6px}.slot.empty .si{font-family:var(--f-game);font-size:28px;color:#C9A66B}
+.slot.done{background:#F3FBE9;box-shadow:inset 0 0 0 2px #9fd36a,0 3px 0 #B9DB9A}.slot.done span{color:#4F7D44}.slot.done::after{content:"";position:absolute;top:7px;right:8px;width:10px;height:10px;border-radius:50%;background:#7CC04A;box-shadow:0 0 0 3px rgba(124,192,74,.25)}
+.rpk{appearance:none;border:0;font:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:14px;background:#FFFBF2;box-shadow:inset 0 0 0 1.5px #EFE3C8,0 3px 0 #E3D2AE;margin-bottom:8px;width:100%;text-align:left;color:#4A2F1E}
+.rpk>img{width:44px;height:44px;flex:none}.rpk .rt{flex:1;min-width:0}.rpk b{display:block;font-family:var(--f-game);font-weight:400;font-size:15px}.rpk .ins{display:flex;gap:8px;flex-wrap:wrap;margin-top:3px}
+.chip{display:inline-flex;align-items:center;gap:1px;font-size:12px;font-weight:800;color:#4F7D44}.chip img{width:22px;height:22px}.chip.no{color:#C24A2E}
+.rpk .rm{text-align:right;font-size:12px;font-weight:800;color:#8A5D3B;flex:none}.rpk .rm em{display:flex;align-items:center;gap:2px;font-style:normal;color:#C9952A;justify-content:flex-end}.rpk .rm em img{width:15px;height:15px}
+.rpk:disabled{opacity:.55;cursor:default}.rpk.lock{opacity:.5}.back{appearance:none;border:0;background:none;font:inherit;font-weight:800;color:#8A5D3B;cursor:pointer;padding:2px 0 8px;font-size:13px}
 .vbar.sbar{top:auto;bottom:calc(104px + env(safe-area-inset-bottom,0px))}body.sua .tray,body.sua #fan{visibility:hidden}
 @media (max-width:560px){ .vbar.sbar{top:calc(112px + env(safe-area-inset-top,0px))!important;bottom:auto!important;left:16px!important;right:100px!important;transform:none!important;padding:8px 8px 8px 12px} .vbar.sbar span{font-size:12px} }
 
@@ -1200,6 +1234,10 @@ const FR = (() => { const OUT = {}; let FL = { fruit: true, flower: false }; con
   icon('otkho', p => { add(p, new T.BoxGeometry(.42, .5, .22), '#E3D3B0', 0, -.04, 0); add(p, new T.BoxGeometry(.44, .06, .24), '#C9B27A', 0, .22, 0); add(p, new T.BoxGeometry(.3, .16, .01), '#F5ECD6', 0, -.05, .115); for (let k = 0; k < 6; k++) add(p, new T.CapsuleGeometry(.028, .12, 2, 6), k % 2 ? '#8E2A1C' : '#A8321E', -.15 + k * .06, .3 + (k % 2) * .03, R(-.05, .05), [0, 0, R(-.6, .6)]); }, V(.3, .3, 1));
   icon('chuoiphoi', p => { add(p, new T.CylinderGeometry(.008, .008, .9, 4), '#B48560', 0, .05, 0, [0, 0, Math.PI / 2]); for (let k = 0; k < 4; k++){ const x = -.3 + k * .2; blob(p, .1, k % 2 ? '#8A5A2E' : '#9A6A36', x, -.12, 0, [.55, 1.7, .32]); add(p, new T.CylinderGeometry(.006, .006, .12, 3), '#C9B27A', x, .0, 0); } }, V(.1, .2, 1));
   icon('lucbinhkho', p => { for (let k = 0; k < 9; k++) add(p, new T.CylinderGeometry(.018, .018, .8, 4), pick(['#B8A070', '#A89060', '#C9B27A']), (k % 3 - 1) * .04, 0, Math.floor(k / 3) * .04 - .04, [0, 0, .9 + R(-.08, .08)]); add(p, new T.TorusGeometry(.08, .02, 4, 10), '#6E9F57', 0, 0, 0, [0, Math.PI / 2, .9]); }, V(.2, .4, 1));
+  const bird = (p, body, wing, head, comb, s2 = 1) => { blob(p, .26 * s2, body, -.02, -.08, 0, [1.25, 1, 1]); blob(p, .16 * s2, wing, -.06, -.04, .16 * s2, [1.3, .7, .4]); blob(p, .14 * s2, head, .22 * s2, .16 * s2, 0); add(p, new T.ConeGeometry(.045, .1, 4), '#F2B23A', .37 * s2, .14 * s2, 0, [0, 0, -Math.PI / 2]); add(p, new T.SphereGeometry(.022, 5, 4), '#1a1a1a', .28 * s2, .21 * s2, .1); if (comb) for (let k = 0; k < 3; k++) blob(p, .05, comb, .16 * s2 + k * .05, .3 * s2 + (k % 2) * .02, 0); };
+  icon('mai', p => { bird(p, '#C98A45', '#A86A35', '#C98A45', '#E8453A'); add(p, new T.ConeGeometry(.08, .18, 4), '#8A5530', -.3, .05, 0, [0, 0, Math.PI / 2.4]); }, V(.15, .25, 1));
+  icon('trong', p => { bird(p, '#B5452A', '#2F5A3A', '#D9822E', '#E8253A', 1.05); for (let k = 0; k < 3; k++) add(p, new T.ConeGeometry(.05, .34, 4), ['#2F5A3A', '#1F3F2A', '#4A2F1E'][k], -.32, .14 + k * .05, (k - 1) * .05, [0, 0, Math.PI / 2.6 + k * .2]); }, V(.15, .25, 1));
+  icon('vitmai', p => { bird(p, '#F7F3EA', '#E3DCCB', '#F7F3EA', null); add(p, new T.BoxGeometry(.14, .035, .08), '#F2A23A', .37, .13, 0); }, V(.15, .25, 1));
   icon('trungvit', p => { blob(p, .19, '#E2F0EA', -.1, 0, 0, [.84, 1.12, .84]); blob(p, .18, '#CFE6DC', .14, -.04, .08, [.84, 1.12, .84]); for (let k = 0; k < 7; k++) add(p, new T.BoxGeometry(R(.18, .3), .012, .02), pick(['#E3C46A', '#C9A04A']), R(-.2, .2), -.2, R(-.1, .15), [0, R(0, 3), R(-.2, .2)]); });
   icon('trungga', p => { blob(p, .17, '#F3E3C8', -.1, 0, 0, [.82, 1.12, .82]); blob(p, .16, '#E2C49A', .13, -.04, .08, [.82, 1.12, .82]); for (let k = 0; k < 7; k++) add(p, new T.BoxGeometry(R(.18, .3), .012, .02), pick(['#E3C46A', '#C9A04A']), R(-.2, .2), -.2, R(-.1, .15), [0, R(0, 3), R(-.2, .2)]); });
   icon('camga', p => { const g = new T.CylinderGeometry(.16, .16, .62, 9, 1, true, Math.PI / 2, Math.PI); add(p, g, '#B8A25A', 0, 0, 0, [0, 0, Math.PI / 2]); for (const x of [-.31, .31]) add(p, new T.CylinderGeometry(.165, .165, .02, 9), '#9a8448', x, 0, 0, [0, 0, Math.PI / 2]); for (let k = 0; k < 22; k++) add(p, new T.IcosahedronGeometry(.032, 0), pick(['#E9B23A', '#F5D27A', '#C9952A']), R(-.27, .27), R(-.06, .02), R(-.09, .09)); });
@@ -1240,8 +1278,6 @@ const FR = (() => { const OUT = {}; let FL = { fruit: true, flower: false }; con
   icon('lucbinh', p => { for (let k = 0; k < 6; k++){ const a = k / 6 * 6.28; const l = add(p, new T.CylinderGeometry(.13, .13, .03, 8), k % 2 ? '#4F9E3A' : '#6FB04A', Math.cos(a) * .16, -.05 + Math.sin(a) * .03, Math.sin(a) * .16, [.5 * Math.sin(a), 0, -.5 * Math.cos(a)]); l.scale.set(1, 1, .7); }
     add(p, new T.CylinderGeometry(.018, .02, .3, 5), '#5aa83e', 0, .12, 0); for (let k = 0; k < 6; k++) add(p, new T.IcosahedronGeometry(.055, 0), k % 2 ? '#B79CE0' : '#C9B3EC', R(-.05, .05), .2 + k * .045, R(-.05, .05)); });
   icon('la', p => { for (let k = 0; k < 8; k++){ const l = add(p, new T.ConeGeometry(.09, .3, 4), pick(['#C9952A', '#B48560', '#E3B23C', '#8A5D3B', '#9fb04a']), R(-.22, .22), -.12 + k * .015, R(-.12, .12), [Math.PI / 2, R(0, 6), 0]); l.scale.set(1, 1, .2); } });
-  icon('gio', p => { add(p, new T.CylinderGeometry(.3, .22, .3, 10, 1, true), '#C9A06A', 0, -.05, 0); add(p, new T.CylinderGeometry(.22, .22, .02, 10), '#A07450', 0, -.2, 0); for (let k = 0; k < 3; k++) add(p, new T.TorusGeometry(.26 - k * .03, .012, 3, 12), '#A07450', 0, .08 - k * .1, 0, [Math.PI / 2, 0, 0]); add(p, new T.TorusGeometry(.26, .02, 4, 12, Math.PI), '#8A5D3B', 0, .1, 0);
-    blob(p, .09, '#E8453A', -.08, .13, 0, [1, 1, 1]); blob(p, .1, '#6fbe4a', .09, .14, .04, [1, .8, 1]); blob(p, .07, '#F3E3C8', .02, .14, -.08, [.82, 1.12, .82]); });
   // ---------- các giai đoạn trong game (st 0..4) ----------
   const LEAFK = { oi: 'oval', khe: 'small', xoai: 'long' };
   const sapling = (p, kind) => { seg(p, V(.06, 0, 0), V(.06, .32, 0), .008, .008, C.bamboo); seg(p, V(0, 0, 0), V(.01, .24, 0), .012, .009, '#7A4E2C'); add(p, new T.TorusGeometry(.03, .004, 3, 8), '#8A5D3B', .035, .16, 0, [Math.PI / 2, 0, 0]); for (let k = 0; k < 5; k++) leafAt(p, LEAFK[kind], k % 2 ? '#5aa83e' : '#6fbe4a', .01, .22 + k * .01, 0, k * 1.3, -Math.PI / 2 - .25, .9); };
@@ -1597,21 +1633,7 @@ function renderSheet(){ if (!SHEET) return; const { kind, arg } = SHEET; let h =
     if (P.bai && (SUA || locked(P) || objAt(arg))){ shT.textContent = suaTitle(arg); h += suaHTML(arg); shB.innerHTML = h; return; }
     if (locked(P)){ shT.textContent = 'Cỏ rậm'; const can = nOpen() < bedCap(), c0 = bedCost(); h += `<div class="bedc"><img src="${UIC.sickle}" alt=""><span class="ar">›</span><img src="${UIC.seedbag}" alt=""><div><b>Dọn cỏ, đắp liếp mới</b><span>${can ? 'Đất tốt mà bỏ hoang lâu rồi. Đắp xong là gieo được.' : `Tới cấp ${bedNext()} Ngoại với con đắp thêm liếp ở đây.`}</span></div><span class="cst${ST.xu < c0 ? ' poor' : ''}">${stI('coin', c0)}</span></div><div class="kv"><span>Liếp đang có</span><b>${nOpen()} / ${bedCap()} liếp ở cấp này</b></div>`; h += can ? `<div class="acts"><button class="btn g" data-a="openbed" ${ST.xu < c0 ? 'disabled' : ''}>Dọn cỏ, đắp liếp · ${c0} xu</button>${ST.xu < c0 ? `<span class="meta">Còn thiếu ${c0 - ST.xu} xu</span>` : ''}</div>` : `<div class="acts"><span class="lockb">Mở ở cấp ${bedNext()}</span></div>`; shB.innerHTML = h; return; }
     if (P.tree && !unlocked(P.tree)){ shT.textContent = 'Góc cây trái'; h += `<div class="note">Chỗ này để trồng ${CROPS[P.tree].name.toLowerCase()}. Tới cấp ${UNLOCK[P.tree]} Ngoại cho con cây giống.</div>`; shB.innerHTML = h; return; }
-    if (c){ const left = (c.grow - p.g) / (p.mulch > ST.gt ? 1.08 : 1) / fastK(p);
-      h += `<div class="kv"><span>Giai đoạn</span><b>${cond === 'dead' ? 'Chết khô' : cond === 'wilt' ? STAGE[st] + ' · đang héo' : STAGE[st]}</b></div>`;
-      if (c.tree) h += `<div class="kv"><span>Vụ trái</span><b>Vụ thứ ${(p.cut || 0) + 1}</b></div>`; else if (c.cuts > 1) h += `<div class="kv"><span>Đợt hái</span><b>${(p.cut || 0) + 1} / ${c.cuts}</b></div>`;
-      h += `<div class="kv"><span>${ripe(p) ? 'Đã chín' : 'Còn'}</span><b>${ripe(p) ? 'Hái được rồi' : p.dead ? '—' : p.moist > 0 ? fmtT(left / ST.spd) : 'Ngừng lớn vì khô đất'}</b></div>`; }
-    if (!P.trellis){ h += `<div class="kv"><span>Độ ẩm</span>${bar(p.moist, '#3E6FA6')}<b class="sm">${p.moist <= 0 ? 'Khô' : p.moist < .35 ? 'Hơi khô' : p.moist < .75 ? 'Vừa' : 'Ướt đẫm'}</b></div>`; h += `<div class="kv"><span>Đất</span>${bar(p.soil, '#6E9F57')}<b class="sm">${p.soil > .75 ? 'Tốt' : p.soil > .45 ? 'Khá' : 'Đất mệt'}</b></div>`;
-      h += `<div class="kv"><span>Rơm phủ</span><b>${p.mulch > ST.gt ? 'Còn ' + fmtT((p.mulch - ST.gt) / ST.spd) : 'Chưa phủ'}</b></div>`; }
-    else h += `<div class="note">Rễ sát mương nên giàn không cần tưới.</div>`;
-    h += '<div class="acts">';
-    if (!P.trellis && !P.tree && ST.ho && ST.ho.bags > 0 && p.soil < .95) h += `<button class="btn" data-a="bon">Bón phân · đất +0,3</button>`;
-    if (c && ripe(p)) h += `<button class="btn g" data-a="harvest">Hái</button>`;
-    if (c && !p.dead && !P.trellis) h += `<button class="btn" data-a="water" ${p.moist > .92 ? 'disabled' : ''}>Tưới</button>`;
-    if (!P.trellis) h += `<button class="btn" data-a="mulch" ${(ST.inv.rom || 0) < 1 || p.mulch > ST.gt ? 'disabled' : ''}>Phủ rơm · còn ${ST.inv.rom || 0}</button>`;
-    if (c && !c.tree) h += `<button class="btn r hold" data-hold="pull">Giữ để nhổ bỏ</button>`;
-    h += '</div>';
-    if (!c){ h += `<div class="acts"><button class="btn g" data-a="pickseed">${P.tree ? 'Chọn cây giống' : 'Chọn hạt để gieo'}</button></div>`; } }
+    h += plotHTML(P, p, arg); }
   if (kind === 'kho'){ shT.textContent = 'Kho'; const items = Object.entries(ST.inv).filter(([k, n]) => n > 0);
     h += items.length ? '<div class="grid">' + items.map(([k, n]) => `<div class="it"><img src="${ICON[k]}" alt=""><b>${k === 'rom' ? 'Rơm' : GD(k).name}</b><span>${n} ${k === 'rom' ? 'bó' : GD(k).unit}</span></div>`).join('') + '</div>' : '<div class="note">Kho trống. Hái rau xong là có hàng đem bán.</div>';
     h += `<div class="acts"><button class="btn g" data-a="gocho">Ra chợ</button></div>`; }
@@ -1634,14 +1656,7 @@ function renderSheet(){ if (!SHEET) return; const { kind, arg } = SHEET; let h =
     if ((ST.lv || 1) >= NB2.lv) h += `<div class="srow"><div class="sic"><img src="${UIC.task}" alt=""></div><div class="sn"><b>Bù nhìn rơm</b>${stI('coin', BUNHIN.price + ' xu')}<span class="mkh">Hàng xóm hái trộm hay bị giật mình</span></div><span></span><button class="btn sall" data-a="buybn" ${ST.bunhin || ST.xu < BUNHIN.price ? 'disabled' : ''}>${ST.bunhin ? 'Đã có' : 'Mua'}<small>${ST.bunhin ? 'đứng giữa vườn' : '-' + BUNHIN.price + ' xu'}</small></button></div>`;
     h += `<div class="srow"><div class="sic"><img src="${ICON.rom}" alt=""><span class="sq">${ST.inv.rom || 0}</span></div><div class="sn"><b>Rơm</b>${stI('coin', ROM_PRICE + ' xu/bó')}</div><button class="btn s1" data-a="buyrom" data-n="1" ${ST.xu < ROM_PRICE ? 'disabled' : ''} aria-label="Mua 1 bó rơm">+1</button><button class="btn sall" data-a="buyrom" data-n="5" ${ST.xu < ROM_PRICE * 5 ? 'disabled' : ''}>Mua 5<small>-${ROM_PRICE * 5} xu</small></button></div>`;
     if ((ST.lv || 1) >= BEP.lv) h += `<div class="srow"><div class="sic"><img src="${ICON.cui}" alt=""><span class="sq">${(ST.gb || {}).cui || 0}</span></div><div class="sn"><b>Củi</b>${stI('coin', CUI_PRICE + ' xu/bó')}<span class="mkh">Để trên gác bếp</span></div><button class="btn s1" data-a="buycui" data-n="1" ${ST.xu < CUI_PRICE ? 'disabled' : ''} aria-label="Mua 1 bó củi">+1</button><button class="btn sall" data-a="buycui" data-n="5" ${ST.xu < CUI_PRICE * 5 ? 'disabled' : ''}>Mua 5<small>-${CUI_PRICE * 5} xu</small></button></div>`; } }
-  if (kind === 'ga'){ const g = ST.ga, cap = gaCap(), lvOk = (ST.lv || 1) >= GA.buyLv, b = g.brood; shT.textContent = 'Chuồng gà';
-    h += `<div class="meta">Gà của Ngoại · đẻ mỗi ${GA.cyc / 3600} tiếng một trứng nếu máng còn thức ăn</div>`;
-    h += `<div class="kv"><span>Gà mái</span><b>${g.hens} con${b && b.stage === 'egg' ? ' (1 con đang ấp)' : ''}</b></div><div class="kv"><span>Gà trống</span><b>${g.rooster ? '1 con' : 'chưa có'}</b></div><div class="kv"><span>Chuồng</span><b>${g.hens + g.rooster} / ${cap} chỗ</b></div>`;
-    h += `<div class="kv"><span>Máng ăn</span>${bar(g.trough / Math.max(1, g.hens * GA.trough), '#E9B23A')}<b class="sm">${Math.floor(g.trough)} / ${g.hens * GA.trough} phần</b></div><div class="kv"><span>Trứng trong ổ</span><b>${g.eggs}</b></div>`;
-    if (b) h += `<div class="kv"><span>Ấp trứng</span><b>${b.stage === 'egg' ? 'Còn ' + fmtT((GA.brood - b.t) / ST.spd) + ' nở' : 'Gà con, còn ' + fmtT((GA.grow - b.t) / ST.spd) + ' lớn'}</b></div>`;
-    h += `<div class="note">Cho ăn dùng bắp trong kho trước (1 trái = ${GA.bapPhan} phần), thiếu thì mua cám ${GA.cam} xu một phần.</div><div class="acts"><button class="btn g" data-a="gafeed">Cho ăn</button><button class="btn" data-a="gaegg" ${g.eggs ? '' : 'disabled'}>Lượm ${g.eggs} trứng</button></div>`;
-    if (lvOk){ h += `<div class="sub">Nuôi thêm</div><div class="acts"><button class="btn" data-a="gabuy" ${g.hens + g.rooster >= cap || ST.xu < GA.buy ? 'disabled' : ''}>Mua gà mái · ${GA.buy} xu</button>${g.lv + 1 < GA.caps.length ? `<button class="btn" data-a="gaup" ${ST.xu < GA.up[g.lv + 1] ? 'disabled' : ''}>Nâng chuồng lên ${GA.caps[g.lv + 1]} con · ${GA.up[g.lv + 1]} xu</button>` : ''}<button class="btn" data-a="gahatch" ${b || !g.rooster || !(ST.inv.trungga > 0) || g.hens < 2 ? 'disabled' : ''}>Ấp 1 trứng</button></div><div class="note">Ấp trứng cần gà trống và một trứng trong kho. Nở ra mái hay trống là hên xui: mái thì đẻ thêm, trống thì Ngoại bán giùm ${GA.roosterSell} xu.</div>`; }
-    else h += `<div class="note">Tới cấp ${GA.buyLv} mua thêm gà, nâng chuồng và ấp trứng được.</div>`; }
+  if (kind === 'ga'){ shT.textContent = 'Chuồng gà'; h += gaHTML(); }
   if (kind === 'bep'){ shT.textContent = 'Bếp Ngoại'; h += bepHTML(); }
   if (kind === 'vit'){ shT.textContent = 'Chuồng vịt'; h += vitHTML(); }
   if (kind === 'nong'){ shT.textContent = 'Nong phơi'; h += nongHTML(); }
@@ -1670,10 +1685,10 @@ shB.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if 
   if (a === 'book') { openBook('giong'); return; } if (a === 'close'){ closeSheet(); return; } if (a === 'goto'){ if (b.dataset.k === '__ga'){ closeSheet(); camTo(new T.Vector3(COOPC.x, .3, COOPC.z), 1.9); return; } const v = PV[b.dataset.k]; closeSheet(); camTo(new T.Vector3(v.cx, .3, v.cz), 1.9); return; } if (a === 'avatar'){ openIntro(); return; } if (a === 'plant') act.plant(id, b.dataset.k); else if (a === 'water') act.water(id); else if (a === 'mulch') act.mulch(id); else if (a === 'harvest') act.harvest(id); else if (a === 'pull') act.pull(id);
   else if (a === 'pickseed'){ closeSheet(); openSeedFor(id); return; }
   else if (a === 'openbed'){ act.openBed(id); }
-  else if (a === 'nput'){ nong.put(+b.dataset.n, b.dataset.k); } else if (a === 'ntake'){ nong.take(+b.dataset.n); } else if (a === 'obuy'){ const at = SHEET && SHEET.kind === 'plot' ? SHEET.arg : null; closeSheet(); buyObj(b.dataset.k, at); return; } else if (a === 'ohere'){ placeObj(b.dataset.k, id); }
+  else if (a === 'nput'){ nong.put(+b.dataset.n, b.dataset.k); SHEET.pick = null; } else if (a === 'npick'){ SHEET.pick = +b.dataset.n; } else if (a === 'pickback'){ SHEET.pick = null; } else if (a === 'ntakeall'){ nong.takeAll(); } else if (a === 'noop'){ } else if (a === 'ntake'){ nong.take(+b.dataset.n); } else if (a === 'obuy'){ const at = SHEET && SHEET.kind === 'plot' ? SHEET.arg : null; closeSheet(); buyObj(b.dataset.k, at); return; } else if (a === 'ohere'){ placeObj(b.dataset.k, id); }
   else if (a === 'oopen'){ openSheet(OBJD[b.dataset.k].sheet); return; } else if (a === 'omove'){ closeSheet(); suaOn(true, b.dataset.k); return; }
-  else if (a === 'kput'){ khap.put(+b.dataset.n, b.dataset.k); } else if (a === 'ktake'){ khap.take(+b.dataset.n); } else if (a === 'hobon'){ hoBon(); } else if (a === 'horau'){ hoRau(); } else if (a === 'bon'){ hoBon(id); }
-  else if (a === 'sput'){ lsay.put(+b.dataset.n, b.dataset.k); } else if (a === 'stake'){ lsay.take(+b.dataset.n); } else if (a === 'gioput'){ gio.put(); } else if (a === 'giotake'){ gio.take(); } else if (a === 'ghegive'){ gheGive(b); }
+  else if (a === 'kput'){ khap.put(+b.dataset.n, b.dataset.k); SHEET.pick = null; } else if (a === 'kpick' || a === 'spick'){ SHEET.pick = +b.dataset.n; } else if (a === 'ktakeall'){ khap.takeAll(); } else if (a === 'stakeall'){ lsay.takeAll(); } else if (a === 'ktake'){ khap.take(+b.dataset.n); } else if (a === 'hobon'){ hoBon(); } else if (a === 'horau'){ hoRau(); } else if (a === 'bon'){ hoBon(id); }
+  else if (a === 'sput'){ lsay.put(+b.dataset.n, b.dataset.k); SHEET.pick = null; } else if (a === 'stake'){ lsay.take(+b.dataset.n); } else if (a === 'gioput'){ gio.put(); } else if (a === 'giotake'){ gio.take(); } else if (a === 'ghegive'){ gheGive(b); }
   else if (a === 'buyduong'){ const n = +b.dataset.n; if (ST.xu >= DUONG_PRICE * n && gbUsed() + n <= GB_CAP){ ST.xu -= DUONG_PRICE * n; ST.gb.duong = (ST.gb.duong || 0) + n; save(); hud(); buyFx(b, ICON.duong, `+${n} bịch đường`, DUONG_PRICE * n); } else if (gbUsed() + n > GB_CAP) say('Gác bếp hết chỗ rồi con.', 'dan'); }
   else if (a === 'loput'){ lo.put(); } else if (a === 'lohatch'){ lo.hatch(); } else if (a === 'gocho3'){ openSheet('cho'); SHEET.tab = 'mua'; renderSheet(); return; }
   else if (a === 'buymuoi'){ const n = +b.dataset.n; if (ST.xu >= MUOI_PRICE * n && gbUsed() + n <= GB_CAP){ ST.xu -= MUOI_PRICE * n; ST.gb.muoi = (ST.gb.muoi || 0) + n; save(); hud(); buyFx(b, ICON.muoi, `+${n} bịch muối`, MUOI_PRICE * n); } else if (gbUsed() + n > GB_CAP) say('Gác bếp hết chỗ để muối rồi con.', 'dan'); } else if (a === 'bsan'){ baiSan(id); } else if (a === 'suaon'){ closeSheet(); suaOn(true); return; }
@@ -1941,12 +1956,7 @@ const vit = {
     ST.inv.trungvit = (ST.inv.trungvit || 0) + n; v.eggs = 0; const [x, z] = VIT.at; flyTo(ICON.trungvit, x - .2, .3, z); floatAt(x - .2, .7, z, `+${n} trứng vịt`); sfx('pop'); buzz(15); gainXP(Math.round(n * EXTRA.trungvit.sell / 10) + 1); bump('egg', n); save(); hud(); },
   buy(){ const v = ST.vit; if (v.n >= vitCap()) return say('Chuồng vịt hết chỗ rồi, nâng chuồng trước nghe con.', 'dan'); if (ST.xu < VIT.buy) return; ST.xu -= VIT.buy; v.n++; v.trough += 1; vitSpawn(); coinPop(`-${VIT.buy} xu · thêm 1 vịt mái`, '#F08A6E'); sfx('coin'); save(); hud(); },
   up(){ const v = ST.vit, nx = v.lv + 1; if (nx >= VIT.caps.length) return; const c = VIT.up[nx]; if (ST.xu < c) return; ST.xu -= c; v.lv = nx; coinPop(`-${c} xu · chuồng vịt ${VIT.caps[nx]} con`, '#F08A6E'); sfx('up'); save(); hud(); } };
-function vitHTML(){ const v = ST.vit, cap = vitCap(); let h = `<div class="meta">Vịt của Ngoại · mỗi ${VIT.cyc / 3600} tiếng một trứng nếu máng còn thức ăn</div>`;
-  h += `<div class="kv"><span>Vịt mái</span><b>${v.n} con</b></div><div class="kv"><span>Chuồng</span><b>${v.n} / ${cap} chỗ</b></div><div class="kv"><span>Máng ăn</span>${bar(v.trough / Math.max(1, v.n * VIT.trough), '#86B06A')}<b class="sm">${Math.floor(v.trough)} / ${v.n * VIT.trough} phần</b></div><div class="kv"><span>Trứng trong ổ</span><b>${v.eggs}</b></div>`;
-  h += `<div class="note">Vịt ăn rau muống trong kho (1 bó = ${VIT.rm} phần) hay lục bình vớt dưới mương. Thiếu thì mua cám ${VIT.cam} xu một phần.</div>`;
-  h += `<div class="acts"><button class="btn g" data-a="vitfeed">Cho ăn</button><button class="btn" data-a="viteggs" ${v.eggs ? '' : 'disabled'}>Lượm ${v.eggs} trứng</button></div>`;
-  h += `<div class="sub">Nuôi thêm</div><div class="acts"><button class="btn" data-a="vitbuy" ${v.n >= cap || ST.xu < VIT.buy ? 'disabled' : ''}>Mua vịt mái · ${VIT.buy} xu</button>${v.lv + 1 < VIT.caps.length ? `<button class="btn" data-a="vitup" ${ST.xu < VIT.up[v.lv + 1] ? 'disabled' : ''}>Nâng chuồng lên ${VIT.caps[v.lv + 1]} con · ${VIT.up[v.lv + 1]} xu</button>` : ''}</div>`;
-  return h; }
+
 
 /* ===== đồ đặt trên bãi (cấp 7–8): nong phơi, khạp muối, hố ủ phân — mỗi món chiếm 1 ô cỏ, dời được bằng Sửa vườn ===== */
 const NONG = { lv: 7, buy: 80, n: 4, sun: [6, 18], first: 20 };
@@ -1988,10 +1998,7 @@ const nong = {
     sfx('pop'); gainXP(Math.round(PHOI[t.k].sell * on / 15)); save(); hud(); return true; },
   takeAll(){ let n = 0; ST.nong.trays.forEach((t, i) => { if (t && t.t <= 0 && nong.take(i)) n++; }); if (n) sayOnce('nong1', 'Ớt khô rồi đó con, Ngoại cất trên gác bếp. Hàng xóm hay hỏi mua ớt khô về làm muối ớt lắm.', 'vui'); return n; } };
 const moveBtn = k => `<button class="btn" data-a="omove" data-k="${k}">Dời qua ô khác</button>`;
-function nongHTML(){ const N = ST.nong, sun = sunAt(Date.now()); let h = `<div class="meta">Phơi bằng nắng thật, từ ${NONG.sun[0]} giờ sáng tới ${NONG.sun[1]} giờ chiều · ${sun ? 'đang có nắng' : 'trời tối, nong nằm yên chờ nắng'}</div>`;
-  N.trays.forEach((t, i) => { if (!t){ h += `<div class="sub">Nong ${i + 1} · trống</div><div class="acts">` + Object.keys(PHOI).map(k => { const d = PHOI[k], lk = (ST.lv || 1) < d.lv, can = !lk && phoiCan(k); return `<button class="btn${can ? ' g' : ''}" data-a="nput" data-k="${k}" data-n="${i}" ${can ? '' : 'disabled'}>${d.name}<small>${lk ? `tới cấp ${d.lv}` : phoiNeed(k)}</small></button>`; }).join('') + '</div>'; return; }
-    const d = PHOI[t.k], done = t.t <= 0; h += `<div class="srow"><div class="sic"><img src="${ICON[t.k]}" alt=""></div><div class="sn"><b>Nong ${i + 1} · ${d.name}</b>${done ? '<span class="mkh">Khô rồi, cất lên gác bếp</span>' : `${bar(1 - t.t / t.T, '#E9B23A')}<span class="mkh">còn ${fmtT(t.t)} nắng${t.fast ? ' · mẻ đầu Ngoại phơi giùm' : ''}</span>`}</div><span></span>${done ? `<button class="btn g sall" data-a="ntake" data-n="${i}">Lấy</button>` : '<span></span>'}</div>`; });
-  h += `<div class="note">Đồ khô cất trên gác bếp (${gbUsed()} / ${GB_CAP} chỗ), bán ở chợ hay giao hàng xóm. Trời tối thì nong nằm yên, không hư.</div><div class="acts">${moveBtn('nong')}</div>`; return h; }
+
 const NONGV = (() => { const root = DYN(G(0, 0, 0)), pr = ROOT; ROOT = root; const xs = [-.19, .19], zs = [-.16, .16];
   for (const z of zs){ M(cyl(.013, .013, .76, 5), C.bamboo, 0, .1, z, { p: root, r: [0, 0, Math.PI / 2] }); for (const x of [-.34, .34]) M(cyl(.012, .014, .1, 5), '#8A5D3B', x, .05, z, { p: root }); }
   const slots = []; for (const z of zs) for (const x of xs){ const g = G(x, .115, z, R(0, 6), root); M(new T.CylinderGeometry(.17, .16, .02, 14), '#C9A66B', 0, 0, 0, { p: g }); M(new T.TorusGeometry(.17, .012, 4, 16), '#A07A45', 0, .012, 0, { p: g, r: [Math.PI / 2, 0, 0] });
@@ -2016,10 +2023,6 @@ const khap = {
     STORE(j.k)[j.k] = (STORE(j.k)[j.k] || 0) + d.out; K.jars[i] = null; K.done = (K.done || 0) + 1; K.made[j.k] = 1; const P = PV[K.at]; if (P){ flyTo(ICON[j.k], P.cx, .3, P.cz); floatAt(P.cx, .6, P.cz, `+${d.out} ${d.unit} ${d.name.toLowerCase()}`); }
     sfx('pop'); gainXP(Math.round(d.sell * d.out / 15)); save(); hud(); return true; },
   takeAll(){ let n = 0; ST.khap.jars.forEach((j, i) => { if (j && j.t <= 0 && khap.take(i)) n++; }); if (n) sayOnce('khap1', 'Dưa muối chua vừa tới nè. Hồi đó nhà mình ăn dưa cải với thịt kho cả tuần Tết.', 'vui'); return n; } };
-function khapHTML(){ const K = ST.khap; let h = `<div class="meta">Hai khạp da lươn · muối xong để bao lâu cũng được, không hư</div>`;
-  K.jars.forEach((j, i) => { if (!j){ h += `<div class="sub">Khạp ${i + 1} · trống</div><div class="acts">` + Object.keys(MUOI).map(k => { const d = MUOI[k], lk = (ST.lv || 1) < d.lv, can = !lk && canIn(d.in); return `<button class="btn${can ? ' g' : ''}" data-a="kput" data-k="${k}" data-n="${i}" ${can ? '' : 'disabled'}>${d.name}<small>${needTxt(d.in)}</small></button>`; }).join('') + '</div>'; return; }
-    const d = MUOI[j.k], done = j.t <= 0; h += `<div class="srow"><div class="sic"><img src="${ICON[j.k]}" alt=""></div><div class="sn"><b>Khạp ${i + 1} · ${d.name}</b>${done ? `<span class="mkh">Thấm muối rồi, được ${d.out} ${d.unit}</span>` : `${bar(1 - j.t / j.T, '#86B06A')}<span class="mkh">còn ${fmtT(j.t)}${j.fast ? ' · Ngoại có hũ muối sẵn cho con' : ''}</span>`}</div><span></span>${done ? `<button class="btn g sall" data-a="ktake" data-n="${i}">Vớt ra</button>` : '<span></span>'}</div>`; });
-  h += `<div class="note">Muối hột mua ở chợ, ${MUOI_PRICE} xu một bịch, để trên gác bếp (đang có ${(ST.gb || {}).muoi || 0} bịch).</div><div class="acts"><button class="btn" data-a="gocho3">Ra chợ mua muối</button>${moveBtn('khap')}</div>`; return h; }
 const KHAPV = (() => { const root = DYN(G(0, 0, 0)), pr = ROOT; ROOT = root; const jars = [];
   for (const [x, z, s] of [[-.17, -.05, 1], [.18, .08, .9]]){ const g = G(x, 0, z, R(0, 6), root); M(new T.LatheGeometry([[0, 0], [.13, .02], [.19, .12], [.2, .2], [.16, .3], [.1, .34], [.1, .37], [0, .37]].map(([a, b]) => new T.Vector2(a * s, b * s)), 10), '#6B3E22', 0, 0, 0, { p: g });
     M(new T.TorusGeometry(.105 * s, .015, 4, 10), '#4A2A16', 0, .365 * s, 0, { p: g, r: [Math.PI / 2, 0, 0] }); for (let k = 0; k < 3; k++) M(new T.TorusGeometry(.2 * s - k * .012, .006, 3, 12), '#8A5530', 0, (.16 + k * .03) * s, 0, { p: g, r: [Math.PI / 2, 0, 0], cast: false });
@@ -2038,10 +2041,6 @@ const hoWorst = () => PLOTS.filter(P => !P.tree && !P.trellis && !hidP(P) && !lo
 function hoBon(id){ const H = ST.ho, P = id ? PL[id] : hoWorst(); if (!H.bags || !P){ if (!P) say('Liếp nào đất cũng tốt hết rồi con, để dành phân bữa sau.', 'vui', { now: true }); return; } const p = ST.plots[P.id]; p.soil = Math.min(1, p.soil + HO.soil); H.bags--; const v = PV[P.id];
   for (let i = 0; i < 14; i++) puff('seed', R(P.b[0], P.b[2]), .2, R(P.b[1], P.b[3]), 1, pick(['#5A371F', '#6B4529', '#8A5D3B']), .6); floatAt(v.cx, .5, v.cz, `Bón phân: ${P.name.toLowerCase()} đất tốt lên`, '#9fd36a'); sfx('pick'); buzz(12); gainXP(2); save(); hud(); }
 function hoRau(){ const k = Object.keys(ST.inv).filter(k => CROPS[k] && !CROPS[k].tree && ST.inv[k] > 0).sort((a, b) => ST.inv[b] - ST.inv[a])[0]; if (!k) return say('Kho không còn rau dư con. Lá rụng với lục bình bỏ vô cũng được.', 'dan', { now: true }); if (!hoRoom()) return say('Hố đầy rồi con, đợi Ngoại ủ xong mẻ này.', 'dan', { now: true }); ST.inv[k]--; hoAdd(1); sfx('pick'); hud(); }
-function hoHTML(){ const H = ST.ho; let h = `<div class="meta">Đủ ${HO.need} phần đồ ủ là Ngoại ủ, ${H.done ? 'một ngày' : 'mẻ đầu một phút'} ra một bao phân</div>`;
-  h += `<div class="kv"><span>Đồ ủ trong hố</span>${bar(H.mat / HO.need, '#8A5D3B')}<b class="sm">${H.mat} / ${HO.need} phần</b></div><div class="kv"><span>Đang ủ</span><b>${H.t > 0 ? 'còn ' + fmtT(H.t) : 'chưa'}</b></div><div class="kv"><span>Phân đã ủ</span><b>${H.bags || 0} bao</b></div>`;
-  h += `<div class="note">Quét lá rụng +2 phần, vớt lục bình +1 phần (vịt no rồi thì lục bình vô hố), rau dư trong kho +1 phần. Bón một bao: đất liếp +0,3.</div>`;
-  const w = hoWorst(); h += `<div class="acts"><button class="btn${H.bags ? ' g' : ''}" data-a="hobon" ${H.bags && w ? '' : 'disabled'}>Bón liếp đất mệt nhất${w ? ` · ${w.name.toLowerCase()}` : ''}</button><button class="btn" data-a="horau" ${hoRoom() ? '' : 'disabled'}>Bỏ 1 rau dư</button>${moveBtn('ho')}</div>`; return h; }
 const HOV = (() => { const root = DYN(G(0, 0, 0)), pr = ROOT; ROOT = root;
   for (const [x, z, w, l] of [[0, -.24, .62, .05], [0, .24, .62, .05], [-.29, 0, .05, .5], [.29, 0, .05, .5]]) M(box(w, .1, l), '#6B4529', x, .04, z, { p: root });   // bờ ván
   for (const [x, z] of [[-.29, -.24], [.29, -.24], [-.29, .24], [.29, .24]]) M(cyl(.02, .022, .2, 5), C.bamboo, x, .09, z, { p: root });
@@ -2063,10 +2062,6 @@ const lo = {
   hatch(){ const L = ST.lo; if (!L.on || L.t > 0 || !L.hatch) return; const v = ST.vit, room = Math.max(0, vitCap() - v.n), add = Math.min(L.hatch, room), sold = L.hatch - add; v.n += add; v.trough += add; L.on = 0; L.hatch = 0; L.done++; vitSpawn();
     const [x, z] = LO.at; for (let i = 0; i < 12; i++) puff('leaf', x + R(-.2, .2), .25, z + R(-.2, .2), 1, pick(['#ffe266', '#F5D27A', '#E9C96A']), .5); sfx('pop'); buzz(20); gainXP(6);
     if (sold){ ST.xu += sold * LO.sellDuck; coinPop(`+${sold * LO.sellDuck} xu · bán ${sold} vịt con`); } say(add ? `Nở ${add} con vịt rồi nè! Ngoại thả chung với đàn.${sold ? ` Chuồng hết chỗ nên Ngoại bán ${sold} con cho cô Tư, được ${sold * LO.sellDuck} xu.` : ''}` : `Chuồng vịt hết chỗ, Ngoại bán ${sold} vịt con cho cô Tư được ${sold * LO.sellDuck} xu. Nâng chuồng thì nuôi thêm được.`, 'vui', { now: true }); save(); hud(); } };
-function loHTML(){ const L = ST.lo; let h = `<div class="meta">Lò ấp trấu của Ngoại · ${LO.eggs} trứng vịt + ${LO.cui} bó củi một lứa</div>`;
-  h += `<div class="kv"><span>Trong lò</span><b>${L.on ? (L.t > 0 ? `${LO.eggs} trứng, còn ${fmtT(L.t)}` : `${L.hatch} vịt con mới nở`) : 'trống'}</b></div><div class="kv"><span>Chuồng vịt</span><b>${ST.vit.n} / ${vitCap()} con</b></div>`;
-  h += `<div class="note">Vịt nở ra vô chuồng chung với đàn. Chuồng hết chỗ thì Ngoại bán vịt con cho hàng xóm, ${LO.sellDuck} xu một con.</div><div class="acts">`;
-  h += L.on && L.t <= 0 ? `<button class="btn g" data-a="lohatch">Bắt vịt con</button>` : `<button class="btn${!L.on ? ' g' : ''}" data-a="loput" ${L.on ? 'disabled' : ''}>Ấp ${LO.eggs} trứng vịt</button>`; return h + '</div>'; }
 const LOV = (() => { const [x, z] = LO.at, root = DYN(G(x, 0, z, .5)), pr = ROOT; ROOT = root;
   for (const [px, pz, hh] of [[-.32, -.22, .62], [.32, -.22, .62], [-.32, .22, .48], [.32, .22, .48]]) M(cyl(.02, .024, hh, 5), '#8A5D3B', px, hh / 2, pz, { p: root });
   for (let r = 0; r < 4; r++){ const m = M(box(.78, .03, .17), r % 2 ? C.thatch : C.thatchD, 0, .64 - r * .05, -.24 + r * .15, { p: root }); m.rotation.x = .32; }   // mái lá
@@ -2096,10 +2091,6 @@ const lsay = {
     STORE(t.k)[t.k] = (STORE(t.k)[t.k] || 0) + 1; L.trays[i] = null; L.done = (L.done || 0) + 1; L.made[t.k] = 1; const d = GD(t.k), P = PV[L.at]; if (P){ flyTo(ICON[t.k], P.cx, .3, P.cz); floatAt(P.cx, .7, P.cz, `+1 ${d.unit} ${d.name.toLowerCase()}`); }
     sfx('pop'); gainXP(Math.round(d.sell / 15)); save(); hud(); return true; },
   takeAll(){ let n = 0; ST.say.trays.forEach((t, i) => { if (t && t.t <= 0 && lsay.take(i)) n++; }); if (n) sayOnce('say1', 'Thơm lừng! Mứt sấy cất lên gác bếp, Tết mang ra đãi khách hay giao cho ghe chợ nổi đều được.', 'vui'); return n; } };
-function sayHTML(){ const L = ST.say; let h = `<div class="meta">Lò sấy gạch · chạy cả đêm, không cần nắng, mỗi mẻ một bó củi (gác bếp còn ${(ST.gb || {}).cui || 0} bó)</div>`;
-  L.trays.forEach((t, i) => { if (!t){ h += `<div class="sub">Khay ${i + 1} · trống</div><div class="acts">` + Object.keys(SAYR).map(k => { const d = SAYR[k], lk = (ST.lv || 1) < d.lv, can = !lk && canIn(d.in); return `<button class="btn${can ? ' g' : ''}" data-a="sput" data-k="${k}" data-n="${i}" ${can ? '' : 'disabled'}>${d.name}<small>${lk ? `tới cấp ${d.lv}` : `${needTxt(d.in)} · ${fmtT(d.t)}`}</small></button>`; }).join('') + '</div>'; return; }
-    const d = SAYR[t.k], done = t.t <= 0; h += `<div class="srow"><div class="sic"><img src="${ICON[t.k]}" alt=""></div><div class="sn"><b>Khay ${i + 1} · ${d.name}</b>${done ? '<span class="mkh">Sấy xong, cất lên gác bếp</span>' : `${bar(1 - t.t / t.T, '#E9823A')}<span class="mkh">còn ${fmtT(t.t)}${t.fast ? ' · mẻ đầu Ngoại canh lửa giùm' : ''}</span>`}</div><span></span>${done ? `<button class="btn g sall" data-a="stake" data-n="${i}">Lấy</button>` : '<span></span>'}</div>`; });
-  h += `<div class="note">Đường cát mua ở chợ, ${DUONG_PRICE} xu một bịch. Ớt, chuối sấy lò nhanh gấp đôi phơi nong.</div><div class="acts"><button class="btn" data-a="gocho3">Ra chợ mua đường, củi</button>${moveBtn('say')}</div>`; return h; }
 const SAYV = (() => { const root = DYN(G(0, 0, 0)), pr = ROOT; ROOT = root;
   M(box(.62, .42, .46), '#B5653E', 0, .21, 0, { p: root }); for (let r = 0; r < 4; r++) M(box(.63, .012, .47), '#9A4F2E', 0, .06 + r * .1, 0, { p: root, cast: false });   // gạch
   M(box(.66, .05, .5), '#8A4528', 0, .445, 0, { p: root }); M(cyl(.06, .07, .36, 7), '#9A4F2E', .2, .62, -.12, { p: root }); M(cyl(.075, .075, .03, 7), '#6B3A22', .2, .81, -.12, { p: root });
@@ -2120,10 +2111,6 @@ const gio = {
     if (has('lucbinhkho') < GIO.need) return say(`Cần ${GIO.need} bó lục bình khô. Vớt lục bình cất gác bếp rồi đem phơi nong nghe con.`, 'dan', { now: true }); STORE('lucbinhkho').lucbinhkho -= GIO.need; g.on = 1; g.t = g.done ? GIO.t : 30; g.T = g.t; g.n++; sfx('pick'); save(); hud();
     say(g.done ? 'Ngoại ngồi hiên đan, chừng một tiếng là xong một cái.' : 'Ngoại đan giỏ lục bình từ hồi con gái. Coi nè, chút xíu là xong.', 'vui', { now: true }); },
   take(){ const g = ST.gio; if (!g.on || g.t > 0) return; if (gbUsed() >= GB_CAP) return say('Gác bếp hết chỗ rồi con.', 'lo', { now: true }); STORE('gio').gio = (STORE('gio').gio || 0) + 1; g.on = 0; g.done++; const [x, z] = GIO.at; flyTo(ICON.gio, x, .4, z); floatAt(x, .7, z, '+1 giỏ lục bình'); sfx('pop'); gainXP(3); save(); hud(); sayOnce('gio1', 'Giỏ lục bình đi chợ nổi bán chạy lắm, khách nước ngoài cũng mua.', 'vui'); } };
-function gioHTML(){ const g = ST.gio, left = g.d === dayKey() ? GIO.day - g.n : GIO.day; let h = `<div class="meta">Ngoại ngồi hiên đan giỏ · ${GIO.need} bó lục bình khô một giỏ, còn đan được ${left} giỏ hôm nay</div>`;
-  h += `<div class="kv"><span>Lục bình khô</span><b>${has('lucbinhkho')} bó</b></div><div class="kv"><span>Đang đan</span><b>${g.on ? (g.t > 0 ? 'còn ' + fmtT(g.t) : 'xong rồi') : 'chưa'}</b></div>`;
-  h += `<div class="note">Lục bình vớt dưới mương, sông cất gác bếp (khi vịt no). Đem phơi nong thành lục bình khô.</div><div class="acts">`;
-  return h + (g.on && g.t <= 0 ? `<button class="btn g" data-a="giotake">Lấy giỏ</button>` : `<button class="btn${!g.on ? ' g' : ''}" data-a="gioput" ${g.on || left <= 0 || has('lucbinhkho') < GIO.need ? 'disabled' : ''}>Nhờ Ngoại đan một giỏ</button>`) + '</div>'; }
 const GIOV = (() => { const [x, z] = GIO.at, root = DYN(G(x, 0, z, .3)), pr = ROOT; ROOT = root;
   M(box(.22, .1, .22), '#8A5D3B', 0, .05, 0, { p: root }); for (const [px, pz] of [[-.09, -.09], [.09, -.09], [-.09, .09], [.09, .09]]) M(cyl(.012, .012, .1, 4), '#6B4529', px, .05, pz, { p: root });   // ghế đẩu
   const g = G(.28, 0, .05, 0, root); M(new T.CylinderGeometry(.13, .09, .14, 10, 1, true), '#B8A070', 0, .07, 0, { p: g, ds: true }); for (let k = 0; k < 3; k++) M(new T.TorusGeometry(.1 + k * .012, .006, 3, 12), '#9A8050', 0, .03 + k * .045, 0, { p: g, r: [Math.PI / 2, 0, 0], cast: false });
@@ -2190,19 +2177,158 @@ function cauTap(){ const C2 = ST.cau; if (C2.d !== dayKey()){ C2.d = dayKey(); C
 /* Sửa vườn: chạm ô bãi để đắp liếp, san lại thành cỏ, đặt hay dời đồ (nong, khạp, hố ủ) */
 const zoneName = P => P.zone === 'song' ? 'Đất bồi mé sông' : P.zone === 'sau' ? 'Đất sau nhà' : 'Bãi cỏ';
 function suaTitle(id){ const P = PL[id], p = ST.plots[id], ok = objAt(id); return ok ? OBJD[ok].title : locked(P) ? zoneName(P) : p.crop ? CROPS[p.crop].name : 'Liếp trống'; }
-function suaHTML(id){ const P = PL[id], p = ST.plots[id], ok = objAt(id), cost = P.cost || BAI.cost; let h = '';
-  if (ok) return h + `<div class="note">${OBJD[ok].title} đang đặt ở ô này.</div><div class="acts"><button class="btn g" data-a="oopen" data-k="${ok}">Mở ${OBJD[ok].name}</button>${moveBtn(ok)}</div>`;
-  if (locked(P)){ h += `<div class="bedc"><img src="${ICON.cuoc || UIC.sickle}" alt=""><span class="ar">›</span><img src="${UIC.seedbag}" alt=""><div><b>${P.zone === 'song' ? 'Lên liếp đất bồi' : 'Cuốc cỏ, đắp liếp mới'}</b><span>${P.zone === 'song' ? 'Đất phù sa mé sông màu mỡ, đắp xong là đất tốt sẵn.' : 'Đắp liếp ô này rồi gieo như liếp ngoài vườn.'}</span></div><span class="cst${ST.xu < cost ? ' poor' : ''}">${stI('coin', cost)}</span></div>`;
-    h += `<div class="acts"><button class="btn g" data-a="openbed" ${ST.xu < cost ? 'disabled' : ''}>Đắp liếp · ${cost} xu</button>`;
-    for (const k of OBJK){ if (!objOn(k)) continue; const O = ST[k], D = OBJD[k]; h += O.own ? `<button class="btn" data-a="ohere" data-k="${k}">Dời ${D.name} về đây</button>` : `<button class="btn" data-a="obuy" data-k="${k}" ${ST.xu < D.buy ? 'disabled' : ''}>Đặt ${D.name} ở đây · ${D.buy} xu</button>`; }
-    return h + '</div>'; }
-  if (p.crop) return h + `<div class="note">Liếp này đang trồng ${CROPS[p.crop].name.toLowerCase()}. Hái xong, liếp trống rồi mới san lại được con.</div>`;
-  return h + `<div class="note">Liếp đang trống. San lại thành cỏ thì có chỗ đặt đồ hay để đắp chỗ khác, muốn đắp lại thì tốn ${cost} xu như mới.</div><div class="acts"><button class="btn" data-a="bsan">San lại thành cỏ</button></div>`; }
 function baiSan(id){ const P = PL[id], p = ST.plots[id]; if (!P || !P.bai || locked(P) || p.crop) return; ST.open = ST.open.filter(i => i !== id); ST.plots[id] = pl0(null); PV[id].key = null; refreshPlot(id);
   const [u0, v0, u1, v1] = P.b; for (let i = 0; i < 14; i++) puff('leaf', R(u0, u1), .12, R(v0, v1), 1, pick(['#6E9A4A', '#8fb85a']), .6); sfx('pick'); save(); hud(); }
 function suaOn(on, move){ if (on && (VISIT || !baiOn())) return; SUA = on ? { move: move || null } : null; document.body.classList.toggle('sua', !!SUA); const b = $('#suaBar'); if (b) b.hidden = !SUA; suaTx();
   for (const P of PLOTS) if (P.bai) refreshPlot(P.id); if (SUA){ closeSheet(); const O = move && ST[move] && PV[ST[move].at]; camTo(O ? new T.Vector3(O.cx, .3, O.cz) : new T.Vector3(BAIC.x + .4, .3, BAIC.z + .3), Math.max(cam.zoom, DEFZ() * 1.15)); sayOnce('sua1', 'Bãi hông nhà con muốn đắp liếp chỗ nào, để cỏ chỗ nào, đặt đồ chỗ nào là tùy con. Chạm từng ô mà sửa nghe.', 'vui'); } }
 function suaTx(){ const t = $('#suaTx'); if (t && SUA) t.textContent = SUA.move ? `Chạm một ô cỏ để đặt ${OBJD[SUA.move].name}` : 'Chạm từng ô: đắp liếp, san cỏ, đặt đồ'; }
+
+/* ===== UX kit cho bảng: điều con muốn biết nhất nằm trên cùng (hero), việc chính kế đó (nút to), chi tiết bên dưới, luật chơi gấp lại ===== */
+const c01 = v => Math.max(0, Math.min(1, v));
+const UX = {
+  hero: (img, title, sub, tone = '', ring = null) => `<div class="uxh ${tone}"><div class="hi">${ring ? `<span class="ring" style="--p:${c01(ring[0]).toFixed(3)};--c:${ring[1]}"></span>` : ''}<img src="${img}" alt=""></div><div class="tx"><b>${title}</b><span>${sub}</span></div></div>`,
+  pips: (img, n, max, cap = 10) => { const m = Math.min(max, cap); let h = '<span class="pips">'; for (let i = 0; i < m; i++) h += `<img src="${img}" class="${i < n ? '' : 'off'}" alt="">`; return h + (max > cap ? `<span class="more">+${max - cap}</span>` : '') + '</span>'; },
+  card: (label, val, extra = '', tone = '') => `<div class="uxc ${tone}"><span class="l">${label}</span><span class="v">${val}</span>${extra}</div>`,
+  mbar: (f, col) => `<div class="mbar"><i style="width:${Math.round(c01(f) * 100)}%;background:${col}"></i></div>`,
+  cta: btns => { const b = btns.filter(Boolean); return b.length ? `<div class="cta">${b.join('')}</div>` : ''; },
+  btn: (a, label, o = {}) => `<button class="btn${o.g ? ' g' : ''}${o.r ? ' r' : ''}" data-a="${a}"${o.k != null ? ` data-k="${o.k}"` : ''}${o.n != null ? ` data-n="${o.n}"` : ''}${o.hold ? ` data-hold="${o.hold}"` : ''} ${o.dis ? 'disabled' : ''}>${o.img ? `<img src="${o.img}" alt="">` : ''}<span>${label}${o.sub ? `<small>${o.sub}</small>` : ''}</span></button>`,
+  upc: (a, img, title, cost, o = {}) => `<button class="upc" data-a="${a}"${o.k != null ? ` data-k="${o.k}"` : ''} ${o.dis ? 'disabled' : ''}><img src="${img}" alt=""><div><b>${title}</b>${o.why ? `<span class="why">${o.why}</span>` : cost != null ? `<span><img src="${UIC.coin}" alt="">${cost} xu</span>` : ''}</div></button>`,
+  title: (t, small = '') => `<div class="uxt">${t}${small ? `<small>${small}</small>` : ''}</div>`,
+  more: (t, html) => `<details class="uxm"><summary>${t}</summary><div>${html}</div></details>`,
+  chips: inp => Object.entries(inp).map(([k, n]) => { const hv = has(k); return `<span class="chip${hv < n ? ' no' : ''}"><img src="${ICON[k]}" alt="">${Math.min(hv, n)}/${n}</span>`; }).join(''),
+  // ô chế biến: trống (chạm để chọn món) · đang làm (vòng thời gian) · xong (chạm để lấy)
+  slot: (i, t, R, aPick, aTake, label, doneTxt = 'Xong rồi · chạm lấy') => { if (!t) return `<button class="slot empty" data-a="${aPick}" data-n="${i}"><div class="si">+</div><div><b>${label} ${i + 1}</b><span>Chạm để chọn món</span></div></button>`;
+    const d = R[t.k] || GD(t.k), done = t.t <= 0; return `<button class="slot${done ? ' done' : ''}" ${done ? `data-a="${aTake}" data-n="${i}"` : 'data-a="noop"'}><div class="si"><span class="ring" style="--p:${c01(1 - t.t / t.T).toFixed(3)};--c:${done ? '#7CC04A' : '#E9B23A'}"></span><img src="${ICON[t.k]}" alt=""></div><div><b>${d.name}</b><span>${done ? doneTxt : 'còn ' + fmtT(t.t)}</span></div></button>`; },
+  // danh sách món để chọn: hình thành phẩm, nguyên liệu có/thiếu, thời gian, giá bán
+  pick: (aPut, i, R, label) => `<button class="back" data-a="pickback">‹ Quay lại</button>` + UX.title(`Chọn món cho ${label.toLowerCase()} ${i + 1}`) + Object.keys(R).map(k => { const d = R[k], lk = (ST.lv || 1) < (d.lv || 1), can = !lk && canIn(d.in);
+    return `<button class="rpk${lk ? ' lock' : ''}" data-a="${aPut}" data-k="${k}" data-n="${i}" ${can ? '' : 'disabled'}><img src="${ICON[k]}" alt=""><div class="rt"><b>${d.name}</b><div class="ins">${lk ? `<span class="chip no">Tới cấp ${d.lv}</span>` : UX.chips(d.in)}</div></div><div class="rm">${fmtT(d.t)}<em><img src="${UIC.coin}" alt="">${d.sell}${d.out > 1 ? ' ×' + d.out : ''}</em></div></button>`; }).join('') };
+const PART = (n, unit = 'phần') => `${n} <small>${unit}</small>`;
+/* --- chuồng gà --- */
+function gaHTML(){ const g = ST.ga, cap = gaCap(), lvOk = (ST.lv || 1) >= GA.buyLv, b = g.brood, lay = gaLaying(), tcap = g.hens * GA.trough, food = Math.floor(g.trough), nestCap = g.hens * GA.nestMax;
+  const next = food >= 1 && lay > 0 ? Math.max(0, GA.cyc - g.acc) / ST.spd : null, bap = ST.inv.bap || 0; let h = '';
+  if (g.eggs > 0) h += UX.hero(ICON.trungga, `Có ${g.eggs} trứng chờ lượm`, g.eggs >= nestCap ? 'Ổ đầy rồi, lượm đi thì gà mới đẻ tiếp' : next != null ? `Trứng kế tiếp chừng ${fmtT(next)}` : 'Máng hết đồ ăn, cho gà ăn để đẻ tiếp', 'go');
+  else if (food < 1) h += UX.hero(ICON.mai, 'Máng hết thức ăn', 'Gà nhịn đói thì không đẻ. Cho ăn liền nghe con', 'warn');
+  else h += UX.hero(ICON.mai, 'Gà đang đẻ', `Trứng kế tiếp chừng ${fmtT(next)}`, '', [1 - next * ST.spd / GA.cyc, '#E9B23A']);
+  h += UX.cta([g.eggs ? UX.btn('gaegg', `Lượm ${g.eggs} trứng`, { g: 1, img: ICON.trungga }) : '', UX.btn('gafeed', food >= tcap ? 'Máng đầy' : 'Cho ăn', { g: !g.eggs && food < tcap, img: ICON.bap, dis: food >= tcap, sub: food >= tcap ? '' : bap ? `dùng ${bap} bắp trong kho` : `mua cám ${GA.cam} xu/phần` })]);
+  const lasts = lay > 0 ? Math.floor(g.trough / lay) * GA.cyc / ST.spd : 0;
+  h += '<div class="uxs">' + UX.card('Máng ăn', PART(`${food}/${tcap}`), UX.mbar(g.trough / Math.max(1, tcap), food < 1 ? '#F08A6E' : '#E9B23A') + `<span class="l" style="margin-top:5px">${food ? 'đủ chừng ' + fmtT(lasts) : 'hết rồi'}</span>`, food < 1 ? 'warn' : '')
+    + UX.card('Trong ổ', PART(`${g.eggs}/${nestCap}`, 'trứng'), UX.pips(ICON.trungga, g.eggs, nestCap, 9), g.eggs ? 'go' : '') + '</div>';
+  h += '<div class="uxs one">' + UX.card('Đàn gà', `${g.hens} mái${g.rooster ? ' · 1 trống' : ''} <small>· chuồng ${g.hens + g.rooster}/${cap} chỗ</small>`, `<span class="pips">${Array.from({ length: g.hens }, () => `<img src="${ICON.mai}" alt="">`).join('')}${g.rooster ? `<img src="${ICON.trong}" alt="">` : ''}${Array.from({ length: Math.max(0, cap - g.hens - g.rooster) }, () => `<img src="${ICON.mai}" class="off" alt="">`).join('')}</span>`) + '</div>';
+  if (b) h += '<div class="uxs one">' + UX.card(b.stage === 'egg' ? 'Đang ấp trứng' : 'Gà con đang lớn', `còn ${fmtT(((b.stage === 'egg' ? GA.brood : GA.grow) - b.t) / ST.spd)}`, UX.mbar(b.t / (b.stage === 'egg' ? GA.brood : GA.grow), '#86B06A'), 'go') + '</div>';
+  if (lvOk){ const full = g.hens + g.rooster >= cap, why = b ? 'đang ấp một lứa' : !g.rooster ? 'cần gà trống' : g.hens < 2 ? 'cần 2 gà mái' : !(ST.inv.trungga > 0) ? 'cần 1 trứng trong kho' : '';
+    h += UX.title('Nuôi thêm', `${g.hens + g.rooster}/${cap} chỗ`) + '<div class="upg">' + UX.upc('gabuy', ICON.mai, 'Mua gà mái', GA.buy, { dis: full || ST.xu < GA.buy, why: full ? 'chuồng hết chỗ' : '' }) + (g.lv + 1 < GA.caps.length ? UX.upc('gaup', ICON.camga, `Chuồng ${GA.caps[g.lv + 1]} con`, GA.up[g.lv + 1], { dis: ST.xu < GA.up[g.lv + 1] }) : '') + UX.upc('gahatch', ICON.trungga, 'Ấp 1 trứng', null, { dis: !!why, why: why || 'nở sau ' + fmtT(GA.brood / ST.spd) }) + '</div>'; }
+  h += UX.more('Cách nuôi gà', `Gà đẻ mỗi ${GA.cyc / 3600} tiếng một trứng nếu máng còn thức ăn. Cho ăn dùng bắp trong kho trước (1 trái = ${GA.bapPhan} phần), thiếu thì mua cám ${GA.cam} xu một phần. ${lvOk ? `Ấp trứng cần gà trống và một trứng trong kho, nở ra mái thì đẻ thêm, trống thì Ngoại bán giùm ${GA.roosterSell} xu.` : `Tới cấp ${GA.buyLv} mua thêm gà, nâng chuồng và ấp trứng được.`}`);
+  return h; }
+/* --- chuồng vịt --- */
+function vitHTML(){ const v = ST.vit, cap = vitCap(), tcap = v.n * VIT.trough, food = Math.floor(v.trough), nestCap = v.n * VIT.nestMax, rm = ST.inv.raumuong || 0;
+  const next = food >= 1 ? Math.max(0, VIT.cyc - v.acc) / ST.spd : null; let h = '';
+  if (v.eggs > 0) h += UX.hero(ICON.trungvit, `Có ${v.eggs} trứng vịt chờ lượm`, next != null ? `Lứa kế tiếp chừng ${fmtT(next)}` : 'Máng hết đồ ăn rồi con', 'go');
+  else if (food < 1) h += UX.hero(ICON.vitmai, 'Máng vịt hết đồ ăn', 'Cho rau muống hay vớt lục bình cho vịt ăn', 'warn');
+  else h += UX.hero(ICON.vitmai, 'Vịt đang đẻ', `Lứa trứng kế tiếp chừng ${fmtT(next)}`, '', [1 - next * ST.spd / VIT.cyc, '#E9B23A']);
+  h += UX.cta([v.eggs ? UX.btn('viteggs', `Lượm ${v.eggs} trứng`, { g: 1, img: ICON.trungvit }) : '', UX.btn('vitfeed', food >= tcap ? 'Máng đầy' : 'Cho ăn', { g: !v.eggs && food < tcap, img: ICON.raumuong, dis: food >= tcap, sub: food >= tcap ? '' : rm ? `dùng ${rm} bó rau muống` : `mua cám ${VIT.cam} xu/phần` })]);
+  h += '<div class="uxs">' + UX.card('Máng ăn', PART(`${food}/${tcap}`), UX.mbar(v.trough / Math.max(1, tcap), food < 1 ? '#F08A6E' : '#86B06A') + `<span class="l" style="margin-top:5px">${food ? 'đủ chừng ' + fmtT(Math.floor(v.trough / v.n) * VIT.cyc / ST.spd) : 'hết rồi'}</span>`, food < 1 ? 'warn' : '')
+    + UX.card('Trong ổ', PART(`${v.eggs}/${nestCap}`, 'trứng'), UX.pips(ICON.trungvit, v.eggs, nestCap, 9), v.eggs ? 'go' : '') + '</div>';
+  h += '<div class="uxs one">' + UX.card('Đàn vịt', `${v.n} vịt mái <small>· chuồng ${v.n}/${cap} chỗ</small>`, UX.pips(ICON.vitmai, v.n, cap, 12)) + '</div>';
+  h += UX.title('Nuôi thêm', `${v.n}/${cap} chỗ`) + '<div class="upg">' + UX.upc('vitbuy', ICON.vitmai, 'Mua vịt mái', VIT.buy, { dis: v.n >= cap || ST.xu < VIT.buy, why: v.n >= cap ? 'chuồng hết chỗ' : '' }) + (v.lv + 1 < VIT.caps.length ? UX.upc('vitup', ICON.vitmai, `Chuồng ${VIT.caps[v.lv + 1]} con`, VIT.up[v.lv + 1], { dis: ST.xu < VIT.up[v.lv + 1] }) : '') + '</div>';
+  h += UX.more('Cách nuôi vịt', `Vịt đẻ mỗi ${VIT.cyc / 3600} tiếng một trứng nếu máng còn thức ăn. Vịt ăn rau muống trong kho (1 bó = ${VIT.rm} phần), lục bình vớt dưới mương (+1 phần, khỏi tốn xu), thiếu thì mua cám ${VIT.cam} xu một phần.${(ST.lv || 1) >= 9 ? ' Lò ấp trấu cạnh chuồng ấp trứng vịt ra vịt con.' : ''}`);
+  return h; }
+/* --- liếp, giàn, gốc cây --- */
+const moistTxt = m => m <= 0 ? 'Khô' : m < .35 ? 'Hơi khô' : m < .75 ? 'Vừa' : 'Ướt đẫm', soilTxt = s2 => s2 > .75 ? 'Tốt' : s2 > .45 ? 'Khá' : 'Đất mệt';
+function plotHTML(P, p, id){ const st = stageOf(p), cond = condOf(p), c = p.crop && CROPS[p.crop], rom = ST.inv.rom || 0, mulched = p.mulch > ST.gt; let h = '', cta = [];
+  if (c){ const left = (c.grow - p.g) / (mulched ? 1.08 : 1) / fastK(p) / ST.spd, rp = ripe(p), dry = !P.trellis && p.moist <= 0;
+    if (p.dead) h += UX.hero(ICON[p.crop], 'Cây chết khô rồi', 'Giữ nút nhổ bỏ rồi gieo lại nghe con', 'warn');
+    else if (rp) h += UX.hero(ICON[p.crop], 'Chín rồi, hái thôi!', `Được chừng ${Math.max(1, harvestN(p) - (p.stolen || 0))} ${c.unit}${c.cuts > 1 && !c.tree ? ` · đợt ${(p.cut || 0) + 1}/${c.cuts}` : ''}`, 'go');
+    else if (cond === 'wilt') h += UX.hero(ICON[p.crop], `${STAGE[st]} · đang héo`, 'Tưới liền kẻo thu kém', 'warn', [p.g / c.grow, '#F08A6E']);
+    else if (dry) h += UX.hero(ICON[p.crop], 'Khô đất, cây ngừng lớn', `${STAGE[st]} · tưới là lớn tiếp`, 'warn', [p.g / c.grow, '#F08A6E']);
+    else h += UX.hero(ICON[p.crop], STAGE[st], `Còn ${fmtT(left)} là chín${c.cuts > 1 && !c.tree ? ` · đợt ${(p.cut || 0) + 1}/${c.cuts}` : ''}`, '', [p.g / c.grow, '#86B06A']);
+    if (rp) cta.push(UX.btn('harvest', 'Hái', { g: 1, img: ICON[p.crop] })); else if (p.dead) cta.push(UX.btn('', 'Giữ để nhổ bỏ', { r: 1, hold: 'pull' })); else if (!P.trellis && p.moist < .35) cta.push(UX.btn('water', 'Tưới', { g: 1, img: UIC.can })); }
+  else { h += UX.hero(UIC.seedbag, P.tree ? 'Gốc trống' : 'Liếp trống', P.tree ? 'Trồng cây giống ở gốc này' : 'Gieo hạt mới nghe con'); cta.push(UX.btn('pickseed', P.tree ? 'Chọn cây giống' : 'Chọn hạt để gieo', { g: 1, img: UIC.seedbag })); }
+  h += UX.cta(cta);
+  if (!P.trellis){ const mp = Math.round(c01(p.moist) * 5), sp = Math.round(c01(p.soil) * 5);
+    h += '<div class="uxs">' + UX.card('Độ ẩm', moistTxt(p.moist), UX.pips(UIC.drop, mp, 5), p.moist <= 0 ? 'warn' : '') + UX.card('Đất', soilTxt(p.soil), UX.pips(UIC.sprout, sp, 5), p.soil <= .45 ? 'warn' : '') + '</div>';
+    if (!P.tree) h += '<div class="uxs one">' + UX.card('Rơm phủ', mulched ? `còn ${fmtT((p.mulch - ST.gt) / ST.spd)} <small>· giữ ẩm, lớn nhanh hơn</small>` : 'Chưa phủ <small>· phủ rơm giữ ẩm lâu, cây lớn nhanh</small>', '', mulched ? 'go' : '') + '</div>'; }
+  else h += '<div class="uxs one">' + UX.card('Giàn trên mương', 'Rễ sát mương <small>· không cần tưới</small>') + '</div>';
+  const acts = [];
+  if (c && !p.dead && !P.trellis && !cta.some(x => x.includes('data-a="water"'))) acts.push(UX.btn('water', 'Tưới', { dis: p.moist > .92 }));
+  if (!P.trellis && !P.tree) acts.push(UX.btn('mulch', `Phủ rơm · còn ${rom}`, { dis: rom < 1 || mulched }));
+  if (!P.trellis && !P.tree && ST.ho && ST.ho.bags > 0 && p.soil < .95) acts.push(UX.btn('bon', `Bón phân · còn ${ST.ho.bags}`));
+  if (acts.length) h += `<div class="acts">${acts.join('')}</div>`;
+  if (c && !p.dead && !c.tree) h += UX.more('Khác', `Nhổ bỏ cây đang trồng để gieo cây khác. Giữ nút một chút để nhổ.<div class="acts"><button class="btn r hold" data-hold="pull">Giữ để nhổ bỏ</button></div>`);
+  return h; }
+/* --- nong phơi (ô + chọn món) --- */
+function nongHTML(){ const N = ST.nong, sun = sunAt(Date.now());
+  if (SHEET && SHEET.pick != null) return UX.pick('nput', SHEET.pick, PHOI, 'Nong');
+  const done = N.trays.filter(t => t && t.t <= 0).length, run = N.trays.filter(t => t && t.t > 0), soon = run.length ? Math.min(...run.map(t => t.t)) : 0; let h = '';
+  if (done) h += UX.hero(ICON[N.trays.find(t => t && t.t <= 0).k], `${done} nong khô rồi`, 'Lấy cất lên gác bếp nghe con', 'go');
+  else if (run.length) h += UX.hero(UIC.sun, sun ? 'Đang phơi nắng' : 'Trời tối, nong nằm yên', sun ? `Nong kế tiếp khô sau ${fmtT(soon)} nắng` : `Sáng mai ${NONG.sun[0]} giờ nắng lên là khô tiếp, không hư đâu`, sun ? '' : 'warn');
+  else h += UX.hero(ICON.nong, '4 nong đang trống', 'Chạm một nong trống để phơi đồ', '');
+  h += UX.cta([done ? UX.btn('ntakeall', `Lấy ${done} món khô`, { g: 1, img: ICON[N.trays.find(t => t && t.t <= 0).k] }) : '']);
+  h += '<div class="slots">' + N.trays.map((t, i) => UX.slot(i, t, PHOI, 'npick', 'ntake', 'Nong', 'Khô rồi · chạm lấy')).join('') + '</div>';
+  h += `<div class="uxs one" style="margin-top:10px">${UX.card('Gác bếp', `${gbUsed()}/${GB_CAP} <small>chỗ · đồ khô cất ở đây</small>`, UX.mbar(gbUsed() / GB_CAP, gbUsed() >= GB_CAP ? '#F08A6E' : '#C9A66B'))}</div>`;
+  h += UX.more('Cách phơi', `Phơi bằng nắng thật, từ ${NONG.sun[0]} giờ sáng tới ${NONG.sun[1]} giờ chiều. Trời tối nong nằm yên, không hư. Đồ khô bán ở chợ hay giao hàng xóm.<div class="acts">${moveBtn('nong')}</div>`); return h; }
+
+/* --- khạp muối --- */
+function khapHTML(){ const K = ST.khap; if (SHEET && SHEET.pick != null) return UX.pick('kput', SHEET.pick, MUOI, 'Khạp');
+  const done = K.jars.filter(j => j && j.t <= 0), run = K.jars.filter(j => j && j.t > 0); let h = '';
+  if (done.length) h += UX.hero(ICON[done[0].k], `${done.length} khạp thấm muối rồi`, 'Vớt ra cất lên gác bếp nghe con', 'go');
+  else if (run.length){ const t = run.reduce((a, b) => a.t < b.t ? a : b); h += UX.hero(ICON[t.k], `Đang muối ${MUOI[t.k].name.toLowerCase()}`, `Còn ${fmtT(t.t)} là ăn được`, '', [1 - t.t / t.T, '#86B06A']); }
+  else h += UX.hero(ICON.khap, 'Hai khạp đang trống', 'Chạm khạp trống để muối dưa hay hột vịt');
+  h += UX.cta([done.length ? UX.btn('ktakeall', 'Vớt ra hết', { g: 1, img: ICON[done[0].k] }) : '']);
+  h += '<div class="slots">' + K.jars.map((j, i) => UX.slot(i, j, MUOI, 'kpick', 'ktake', 'Khạp', 'Thấm rồi · chạm vớt')).join('') + '</div>';
+  h += `<div class="uxs" style="margin-top:10px">${UX.card('Muối hột', `${has('muoi')} <small>bịch</small>`, '', has('muoi') ? '' : 'warn')}${UX.card('Gác bếp', `${gbUsed()}/${GB_CAP} <small>chỗ</small>`, UX.mbar(gbUsed() / GB_CAP, '#C9A66B'))}</div>`;
+  if (!has('muoi')) h += UX.cta([UX.btn('gocho3', 'Ra chợ mua muối', { img: ICON.muoi, sub: `${MUOI_PRICE} xu một bịch` })]);
+  return h + UX.more('Cách muối', `Muối xong để bao lâu cũng được, không hư. Dưa cải chua ăn với thịt kho, hột vịt muối ăn cháo trắng.<div class="acts">${moveBtn('khap')}</div>`); }
+/* --- lò sấy --- */
+function sayHTML(){ const L = ST.say; if (SHEET && SHEET.pick != null) return UX.pick('sput', SHEET.pick, SAYR, 'Khay');
+  const done = L.trays.filter(t => t && t.t <= 0), run = L.trays.filter(t => t && t.t > 0), cui = has('cui'); let h = '';
+  if (done.length) h += UX.hero(ICON[done[0].k], `${done.length} khay sấy xong`, 'Lấy cất lên gác bếp nghe con', 'go');
+  else if (run.length){ const t = run.reduce((a, b) => a.t < b.t ? a : b); h += UX.hero(ICON[t.k], `Đang sấy ${SAYR[t.k].name.toLowerCase()}`, `Còn ${fmtT(t.t)}, lò chạy cả đêm`, '', [1 - t.t / t.T, '#E9823A']); }
+  else if (!cui) h += UX.hero(ICON.cui, 'Hết củi rồi', 'Mỗi mẻ sấy cần một bó củi', 'warn');
+  else h += UX.hero(ICON.say, 'Lò đang nguội', 'Chạm khay trống để sấy mứt, trái cây');
+  h += UX.cta([done.length ? UX.btn('stakeall', 'Lấy hết', { g: 1, img: ICON[done[0].k] }) : '', !cui ? UX.btn('gocho3', 'Mua củi', { img: ICON.cui, sub: '3 xu một bó' }) : '']);
+  h += '<div class="slots">' + L.trays.map((t, i) => UX.slot(i, t, SAYR, 'spick', 'stake', 'Khay', 'Sấy xong · chạm lấy')).join('') + '</div>';
+  h += `<div class="uxs" style="margin-top:10px">${UX.card('Củi', `${cui} <small>bó · 1 bó một mẻ</small>`, '', cui ? '' : 'warn')}${UX.card('Đường cát', `${has('duong')} <small>bịch</small>`)}</div>`;
+  return h + UX.more('Cách sấy', `Lò sấy chạy cả đêm, không cần nắng. Ớt, chuối sấy lò nhanh gấp đôi phơi nong. Đường cát mua ở chợ, ${DUONG_PRICE} xu một bịch.<div class="acts"><button class="btn" data-a="gocho3">Ra chợ</button>${moveBtn('say')}</div>`); }
+/* --- hố ủ phân --- */
+function hoHTML(){ const H = ST.ho, w = hoWorst(); let h = '';
+  if (H.bags) h += UX.hero(ICON.phan, `Có ${H.bags} bao phân`, w ? `Bón cho ${w.name.toLowerCase()} đang đất mệt nhất` : 'Liếp nào đất cũng tốt, để dành bữa sau', 'go');
+  else if (H.t > 0) h += UX.hero(ICON.ho, 'Đang ủ phân', `Còn ${fmtT(H.t)} ra một bao`, '', [1 - H.t / (H.done ? HO.t : HO.first), '#8A5D3B']);
+  else h += UX.hero(ICON.ho, `Cần thêm ${Math.max(0, HO.need - H.mat)} phần đồ ủ`, 'Quét lá, vớt lục bình, bỏ rau dư vô hố', H.mat ? '' : 'warn');
+  h += UX.cta([H.bags ? UX.btn('hobon', 'Bón liếp đất mệt', { g: 1, img: ICON.phan, dis: !w, sub: w ? w.name.toLowerCase() : '' }) : '', UX.btn('horau', 'Bỏ 1 rau dư', { img: ICON.cai, dis: !hoRoom() })]);
+  h += '<div class="uxs">' + UX.card('Đồ ủ trong hố', `${H.mat}/${HO.need} <small>phần</small>`, UX.pips(ICON.la || ICON.lucbinh, Math.min(H.mat, HO.need), HO.need)) + UX.card('Phân đã ủ', `${H.bags || 0}/${HO.max} <small>bao</small>`, UX.pips(ICON.phan, H.bags || 0, HO.max), H.bags ? 'go' : '') + '</div>';
+  return h + UX.more('Cách ủ phân', `Quét lá rụng +2 phần, vớt lục bình +1 phần (vịt no rồi thì lục bình vô hố), rau dư trong kho +1 phần. Đủ ${HO.need} phần thì Ngoại ủ, một ngày ra một bao. Bón một bao: đất liếp +0,3.<div class="acts">${moveBtn('ho')}</div>`); }
+/* --- lò ấp vịt --- */
+function loHTML(){ const L = ST.lo, egg = ST.inv.trungvit || 0, cui = has('cui'), room = vitCap() - ST.vit.n; let h = '';
+  if (L.on && L.t <= 0) h += UX.hero(ICON.vitcon, `${L.hatch} vịt con nở rồi!`, room >= L.hatch ? 'Bắt thả chung với đàn nghe con' : `Chuồng còn ${room} chỗ, dư thì Ngoại bán ${LO.sellDuck} xu một con`, 'go');
+  else if (L.on) h += UX.hero(ICON.trungvit, `Đang ấp ${LO.eggs} trứng`, `Còn ${fmtT(L.t)} là nở`, '', [1 - L.t / (L.T || LO.t), '#E9B23A']);
+  else h += UX.hero(ICON.vitcon, 'Lò ấp đang trống', egg >= LO.eggs && cui >= LO.cui ? `Đủ ${LO.eggs} trứng vịt với củi rồi, ấp liền được` : `Cần ${LO.eggs} trứng vịt và ${LO.cui} bó củi`, egg >= LO.eggs && cui >= LO.cui ? '' : 'warn');
+  h += UX.cta([L.on && L.t <= 0 ? UX.btn('lohatch', 'Bắt vịt con', { g: 1, img: ICON.vitcon }) : !L.on ? UX.btn('loput', `Ấp ${LO.eggs} trứng vịt`, { g: 1, img: ICON.trungvit, dis: egg < LO.eggs || cui < LO.cui }) : '']);
+  h += '<div class="uxs">' + UX.card('Trứng vịt', `${egg}/${LO.eggs}`, UX.pips(ICON.trungvit, Math.min(egg, LO.eggs), LO.eggs), egg >= LO.eggs ? 'go' : '') + UX.card('Chuồng vịt', `${ST.vit.n}/${vitCap()} <small>con</small>`, UX.pips(ICON.vitmai, ST.vit.n, vitCap(), 8), room ? '' : 'warn') + '</div>';
+  return h + UX.more('Cách ấp', `Vùi ${LO.eggs} trứng vịt trong trấu, hun một bó củi cho ấm, chừng ${LO.t / 3600} tiếng là nở. Vịt con vô chuồng chung với đàn, chuồng hết chỗ thì Ngoại bán cho hàng xóm.`); }
+/* --- hiên nhà đan giỏ --- */
+function gioHTML(){ const g = ST.gio, left = g.d === dayKey() ? GIO.day - g.n : GIO.day, kho = has('lucbinhkho'); let h = '';
+  if (g.on && g.t <= 0) h += UX.hero(ICON.gio, 'Ngoại đan xong một giỏ', 'Lấy cất lên gác bếp nghe con', 'go');
+  else if (g.on) h += UX.hero(ICON.gio, 'Ngoại đang đan giỏ', `Còn ${fmtT(g.t)} là xong`, '', [1 - g.t / (g.T || GIO.t), '#B8A070']);
+  else if (left <= 0) h += UX.hero(ICON.gio, 'Hôm nay đan đủ rồi', 'Mai Ngoại đan tiếp nghe con', '');
+  else h += UX.hero(ICON.lucbinhkho, kho >= GIO.need ? 'Đủ lục bình khô rồi' : `Cần ${GIO.need} bó lục bình khô`, kho >= GIO.need ? 'Nhờ Ngoại đan một giỏ nghe' : 'Vớt lục bình rồi đem phơi nong', kho >= GIO.need ? '' : 'warn');
+  h += UX.cta([g.on && g.t <= 0 ? UX.btn('giotake', 'Lấy giỏ', { g: 1, img: ICON.gio }) : !g.on ? UX.btn('gioput', 'Nhờ Ngoại đan một giỏ', { g: 1, img: ICON.gio, dis: left <= 0 || kho < GIO.need }) : '']);
+  h += '<div class="uxs">' + UX.card('Lục bình khô', `${kho}/${GIO.need} <small>bó</small>`, UX.pips(ICON.lucbinhkho, Math.min(kho, GIO.need), GIO.need), kho >= GIO.need ? 'go' : '') + UX.card('Hôm nay', `${GIO.day - left}/${GIO.day} <small>giỏ</small>`, UX.pips(ICON.gio, GIO.day - left, GIO.day)) + '</div>';
+  return h + UX.more('Cách đan giỏ', `Lục bình vớt dưới mương, sông cất lên gác bếp (khi vịt no). Phơi nong 5 lục bình ra 5 bó khô. Ngoại đan ${GIO.need} bó một giỏ, mỗi ngày tối đa ${GIO.day} giỏ.`); }
+/* --- ô bãi: đắp liếp, đặt đồ --- */
+function suaHTML(id){ const P = PL[id], p = ST.plots[id], ok = objAt(id), cost = P.cost || BAI.cost; let h = '';
+  if (ok){ const D = OBJD[ok]; return UX.hero(ICON[ok], D.title, 'Đang đặt ở ô này') + UX.cta([UX.btn('oopen', `Mở ${D.name}`, { g: 1, k: ok, img: ICON[ok] }), `<button class="btn" data-a="omove" data-k="${ok}"><span>Dời qua ô khác</span></button>`]); }
+  if (locked(P)){ h += UX.hero(ICON.cuoc || UIC.sickle, zoneName(P), P.zone === 'song' ? 'Đất phù sa màu mỡ, đắp xong đất tốt sẵn' : 'Đắp liếp để trồng, hay đặt đồ ở ô này');
+    h += UX.cta([UX.btn('openbed', 'Đắp liếp', { g: 1, img: UIC.seedbag, dis: ST.xu < cost, sub: `${cost} xu` })]);
+    const objs = OBJK.filter(objOn); if (objs.length) h += UX.title('Hay đặt đồ ở đây') + '<div class="upg">' + objs.map(k => { const O = ST[k], D = OBJD[k]; return O.own ? UX.upc('ohere', ICON[k], `Dời ${D.name} về đây`, null, { k, why: 'đang ở ô khác' }) : UX.upc('obuy', ICON[k], D.title, D.buy, { k, dis: ST.xu < D.buy }); }).join('') + '</div>';
+    return h; }
+  if (p.crop) return UX.hero(ICON[p.crop], CROPS[p.crop].name, 'Hái xong, liếp trống rồi mới san lại được con');
+  return UX.hero(UIC.seedbag, 'Liếp trống', 'Gieo hạt, hay san lại thành cỏ để đặt đồ') + UX.cta([UX.btn('pickseed', 'Chọn hạt để gieo', { g: 1, img: UIC.seedbag }), `<button class="btn" data-a="bsan"><span>San thành cỏ</span></button>`]); }
+/* --- bếp: thêm dòng trạng thái trên cùng --- */
+function bepHTML(){ const B = ST.bep; if ((ST.lv || 1) < BEP.lv || !B.lit) return bepHTML0(); const done = B.pots.filter(p => p && p.t <= 0), run = B.pots.filter(p => p && p.t > 0); let h = '';
+  if (done.length) h += UX.hero(ICON[done[0].k], `${done.length} nồi chín rồi`, 'Lấy cất lên gác bếp nghe con', 'go');
+  else if (run.length){ const t = run.reduce((a, b) => a.t < b.t ? a : b); h += UX.hero(ICON[t.k], `Đang nấu ${DISH[t.k].name.toLowerCase()}`, `Còn ${bepT(t.t)} là chín`, '', [1 - t.t / DISH[t.k].t, '#E9A23A']); }
+  else h += UX.hero(ICON.cui, 'Bếp đang rảnh', `Chọn món nấu bên dưới · củi còn ${has('cui')} bó`, has('cui') ? '' : 'warn');
+  return h + bepHTML0(); }
 
 /* ===== đơn hàng nhà bên: hàng xóm chèo xuồng ghé bến đặt mua, trả hơn giá chợ ===== */
 const NB = ['Cô Tư', 'Chú Bảy', 'Dì Út', 'Thím Ba', 'Ông Sáu', 'Bé Na', 'Cô Hai', 'Chú Năm'];
@@ -2246,7 +2372,7 @@ function bepTake(i){ const B = ST.bep, p = B.pots[i]; if (!p || p.t > 0) return 
 function bepTakeAll(){ let n = 0; ST.bep.pots.forEach((p, i) => { if (p && p.t <= 0 && bepTake(i)) n++; }); return n; }
 function bepLite(){ const B = ST.bep; if (B.lit || has('cui') < 1) return; B.lit = 1; ST.gb.cui -= 1; sfx('up'); say('Bếp đỏ lửa rồi! Mấy món quê để Ngoại chỉ con nấu. Món nấu cất trên gác bếp, đem bán hay giao cho hàng xóm đều được giá.', 'vui', { now: true }); save(); }
 const bepT = s => { s = Math.ceil(s / ST.spd); return s >= 3600 ? Math.floor(s / 3600) + 'g ' + Math.round(s % 3600 / 60) + 'p' : s >= 60 ? Math.ceil(s / 60) + ' phút' : s + ' giây'; };
-function bepHTML(){ const B = ST.bep, lv = ST.lv || 1; if (lv < BEP.lv) return `<div class="note">Tới cấp ${BEP.lv} Ngoại chỉ con nấu bếp củi nghe.</div>`;
+function bepHTML0(){ const B = ST.bep, lv = ST.lv || 1; if (lv < BEP.lv) return `<div class="note">Tới cấp ${BEP.lv} Ngoại chỉ con nấu bếp củi nghe.</div>`;
   if (!B.lit){ const c = has('cui'); return `<div class="bedc"><img src="${ICON.cui}" alt=""><span class="ar">›</span><img src="${ICON.trungchien}" alt=""><div><b>Nhóm lại bếp củi</b><span>Bếp nguội lâu rồi. Con nhặt ${BEP.lite} nhánh củi khô dưới gốc cây về đây nhóm bếp.</span></div><span class="cst">${Math.min(c, BEP.lite)}/${BEP.lite}</span></div><div class="acts"><button class="btn g" data-a="bplite" ${c >= BEP.lite ? '' : 'disabled'}>Nhóm bếp</button>${c < BEP.lite ? '<span class="meta">Chợ cũng bán củi, 3 xu một bó</span>' : ''}</div>`; }
   let h = '<div class="sub">Trên bếp</div><div class="pots">' + B.pots.map((p, i) => { if (!p) return `<div class="pot e"><span>Nồi trống</span></div>`; const d = DISH[p.k], done = p.t <= 0;
     return `<div class="pot${done ? ' done' : ''}"><img src="${ICON[p.k]}" alt=""><div><b>${d.name}</b>${done ? '<span>Chín rồi</span>' : `<span>Còn ${bepT(p.t)}</span><span class="bar"><i style="width:${Math.round((1 - p.t / d.t) * 100)}%;background:#E9A23A"></i></span>`}</div>${done ? `<button class="btn g" data-a="bptake" data-k="${i}">Lấy</button>` : ''}</div>`; }).join('') + '</div>';
@@ -2403,9 +2529,9 @@ function pgSeed(k){ const c = CROPS[k], n = ST.seeds[k] || 0, [ni, nl] = NEED[k]
   h += `<div class="acts" style="margin-bottom:${narrow() ? 0 : 120}px"><span class="chip" style="font-size:16px;padding:5px 12px 5px 5px"><img src="${UIC.seedbag}" alt="">Có ${n} ${c.tree ? 'cây giống' : 'bao'}</span><button class="btn" data-b="buy" data-k="${k}" ${ST.xu < c.seed ? 'disabled' : ''}>Mua 1 ${c.tree ? 'cây giống' : 'bao'} · ${c.seed} xu</button><button class="btn g" data-b="hold" data-k="${k}" ${!n && ST.xu < c.seed ? 'disabled' : ''}>Đem đi gieo</button></div>`;
   if (!narrow()) h += `<img class="bkng" src="${NGOAI.ex_dan}" alt="">`; return h; }
 function pgKho(full = true){ const items = Object.entries(ST.inv).filter(([k, n]) => n > 0); let h = hdr('kho') + '<div style="margin-top:10px">';
-  h += items.length ? items.map(([k, n]) => `<div class="krow"><img src="${ICON[k]}" alt=""><span class="n">${k === 'rom' ? 'Rơm' : GD(k).name}</span><span class="q">${n}</span></div>`).join('') : '<div class="bkhn">Kho trống trơn. Hái rau xong là có hàng đem bán.</div>';
+  h += items.length ? items.map(([k, n]) => `<div class="krow"><img src="${ICON[k]}" alt=""><span class="n">${k === 'rom' ? 'Rơm' : (GD(k) || { name: k }).name}</span><span class="q">${n}</span></div>`).join('') : '<div class="bkhn">Kho trống trơn. Hái rau xong là có hàng đem bán.</div>';
   const seeds = Object.entries(ST.seeds).filter(([k, n]) => n > 0); if (seeds.length) h += `<div class="bkhn" style="margin-top:12px;color:#6B4529">Bao hạt trong túi</div>` + seeds.map(([k, n]) => `<div class="krow"><img src="${ICON[k]}" alt="" style="filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff)"><span class="n">Hạt ${CROPS[k].name.toLowerCase()}</span><span class="q" style="color:#6E9F57">${n}</span></div>`).join('');
-  const gbi = Object.entries(ST.gb || {}).filter(([k, n]) => n > 0); if (gbi.length) h += `<div class="bkhn" style="margin-top:12px;color:#6B4529">Gác bếp · ${gbUsed()}/${GB_CAP}</div>` + gbi.map(([k, n]) => `<div class="krow"><img src="${ICON[k]}" alt=""><span class="n">${k === 'cui' ? 'Củi' : DISH[k].name}</span><span class="q" style="color:#C9952A">${n}</span></div>`).join('');
+  const gbi = Object.entries(ST.gb || {}).filter(([k, n]) => n > 0); if (gbi.length) h += `<div class="bkhn" style="margin-top:12px;color:#6B4529">Gác bếp · ${gbUsed()}/${GB_CAP}</div>` + gbi.map(([k, n]) => `<div class="krow"><img src="${ICON[k]}" alt=""><span class="n">${k === 'cui' ? 'Củi' : (GD(k) || { name: k }).name}</span><span class="q" style="color:#C9952A">${n}</span></div>`).join('');
   h += '</div>'; return full ? h + pgKhoCap() : h; }
 function pgKhoCap(head){ const u = kUsed(), cp = kCap(); let h = head ? `<div class="bkhn" style="color:#6B4529;margin-top:0">Sức chứa kho</div><div class="lus">${Array.from({ length: Math.min(8, 1 + (ST.lu || 0)) }, () => `<img src="${UIC.lu}" alt="">`).join('')}</div>` : ''; h += `<div style="margin-top:14px;display:flex;align-items:center;gap:8px"><img src="${UIC.lu}" style="width:36px" alt=""><span style="font-family:var(--f-game);font-size:15px;color:#6B4529">Sức chứa</span><span style="margin-left:auto;font-family:var(--f-game);font-size:17px">${u} / ${cp}</span></div><div class="bkbar"><i style="width:${Math.min(100, u / cp * 100)}%;background:${u >= cp ? '#F08A6E' : '#EDB940'}"></i></div>`;
   return h + `<div class="acts"><button class="btn g" data-b="cho">Đem ra chợ</button><button class="btn" data-b="lu" ${ST.xu < luCost() ? 'disabled' : ''}>Thêm lu · ${luCost()} xu</button></div><div class="bkhn" style="font-size:17px;color:#8A5D3B">Mỗi lu sành chứa thêm ${LU_CAP} món. Kho đầy thì hái không được.</div>` + (head ? `<img class="bkng" src="${NGOAI.ex_vui}" alt="">` : ''); }
@@ -2422,7 +2548,7 @@ function renderBook(){ if (!BOOK) return; const tab = BOOK.tab, nr = narrow();
   bkEl.innerHTML = `<div class="bktabs">${tabs}</div><div class="bkpg l">${L}</div><div class="bkst"></div><div class="bkpg r">${Rr}</div><div class="bklab">Sổ vườn của Ngoại</div><button class="x bkx" data-b="close" aria-label="Đóng sổ">×</button>`;
   if (BOOK.keep) bkEl.querySelector('.bkpg.l').scrollTop = st; BOOK.keep = false; }
 function pgViecMini(){ ensureTasks(); return `<div class="bkhn" style="color:#6B4529">Việc hôm nay</div>` + ST.tasks.list.map(x => `<div class="tk${x.done ? ' done' : ''}"><div class="bx"></div><span class="tx">${x.txt}</span><span></span></div>`).join('') + `<button class="btn" data-b="tab" data-k="viec">Xem việc của Ngoại</button><img class="bkng" src="${NGOAI.ex_vui}" alt="">`; }
-function pgKhoMini(){ return `<div class="bkhn" style="color:#6B4529">Trong kho</div>` + (Object.entries(ST.inv).filter(([k, n]) => n > 0).map(([k, n]) => `<div class="krow"><img src="${ICON[k]}" alt=""><span class="n">${k === 'rom' ? 'Rơm' : GD(k).name}</span><span class="q">${n}</span></div>`).join('') || '<div class="bkhn">Kho trống.</div>') + `<div style="margin-top:12px"><button class="btn" data-b="tab" data-k="kho">Mở kho</button></div>`; }
+function pgKhoMini(){ return `<div class="bkhn" style="color:#6B4529">Trong kho</div>` + (Object.entries(ST.inv).filter(([k, n]) => n > 0).map(([k, n]) => `<div class="krow"><img src="${ICON[k]}" alt=""><span class="n">${k === 'rom' ? 'Rơm' : (GD(k) || { name: k }).name}</span><span class="q">${n}</span></div>`).join('') || '<div class="bkhn">Kho trống.</div>') + `<div style="margin-top:12px"><button class="btn" data-b="tab" data-k="kho">Mở kho</button></div>`; }
 const openBook = (tab = 'viec', sel) => { if (tab === 'viec'){ try { ensureTasks(); ST.tasks.seen = ST.tasks.day; save(); setTimeout(soBadge, 0); } catch (e) {} } closeSheet(); if (TOOL) clearTool(); fan.hidden = true; PEND = null; hideTip(); BOOK = { tab, sel: sel || (narrow() ? null : 'cai') }; renderBook(); bkov.hidden = false; document.body.classList.add('bookon'); bkov.classList.remove('on'); void bkov.offsetWidth; bkov.classList.add('on'); ng.hidden = true; sayT = 0; };
 const closeBook = () => { BOOK = null; bkov.hidden = true; document.body.classList.remove('bookon'); };
 bkov.addEventListener('click', e => { if (e.target === bkov) return closeBook(); const b = e.target.closest('[data-b]'); if (!b || b.disabled) return; const a = b.dataset.b, k = b.dataset.k;
