@@ -12,7 +12,7 @@ def rep(old, new, n=1, tag=''):
     if c != n: sys.exit(f'FAIL [{tag}] khớp {c} lần, cần {n}: {old[:90]!r}')
     s = s.replace(old, new); log.append(tag)
 
-rep("const BUILD = 'v89'", "const BUILD = 'v90'", tag='build v90')
+rep("const BUILD = 'v90'", "const BUILD = 'v91'", tag='build v91')
 
 # --- Thẻ "Việc tiếp theo" ---
 rep("let ic = UIC.task, t = '', em = '', f = 0, go = false, act = 'book';",

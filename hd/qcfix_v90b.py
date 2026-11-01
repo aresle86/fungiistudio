@@ -26,11 +26,11 @@ rep("for (const [k, c] of Object.entries(CROPS)) h += !unlocked(k) ? `<div class
 rep("+ Object.keys(R).map(k => { const d = R[k], lk = (ST.lv || 1) < (d.lv || 1), can = !lk && canIn(d.in);",
     "+ Object.keys(R).filter(k => (ST.lv || 1) >= (R[k].lv || 1)).map(k => { const d = R[k], lk = (ST.lv || 1) < (d.lv || 1), can = !lk && canIn(d.in);", tag='danh sách món: ẩn món chưa mở')
 
-# F. Liếp cỏ: không nói số cấp; bong bóng liềm chỉ hiện khi đủ xu đắp
+# F. Liếp cỏ: không nói số cấp
 rep("`Tới cấp ${bedNext()} Ngoại với con đắp thêm liếp ở đây.`", "'Chăm mấy liếp đang có trước, mai mốt Ngoại với con đắp thêm.'", tag='liếp cỏ: chữ')
 rep("`<div class=\"acts\"><span class=\"lockb\">Mở ở cấp ${bedNext()}</span></div>`", "''", tag='liếp cỏ: bỏ nhãn cấp')
 rep("return toast(`Tới cấp ${bedNext()} mới đắp thêm được con.`, 'dan');", "return toast('Vườn đủ liếp chăm rồi, mai mốt mình đắp thêm nghe con.', 'dan');", tag='liếp cỏ: toast')
-rep("v.want = nOpen() < bedCap() ? 'd' : null;", "v.want = nOpen() < bedCap() && ST.xu >= bedCost() ? 'd' : null;", tag='bong bóng liềm khi đủ xu')
+# (đã bỏ theo quy tắc 4 chốt lại 1/11: thiếu xu không phải lý do ẩn bong bóng liềm)
 
 # G. Câu báo khoá: không nói số cấp
 rep("`${c.name} tới cấp ${UNLOCK[k]} mới trồng được con.`", "`Giống ${c.name.toLowerCase()} Ngoại chưa có, mai mốt Ngoại cho con nghe.`", n=2, tag='giống chưa có: chữ')
