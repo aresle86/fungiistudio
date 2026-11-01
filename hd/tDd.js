@@ -1,0 +1,13 @@
+const fs=require('fs');const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:390,height:780},isMobile:true,hasTouch:true,deviceScaleFactor:2});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:300000});
+const r=await p.evaluate(()=>{window.__stop=true;const g=window.__g,ST=g.ST,X=window.__FT2,o={};ST.lv=6;ST.player={av:1,name:'Na',garden:'V'};document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);
+ const y=new Date(Date.now()-864e5),yk=y.getFullYear()+'-'+(y.getMonth()+1)+'-'+y.getDate();
+ ST.dd={last:'2026-1-1',n:4,full:0};const x0=ST.xu;X.ddCheck();o.gap=ST.dd.n+' xu+'+(ST.xu-x0);
+ ST.dd={last:yk,n:6,full:0};X.ddCheck();o.d7=JSON.stringify(ST.dd)+' vs='+JSON.stringify(ST.ft.vusua);
+ ST.dd.last=yk;X.ddCheck();o.next=ST.dd.n;return o;});
+console.log(JSON.stringify(r));await p.waitForTimeout(2500);
+await p.evaluate(()=>{window.__g.ST.dd.n=7;});await p.evaluate(()=>{});
+await p.screenshot({path:'../dd.png',timeout:90000,animations:'disabled'}).catch(()=>console.log('shotfail'));
+console.log('errs',errs.slice(0,3));await b.close();})();

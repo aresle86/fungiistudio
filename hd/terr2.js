@@ -1,0 +1,2 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});const p=await b.newPage();p.on('pageerror',e=>console.log('E',e.message,(e.stack||'').split('\n')[1]));
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForTimeout(25000);console.log(await p.evaluate(()=>!!window.__ready));await b.close();})();

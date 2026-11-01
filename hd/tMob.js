@@ -1,0 +1,10 @@
+const fs=require('fs');const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:390,height:660},isMobile:true,hasTouch:true,deviceScaleFactor:2});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_dev.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+await p.evaluate(()=>{const g=window.__g,ST=g.ST;ST.lv=6;ST.player={av:1,name:'Na',garden:'V'};document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);ST.dd={last:'x',n:3,full:0};window.__DDS('');});
+await p.waitForTimeout(1200);await p.screenshot({path:'mob1.png',timeout:90000});
+await p.evaluate(()=>{document.querySelector('.ddt').classList.remove('on');});await p.waitForTimeout(800);
+await p.evaluate(()=>{document.querySelectorAll('#intro,.lvup').forEach(e=>e.style.display='none');window.__OB('viec');});await p.waitForTimeout(800);await p.screenshot({path:'mob2.png',timeout:90000});
+await p.evaluate(()=>{document.querySelector('#bkov')&&0;});
+console.log('errs',errs.slice(0,3));await b.close();})();
