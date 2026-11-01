@@ -1,0 +1,11 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1200,height:760}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n')[1]));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const shot=async n=>{await p.evaluate(()=>{for(let i=0;i<3;i++)window.__tick();const c=window.__ctl;const d=c.object.position.clone().sub(c.target);c.target.set(2.6,.6,1.6);c.object.position.copy(c.target).add(d);c.object.zoom=2.2;c.object.updateProjectionMatrix();for(let i=0;i<3;i++)window.__tick();});await p.screenshot({path:'../nha'+n+'.png',timeout:120000}).catch(()=>console.log('shotfail'));};
+await p.evaluate(()=>{window.__stop=true;document.getElementById('intro').style.display='none';const g=window.__g;g.ST.player={av:1,name:'N',garden:'V'};g.ST.lv=17;g.ST.xp=4400;g.ST.xu=900;g.ST.tm='fixed';g.ST.ovr=10;});
+await p.evaluate(()=>{window.__g.ST.lv=18;window.__g.ST.xp=4800;});await shot(0);
+console.log(await p.evaluate(()=>{const g=window.__g,X=window.__FT3;X.doQuest(18);return JSON.stringify([g.ST.lv,g.ST.nha,Math.round(X.nhaLeft()/60000),X.nhaSt()]);}));
+await p.waitForTimeout(800);await p.evaluate(()=>{const o=document.getElementById('lvup');if(o)o.style.display='none';});await shot(1);
+console.log(await p.evaluate(()=>{const g=window.__g,X=window.__FT3;g.ST.nha.help=3;const a=Math.round(X.nhaLeft()/60000);g.ST.nha.t-=6*3600e3;for(let i=0;i<3;i++)window.__tick();const b1=X.nhaSt();g.ST.nha.done-=3*864e5;for(let i=0;i<3;i++)window.__tick();const b2=X.nhaSt();return JSON.stringify([a,b1,b2,g.ST.qd[18]]);}));
+await shot(2);console.log(errs.join('\n'));await b.close();})();

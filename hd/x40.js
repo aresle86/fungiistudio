@@ -35,3 +35,25 @@ window.__FT3 = { sdHelp, dcPay, get HOUR(){ return HOUR; } };
 window.__FT3.ftCompact = ftCompact;
 window.__FT3.roofState = roofState; window.__FT3.thatchRoof = thatchRoof;
 window.__FT3.maiLeft = maiLeft; window.__FT3.doQuest = doQuest;
+
+/* hook cho test v85+ (sửa nhà, xây món lớn, ong, ghe tam bản); có typeof nên chạy được cả trên nguồn chưa có các hàm này */
+window.__FT3.Raycaster = T.Raycaster;
+if (typeof bldLeft !== 'undefined') window.__FT3.bldLeft = bldLeft;
+if (typeof penFix !== 'undefined') window.__FT3.penFix = penFix;
+if (typeof beeHive !== 'undefined') window.__FT3.beeHive = beeHive;
+if (typeof beeAnim !== 'undefined') window.__FT3.beeAnim = beeAnim;
+if (typeof ongTake !== 'undefined') window.__FT3.ongTake = ongTake;
+if (typeof ongSim !== 'undefined') window.__FT3.ongSim = ongSim;
+if (typeof houseUp !== 'undefined') window.__FT3.houseUp = houseUp;
+if (typeof nhaLeft !== 'undefined') window.__FT3.nhaLeft = nhaLeft;
+if (typeof nhaSt !== 'undefined') window.__FT3.nhaSt = nhaSt;
+if (typeof gheTB !== 'undefined') window.__FT3.gheTB = gheTB;
+if (typeof TBV !== 'undefined') window.__FT3.TBV = TBV;
+if (typeof tbBuild !== 'undefined') window.__FT3.tbBuild = tbBuild;
+if (typeof tbTake !== 'undefined') window.__FT3.tbTake = tbTake;
+if (typeof tbLeft !== 'undefined') window.__FT3.tbLeft = tbLeft;
+if (typeof loLeft !== 'undefined') window.__FT3.loLeft = loLeft;
+if (typeof tbHTML !== 'undefined') window.__FT3.tbHTML = tbHTML;
+if (typeof tbHit !== 'undefined') window.__FT3.tbHit = tbHit;
+if (typeof TB !== 'undefined') window.__FT3.TB = TB;
+if (typeof GHEV !== 'undefined') window.__FT3.GHEV = GHEV;
