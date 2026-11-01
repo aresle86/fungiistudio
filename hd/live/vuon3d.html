@@ -1133,7 +1133,10 @@ sway(.6, () => { for (const x of [-.4, 1.4, 3.6, 4.9, 6.1, 9.4, 11]) reeds(x, R0
 await LDY(0);
 sway(.55, () => { thuyTruc(10.05, 6.35, 1.1); thuyTruc(.78, 3.88, .9); thuyTruc(.78, 5.2, .8); thuyTruc(1.95, R0 - .02, 1.15); thuyTruc(7.9, R0 - .02, 1); thuyTruc(.4, 2.2, .7); });
 await LDY(0);
-tree(6.95, -1.15, 1.05, true);   // cây dời ra sau, chừa chỗ chái bếp tree(7.6, .7, .8, false); tree(-.8, 1.1, .9, false); const PALM = palm(4.4, .75);
+tree(6.95, -1.15, 1.05, true);   // cây dời ra sau, chừa chỗ chái bếp
+/* QC v84: 2 cây bóng mát + cây dừa đặt ở bãi cỏ phải ngoài hàng rào góc vườn mới (cả khi đã mở góc), không đè ô đất, không che nhà, liếp hay cây cổ tích.
+   Giữ nguyên chuỗi số ngẫu nhiên (sd) để cỏ, bụi dựng phía sau không xê dịch. */
+{ const sd0 = sd; tree(12.6, 5.9, .85, false); tree(12.9, 4.3, .75, false); palm(13.9, 8.2); sd = sd0; }
 await LDY(0);
 sway(.35, () => { chuoi(7.4, 2.3); chuoi(-.9, 4.7, .85); });
 await LDY(0);
@@ -1157,7 +1160,8 @@ sway(1.1, () => { const n = Math.round(90 * QS[QI].fx); for (let i = 0; i < n; i
 await LDY(0);
 for (let i = 0; i < 26; i++){ const x = R(-2, 10), z = R(5.5, 8); if (x > .8 && x < 7 && z < 6.4) continue; if (x > 6.1 && x < 9.8 && z > 6.7) continue; const g = G(x, 0, z, R(0, 6)); for (let k = 0; k < 5; k++) M(ico(.018, 0), pick(['#fff7d6', '#ffd23f', '#ff8fb1']), Math.cos(k * 1.26) * .02, .04, Math.sin(k * 1.26) * .02, { p: g, cast: false }); M(ico(.012, 0), C.orange, 0, .05, 0, { p: g, cast: false }); }
 await LDY(0);
-const FENCE0 = DYN(G(0, 0, 0)); { const pr0 = ROOT; ROOT = FENCE0; fence(EXP ? 11.75 : 8.1, 2.2, 7.0); ROOT = pr0; }   // mở góc vườn mới thì dời hàng rào ra ngoài sway(.45, () => { for (let k = 0; k < 12; k++){ const x = R(8.5, 11), z = R(2.4, 6.1); if (EXP && x > D1[0] - .3 && x < D1[2] + .3 && z > D1[1] - .8 && z < D1[3] + .8) continue; sa(x, z, .55, false); } }); bush(9.6, 6.0, .9);
+const FENCE0 = DYN(G(0, 0, 0)); { const pr0 = ROOT; ROOT = FENCE0; fence(EXP ? 11.75 : 8.1, 2.2, 7.0); ROOT = pr0; }   // mở góc vườn mới thì dời hàng rào ra ngoài
+{ const sd0 = sd; sway(.45, () => { for (const [x, z] of [[12.2, 5.1], [13.3, 5.4], [12.2, 6.9], [13.2, 6.6], [13.5, 4.0], [12.4, 3.7], [12.9, 7.7], [14.6, 7.7]]) sa(x, z, .55, false); }); sd = sd0; }
 /* animals with wander data */
 await LDY(0);
 const ANIM = [];
@@ -2521,8 +2525,8 @@ function oddDefs(){ return { sau: { lv: 3, max: 2, every: 22 * 60, name: 'Bắt 
 function oddSpot(k){ const rnd2 = (a, b) => a + Math.random() * (b - a);
   if (k === 'sau'){ const ok = PLOTS.filter(P => { const p = ST.plots[P.id]; return p && p.crop && !p.dead && !P.tree && !P.trellis && !(p.g >= CROPS[p.crop].grow) && !(ST.odd.list || []).some(o => o.id === P.id); }); if (!ok.length) return null; const P = ok[Math.floor(Math.random() * ok.length)], [u0, v0, u1, v1] = P.b; return { id: P.id, x: rnd2(u0 + .2, u1 - .2), z: rnd2(v0 + .12, v1 - .12) }; }
   if (k === 'lucbinh'){ const DD = EXP ? [M1, M2, M4, M5] : [M1, M2], d = DD[Math.floor(Math.random() * DD.length)]; return { x: rnd2(d[0] + .3, d[2] - .3), z: rnd2(d[1] + .14, d[3] - .14) }; }
-  if (k === 'cui'){ const t = [[4.4, .75], [6.95, -1.15], [7.6, .7], [7.4, 2.3], [-.8, 1.1]][Math.floor(Math.random() * 5)], a = Math.random() * 6.28, r = rnd2(.35, .7); return { x: t[0] + Math.cos(a) * r, z: t[1] + Math.abs(Math.sin(a)) * r }; }
-  const t = [[6.95, -1.15], [7.6, .7], [-.8, 1.1]][Math.floor(Math.random() * 3)], a = Math.random() * 6.28, r = rnd2(.5, .85); return { x: t[0] + Math.cos(a) * r, z: t[1] + Math.abs(Math.sin(a)) * r }; }
+  if (k === 'cui'){ const t = [[6.95, -1.15], [7.4, 2.3], [12.6, 5.9], [12.9, 4.3], [13.9, 8.2]][Math.floor(Math.random() * 5)], a = Math.random() * 6.28, r = rnd2(.35, .7); return { x: t[0] + Math.cos(a) * r, z: t[1] + Math.abs(Math.sin(a)) * r }; }
+  const t = [[6.95, -1.15], [12.6, 5.9], [12.9, 4.3]][Math.floor(Math.random() * 3)], a = Math.random() * 6.28, r = rnd2(.5, .85); return { x: t[0] + Math.cos(a) * r, z: t[1] + Math.abs(Math.sin(a)) * r }; }
 function oddSim(dt){ if (!ST.odd) ST.odd = { list: [], acc: {} }; const D = oddDefs(), lv = ST.lv || 1;
   for (const k in D){ if (lv < D[k].lv) continue; if (ST.odd.list.length >= 4){ ST.odd.acc[k] = 0; continue; } const n = ST.odd.list.filter(o => o.k === k).length; if (n >= D[k].max){ ST.odd.acc[k] = 0; continue; } ST.odd.acc[k] = (ST.odd.acc[k] || 0) + dt; if (ST.odd.acc[k] < D[k].every * (lv <= 3 ? .45 : 1)) continue; ST.odd.acc[k] = 0; const sp = oddSpot(k); if (sp) ST.odd.list.push({ k, ...sp }); } }
 await LDY(0);
