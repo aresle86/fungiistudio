@@ -1109,7 +1109,7 @@ await LDY(0);
 denBao(.86, 4.95, .4); denBao(6.98, 2.72, 2.2); denBao(3.55, 6.42, -.8);
 // ánh trăng dịu phủ vùng liếp ban đêm, đủ đọc cây và bubble
 await LDY(0);
-const MOONFILL = new T.PointLight('#c9d6ff', 0, 11, .9); MOONFILL.position.set(3.6, 3.4, 4.6); S.add(MOONFILL);
+let LON8 = null; const MOONFILL = new T.PointLight('#c9d6ff', 0, 11, .9); MOONFILL.position.set(3.6, 3.4, 4.6); S.add(MOONFILL);
 await LDY(0);
 house(); const BEPW = bepHut(5.15, .05); strawStack(-.55, 2.65); namRomCluster(-.2, 3.0); const COOP0 = DYN(coop(-.75, 3.75, Math.PI / 2)); jar(.75, 2.35); firewood(4.05, -.35, Math.PI / 2);
 await LDY(0);
@@ -3705,7 +3705,7 @@ function gaHTML(){ const g = ST.ga, cap = gaCap(), lvOk = (ST.lv || 1) >= GA.buy
   else h += UX.hero(ICON.mai, 'Gà đang đẻ', `Trứng kế tiếp chừng ${fmtT(next)}`, '', [1 - next * ST.spd / GA.cyc, '#E9B23A']);
   h += UX.cta([g.eggs ? UX.btn('gaegg', `Lượm ${g.eggs} trứng`, { g: 1, img: ICON.trungga }) : '', UX.btn('gafeed', food >= tcap ? 'Máng đầy' : 'Cho ăn', { g: !g.eggs && food < tcap, img: ICON.bap, dis: food >= tcap, sub: food >= tcap ? '' : bap ? `dùng ${bap} bắp trong kho` : `mua cám ${GA.cam} xu/phần` })]);
   const lasts = lay > 0 ? Math.floor(g.trough / lay) * GA.cyc / ST.spd : 0;
-  h += '<div class="uxs">' + UX.card('Máng ăn', PART(`${food}/${tcap}`), UX.mbar(g.trough / Math.max(1, tcap), food < 1 ? '#F08A6E' : '#E9B23A') + `<span class="l" style="margin-top:5px">${food ? 'đủ chừng ' + fmtT(lasts) : 'hết rồi'}</span>`, food < 1 ? 'warn' : '')
+  h += '<div class="uxs">' + UX.card('Máng ăn', PART(`${food}/${tcap}`), UX.mbar(g.trough / Math.max(1, tcap), food < 1 ? '#F08A6E' : '#E9B23A') + `<span class="l" style="margin-top:5px">${food ? (lay > 0 ? 'đủ chừng ' + fmtT(lasts) : 'mái đang ấp, máng để dành') : 'hết rồi'}</span>`, food < 1 ? 'warn' : '')
     + UX.card('Trong ổ', PART(`${g.eggs}/${nestCap}`, 'trứng'), UX.pips(ICON.trungga, g.eggs, nestCap, 9), g.eggs ? 'go' : '') + '</div>';
   h += '<div class="uxs one">' + UX.card('Đàn gà', `${g.hens} mái${g.rooster ? ' · 1 trống' : ''} <small>· chuồng ${g.hens + g.rooster}/${cap} chỗ</small>`, `<span class="pips">${Array.from({ length: g.hens }, () => `<img src="${ICON.mai}" alt="">`).join('')}${g.rooster ? `<img src="${ICON.trong}" alt="">` : ''}${Array.from({ length: Math.max(0, cap - g.hens - g.rooster) }, () => `<img src="${ICON.mai}" class="off" alt="">`).join('')}</span>`) + '</div>';
   if (b) h += '<div class="uxs one">' + UX.card(b.stage === 'egg' ? 'Đang ấp trứng' : 'Gà con đang lớn', `còn ${fmtT(((b.stage === 'egg' ? GA.brood : GA.grow) - b.t) / ST.spd)}`, UX.mbar(b.t / (b.stage === 'egg' ? GA.brood : GA.grow), '#86B06A'), 'go') + '</div>';
@@ -4780,6 +4780,7 @@ function tickIn(){ const dt = Math.min(clock.getDelta(), .05), t = clock.elapsed
   // lights
   WIN.emissiveIntensity = night * (1.25 + Math.sin(t * 9.1) * .05 + Math.sin(t * 23.3) * .04); LAMP.emissiveIntensity = night * (1.6 + Math.sin(t * 11) * .15); LAMPG.emissiveIntensity = night * (2.2 + Math.sin(t * 8) * .12); for (const m of BUBM) m.emissiveIntensity = night * 1.75; MOONFILL.intensity = night * 1.6;
   for (const l of LIGHTS) l.L.intensity = night * l.base * (1 + Math.sin(t * 7.3 + l.ph) * .08 + Math.sin(t * 17.1 + l.ph * 2) * .06 + (Math.random() < .02 ? -.25 : 0));
+  { const lon = night > .01; if (lon !== LON8){ LON8 = lon; MOONFILL.visible = lon; for (const l of LIGHTS) l.L.visible = lon; } }
   FF.material.uniforms.uVis.value = Math.max(0, night - .3) / .7; const hd = HOUR; const golden = Math.max(0, 1 - Math.abs(hd - 7.2) / 1.8) + Math.max(0, 1 - Math.abs(hd - 16.6) / 1.8); DUST.material.uniforms.uVis.value = Math.min(1, .25 * day + golden * .75) * day;
   const zm = cam.zoom; FF.material.uniforms.uZoom.value = DUST.material.uniforms.uZoom.value = zm;
   // leaves
@@ -4813,13 +4814,14 @@ function tickIn(){ const dt = Math.min(clock.getDelta(), .05), t = clock.elapsed
   // bubbles billboard + bob
   gaTick(t); try { ringPos(); oddTick(t); weedTick(t); ordTick(t); bepTick(t); vitTick(t); } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } try { nongTick(t); khapTick(t); hoTick(t); loTick(t); cauTick(t, dt); kcaTick(t); kbenTick(); ftTick(t); aoTick(t); dcTick(); buTick(t, dt); muongTick(); boTick(); sayTick(t, dt); gioTick(t); gheTick(t); treTick(); try { landTick(t); } catch (e) { if (!window.__le){ window.__le = 1; console.warn('land', e); } } try { seasonTick(t); } catch (e) { if (!window.__se){ window.__se = 1; console.warn('season', e); } } } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } const KFNOW = kFull(); for (const P of PLOTS){ const v = PV[P.id]; if (!v.want) continue; const bg = v.bub[v.want]; bg.quaternion.copy(cam.quaternion); bg.position.set(v.cx, v.bubY + Math.sin(t * 2 + v.cx) * .035, v.cz); bg.scale.setScalar(.9); if (v.want === 'u') bg.scale.setScalar(.9 * (1 + .12 * Math.max(0, Math.sin(t * 6)))); else if (v.want === 'h'){ const kf = KFNOW; bg.scale.setScalar(kf ? .8 : .9 * (1 + .07 * Math.abs(Math.sin(t * 3 + v.cx)))); const pl = bg.userData.pl; if (pl) pl.material.opacity = kf ? .4 : 1; } else if (v.want === 's') bg.scale.setScalar(.8); if (BUBS !== 1) bg.scale.multiplyScalar(BUBS); }
   ctl.update(); const tg = ctl.target; tg.x = Math.max(-6.6, Math.min(11.5, tg.x)); tg.z = Math.max(-2.8, Math.min(10, tg.z));   // thấy được cả đất chưa mở
+  if (r.shadowMap.enabled){ r.shadowMap.autoUpdate = QI >= 2; if (QI < 2 && (SHF = (SHF + 1) % 2) === 0) r.shadowMap.needsUpdate = true; }
   r.render(S, cam);
   // UI
   fpsN++; fpsT += dt; if (fpsT > .5){ const fe = $('#fps'); if (fe) fe.textContent = Math.round(fpsN / fpsT) + ' fps'; fpsN = 0; fpsT = 0; }
   const mn = Math.floor(HOUR * 60) % 1440; if (mn !== lastUI){ lastUI = mn; $('#tt').textContent = String(Math.floor(mn / 60)).padStart(2, '0') + ':' + String(mn % 60).padStart(2, '0'); $('#tn').textContent = PHASE(HOUR); drawSunIcon(HOUR); }
   saveT += dt; if (saveT > 5){ saveT = 0; save(); }
 }
-const TERR = new Set();
+const TERR = new Set(); let SHF = 0;
 function tick(){ try { tickIn(); } catch (e) { const k = String(e && e.message); if (!TERR.has(k)){ TERR.add(k); setTimeout(() => { throw e; }, 0); } }
   requestAnimationFrame(tick); }
 { const L0 = $('#load'), wait = Math.max(900, 3300 - performance.now()); L0.classList.add('done'); const pc = L0.querySelector('.lpc'); if (pc) pc.textContent = '100%'; const sp = L0.querySelector('.lbar span'); if (sp && !VISIT) sp.textContent = 'Vào vườn thôi!'; setTimeout(() => { L0.classList.add('out'); setTimeout(() => { L0.hidden = true; }, 760); }, wait); } window.__ready = true; requestAnimationFrame(tick);
