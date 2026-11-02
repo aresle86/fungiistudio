@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script></head><body style="margin:0;background:#FFFBF2">
+<script type="module">
+import * as T from 'three';
+const V = (a = 0, b = 0, c = 0) => new T.Vector3(a, b, c);
+const MC = {}, mt = c => MC[c] || (MC[c] = new T.MeshStandardMaterial({ color: c, flatShading: true, roughness: .85, side: T.DoubleSide }));
+const add = (p, g, c, x = 0, y = 0, z = 0, r, s) => { const m = new T.Mesh(g, mt(c)); m.position.set(x, y, z); if (r) m.rotation.set(...r); if (s) m.scale.set(...s); m.castShadow = m.receiveShadow = true; p.add(m); return m; };
+const seg = (p, a, b, r0, r1, c) => { const d = V().subVectors(b, a), m = add(p, new T.CylinderGeometry(r1, r0, d.length(), 6), c, (a.x + b.x) / 2, (a.y + b.y) / 2, (a.z + b.z) / 2); m.quaternion.setFromUnitVectors(V(0, 1, 0), d.normalize()); return m; };
+const src = await (await fetch('./fish2.js')).text() + '\n' + await (await fetch('./fishspec.js')).text() + '\nreturn FSPEC;';
+const FSPEC = new Function('T', 'V', 'add', 'mt', 'seg', src)(T, V, add, mt, seg);
+const ri = new T.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true }); ri.setPixelRatio(1); ri.toneMapping = T.ACESFilmicToneMapping; ri.toneMappingExposure = 1.05; ri.shadowMap.enabled = true;
+const out = {}, rep = {};
+const views = { icon: [.3, .4, 1], side: [0, 0, 1], top: [0, 1, .001], front: [1, .1, 0], back: [-1, .3, -.6], under: [.2, -1, .3] };
+for (const k of Object.keys(FSPEC)){
+  for (const [vn, dir] of Object.entries(views)){ ri.setSize(220, 220); const sc = new T.Scene(), root = new T.Group(); sc.add(root); const g = FSPEC[k](root);
+    sc.add(new T.HemisphereLight('#fff4e2', '#94a474', 1.5)); sc.add(new T.AmbientLight('#fff', .2)); const l = new T.DirectionalLight('#fff0d8', 1.7); l.position.set(-3, 8, 4); l.castShadow = true; sc.add(l);
+    if (vn !== 'icon') root.rotation.set(0, 0, 0);
+    root.updateMatrixWorld(true); const bb = new T.Box3().setFromObject(root), c = bb.getCenter(V()), s = bb.getSize(V()).length() * (vn === 'icon' ? .42 : .5), cm = new T.OrthographicCamera(-s, s, s, -s, .01, 100); cm.position.copy(c).add(V(...dir).normalize().multiplyScalar(20)); cm.lookAt(c); ri.render(sc, cm); out[k + '_' + vn] = ri.domElement.toDataURL('image/png');
+    if (vn === 'side'){ /* kiểm chi tiết rời: hộp bao của mỗi mảnh phải chạm một mảnh đã nối với thân */
+      const ms = []; root.traverse(o => { if (o.isMesh) ms.push(o); }); const bx = ms.map(m => new T.Box3().setFromObject(m).expandByScalar(.003)); const con = new Set([0]); let ch = true; while (ch){ ch = false; for (let i = 0; i < ms.length; i++){ if (con.has(i)) continue; for (const j of con) if (bx[i].intersectsBox(bx[j])){ con.add(i); ch = true; break; } } }
+      rep[k] = { parts: ms.length, loose: ms.filter((m, i) => !con.has(i)).map(m => (m.material.color ? m.material.color.getHexString() : '') + '/' + m.geometry.type) }; } } }
+window.__out = out; window.__rep = rep; window.__done = true;
+</script></body></html>
