@@ -1,0 +1,10 @@
+const fs=require('fs');const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1300,height:760}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:300000});
+const u=await p.evaluate(()=>{window.__stop=true;const {dcModel}=window.__FT;const S=window.__S,g=window.__g;g.ST.tm='fixed';g.ST.ovr=16;
+ const rows=[['rao_go','rao_bup','cong_tre','cong_gach'],['chuong_ga_go','chuong_vit_ton','mai_chieu_thuy','bong_giay','hon_non_bo'],['ghe_da','vong','den_long','lu_da_luon','ban_ghe_tre']];
+ const x0=-9.4,z0=2.6;rows.forEach((r,j)=>r.forEach((k,i)=>{const m=dcModel(k);m.position.set(x0+i*2.0,0,z0+j*2.0);S.add(m);}));
+ for(let i=0;i<4;i++)window.__tick();const c=window.__ctl;const d=c.object.position.clone().sub(c.target);c.target.set(x0+4,.4,z0+2.2);c.object.position.copy(c.target).add(d);c.object.zoom=1.3;c.object.updateProjectionMatrix();for(let i=0;i<3;i++)window.__tick();
+ window.__r.render(S,g.cam);return window.__r.domElement.toDataURL('image/png');});
+fs.writeFileSync('../deco.png',Buffer.from(u.split(',')[1],'base64'));console.log('errs',errs.slice(0,3));await b.close();})();

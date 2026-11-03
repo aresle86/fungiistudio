@@ -1,0 +1,1 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1150,height:400}});await p.goto('http://127.0.0.1:8777/fonts.html');await p.waitForFunction(()=>document.title==='done');await p.waitForTimeout(500);await p.screenshot({path:__dirname+'/fonts.png',fullPage:true});await b.close();})();

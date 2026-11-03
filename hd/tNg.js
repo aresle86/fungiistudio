@@ -1,0 +1,13 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:390,height:700},isMobile:true,hasTouch:true});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n')[1]));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const r=await p.evaluate(()=>{const g=window.__g,ST=g.ST,o={};ST.player={av:1,name:'Na',garden:'V'};const i=document.getElementById('intro');i.hidden=true;
+ g.act.plant('A2','cai');g.act.water('A2');g.sim(400);g.refreshPlot('A2');g.act.harvest('A2');g.act.sell('cai',99);
+ ST.xu=0;g.act.plant('A1','ot');
+ window.__x.levelUp(2);window.__x.levelUp(3);window.__x.levelUp(4);
+ window.__OB('viec');o.tabs=[...document.querySelectorAll('.bkt')].map(b=>b.dataset.k).join(',');window.__OB('ca');o.tabAfter=[...document.querySelectorAll('.bkt.on')].map(b=>b.dataset.k).join();
+ o.toasts=[...document.querySelectorAll('.tst')].map(t=>t.textContent);o.say=document.getElementById('ngoaiTxt').textContent;return o;});
+console.log(JSON.stringify(r,null,1));
+await p.evaluate(()=>{window.__g.ST.lv=9;window.__OB('viec');});console.log(await p.evaluate(()=>[...document.querySelectorAll('.bkt')].map(b=>b.dataset.k).join(',')));
+await p.screenshot({path:'ng1.png'});console.log(errs.join('\n'));await b.close();})();

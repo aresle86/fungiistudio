@@ -1,0 +1,12 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:900,height:700}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+await p.evaluate(()=>{window.__stop=true;document.getElementById('intro').style.display='none';const g=window.__g;g.ST.player={av:1,name:'N',garden:'V'};g.ST.lv=9;g.ST.tm='fixed';g.ST.ovr=10;for(let i=0;i<3;i++)window.__tick();window.__FT3.CAUV.b.visible=false;});
+const shot=async(n,x,y,z,zm,off)=>{await p.evaluate(([x,y,z,zm,off])=>{for(let i=0;i<2;i++)window.__tick();window.__FT3.CAUV.b.visible=false;const c=window.__ctl;c.maxZoom=40;const d=off?new c.target.constructor(...off):c.object.position.clone().sub(c.target);c.target.set(x,y,z);c.object.position.copy(c.target).add(d);c.object.lookAt(c.target);c.object.zoom=zm;c.object.updateProjectionMatrix();window.__r.render(window.__S,c.object);},[x,y,z,zm,off]);await p.screenshot({path:'../'+n+'.png',timeout:120000}).catch(()=>console.log('f',n));};
+await shot('rA',2.1,.3,9.6,9);
+await shot('rSide',2.1,.3,9.6,9,[0,1.2,30]);
+await shot('rBack',2.1,.3,9.6,9,[-20,8,-20]);
+await shot('rCan',2.55,.25,9.47,28);
+await shot('rFork',2.0,.2,9.75,22,[14,4,6]);
+console.log(errs.join('\n'));await b.close();})();

@@ -1,0 +1,16 @@
+const {chromium}=require('playwright');(async()=>{const [,,out,w,h]=process.argv;const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:+w,height:+h}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n')[1]));p.on('console',m=>{if(['error','warning'].includes(m.type()))errs.push(m.type()+' '+m.text().slice(0,200))});
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,{timeout:240000}).catch(()=>{});
+const shot=async(n,f)=>{await p.evaluate(f||(()=>{}));await p.evaluate(()=>{window.__stop=true;});await p.waitForTimeout(200);await p.evaluate(()=>{window.__g.ST.realTime=false;window.__g.ST.ovr=12;for(let i=0;i<3;i++)window.__tick();});await p.waitForTimeout(300);await p.screenshot({path:out+'_'+n+'.png',timeout:120000});};
+await p.waitForTimeout(1500);
+await shot('a0');
+await shot('a1',()=>window.__g.openSheet('plot','C2'));
+await shot('a2',()=>{const g=window.__g;g.act.plant('C2','cai');g.act.water('C2');g.closeSheet();});
+await shot('a3',()=>{const g=window.__g;g.sim(9*60);g.act.water('C2');g.sim(9*60);});
+await shot('a4',()=>{const g=window.__g;g.act.water('C2');g.sim(15*60);g.openSheet('plot','C2');});
+await shot('a5',()=>{const g=window.__g;g.closeSheet();g.act.harvest('C2');g.act.harvest('B2');g.openSheet('cho');});
+await shot('a6',()=>{const g=window.__g;g.act.sell('cai',99);g.sim(2*3600);g.closeSheet();});
+await shot('a7',()=>{window.__g.openSheet('set');});
+console.log(JSON.stringify(await p.evaluate(()=>({xu:window.__g.ST.xu,inv:window.__g.ST.inv}))));
+console.log(errs.slice(0,12).join('\n'));await b.close();})();

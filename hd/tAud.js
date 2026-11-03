@@ -1,0 +1,2 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('http://127.0.0.1:8777/audprev.html');const r=await p.evaluate(()=>render());console.log('peak',r.peak);require('fs').writeFileSync('../amthanh_v105_nghethu.wav',Buffer.from(r.b64,'base64'));console.log(errs.join('\n')||'no errors');await b.close();})();

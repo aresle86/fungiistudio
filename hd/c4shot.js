@@ -1,0 +1,3 @@
+const {chromium}=require('playwright');const fs=require('fs');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:400,height:300}});p.on('pageerror',e=>console.log('ERR',e.message));p.on('console',m=>{if(m.type()==='error')console.log('CE',m.text())});await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,null,{timeout:240000});await p.evaluate(()=>{window.__stop=true});
+for(const sm of [1,0]){const o=await p.evaluate(s=>window.__crop4(!!s),sm);for(const k in o)fs.writeFileSync(`board/c4${sm?'s':'f'}_${k}.png`,Buffer.from(o[k].split(',')[1],'base64'));}await b.close();})();

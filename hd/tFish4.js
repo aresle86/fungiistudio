@@ -1,0 +1,12 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:390,height:780},isMobile:true,hasTouch:true,deviceScaleFactor:2});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:300000});
+await p.evaluate(()=>{window.__stop=true;const g=window.__g,ST=g.ST;ST.lv=9;ST.player={av:1,name:'Na',garden:'V'};document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);ST.fishLog={caro:{n:2,max:.2},bonglau:{n:1,max:2.3},rodauvang:{n:1,max:.3},luon:{n:1,max:.3}};window.__FM.fmEnter();for(let i=0;i<20;i++)window.__tick();window.__r.render(window.__S,g.cam);});
+await p.screenshot({path:'../f2_aim.png',timeout:90000,animations:'disabled'}).catch(e=>console.log('shotfail',e.message.slice(0,80)));
+const ck=await p.evaluate(()=>{const g=window.__g,ST=g.ST,o={};window.__FM.fmExit();ST.bep=ST.bep||{};ST.bep.lit=1;ST.bep.pots=[null,null];ST.bep.made={};ST.inv.caro=4;ST.inv.caloc=2;ST.inv.rom=5;ST.inv.ot=3;ST.inv.tep=5;ST.inv.khe=2;ST.gb=ST.gb||{};ST.gb.cui=5;ST.gb.duong=3;ST.gb.muoi=3;
+ g.openSheet('bep');document.querySelector('[data-a="bpick"]').click();o.pick=[...document.querySelectorAll('[data-a="bpcook"]')].map(b=>b.dataset.k+(b.disabled?'(x)':'')).join(',');
+ document.querySelector('[data-a="bpcook"][data-k="cakho"]')?.click(); o.pots=JSON.stringify(ST.bep.pots); o.caro=ST.inv.caro; return o;});
+console.log(JSON.stringify(ck));
+await p.evaluate(()=>{window.__g.closeSheet();window.__x.openBook('ca');});await p.waitForTimeout(500);await p.screenshot({path:'../f2_book.png',timeout:90000,animations:'disabled'}).catch(e=>console.log('bookfail'));
+console.log('errs',errs.slice(0,5));await b.close();})();

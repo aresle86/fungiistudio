@@ -1,0 +1,10 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const ks=['caro','caloc','tomcang','tra'];
+const p=await b.newPage();await p.addInitScript(()=>{try{localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const old=await p.evaluate(ks=>{window.__stop=true;return ks.map(k=>window.__ICONS[k])},ks);
+await p.goto('http://127.0.0.1:8777/fishlab.html');await p.waitForFunction(()=>window.__done,null,{timeout:300000});
+const nw=await p.evaluate(ks=>ks.map(k=>window.__out[k+'_icon']),ks);
+const names={caro:'Cá rô đồng',caloc:'Cá lóc',tomcang:'Tôm càng xanh',tra:'Cá tra'};
+await p.setContent('<body style="margin:0;background:#FFFBF2;font:600 15px sans-serif;color:#4A2F1E"><table style="border-spacing:14px"><tr><td></td>'+ks.map(k=>`<td style="text-align:center">${names[k]}</td>`).join('')+'</tr><tr><td>Cũ</td>'+old.map(s=>`<td><img src="${s}" width="200"></td>`).join('')+'</tr><tr><td>Mới</td>'+nw.map(s=>`<td><img src="${s}" width="200"></td>`).join('')+'</tr><tr><td>Mới · cỡ trong game</td>'+nw.map(s=>`<td style="text-align:center"><img src="${s}" width="64"></td>`).join('')+'</tr></table></body>');
+await p.screenshot({path:'../fishCmp.png',fullPage:true});await b.close();})();

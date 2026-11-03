@@ -1,0 +1,7 @@
+const {chromium}=require('playwright');(async()=>{const [,,out,w,h,z,tx,tz]=process.argv;const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:+w,height:+h}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n')[1]));p.on('console',m=>{if(['error'].includes(m.type()))errs.push(m.type()+' '+m.text().slice(0,200))});
+await p.addInitScript(()=>{try{const s=localStorage.getItem('mv2-state');localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:240000}).catch(()=>{});
+await p.evaluate(()=>{window.__stop=true;const i=document.getElementById('intro');if(i)i.remove();document.querySelectorAll('.sheet,#say').forEach(e=>e.style.display='none');window.__ctl.minZoom=.1;});await p.waitForTimeout(300);
+await p.evaluate(([z,tx,tz])=>{const g=window.__g;g.ST.realTime=false;g.ST.ovr=12;const c=g.cam;c.zoom=+z;c.updateProjectionMatrix();if(window.__ctl){window.__ctl.target.set(+tx,.4,+tz);c.position.set(+tx+10,8.56,+tz+10);c.lookAt(+tx,.4,+tz);} for(let i=0;i<3;i++)window.__tick();},[z,tx,tz]);
+await p.waitForTimeout(300);await p.screenshot({path:out,timeout:120000});console.log(errs.slice(0,12).join('\n'));await b.close();})();

@@ -1,0 +1,8 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:900,height:640}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message));
+await p.addInitScript(()=>{localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',JSON.stringify({v:1,eco:2,split:1,qv2:1,exp:1,seen:{hello:1},player:{av:1,name:'Q',garden:'Q'},lv:12,xp:1700,xu:900,inv:{},seeds:{},plots:{},qd:{3:1,4:1,5:1,6:1,7:1,8:1,9:1,10:1,11:1,12:1},say:{own:1,at:'H1',trays:[null,null,null,null],done:2,made:{}},vit:{n:4,trough:4,eggs:0,acc:0,lv:0,fixed:1},realTime:true,spd:1,real:Date.now()}))});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const r=await p.evaluate(()=>{const S=window.__g.ST;return {lv:S.lv,xp:S.xp,keep:S.keep,k102:S.k102}});console.log('mig',JSON.stringify(r));
+const q=await p.evaluate(()=>{window.__stop=true;const out={};for(let lv=1;lv<20;lv++){const S=window.__g.ST;S.lv=lv;try{window.__OB('viec');const t=document.querySelector('.book')?.innerText||'';out[lv]=t.split('\n').filter(x=>/Ngoại nhờ|xong việc/.test(x)).length;}catch(e){out[lv]='ERR '+e.message}}return out;});console.log('book',JSON.stringify(q));
+for(const lv of [7,9,10,11,13,14,16,17,20]){await p.evaluate(lv=>{const S=window.__g.ST;S.lv=lv-1;S.xp=1e6;window.__OB('viec');},lv);await p.waitForTimeout(400);await p.screenshot({path:'../q'+lv+'.png'});}
+console.log(errs.join('\n')||'no errors');await b.close();})();

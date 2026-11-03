@@ -1,0 +1,4 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});const p=await b.newPage({viewport:{width:1200,height:300}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,{timeout:300000});
+const ng=await p.evaluate(()=>Object.entries(window.__NG).filter(([k])=>k.startsWith('ex_')).map(([k,v])=>[k,v]));console.log(ng.map(x=>x[0]).join(','));
+await p.setContent('<body style="margin:0;background:#86B06A;display:flex;gap:10px">'+ng.map(([k,v])=>`<div style="text-align:center;font:12px sans-serif"><img src="${v}" style="width:140px;height:163px;object-fit:contain;filter:drop-shadow(2.5px 0 0 #fff) drop-shadow(-2.5px 0 0 #fff) drop-shadow(0 2.5px 0 #fff) drop-shadow(0 -2.5px 0 #fff)"><br>${k}</div>`).join('')+'</body>');await p.waitForTimeout(300);await p.screenshot({path:'qc2/ngall.png'});await b.close();})();

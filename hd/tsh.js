@@ -1,0 +1,15 @@
+const {chromium}=require('playwright');const fs=require('fs');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const pl=(crop,g,moist)=>({crop,g,moist,dry:0,mulch:0,soil:.7,cut:0});
+const save=JSON.stringify({v:1,eco:2,split:1,qv2:1,exp:1,open:['A1','A1b','A2','B1','B1b','B2','D1','D1b','H1','H2','S1'],fg:{cai:1,ot:1,khe:1,hanh:1},xu:1800,inv:{rom:3,cai:9,cachua:4,ot:8,trungvit:5,trungga:3,bap:2,caro:2},gb:{cui:4,muoi:2,duong:2,otkho:1,trungchien:1},seeds:{cai:2,hanh:1},lu:0,gt:9000,real:Date.now(),spd:1,ovr:12,realTime:false,seen:{hello:1,firstwater:1,sell:1,sold:1,gaintro:1},player:{av:2,name:'Nhu',garden:'Nhu'},lv:10,xp:1100,qd:{3:1,4:1,5:1,6:1,7:1,8:1,9:1,10:1},
+ plots:{A1:pl('cai',900,.8),A1b:pl('hanh',300,0)},vit:{n:3,trough:3,eggs:2,acc:0,lv:0},ga:{hens:2,rooster:1,trough:4,eggs:1,acc:0,lv:0,brood:null},
+ nong:{own:1,at:'H4',trays:[{k:'otkho',t:5000,T:14400},null,null,null],done:2,made:{otkho:1}},khap:{own:1,at:'H3',jars:[{k:'dacai',t:20000,T:43200},null],done:1,made:{}},ho:{own:1,at:'H8',mat:3,t:0,bags:1,done:1},say:{own:1,at:'H7',trays:[null,null],done:1,made:{}},
+ bep:{lit:1,pots:[{k:'trungchien',t:300},null],made:{trungchien:1}},ord:{list:[{id:'o1',who:'Cô Tư',why:'nấu canh chua',items:[['cachua',2],['ot',1]],xu:60,xp:5}],acc:0,first:1,done:3}});
+const p=await b.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(s=>{try{if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',s);}}catch(e){}},save);
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,null,{timeout:300000});await p.waitForTimeout(1500);await p.evaluate(()=>{window.__stop=true;document.getElementById('ngoai').hidden=true;});
+const list=[['ga'],['vit'],['plot','A1'],['plot','A1b'],['plot','B2'],['plot','H5'],['cho','don'],['cho','ban'],['cho','mua'],['bep'],['nong'],['khap'],['ho'],['lo'],['say'],['gio'],['ben'],['set'],['kho']];
+for (const [k,a] of list){ await p.evaluate(([k,a])=>{const g=window.__g;g.closeSheet();if(k==='cho'){g.openSheet('cho');const t=[...document.querySelectorAll('[data-a=ctab]')].find(x=>x.dataset.k===a);t&&t.click();}else g.openSheet(k,a);},[k,a]);await p.waitForTimeout(250);
+  await p.screenshot({path:`qc3/${k}${a?'_'+a:''}.png`,timeout:200000}); fs.appendFileSync('tsh.log',k+' '+(a||'')+'\n'); }
+for (const t of ['giong','kho','viec']){ await p.evaluate(t=>{window.__g.closeSheet();window.__x.openBook(t);},t);await p.waitForTimeout(300);await p.screenshot({path:`qc3/book_${t}.png`,timeout:200000});fs.appendFileSync('tsh.log','book '+t+'\n');}
+await p.evaluate(()=>{const g=window.__g;g.closeSheet();document.querySelector('.book')&&0;});
+fs.appendFileSync('tsh.log','errs '+JSON.stringify(errs)+'\nEND\n');await b.close();})().catch(e=>{fs.appendFileSync('tsh.log','FAIL '+e.message.slice(0,300)+'\n');process.exit(1)});

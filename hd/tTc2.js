@@ -1,0 +1,9 @@
+const fs=require('fs');const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1000,height:640}});const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='warning'||m.type()==='error')errs.push(m.text().slice(0,200))});
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_dev.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const r=await p.evaluate(()=>{window.__stop=true;const g=window.__g,ST=g.ST,X=window.__FT2,o={};ST.lv=12;ST.player={av:1,name:'Na',garden:'V'};document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);g.ST.tm='fixed';g.ST.ovr=17.5;
+ ST.guestN=3;ST.visitOut=2;ST.ft.vusua={st:4,told:4,t:Date.now()};ST.ft.tretramdot={st:3,told:3,t:Date.now(),dot:100};X.ftCheck();o.c=JSON.stringify(ST.ft.traucau);X.ftTap('traucau');for(let s=0;s<3;s++){ST.ft.traucau.t-=13*3600e3;X.ftCheck();}o.st=ST.ft.traucau.st;for(let i=0;i<4;i++)X.ftTap('traucau');o.told=ST.ft.traucau.told;X.ftTap('traucau');o.trau=ST.inv.trau;
+ for(let i=0;i<10;i++)window.__tick();const pp=X.FT.traucau.at;const c=window.__ctl;const d=c.object.position.clone().sub(c.target);c.target.set(pp[0],1.7,pp[1]);c.object.position.copy(c.target).add(d);c.object.zoom=2.4;c.object.updateProjectionMatrix();for(let i=0;i<3;i++)window.__tick();
+ window.__r.render(window.__S,g.cam);o.u=window.__r.domElement.toDataURL('image/png');return o;});
+fs.writeFileSync('../tc2.png',Buffer.from(r.u.split(',')[1],'base64'));delete r.u;console.log(JSON.stringify(r));console.log('errs',errs.filter(e=>!/TUNNEL|ERR_|Failed to load/.test(e)).slice(0,5));await b.close();})();

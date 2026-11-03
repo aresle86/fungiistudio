@@ -1,0 +1,30 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1100,height:760}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n')[1]));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const tk=()=>p.evaluate(()=>{for(let i=0;i<3;i++)window.__tick();});
+const shot=async(n,x=7.4,z=9.5,zm=2.2)=>{await p.evaluate(([x,z,zm])=>{for(let i=0;i<3;i++)window.__tick();const c=window.__ctl;const d=c.object.position.clone().sub(c.target);c.target.set(x,.3,z);c.object.position.copy(c.target).add(d);c.object.zoom=zm;c.object.updateProjectionMatrix();for(let i=0;i<3;i++)window.__tick();},[x,z,zm]);await p.screenshot({path:'../'+n+'.png',timeout:120000}).catch(()=>console.log('shotfail'));};
+await p.evaluate(()=>{window.__stop=true;document.getElementById('intro').style.display='none';const g=window.__g;g.ST.player={av:1,name:'N',garden:'V'};g.ST.lv=18;g.ST.xp=4800;g.ST.xu=1000;g.ST.tm='fixed';g.ST.ovr=10;});
+await tk();
+const S=()=>p.evaluate(()=>{const g=window.__g,X=window.__FT3,V=X.TBV;return JSON.stringify({lv:g.ST.lv,tb:g.ST.tb,root:V.root.visible,bub:V.b.visible,kids:V.m?V.m.children.length:0,left:Math.round(X.tbLeft()/60000),lo:Math.round(X.loLeft()/60000),xu:g.ST.xu});});
+console.log('lv18',await S());
+await p.evaluate(()=>{window.__g.ST.lv=19;});await tk();console.log('lv19',await S());
+console.log('html0',(await p.evaluate(()=>window.__FT3.tbHTML())).replace(/<[^>]+>/g,' ').replace(/\s+/g,' '));
+await shot('tb0');
+await p.evaluate(()=>{window.__FT3.tbBuild();});await tk();console.log('build',await S());
+await p.waitForTimeout(900);await shot('tb1');
+await p.evaluate(()=>{window.__g.ST.tb.help=5;});console.log('help',await S());
+console.log('html1',(await p.evaluate(()=>window.__FT3.tbHTML())).replace(/<[^>]+>/g,' ').replace(/\s+/g,' '));
+await p.evaluate(()=>{window.__g.ST.tb.t-=5*3600e3;});await tk();console.log('done',await S());
+await p.evaluate(()=>{window.__g.ST.tb.lo-=7*3600e3;});await tk();console.log('ready',await S());
+await p.waitForTimeout(1500);
+// ghe beo visible at the same time for overlap check
+await p.evaluate(()=>{const g=window.__g;g.ST.ghe.o={who:'x',why:'y',items:[],xu:10};});await shot('tb2');
+const before=await p.evaluate(()=>Object.keys(window.__g.ST.fishLog).filter(k=>window.__g.ST.fishLog[k].n).length);
+await p.evaluate(()=>{window.__FT3.tbTake();});await p.waitForTimeout(300);
+const after=await p.evaluate(()=>JSON.stringify([Object.keys(window.__g.ST.fishLog).filter(k=>window.__g.ST.fishLog[k].n).length,window.__g.ST.tb.got]));
+console.log('take',before,after,await S());
+await p.screenshot({path:'../tb3.png'});
+// many takes: distribution
+console.log('sim',await p.evaluate(()=>{const g=window.__g,X=window.__FT3;const out=[];for(let r=0;r<8;r++){g.ST.tb.lo-=7*3600e3;X.tbTake();out.push(Object.keys(g.ST.fishLog).filter(k=>g.ST.fishLog[k].n).length);}return out.join(',');}));
+console.log(errs.join('\n'));await b.close();})();

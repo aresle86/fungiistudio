@@ -1,0 +1,2 @@
+window.__ctl = ctl;
+for (const P of PLOTS.filter(P => P.tree)){ const c = document.createElement('canvas'); c.width = c.height = 64; const x2 = c.getContext('2d'); x2.fillStyle = '#fff'; x2.fillRect(0, 0, 64, 64); x2.fillStyle = '#000'; x2.font = 'bold 40px sans-serif'; x2.fillText(P.id, 4, 46); const sp = new T.Sprite(new T.SpriteMaterial({ map: new T.CanvasTexture(c), depthTest: false })); sp.position.set(P.at[0], 2.6, P.at[1]); sp.scale.setScalar(.4); S.add(sp); }

@@ -1,0 +1,4 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});const p=await b.newPage({viewport:{width:900,height:700}});p.on('pageerror',e=>console.log('E',e.message));
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,{timeout:300000});await p.evaluate(()=>{window.__stop=true;document.getElementById('intro').hidden=true;window.__g.say('Lên cấp 5 rồi! Giỏi quá con.','nhay',{now:true});});
+await p.waitForTimeout(350);await p.screenshot({path:'qc2/cf1.png',clip:{x:0,y:350,width:500,height:350}});await p.waitForTimeout(700);await p.screenshot({path:'qc2/cf2.png',clip:{x:0,y:350,width:500,height:350}});
+console.log(await p.evaluate(()=>document.querySelectorAll('.cft').length));await b.close();})();

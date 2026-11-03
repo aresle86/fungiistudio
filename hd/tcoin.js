@@ -1,0 +1,2 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:220,height:140}});p.on('pageerror',e=>console.log('ERR',e.message));await p.goto('http://127.0.0.1:8777/coin_t.html');await p.waitForTimeout(300);await p.screenshot({path:'qc2/coin.png'});
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,{timeout:300000});console.log(await p.evaluate(()=>{try{return typeof drawCoin}catch(e){return e.message}}));await b.close();})();

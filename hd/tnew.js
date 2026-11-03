@@ -1,0 +1,15 @@
+const {chromium}=require('playwright');(async()=>{const [,,out]=process.argv;const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1200,height:800}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n')[1]));
+await p.addInitScript(()=>{try{if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.clear();localStorage.setItem('mv3d-q','1');}}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:300000});
+await p.evaluate(()=>{window.__stop=true;const i=document.getElementById('intro');if(i)i.remove();window.__g.closeSheet();});const tick=async()=>{await p.evaluate(()=>{for(let i=0;i<2;i++)window.__tick();});await p.waitForTimeout(150);};
+await tick();await p.screenshot({path:out+'_start.png'});
+const S=()=>p.evaluate(()=>{const s=window.__g.ST;return JSON.stringify({lv:s.lv,xp:s.xp,xu:s.xu,open:s.open.length,A1:s.plots.A1.crop,A2:s.plots.A2.crop,A2g:Math.round(s.plots.A2.g),fast:s.plots.A2.fast,inv:s.inv});});
+console.log('start',await S());
+await p.evaluate(()=>{const g=window.__g;g.act.harvest('A1');g.act.plant('A2','cai');g.act.water('A2');g.sim(160);g.refreshPlot('A2');});console.log('after 160s',await S());
+await p.evaluate(()=>{const g=window.__g;g.act.harvest('A2');g.act.sell('cai',99);});console.log('sold',await S());
+await p.evaluate(()=>{const g=window.__g;g.act.plant('A2','cai');g.sim(160);g.refreshPlot('A2');});console.log('2nd cai 160s (should not be ripe)',await S());
+await p.evaluate(()=>{window.__g.openSheet('plot','C1');});await tick();console.log(await p.evaluate(()=>document.getElementById('shB').innerText));
+await p.evaluate(()=>{const g=window.__g;g.ST.lv=3;g.ST.xu=500;g.openSheet('plot','C1');});await tick();await p.screenshot({path:out+'_sheet.png'});
+await p.evaluate(()=>{const o=document.getElementById('lvup');if(o)o.hidden=true;window.LVON=false;});await p.click('[data-a=openbed]');await tick();console.log('opened',await S());await p.screenshot({path:out+'_opened.png'});
+console.log(errs.join('\n'));await b.close();})();

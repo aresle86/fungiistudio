@@ -1,0 +1,5 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:900,height:600}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message));
+await p.addInitScript(()=>{try{if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.clear();localStorage.setItem('mv2-state',JSON.stringify({v:1,xu:100,inv:{rom:2,cai:3},seeds:{cai:1},gt:9000,real:Date.now()-3*3600e3,spd:1,realTime:true,ovr:12,seen:{},player:{av:0,name:'A',garden:'B'},tasks:{day:'x',list:[{rw:['coin',10],t:'harvest'}]},plots:{A1:{crop:'bap',g:100,moist:.5,dry:0,mulch:0,soil:.8,cut:0}}}));}}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_old.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:300000}).catch(()=>errs.push('not ready'));
+console.log(JSON.stringify(await p.evaluate(()=>({lv:window.__g.ST.lv,xu:window.__g.ST.xu,eco:window.__g.ST.eco}))));console.log(errs.join('\n'));await b.close();})();

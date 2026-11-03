@@ -1,0 +1,10 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1100,height:760}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+await p.evaluate(()=>{window.__stop=true;document.getElementById('intro').style.display='none';const g=window.__g;g.ST.tm='fixed';g.ST.ovr=10;g.ST.player={av:1,name:'N',garden:'V'};
+ const h=window.__FT3.gheTB();h.position.set(6.7,-.075+.13,9.6);h.rotation.y=-.04;window.__S.add(h);window.__GH=h;});
+const shot=async(x,y,z,zm,n)=>{await p.evaluate(([x,y,z,zm])=>{for(let i=0;i<3;i++)window.__tick();const c=window.__ctl;const d=c.object.position.clone().sub(c.target);c.target.set(x,y,z);c.object.position.copy(c.target).add(d);c.object.zoom=zm;c.object.updateProjectionMatrix();for(let i=0;i<3;i++)window.__tick();},[x,y,z,zm]);await p.screenshot({path:'../'+n+'.png',timeout:120000}).catch(()=>console.log('f'+n));};
+await shot(5.4,.2,9.2,2.0,'ghe0');await shot(6.7,.15,9.6,4.5,'ghe1');
+await p.evaluate(()=>{window.__GH.rotation.y=Math.PI+.3;});await shot(6.7,.15,9.6,4.5,'ghe2');
+console.log(errs);await b.close();})();

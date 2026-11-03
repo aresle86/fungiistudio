@@ -1,0 +1,11 @@
+const {chromium}=require('playwright');const fs=require('fs');const L=m=>fs.appendFileSync('tclk.log',m+'\n');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{try{if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.clear();localStorage.setItem('mv3d-q','1');}}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,null,{timeout:300000});await p.waitForTimeout(2500);
+const rd=async()=>p.evaluate(()=>[document.getElementById('tt').textContent,document.getElementById('tn').textContent,window.__g.ST.tm,!!(window.__g.ST.seen||{}).sold]);
+L('start '+JSON.stringify(await rd()));await p.screenshot({path:'qc3/clk_start.png',timeout:200000});
+await p.evaluate(()=>{window.__g.ST.clk0-=31*60000;});await p.waitForTimeout(1500);L('+31m unsold '+JSON.stringify(await rd()));
+await p.evaluate(()=>{const g=window.__g.ST;g.seen.sold=1;g.seen.hello=1;g.clk0-=8.2*60000;});await p.waitForTimeout(1500);L('sold +6.5m '+JSON.stringify(await rd()));
+await p.evaluate(()=>{window.__stop=true;document.getElementById('ngoai').hidden=true;});await p.waitForTimeout(300);await p.screenshot({path:'qc3/clk_night.png',timeout:200000});
+await p.evaluate(()=>{window.__stop=false;window.__g.ST.clk0-=0;});
+L('errs '+JSON.stringify(errs));await b.close();L('END');})().catch(e=>{L('FAIL '+e.message.slice(0,300));process.exit(1)});

@@ -1,0 +1,11 @@
+const {chromium}=require('playwright');(async()=>{const [,,out]=process.argv;const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1200,height:800}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n').slice(1,3).join(' ')));p.on('console',m=>{if(['error','log'].includes(m.type())&&!m.text().includes('Failed to load'))errs.push(m.type()+' '+m.text().slice(0,300))});
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+const t0=Date.now();await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:300000}).catch(e=>errs.push('timeout'));console.log('load',(Date.now()-t0)/1000);
+await p.evaluate(()=>{window.__stop=true;const i=document.getElementById('intro');if(i)i.remove();window.__ctl.minZoom=.1;});
+const r=await p.evaluate(()=>{const g=window.__g,ST=g.ST;ST.lv=12;ST.xu=99999;const L=[['T1','chuoi',1],['T2','oi',.5],['T3','khe',.8],['T4','xoai',1],['T5','dua',1],['C2','mongtoi',1],['C1','daubap',1]];const o=[];
+ for(const [id,k,f] of L){const P=ST.plots[id];P.crop=null;const t0=performance.now();g.act.plant(id,k);const c=P;P.g=f*({chuoi:36000,oi:43200,khe:50400,xoai:72000,dua:86400,mongtoi:5400,daubap:9000}[k]);P.moist=1;g.refreshPlot(id);o.push(id+' '+k+' '+(performance.now()-t0).toFixed(0)+'ms');}
+ g.closeSheet();return o;});console.log(r.join('\n'));
+const shot=async(n,z,tx,tz)=>{await p.evaluate(([z,tx,tz])=>{const c=window.__g.cam;window.__ctl.target.set(tx,.4,tz);c.position.set(tx+10,8.56,tz+10);c.zoom=z;c.updateProjectionMatrix();c.lookAt(tx,.4,tz);window.__g.ST.realTime=false;window.__g.ST.ovr=12;for(let i=0;i<3;i++)window.__tick();},[z,tx,tz]);await p.waitForTimeout(300);await p.screenshot({path:out+'_'+n+'.png',timeout:120000});};
+await shot('orch',1.0,10.1,.3);await p.evaluate(()=>{const g=window.__g;for(const id of ['T1','T2','T3','T4'])console.log(id, JSON.stringify(g.PV[id].crop.children.length), g.PV[id].root.visible);});await shot('beds',1.6,3.0,5.6);await shot('dua',2.2,4.0,7.5);await shot('wide',.7,5,3);
+console.log(await p.evaluate(()=>JSON.stringify(window.__r.info.render)));console.log(errs.slice(0,12).join('\n'));await b.close();})();

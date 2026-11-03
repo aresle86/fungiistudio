@@ -1,0 +1,2 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1440,height:1000}});p.on('pageerror',e=>console.log('ERR',e.message));
+for(const f of process.argv.slice(2)){const [n,q]=f.split('?');await p.goto('file://'+__dirname+'/'+n+'.html'+(q?'?'+q:''));await p.waitForFunction(()=>document.title==='done',{timeout:20000}).catch(()=>console.log('timeout',f));await (await p.$('canvas')).screenshot({path:__dirname+'/'+f.replace('?px=','_px')+'.png'});console.log('ok',f);}await b.close();})();

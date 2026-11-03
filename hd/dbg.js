@@ -1,0 +1,5 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:600,height:400}});p.on('pageerror',e=>console.log('ERR',e.message));await p.addInitScript(()=>{try{localStorage.clear()}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:240000});
+console.log(await p.evaluate(()=>{const g=window.__g;window.__stop=true;g.ST.plots.C2.crop=null;document.querySelector('#tSeed').click();document.querySelector('.fk[data-k="cai"]').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true,pointerId:1}));window.dispatchEvent(new PointerEvent('pointerup',{pointerId:1}));window.__tick();const v=g.PV.C2.glow;let par=v.parent, chain=[];while(par){chain.push(par.type);par=par.parent;}return JSON.stringify({vis:v.visible,chain,kids:v.children.length});}));
+await b.close();})();

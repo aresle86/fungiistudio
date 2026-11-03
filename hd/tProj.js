@@ -1,0 +1,10 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const save=JSON.stringify({v:1,eco:2,split:1,qv2:1,exp:1,open:['A1','A1b','A2','B1','B1b','B2','D1','D1b','H1','H2'],xu:2000,inv:{rom:3},seeds:{},gt:9000,real:Date.now(),spd:1,ovr:12,realTime:false,seen:{hello:1},player:{av:2,name:'Nhu',garden:'Nhu'},lv:9,xp:850,qd:{3:1,4:1,5:1,6:1,7:1,8:1,9:1},plots:{}});
+const p=await b.newPage({viewport:{width:1300,height:850},deviceScaleFactor:1.5});
+await p.addInitScript(s=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',s);}catch(e){}},save);
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const r=await p.evaluate(()=>{window.__stop=true;const c=window.__ctl;c.maxZoom=40;const d=c.object.position.clone().sub(c.target);c.target.set(8.0,.3,4.2);c.object.position.copy(c.target).add(d);c.object.zoom=1.7;c.object.updateProjectionMatrix();c.object.updateMatrixWorld();window.__tick();
+ const T=window.__g.T,o={};const pr=(x,z)=>{const v=new T.Vector3(x,0,z).project(c.object);return [Math.round((v.x+1)/2*1950),Math.round((1-v.y)/2*1275)];};
+ for(const x of [5.0,6.3,6.9,7.0,8.0,9.0,9.55,10.0,11.0]) for(const z of [2.0,2.8,3.6,4.15,4.95,5.45,6.25,6.32,7.0,7.42,8.0]) o[x+','+z]=pr(x,z);
+ const S=window.__G.PLOTS.filter(P=>P.zone==='song').map(P=>[P.id,P.b]);return {o,S};});
+console.log(JSON.stringify(r));await b.close();})();

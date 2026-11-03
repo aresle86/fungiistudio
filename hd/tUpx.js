@@ -1,0 +1,12 @@
+const fs=require('fs');const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1000,height:640}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_dev.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const r=await p.evaluate(()=>{window.__stop=true;const g=window.__g,ST=g.ST,U=window.__UP,o={};ST.lv=13;ST.xu=2000;ST.player={av:1,name:'Na',garden:'V'};document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);
+ for(let i=1;i<=12;i++)ST.land['H'+i]={st:'own'};ST.nong.own=1;ST.nong.at='H5';ST.khap.own=1;ST.khap.at='H6';
+ U.upxBuy('nong');U.upxBuy('khap');o.n=ST.nong.trays.length;o.k=ST.khap.jars.length;o.xu=ST.xu;
+ ST.nong.trays[5]={k:'otkho',t:10,T:100};ST.khap.jars[3]={k:'dacai',t:0,T:100};
+ for(const P of window.__x.PLOTS)g.refreshPlot(P.id);for(let i=0;i<60;i++)window.__tick();
+ const c=window.__ctl;const d=c.object.position.clone().sub(c.target);c.target.set(-4.8,.3,1.0);c.object.position.copy(c.target).add(d);c.object.zoom=3.2;c.object.updateProjectionMatrix();for(let i=0;i<3;i++)window.__tick();
+ window.__r.render(window.__S,g.cam);o.u=window.__r.domElement.toDataURL('image/png');g.openSheet('nong');o.sh=document.querySelector('#shB').innerText.slice(0,80);return o;});
+fs.writeFileSync('../upx.png',Buffer.from(r.u.split(',')[1],'base64'));delete r.u;console.log(JSON.stringify(r),'errs',errs.slice(0,3));await b.close();})();

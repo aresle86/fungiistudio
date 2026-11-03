@@ -1,0 +1,10 @@
+window.__iso = (what, ang) => { const ri = new T.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); ri.setSize(600, 600); ri.setClearColor('#8fa070'); ri.toneMapping = T.ACESFilmicToneMapping; ri.shadowMap.enabled = true; ri.shadowMap.type = T.PCFSoftShadowMap;
+  const sc = new T.Scene(), root = new T.Group(); sc.add(root); sc.add(new T.HemisphereLight('#fff4e2', '#94a474', 1.5)); const l = new T.DirectionalLight('#fff0d8', 1.6); l.position.set(-3, 9, 2); l.castShadow = true; l.shadow.mapSize.set(1024, 1024); Object.assign(l.shadow.camera, { left: -2, right: 2, top: 2, bottom: -2 }); sc.add(l);
+  const gr = new T.Mesh(new T.PlaneGeometry(6, 6), new T.MeshStandardMaterial({ color: '#86B06A' })); gr.rotation.x = -Math.PI / 2; gr.receiveShadow = true; sc.add(gr);
+  const pr = ROOT; ROOT = root; sd = 77; if (what === 'chuoi') chuoi(0, 0, 1); else coop(0, 0, 0); ROOT = pr;
+  sc.traverse(o => { if (o.isMesh && o !== gr){ o.castShadow = true; } });
+  const c = new T.Vector3(0, what === 'chuoi' ? .65 : .4, 0), sz = what === 'chuoi' ? 1.0 : .8, cm = new T.OrthographicCamera(-sz, sz, sz, -sz, .01, 100); cm.position.copy(c).add(new T.Vector3(Math.cos(ang), .7, Math.sin(ang)).normalize().multiplyScalar(20)); cm.lookAt(c);
+  ri.render(sc, cm); const u = ri.domElement.toDataURL(); ri.dispose(); return u; };
+window.__isoBoat = (ang, el) => { const ri = new T.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); ri.setSize(700, 400); ri.setClearColor('#8fa070'); ri.toneMapping = T.ACESFilmicToneMapping;
+  const sc = new T.Scene(); sc.add(new T.HemisphereLight('#fff4e2', '#94a474', 1.6)); const l = new T.DirectionalLight('#fff0d8', 1.5); l.position.set(-3, 9, 2); sc.add(l); const b = BOAT.clone(); b.position.set(0, 0, 0); b.rotation.set(0, 0, 0); sc.add(b);
+  const c = new T.Vector3(0, .05, 0), cm = new T.OrthographicCamera(-1.1, 1.1, .63, -.63, .01, 100); cm.position.copy(c).add(new T.Vector3(Math.cos(ang), el, Math.sin(ang)).normalize().multiplyScalar(20)); cm.lookAt(c); ri.render(sc, cm); const u = ri.domElement.toDataURL(); ri.dispose(); return u; };

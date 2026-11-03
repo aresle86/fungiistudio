@@ -1,0 +1,8 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:600,height:400}});p.on('pageerror',e=>console.log('PERR',e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:150000});
+const steps=["const g=window.__g,ST=g.ST;ST.player={av:1,name:'Na',garden:'V'};ST.lv=5;ST.xu=2000;document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);return 1",
+"return window.__T2.mua()","window.__g.ST.muaTest='tet';window.__g.ST.tetDayTest=0;return window.__T2.mua()","return window.__T2.tetDayAt('2027-02-06')","return window.__T2.unlocked('duahau')","window.__T2.tetBuy('duahau');return window.__g.ST.seeds.duahau","return JSON.stringify(window.__T2.tetOrd())","const ST=window.__g.ST;const P=window.__x.PLOTS.find(P=>/^A/.test(P.id)&&ST.open.includes(P.id)&&!ST.plots[P.id].crop);window.__g.act.plant(P.id,'duahau');return P.id+ST.plots[P.id].crop","window.__tick();return 1","for(let i=0;i<30;i++)window.__tick();return document.querySelector('.lixi')?document.querySelector('.lixi').innerText:'none'"];
+for(const s of steps){const t0=Date.now();const r=await Promise.race([p.evaluate(new Function(s)),new Promise(r=>setTimeout(()=>r('TIMEOUT'),20000))]);console.log(s.slice(0,40),'=>',r,Date.now()-t0);if(r==='TIMEOUT')break;}
+await b.close();})();

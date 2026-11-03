@@ -1,0 +1,11 @@
+const fs=require('fs');const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:390,height:700},isMobile:true,hasTouch:true});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n').slice(1,4).join(' | ')));p.on('framenavigated',f=>{if(f===p.mainFrame())console.log('nav',Date.now()%100000)});
+await p.addInitScript(()=>{try{if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.clear();localStorage.setItem('mv3d-q','1');}}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_dev.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const ic=await p.evaluate(()=>{const I=window.__ICON;return ['tre','catre','dua','cadua'].map(k=>I[k]);});
+ic.forEach((u,i)=>u&&fs.writeFileSync('ic'+i+'.png',Buffer.from(u.split(',')[1],'base64')));
+await p.evaluate(()=>{const g=window.__g;g.ST.player={av:1,name:'Na',garden:'V'};g.ST.lv=6;g.ST.fishLog={tre:{n:2,max:1},dua:{n:1,max:2}};g.ST.inv.tre=2;g.ST.inv.dua=3;document.getElementById('intro').hidden=true;document.getElementById('intro').style.display='none';g.openSheet('set');});
+await p.waitForTimeout(500);await p.click('[data-a=reset]');await p.waitForTimeout(300);console.log('btn',await p.evaluate(()=>!!document.querySelector('[data-a=reset2]')));await p.click('[data-a=reset2]');console.log('ls',await p.evaluate(()=>{const s=JSON.parse(localStorage.getItem('mv2-state'));return s.lv+' '+JSON.stringify(s.ga)}).catch(e=>'nav '+e.message));
+await p.waitForTimeout(2500);await p.waitForFunction(()=>window.__ready,null,{timeout:300000});await p.waitForTimeout(1500);
+console.log(await p.evaluate(()=>JSON.stringify({lv:window.__g.ST.lv,ga:window.__g.ST.ga,pl:window.__g.ST.player})));
+console.log(errs.join('\n'));await b.close();})();

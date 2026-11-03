@@ -1,0 +1,11 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const ctx=await b.newContext({viewport:{width:1100,height:760}});let p=await ctx.newPage();p.on('pageerror',e=>console.log('ERR',e.message));await p.addInitScript(()=>{try{if(!sessionStorage.k){sessionStorage.k=1;localStorage.clear();}}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:240000});await p.waitForTimeout(400);await p.click('#inGo');
+console.log(await p.evaluate(()=>{window.__stop=true;const X=window.__x,S=X.ST;const o=[[S.lv,S.xp]];X.gainXP(25);o.push([S.lv,S.xp,S.qAsk]);S.weed=13;S.qd={};X.doQuest(2);o.push([S.lv,S.seeds.raumuong]);X.gainXP(110);o.push([S.lv]);S.xu=500;X.doQuest(4);o.push([S.lv,S.exp]);return JSON.stringify(o);}));
+await p.waitForTimeout(2500);await p.waitForFunction(()=>window.__ready,null,{timeout:240000});
+await p.evaluate(()=>{window.__stop=true;const g=window.__g;g.ST.realTime=false;g.ST.ovr=10;document.querySelector('#ngoai').hidden=true;console.log(1);const c=g.cam,ct=window.__ctl.target,d=c.position.clone().sub(ct);ct.set(8,0,4);c.position.copy(ct).add(d);c.zoom=1.6;c.updateProjectionMatrix();window.__ctl.update();window.__tick();});
+console.log(await p.evaluate(()=>JSON.stringify([window.__x.ST.lv,window.__x.ST.exp,Object.keys(window.__x.ST.plots)])));
+await p.screenshot({path:'lv_exp.png',timeout:200000});
+await p.evaluate(()=>{document.querySelector('#bSo').click();document.querySelector('.bkt[data-k="viec"]').click();});await p.waitForTimeout(300);await p.screenshot({path:'lv_viec.png',timeout:200000});
+await p.evaluate(()=>{document.querySelector('.bkt[data-k="giong"]').click();});await p.waitForTimeout(300);await p.screenshot({path:'lv_giong.png',timeout:200000});
+await b.close();})();

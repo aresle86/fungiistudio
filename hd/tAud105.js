@@ -1,0 +1,10 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist','--autoplay-policy=no-user-gesture-required']});
+const p=await b.newPage({viewport:{width:900,height:640},deviceScaleFactor:1.5});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message));p.on('console',m=>{if(m.type()==='error')errs.push('CE '+m.text().slice(0,150))});
+await p.addInitScript(()=>{localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',JSON.stringify({v:1,eco:2,split:1,qv2:1,exp:1,seen:{hello:1},player:{av:1,name:'Q',garden:'Q'},lv:10,xp:4300,xu:900,inv:{},seeds:{},plots:{},qd:{3:1,4:1,5:1,6:1,7:1,8:1,9:1,10:1},realTime:true,spd:1,real:Date.now()}))});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+await p.mouse.click(450,500);await p.waitForTimeout(1500);
+await p.evaluate(()=>{window.__stop=true;window.__g.openSheet('set');});await p.waitForTimeout(500);await p.screenshot({path:'../set105.png'});
+await p.evaluate(()=>{const el=document.querySelector('[data-vol=mus]');el.value='0.8';el.dispatchEvent(new Event('input',{bubbles:true}));});
+console.log('vol',await p.evaluate(()=>JSON.stringify(window.__g.ST.vol)));
+await p.waitForTimeout(3000);
+console.log(errs.join('\n')||'no errors');await b.close();})();

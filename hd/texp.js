@@ -1,0 +1,7 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const save=JSON.stringify({v:1,eco:2,split:1,exp:1,open:['A1','A1b','A2','B1','B1b','B2','D1','D1b'],fg:{cai:1},xu:500,inv:{rom:1},seeds:{},lu:0,gt:9000,real:Date.now(),spd:1,ovr:12,realTime:false,seen:{hello:1,firstwater:1,sell:1,sold:1,gaintro:1},player:{av:2,name:'A',garden:'Địa Đàng'},lv:4,xp:90,qd:{2:1,4:1},ga:{hens:2,rooster:1,trough:4,eggs:0,acc:0,lv:0,brood:null},plots:{D1:{crop:'cai',g:600,moist:.9,dry:0,mulch:0,soil:.8,cut:0}}});
+const p=await b.newPage({viewport:{width:1280,height:800},deviceScaleFactor:2});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(s=>{try{if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',s);}}catch(e){}},save);
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,null,{timeout:300000});await p.evaluate(()=>{window.__stop=true;});await p.evaluate(()=>{for(let i=0;i<3;i++)window.__tick();});await p.waitForTimeout(400);
+const c=await p.evaluate(()=>{const g=window.__g;const v=new g.T.Vector3(9.8,0,3.4).project(g.cam);return [(v.x+1)/2*innerWidth,(1-v.y)/2*innerHeight];});console.log(c,errs);
+await p.screenshot({path:'qc2/exp.png',clip:{x:Math.min(1280-500,Math.max(0,c[0]-250)),y:Math.max(0,c[1]-180),width:500,height:360},timeout:120000});await b.close();})();

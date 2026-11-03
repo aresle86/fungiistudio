@@ -1,0 +1,1 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:420,height:170},deviceScaleFactor:3});await p.goto('http://127.0.0.1:8777/navcss.html');await p.waitForTimeout(500);await p.screenshot({path:'../navcss.png'});await b.close();})();

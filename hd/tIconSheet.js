@@ -1,0 +1,8 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1300,height:900}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const L=await p.evaluate(async()=>{window.__stop=true;const I=window.__ICONS,U=window.__UIC;const ks=[['Hạt',U.seedbag],['Sổ',U.so],['Chợ',I.cho],['Rơm',I.rom],['Cài đặt',I.set],['Bạn bè',window.__AVIMG.banbe],['Cải',I.cai],['Cà chua',I.cachua],['Ớt',I.ot],['Bắp',I.bap],['Xoài',I.xoai],['Trứng gà',I.trungga],['Cá rô',I.caro],['Cá lóc',I.caloc],['Tôm càng',I.tomcang],['Cá chép',I.chep],['Ghe',U.tamban],['Ngoại',document.getElementById('ngoaiImg').src],['Nhân vật',window.__AVIMG.full[1]],['Liềm',U.sickle],['Thùng tưới',U.can]];
+ const o=[];for(const [n,u] of ks)o.push([n,u?await window.__FT3.sticker(u):'']);return o;});
+await p.setContent('<body style="margin:0;background:#86B06A;font:600 14px sans-serif;color:#2F4A22;padding:16px"><div style="display:grid;grid-template-columns:repeat(7,170px);gap:10px">'+L.map(([n,u])=>`<div style="text-align:center"><img src="${u}" style="width:130px;height:130px;object-fit:contain"><br>${n} <img src="${u}" style="width:48px;height:48px;object-fit:contain;vertical-align:middle"></div>`).join('')+'</div></body>');
+await p.screenshot({path:'../iconsheet.png',fullPage:true});console.log(errs.join('|')||'no errors');await b.close();})();

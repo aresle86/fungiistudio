@@ -1,0 +1,11 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:900,height:600}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message));let nav=0;p.on('framenavigated',f=>{if(f===p.mainFrame())nav++});
+await p.addInitScript(()=>{if(sessionStorage.getItem('q5init'))return;sessionStorage.setItem('q5init','1');try{localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',JSON.stringify({v:1,eco:2,split:1,qv2:1,seen:{hello:1},player:{av:1,name:'Q',garden:'Q'},lv:4,xp:200,xu:500,inv:{},seeds:{},plots:{},qd:{3:1,4:1},realTime:true,spd:1,real:Date.now()}))}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+console.log('before',await p.evaluate(()=>JSON.stringify({lv:__g.ST.lv,qd:__g.ST.qd,exp:__g.ST.exp,xu:__g.ST.xu})));
+await p.evaluate(()=>window.__e.doQuest(5));
+console.log('after call',await p.evaluate(()=>JSON.stringify({lv:__g.ST.lv,qd:__g.ST.qd,exp:__g.ST.exp,xu:__g.ST.xu, ls:JSON.parse(localStorage.getItem('mv2-state')).qd})));
+await p.waitForTimeout(6000);await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+console.log('nav',nav,'after reload',await p.evaluate(()=>JSON.stringify({lv:__g.ST.lv,qd:__g.ST.qd,exp:__g.ST.exp,xu:__g.ST.xu,open:__g.ST.open.length})));
+await p.waitForTimeout(8000);console.log('nav later',nav, await p.evaluate(()=>JSON.stringify({lv:__g.ST.lv,qd:__g.ST.qd})));
+console.log(errs.join('\n')||'no errors');await b.close();})();

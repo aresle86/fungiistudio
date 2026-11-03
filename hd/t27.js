@@ -1,0 +1,14 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const ctx=await b.newContext({viewport:{width:1100,height:760}});
+let p=await ctx.newPage();p.on('pageerror',e=>console.log('ERR',e.message));await p.addInitScript(()=>{try{localStorage.clear()}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:240000});await p.waitForTimeout(500);
+await p.click('.avc[data-i="1"]');await p.click('#inGo');await p.waitForTimeout(300);
+const st=await p.evaluate(()=>{window.__stop=true;const s=JSON.parse(localStorage.getItem('mv2-state'));s.real=Date.now()-3*3600e3;return JSON.stringify(s);});await p.close();
+p=await ctx.newPage();p.on('pageerror',e=>console.log('ERR',e.message));await p.addInitScript(s=>{localStorage.setItem('mv2-state',s)},st);
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:240000});await p.waitForTimeout(1500);
+await p.evaluate(()=>{window.__stop=true;const g=window.__g;g.ST.realTime=false;g.ST.ovr=21;window.__tick();});
+await p.screenshot({path:'t27_away.png',timeout:120000});
+await p.click('.awr');for(let i=0;i<40;i++)await p.evaluate(()=>window.__tick());
+await p.evaluate(()=>{window.__g.act.water('B1');});for(let i=0;i<60;i++)await p.evaluate(()=>window.__tick());
+await p.screenshot({path:'t27_goto.png',timeout:120000});
+await b.close();})();

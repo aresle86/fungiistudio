@@ -1,0 +1,15 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const save=JSON.stringify({v:1,eco:2,split:1,qv2:1,exp:1,open:['A1','A1b','A2','B1','B1b','B2','D1','D1b','H1','H2'],xu:2000,inv:{rom:3},seeds:{},gt:9000,real:Date.now(),spd:1,ovr:12,realTime:false,seen:{hello:1},player:{av:2,name:'Nhu',garden:'Nhu'},lv:9,xp:850,qd:{3:1,4:1,5:1,6:1,7:1,8:1,9:1},plots:{}});
+const p=await b.newPage({viewport:{width:1300,height:850},deviceScaleFactor:1.5});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(s=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',s);}catch(e){}},save);
+await p.goto('http://127.0.0.1:8777/mv2_test.html');await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+await p.evaluate(()=>{window.__stop=true;const g=window.__g;g.ST.inv.tre=5;g.ST.inv.go=5;try{window.__FT3.penFix('vit');}catch(e){console.log('pf',e.message)}if(g.ST.bld&&g.ST.bld.vit)g.ST.bld.vit.t-=40*60e3;for(let i=0;i<30;i++)window.__tick();});
+const shot=async(n,x,z,zm)=>{await p.evaluate(([x,z,zm])=>{const c=window.__ctl;c.maxZoom=40;const d=c.object.position.clone().sub(c.target);c.target.set(x,.3,z);c.object.position.copy(c.target).add(d);c.object.zoom=zm;c.object.updateProjectionMatrix();for(let i=0;i<4;i++)window.__tick();},[x,z,zm]);await p.screenshot({path:'../'+n+'.png',timeout:300000});};
+await shot('v95lay',8.0,4.2,1.7);await shot('v95song',9.0,6.8,1.7);
+console.log('mig',await p.evaluate(()=>JSON.stringify([window.__g.ST.open.filter(k=>k[0]==='S'),window.__g.ST.land])));const bar=await p.evaluate(()=>{const T=window.__g.T,o=[];window.__S.traverse(m=>{if(m.userData&&m.userData.bar&&m.userData.bar.visible){let v=true,q=m;while(q){if(!q.visible)v=false;q=q.parent;}if(v){const w=new T.Vector3();m.getWorldPosition(w);o.push([w.x,w.z]);}}});return o;});
+console.log('bars',JSON.stringify(bar));
+if(bar[0])await shot('v95bar',bar[0][0],bar[0][1],4.5);
+const id=await p.evaluate(()=>{const g=window.__g,G=window.__G;const P=Object.values(G.PL).find(P=>P.bai&&!g.ST.open.includes(P.id));g.ST.land=g.ST.land||{};g.ST.land[P.id]={st:'ai',end:Date.now()+16*60e3,m:30};g.openSheet('plot',P.id);window.__tick();return P.id;});
+console.log('ai',id);await p.waitForTimeout(500);await p.screenshot({path:'../v95ai.png',timeout:300000});
+await p.evaluate(()=>{window.__g.closeSheet();});await p.evaluate(()=>{const t=document.getElementById('tstw');});
+console.log(errs.join('\n')||'no errors');await b.close();})();

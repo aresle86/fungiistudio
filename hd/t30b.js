@@ -1,0 +1,15 @@
+const {chromium}=require('playwright');(async()=>{const [,,out]=process.argv;const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1200,height:800}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n').slice(1,3).join(' ')));p.on('console',m=>{if(m.type()==='error'&&!m.text().includes('Failed to load'))errs.push(m.text().slice(0,300))});
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:300000});
+await p.evaluate(()=>{window.__stop=true;const i=document.getElementById('intro');if(i)i.remove();});
+const step=async(n,f)=>{const r=await p.evaluate(f);if(r)console.log(n,JSON.stringify(r));await p.evaluate(()=>{window.__g.ST.realTime=false;window.__g.ST.ovr=12;for(let i=0;i<2;i++)window.__tick();});await p.waitForTimeout(250);await p.screenshot({path:out+'_'+n+'.png'});};
+await step('lock',()=>{window.__g.ST.lv=7;window.__g.openSheet('plot','T3');return document.querySelector('#shB').innerText.slice(0,200);});
+await step('lv8',()=>{window.__g.closeSheet();window.__x.levelUp(8);return [document.querySelector('#say')?.innerText||'', window.__g.ST.seeds];});
+await step('book',()=>{window.__x.openBook('giong');return null;});
+await step('sheetT1',()=>{document.querySelectorAll('#book,.book').forEach(e=>e.hidden=true);try{closeBook()}catch(e){};window.__g.openSheet('plot','T1');return document.querySelector('#shB').innerText.slice(0,300);});
+await step('plantT1',()=>{const g=window.__g;g.act.plant('T1','chuoi');g.sim(11*3600);g.refreshPlot('T1');g.openSheet('plot','T1');return [g.ST.plots.T1, document.querySelector('#shB').innerText.slice(0,300)];});
+await step('harvT1',()=>{const g=window.__g;const ok=g.act.harvest('T1');return [ok,g.ST.inv.chuoi,g.ST.plots.T1.g,g.ST.plots.T1.cut,g.ST.plots.T1.crop];});
+await step('harvT1b',()=>{const g=window.__g;g.sim(9*3600);g.refreshPlot('T1');const ok=g.act.harvest('T1');return [ok,g.ST.inv.chuoi,g.ST.plots.T1.cut];});
+await step('bed',()=>{const g=window.__g;g.ST.plots.C2.crop=null;g.ST.lv=12;g.act.plant('C2','mongtoi');g.act.plant('C2','oi');return [g.ST.plots.C2.crop];});
+console.log(errs.slice(0,12).join('\n'));await b.close();})();

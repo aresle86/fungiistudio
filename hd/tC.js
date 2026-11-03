@@ -1,0 +1,15 @@
+const fs=require('fs');const L=m=>fs.appendFileSync('../tC.log',m+'\n');fs.writeFileSync('../tC.log','');
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1200,height:800}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message+' '+(e.stack||'').split('\n')[1]));
+await p.addInitScript(()=>{try{if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.clear();localStorage.setItem('mv3d-q','1');}}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:300000});
+L('fixed at start '+await p.evaluate(()=>window.__g.ST.ga.fixed));
+await p.evaluate(()=>{window.__stop=true;document.getElementById('intro').hidden=true;const g=window.__g;g.ST.player={av:1,name:'Na',garden:'V'};g.ST.lv=2;g.ST.xp=12;g.ST.xu=100;g.ST.inv.rom=3;g.closeSheet();window.__w.hud();const C=window.__C,c=C.COOPC;window.__e.camTo(new g.T.Vector3(c.x,.3,c.z),1.6);});
+const tick=async(n=2)=>{await p.evaluate(n=>{for(let i=0;i<n;i++)window.__tick();},n);await p.waitForTimeout(120);};for(let i=0;i<40;i++)await tick(1);
+L('tre odds '+await p.evaluate(()=>JSON.stringify(window.__C.odd.list.filter(o=>o.k==='tre'))));
+await p.screenshot({path:'qc4/C_broken.png',timeout:120000});
+await p.evaluate(()=>{const C=window.__C;for(const o of C.odd.list.filter(o=>o.k==='tre'))C.oddDo(o);});await tick();L('tre '+await p.evaluate(()=>window.__g.ST.tre));
+await p.evaluate(()=>window.__C.coopRing());await tick();await p.screenshot({path:'qc4/C_ring.png',timeout:120000});
+await p.click('#ring [data-r=penfix]');for(let i=0;i<10;i++)await tick(1);L('after fix '+await p.evaluate(()=>JSON.stringify({f:window.__g.ST.ga.fixed,xu:window.__g.ST.xu,rom:window.__g.ST.inv.rom,tre:window.__g.ST.tre})));
+await p.waitForTimeout(800);await tick();await p.screenshot({path:'qc4/C_fixed.png',timeout:120000});
+L(errs.join('\n'));await b.close();})();

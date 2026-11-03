@@ -1,0 +1,10 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:1000,height:700}});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message));
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+await p.evaluate(()=>{document.getElementById('intro').style.display='none';const g=window.__g;g.ST.player={av:1,name:'N',garden:'V'};g.ST.lv=3;window.__T.setTool({kind:'cut'});});
+await p.waitForTimeout(500);const tg=()=>p.evaluate(()=>{const t=window.__ctl.target;return [+t.x.toFixed(2),+t.z.toFixed(2)];});
+const t0=await tg();await p.mouse.move(150,600);await p.mouse.down();for(let i=1;i<=10;i++){await p.mouse.move(150+i*20,600-i*8);await p.waitForTimeout(30);}await p.mouse.up();await p.waitForTimeout(300);
+const t1=await tg();console.log('pan',JSON.stringify(t0),JSON.stringify(t1),'tool',await p.evaluate(()=>JSON.stringify(window.__T.TOOL)));
+await p.mouse.click(150,600);await p.waitForTimeout(300);console.log('after tap',await p.evaluate(()=>JSON.stringify(window.__T.TOOL)));
+console.log(errs.join('\n'));await b.close();})();

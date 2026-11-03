@@ -1,0 +1,10 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:900,height:640},deviceScaleFactor:1.5});const errs=[];p.on('pageerror',e=>errs.push('ERR '+e.message));
+await p.addInitScript(()=>{localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',JSON.stringify({v:1,eco:2,split:1,qv2:1,exp:1,seen:{hello:1},player:{av:1,name:'Q',garden:'Q'},lv:15,xp:13300,xu:900,inv:{},seeds:{},plots:{},qd:{3:1,4:1,5:1,6:1,7:1,8:1,9:1,10:1,11:1,12:1,13:1,14:1,15:1},vit:{n:8,trough:4,eggs:2,acc:0,lv:1,fixed:1},ho:{own:1,at:'H1',mat:0,t:0,bags:2,done:1},nong:{own:1,at:'H2',trays:[null,null,null,null],done:3,made:{}},realTime:true,spd:1,real:Date.now()}))});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
+const L=await p.evaluate(()=>{window.__stop=true;const S=window.__g.ST;return JSON.stringify(S.tasks.list.map(x=>[x.t,x.txt,x.need,x.rw.join(':')]))});console.log('tasks lv15',L);
+const c=await p.evaluate(()=>{const S=window.__g.ST;const x=S.tasks.list.find(x=>x.rw[0]!=='coin')||S.tasks.list[0];x.have=x.need;x.done=true;x.cl=false;const before=JSON.stringify({rom:S.inv.rom||0,cui:(S.gb||{}).cui||0,muoi:(S.gb||{}).muoi||0,xu:S.xu});window.__OB('viec');return [x.rw.join(':'),before]});console.log('claim',JSON.stringify(c));
+await p.waitForTimeout(500);await p.screenshot({path:'../task103.png'});
+await p.evaluate(()=>{const b=document.querySelector('[data-b=tkclaim]');if(b)b.click();});await p.waitForTimeout(3000);
+console.log('after',await p.evaluate(()=>{const S=window.__g.ST;return JSON.stringify({rom:S.inv.rom||0,cui:(S.gb||{}).cui||0,muoi:(S.gb||{}).muoi||0,xu:S.xu})}));
+console.log(errs.join('\n')||'no errors');await b.close();})();

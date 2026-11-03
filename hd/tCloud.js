@@ -1,0 +1,18 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:900,height:600}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+const calls=[];let saveN=0;
+await p.route('**/rest/v1/rpc/**',async route=>{const fn=route.request().url().split('/rpc/')[1];let body={};try{body=JSON.parse(route.request().postData()||'{}')}catch(e){}calls.push([fn,fn==='mv2_save2'?body.p_rev:fn==='mv2_step'?body.p_steps:fn==='mv2_ping'?[body.p_lv,body.p_mins,body.p_new]:'']);
+ let res=null;if(fn==='mv2_register')res={code:'MV-TEST',secret:'ABCDEFGHJKLM'};else if(fn==='mv2_save2'){saveN++;res=saveN<3?{ok:true,rev:body.p_rev}:{ok:false,stale:true,rev:99};}else if(fn==='mv2_restore')res={code:'MV-TEST',data:{v:1,plots:{},player:{av:1,name:'X',garden:'Y'},lv:4},rev:99};
+ await route.fulfill({status:200,contentType:'application/json',body:res==null?'':JSON.stringify(res)});});
+await p.addInitScript(()=>{try{if(!sessionStorage.getItem('x')){sessionStorage.setItem('x',1);localStorage.clear();localStorage.setItem('mv3d-q','1');}}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:300000});
+await p.evaluate(()=>{const g=window.__g,ST=g.ST;ST.player={av:1,name:'Na',garden:'V'};ST.lv=3;document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);});
+await p.evaluate(async()=>{const C=window.__CL;C.stepMark('seed1');C.stepMark('water1');await C.cloudSave(true);await C.statPing();C.stepMark('sell1');await C.statPing();await C.cloudSave(true);});
+const st1=await p.evaluate(()=>[window.__CL.CLOUD.rev,localStorage.getItem('mv2-rev'),window.__CL.CLOUD.stale]);
+await p.evaluate(async()=>{await window.__CL.cloudSave(true);});
+const st2=await p.evaluate(()=>[window.__CL.CLOUD.stale,window.__g.ST.rev]);
+await p.evaluate(()=>window.__g.openSheet('set'));await p.waitForTimeout(400);const sh=await p.evaluate(()=>document.getElementById('shB').innerText.slice(0,500));
+console.log(JSON.stringify({calls,st1,st2}));console.log(sh);
+await p.evaluate(()=>document.querySelector('[data-a=cldpull]').click());await p.waitForTimeout(4000);
+const after=await p.evaluate(()=>[localStorage.getItem('mv2-rev'),JSON.parse(localStorage.getItem('mv2-state')||'{}').rev]);console.log('after pull',after);
+console.log('errs',errs.slice(0,4));await b.close();})();

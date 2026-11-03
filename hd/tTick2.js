@@ -1,0 +1,12 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+const p=await b.newPage({viewport:{width:600,height:400}});
+await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,{timeout:150000});
+await p.evaluate(()=>{const ST=window.__g.ST;ST.player={av:1,name:'Na',garden:'V'};ST.lv=5;document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);window.__stop=true;});
+const R=async(label,fn)=>{const v=await p.evaluate(fn=>{const f=new Function('o',fn);const o=window.__TT.TETV;const r=window.__r,S=window.__S,cam=window.__g.cam;f(o);const t0=performance.now();for(let i=0;i<6;i++)r.render(S,cam);return (performance.now()-t0)/6|0;},fn);console.log(label,v);};
+await R('none',"o.root.visible=false;o.boat.visible=false;o.own.visible=false;");
+await R('root',"o.root.visible=true;");
+await R('root-st-only',"o.root.children.forEach(c=>c.visible=false);o.root.children[0].visible=true;");
+await R('root-nost',"o.root.children.forEach(c=>c.visible=true);o.root.children[0].visible=false;");
+await R('boat',"o.root.visible=false;o.boat.visible=true;");
+await b.close();})();
