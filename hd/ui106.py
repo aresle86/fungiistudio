@@ -20,6 +20,13 @@ rep("return `<div class=\"ftc\"><img src=\"${img}\" alt=\"\"><div><b>${D.name}</
 rep("  else if (a === 'sel'){ BOOK.sel = k; BOOK.keep = !narrow(); } else if (a === 'back'){ BOOK.sel = null; }",
     "  else if (a === 'sel'){ BOOK.sel = k; BOOK.keep = !narrow(); } else if (a === 'back'){ BOOK.sel = null; }\n  else if (a === 'bigmove'){ closeBook(); suaOn(true, k); return; }")
 
+# sổ cổ tích: ô "???" không nói số cấp tương lai
+rep("<small>${D.story} · cấp ${D.lv}</small>", "<small>${D.story}</small>")
+
+# điện thoại: chạm vườn mở bảng rồi click theo sau trúng nút trong bảng -> nuốt click đó
+rep("addEventListener('pointerup', e => { if (!G0 || e.pointerId !== G0.pid) return; const g = G0; G0 = null; clearTimeout(g.tm);",
+    "let TAPT = 0;   /* chạm vườn bằng ngón: nuốt cú click trình duyệt bắn theo, kẻo trúng nút của bảng vừa mở (đắp liếp, chọn nong…) */\naddEventListener('click', e => { const t = TAPT; TAPT = 0; if (t && performance.now() - t < 450 && e.target !== canvas){ e.stopPropagation(); e.preventDefault(); } }, true);\naddEventListener('pointerup', e => { if (!G0 || e.pointerId !== G0.pid) return; const g = G0; G0 = null; clearTimeout(g.tm); if (e.pointerType !== 'mouse') TAPT = performance.now();")
+
 # ================= CHỢ: Trang trí -> Tiệm (chip) =================
 rep("dcOn() ? ['tt', 'Trang trí', 0] : null", "dcOn() ? ['tiem', 'Tiệm', 0] : null")
 rep("    if (SHEET.tab === 'tt') h += dcHTML();",
@@ -88,6 +95,12 @@ CSS = """
 .tchip img{width:28px;height:28px}.tchip.on{background:#6E9F57;color:#fff}
 .rgsan{display:block;margin:6px auto 0;appearance:none;border:0;cursor:pointer;padding:5px 12px;border-radius:999px;background:#EDE3D1;color:#8A5D3B;font:400 13px var(--f-game)}
 #suaOk{min-width:72px}
+/* một lúc một thẻ: thẻ mới hiện thì thẻ thấp hơn nhường chỗ, không chồng lên nhau */
+body:has(#suaBar:not([hidden])) .nxq,body:has(.ddt.on) .nxq,body.lvon .nxq{display:none!important}
+body.lvon .ngoai{visibility:hidden!important}
+body.sheeton #tstw{top:calc(90px + env(safe-area-inset-top,0px))!important;bottom:auto!important}
+body.bookon #tstw{top:auto!important;bottom:calc(6px + env(safe-area-inset-bottom,0px))!important}
+@media (min-width:561px){ .vbar.sbar{top:calc(104px + env(safe-area-inset-top,0px))!important;bottom:auto!important} }
 """
 i = s.rindex('</style>'); s = s[:i] + CSS + s[i:]
 open(sys.argv[2], 'w', encoding='utf8').write(s); print('ok')
