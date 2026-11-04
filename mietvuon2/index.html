@@ -800,7 +800,71 @@ body.yron .nava,body.yron .ngoai{display:none!important}
   body.mtiny .ui.bot>.row .bt img{width:42px!important;height:42px!important}
 }
 
-body.sheeton #suaBar{display:none!important}   /* bảng đang mở thì ẩn thanh Sửa vườn cho khỏi đè nút */
+body.sheeton #suaBar{display:none!important}
+/* v112 Sắp vườn */
+#sapSvg{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:3;pointer-events:none;overflow:visible}
+#sapSvg[hidden]{display:none}
+#sapSvg polygon{stroke-width:3;stroke-linejoin:round}
+#sapSvg .em{fill:rgba(255,248,234,.22);stroke:#FFF8EA;stroke-dasharray:7 5}
+#sapSvg .sel{fill:rgba(242,198,74,.4);stroke:#C08A12}
+#sapSvg .ok{fill:rgba(125,184,74,.28);stroke:#4F7D44;stroke-dasharray:7 5}
+#sapSvg .no{fill:rgba(217,72,58,.26);stroke:#9C3620}
+#sapSvg .fit{fill:rgba(125,184,74,.5);stroke:#2F5A2A;stroke-width:4}
+#sapSvg .bad{fill:rgba(217,72,58,.45);stroke:#9C3620;stroke-width:4}
+#sapLay{position:fixed;left:0;top:0;width:0;height:0;z-index:4}
+.sapplus{position:absolute;left:0;top:0;width:44px;height:44px;box-sizing:border-box;border-radius:50%;background:#7DB84A;border:2px solid #4A2F1E;box-shadow:0 3px 0 #4A2F1E;color:#fff;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sapplus.on{background:#F2C64A;color:#4A2F1E}
+.sapplus svg{display:block;flex:none}
+#sapChips{position:fixed;left:0;top:0;z-index:5;display:flex;gap:6px}
+#sapChips[hidden],#sapTip[hidden],#sapBtns[hidden],#sapGhost[hidden]{display:none}
+#sapChips button{display:flex;align-items:center;gap:5px;box-sizing:border-box;min-height:44px;background:#fff;border:2px solid #4A2F1E;border-radius:10px;box-shadow:0 3px 0 #4A2F1E;padding:4px 12px 4px 8px;font:400 15px var(--f-game);color:#4A2F1E;cursor:pointer;white-space:nowrap}
+#sapChips img{width:26px;height:26px;flex:none}
+#sapTip{position:fixed;left:0;top:0;z-index:6;background:#fff;border:2px solid #4A2F1E;border-radius:6px;box-shadow:0 2px 0 #4A2F1E;padding:3px 8px;font:600 13px var(--f-body);color:#9C3620;white-space:nowrap;pointer-events:none}
+#sapBtns{position:fixed;left:0;top:0;z-index:6;display:flex;gap:10px}
+#sapBtns button{width:48px;height:48px;box-sizing:border-box;border-radius:50%;border:2px solid #4A2F1E;box-shadow:0 3px 0 #4A2F1E;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
+#sapBtns button svg{display:block;flex:none}
+#sapBtns .y{background:#7DB84A}#sapBtns .n{background:#D9483A}#sapBtns .s{background:#FFF8EA}
+#sapGhost{position:fixed;left:0;top:0;z-index:9;width:84px;height:84px;transform:translate(-50%,-118%);pointer-events:none;filter:drop-shadow(0 6px 0 rgba(43,52,70,.25))}
+#sapGhost.bad{opacity:.55}
+#sapBar{position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:8;display:flex;align-items:center;gap:10px;box-sizing:border-box;max-width:calc(100vw - 32px);background:#FFF8EA;border:2px solid #4A2F1E;border-radius:16px;box-shadow:0 3px 0 #4A2F1E;padding:6px 6px 6px 8px;white-space:nowrap}
+#sapBar[hidden],#sapTray[hidden]{display:none}
+#sapBar .ic{width:32px;height:32px;box-sizing:border-box;border-radius:10px;background:#F2C64A;border:2px solid #4A2F1E;display:flex;align-items:center;justify-content:center;flex:none}
+#sapBar b{font:400 16px var(--f-game);color:#4A2F1E}
+#sapBar .btn{min-height:40px;margin:0;padding:4px 18px}
+#sapTray{position:fixed;left:8px;right:8px;margin:0 auto;max-width:max-content;box-sizing:border-box;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:8;background:#FFF8EA;border:2px solid #4A2F1E;border-radius:16px;box-shadow:0 3px 0 #4A2F1E;padding:14px 8px 8px}
+#sapTray .sth small{position:absolute;top:-13px;left:12px;background:#F2C64A;border:2px solid #4A2F1E;border-radius:6px;padding:2px 9px;font:400 12px/1.3 var(--f-game);color:#4A2F1E;white-space:nowrap}
+#sapTray .sth .xu{position:absolute;top:-13px;right:12px;display:flex;align-items:center;gap:4px;background:#fff;border:2px solid #4A2F1E;border-radius:6px;padding:1px 8px 1px 4px;font:400 12px/1.3 var(--f-game);color:#4A2F1E}
+#sapTray .sth .xu img{width:16px;height:16px}
+#sapTray .row{display:flex;flex-wrap:wrap;gap:12px 8px;padding:9px 8px 2px 2px;max-height:38vh;overflow-y:auto}
+#sapTray .it{flex:none;width:86px;min-height:74px;box-sizing:border-box;background:#fff;border:2px solid #4A2F1E;border-radius:10px;box-shadow:0 3px 0 #4A2F1E;padding:6px 3px 5px;display:flex;flex-direction:column;align-items:center;gap:3px;font:400 12px/1.15 var(--f-game);color:#4A2F1E;text-align:center;position:relative;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+#sapTray .it>img{width:36px;height:36px;flex:none;pointer-events:none;-webkit-user-drag:none}
+#sapTray .it>span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#sapTray .it .n{position:absolute;top:-8px;right:-7px;min-width:22px;height:22px;box-sizing:border-box;border-radius:11px;background:#D9483A;color:#fff;border:2px solid #4A2F1E;font:400 12px/18px var(--f-game);text-align:center;padding:0 4px}
+#sapTray .it em{display:flex;align-items:center;gap:3px;font:400 12px/1 var(--f-game);font-style:normal;color:#6B4529}
+#sapTray .it em img{width:14px;height:14px}
+#sapTray .it.buy{background:#FBF3DF}
+#sapTray .it.poor{opacity:.55}
+#sapTray .it.more{background:#F3FBE9;cursor:pointer}
+#sapTray .it .pl{width:36px;height:36px;flex:none;box-sizing:border-box;border-radius:50%;background:#7DB84A;border:2px solid #4A2F1E;color:#fff;display:flex;align-items:center;justify-content:center}
+#sapTray .emp{font:600 13px var(--f-body);color:#6B4529;padding:6px 4px;max-width:260px}
+body.sap .ui.bot,body.sap .ui.top,body.sap #nxq,body.sap #tray,body.sap #bCtr,body.sap #bSua,body.sap #fan,body.sap .nava{visibility:hidden!important}
+body.sapdrag #nxq,body.sapdrag #tray,body.sapdrag #ring{visibility:hidden!important}
+body.sheeton #sapBar,body.sheeton #sapTray,body.sheeton #sapLay,body.sheeton #sapChips,body.sheeton #sapBtns{visibility:hidden!important}
+.bt.ctr .tg{font-size:12px!important}
+body.sap #tstw{top:calc(76px + env(safe-area-inset-top,0px))!important;bottom:auto!important;left:16px!important;right:16px!important;transform:none!important;width:auto!important}
+/* Sổ: mép trên, mép dưới của trang cuộn mờ dần cùng màu giấy, thẻ trôi vô là tan dần chứ không bị cắt ngang */
+#bk .bkpg::before,#bk .bkpg::after{content:'';display:block;flex:none;position:sticky;z-index:6;pointer-events:none;align-self:stretch}
+#bk .bkpg::before{top:-18px;height:26px;margin:-18px 0 -8px;background:linear-gradient(#FBF7EE 25%,rgba(251,247,238,0))}
+#bk .bkpg::after{bottom:-22px;height:26px;margin:-8px 0 -22px;background:linear-gradient(rgba(251,247,238,0),#FBF7EE 75%)}
+/* tiêu đề mục trong Sổ: chữ nhỏ xuống dòng dưới, thẳng mép trái với tiêu đề */
+#bk .uxt{flex-wrap:wrap;row-gap:2px}
+#bk .uxt>small{flex-basis:100%;margin:0!important;text-align:left!important;font:600 12px/1.3 var(--f-body)!important;color:#6B4529!important}
+.sapalt{display:flex;align-items:center;gap:8px;margin-top:10px;font:600 13px var(--f-body);color:#4A2F1E}
+.sapalt .ics{display:flex;flex:none}
+.sapalt .ics img{width:28px;height:28px;box-sizing:border-box;margin-right:-6px;background:#fff;border:2px solid #4A2F1E;border-radius:50%;padding:2px}
+.sapalt .tx{flex:1;margin-left:10px;min-width:0}
+.sapalt .btn{flex:none;margin:0;min-height:40px;padding:4px 12px;background:#F2C64A}
+   /* bảng đang mở thì ẩn thanh Sửa vườn cho khỏi đè nút */
 
 .leadt{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#F2A23A;color:#fff;font:400 11px/1.5 var(--f-game);font-style:normal;vertical-align:2px}
 
@@ -1005,7 +1069,7 @@ body.bookon #tstw{top:auto!important;bottom:calc(6px + env(safe-area-inset-botto
   <div class="row"><button class="bt" id="bVuon" hidden><img id="icVuon" alt=""><span class="tg">Ghé vườn</span><span class="bvn" id="bVuonN"></span></button><button class="bt" id="bSo"><img id="icSo" alt=""><span class="tg">Sổ</span></button><button class="bt" id="bCho"><img id="icCho" alt=""><span class="tg">Chợ</span></button><button class="bt" id="bSet"><img id="icSet" alt=""><span class="tg">Cài đặt</span></button></div>
 </div>
 <div id="scrim" hidden></div><div class="card sheet" id="sheet" hidden role="dialog" aria-labelledby="shT"><div class="shH"><h2 id="shT"></h2><button class="x" id="shX" aria-label="Đóng">×</button></div><div id="shB"></div></div>
-<button class="bt ctr" id="bCtr" aria-label="Về giữa vườn"><img id="icCtr" alt=""><span class="tg">Về giữa</span></button><button class="bt ctr" id="bSua" aria-label="Sửa vườn" hidden><img id="icSua" alt=""><span class="tg">Sửa vườn</span></button><div class="card vbar sbar" id="suaBar" hidden><div><b id="suaHd">Đặt đồ</b><span id="suaTx"></span></div><button class="btn" id="suaOk">Hủy</button></div>
+<button class="bt ctr" id="bCtr" aria-label="Về giữa vườn"><img id="icCtr" alt=""><span class="tg">Về giữa</span></button><button class="bt ctr" id="bSua" aria-label="Sắp vườn" hidden><img id="icSua" alt=""><span class="tg">Sắp vườn</span></button><div class="card vbar sbar" id="suaBar" hidden><div><b id="suaHd">Đặt đồ</b><span id="suaTx"></span></div><button class="btn" id="suaOk">Hủy</button></div><svg id="sapSvg" hidden aria-hidden="true"></svg><div id="sapLay"></div><div id="sapChips" hidden></div><div id="sapTip" hidden></div><div id="sapBtns" hidden></div><img id="sapGhost" hidden alt=""><div id="sapBar" hidden role="toolbar" aria-label="Sắp vườn"><span class="ic"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9l8-4 8 4-8 4zM4 15l8-4 8 4-8 4z" fill="#FFF8EA" stroke="#4A2F1E" stroke-width="1.8" stroke-linejoin="round"/></svg></span><b>Đang sắp vườn</b><button class="btn g" id="sapOk">Xong</button></div><div id="sapTray" hidden aria-label="Túi đồ"></div>
 <button class="nxq" id="nxq" hidden></button><div class="rng" id="ring" hidden role="dialog" aria-label="Chọn việc trên liếp"></div><div class="lvup" id="lvup" hidden role="dialog" aria-label="Lên cấp"><div class="lvc"><div class="lvray"></div><div class="lvbd"><small>CẤP</small><b id="lvN">2</b></div><div class="lvt" id="lvT">Lên cấp rồi!</div><div class="lvs" id="lvS"></div><div class="lvk" id="lvK"></div><button class="btn g" id="lvOk">Hay quá!</button></div></div><div class="intro" id="intro" hidden role="dialog" aria-label="Buồng thay đồ, chọn nhân vật"><div class="inbox"><div class="intt">Miệt Vườn</div><div class="insub">Buồng thay đồ · sửa soạn về vườn Ngoại</div><div class="dr"><div class="mir"><div class="mfr"><img id="mirImg" alt="" hidden><div class="mq" id="mirQ">?<small>Con chọn một dáng nghe</small></div></div><div class="mtag" id="mirTag">Con · Vườn nhà Ngoại</div></div><div class="drs"><div class="stp" id="st1"><b>1</b>Chọn dáng của con</div><div class="avs" id="avs"></div><div class="stp" id="st2"><b>2</b>Đặt tên con với tên vườn</div><div class="inf"><label>Tên con<input id="inName" maxlength="14" placeholder="Ngoại gọi con là…" autocomplete="off"></label><label>Tên vườn<input id="inGarden" maxlength="22" placeholder="Vườn nhà Ngoại" autocomplete="off"></label></div><button class="btn g" id="inGo">Về vườn</button></div></div></div></div>
 <div class="bkov" id="book" hidden role="dialog" aria-label="Sổ vườn của Ngoại"><div class="bk" id="bk"></div></div>
 <div class="tray" id="tray"><button class="tl" id="tSeed" aria-label="Bao hạt"><img id="icSeed" alt=""><span class="tg">Hạt</span><span class="tn" id="tSeedN"></span></button><button class="tl" id="tCan" aria-label="Thùng tưới" hidden><img id="icCan" alt=""><span class="tg">Tưới</span><span class="tn" id="tCanN"></span></button><button class="tl" id="tRom" aria-label="Cầm rơm phủ liếp"><img id="icRom" alt=""><span class="tg">Rơm</span><span class="tn" id="tRomN"></span></button><button class="tl" id="tCut" aria-label="Cầm liềm" hidden><img id="icCut" alt=""><span class="tg">Liềm</span></button></div>
@@ -1037,7 +1101,7 @@ if (!document.createElement('canvas').getContext('webgl2')) { $('#load small').t
 /* đi ghé vườn: vườn đang ghé nằm trong sessionStorage, không ghi đè vườn mình */
 const VISIT = (() => { try { return JSON.parse(sessionStorage.getItem('mv2-visit') || 'null'); } catch (e) { return null; } })();
 try { const ld = document.querySelector('#load .lbar span'); if (ld && VISIT) ld.textContent = `Đang chèo xuồng qua ${VISIT.name.toLowerCase()}…`; else if (ld && sessionStorage.getItem('mv2-back')) ld.textContent = 'Đang chèo xuồng về nhà…'; } catch (e) {}
-const BUILD = 'v110e';   /* đổi mỗi lần đưa bản mới; tab mở lâu sẽ thấy nút tải bản mới */
+const BUILD = 'v112a';   /* đổi mỗi lần đưa bản mới; tab mở lâu sẽ thấy nút tải bản mới */
 const ldPlace = () => { try { const L0 = document.getElementById('load'), bar = L0 && L0.querySelector('.lbar'); if (!bar || L0.hidden) return; const tops = ['.lword', '.ltwo', '.lflow'].map(q => L0.querySelector(q)).filter(Boolean).map(e => e.getBoundingClientRect().top).filter(v => v > 0), top = tops.length ? Math.min(...tops) : innerHeight * .3, h = bar.offsetHeight || 60; const ib = bar.querySelector('i'); if (top - h < 24){ const R = Math.max(...['.lword', '.ltwo'].map(q => L0.querySelector(q)).filter(Boolean).map(e => e.getBoundingClientRect().right)), sp = innerWidth - R; if (ib) ib.style.width = Math.max(110, Math.min(220, sp - 28)) + 'px'; bar.style.left = (sp > 130 ? R + sp / 2 : innerWidth - 80) + 'px'; bar.style.top = Math.round(innerHeight * .12) + 'px'; } else { if (ib) ib.style.width = ''; bar.style.left = '50%'; bar.style.top = Math.max(8, (top - h) / 2) + 'px'; } }   /* màn ngang thấp không đủ trời trên chữ: đặt qua khoảng trời bên phải */ catch (e) {} };   /* thanh load nằm giữa khoảng trời trống phía trên chữ Miệt Vườn */
 ldPlace(); addEventListener('resize', ldPlace); setTimeout(ldPlace, 1300); setTimeout(ldPlace, 2400);
 let LDT = performance.now(); const LDY = p => { const b = document.querySelector('#load .lbar i'); if (b){ const v = Math.max(+b.dataset.p || 6, p); b.dataset.p = v; b.style.setProperty('--p', v + '%'); const pc = document.querySelector('#load .lpc'); if (pc) pc.textContent = Math.round(v) + '%'; } if (performance.now() - LDT < 50) return; return new Promise(r => { let d = 0; const f = () => { if (!d){ d = 1; LDT = performance.now(); r(); } }; requestAnimationFrame(() => setTimeout(f, 0)); setTimeout(f, 80); }); };   /* nhường máy vẽ màn load giữa các phần dựng vườn: nhà không khựng, thanh chạy theo tiến độ thật */
@@ -2794,7 +2858,7 @@ const sheet = $('#sheet'), shT = $('#shT'), shB = $('#shB'); let SHEET = null;
 await LDY(0);
 const openSheet = (kind, arg) => { if (VISIT && kind !== 'visit') return; if (kind === 'ben' || kind === 'vuon') setTimeout(() => nbLoad(), 0); SHEET = { kind, arg }; $('#scrim').hidden = false; document.body.classList.add('sheeton'); { const f = document.getElementById('fan'); if (f) f.hidden = true; } renderSheet(); sheet.hidden = false; if (innerWidth <= 560){ ng.hidden = true; sayT = 0; } };
 await LDY(0);
-const closeSheet = () => { SHEET = null; sheet.hidden = true; document.body.classList.remove('sheeton'); $('#scrim').hidden = true; };
+const closeSheet = () => { SHEET = null; try { SHSUB = null; } catch (e) {} sheet.hidden = true; document.body.classList.remove('sheeton'); $('#scrim').hidden = true; };
 await LDY(0);
 $('#scrim').addEventListener('pointerdown', e => { e.preventDefault(); closeSheet(); });
 await LDY(0);
@@ -2880,7 +2944,7 @@ await LDY(0);
 shB.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (!b || b.disabled) return; const a = b.dataset.a, id = SHEET && SHEET.arg;
   if (a === 'book') { openBook('giong'); return; } if (a === 'close'){ closeSheet(); return; } if (a === 'goto'){ if (b.dataset.k === '__ga'){ closeSheet(); camTo(new T.Vector3(COOPC.x, .3, COOPC.z), 1.9); return; } const v = PV[b.dataset.k]; closeSheet(); camTo(new T.Vector3(v.cx, .3, v.cz), 1.9); return; } if (a === 'avatar'){ openIntro(); return; } if (a === 'plant') act.plant(id, b.dataset.k); else if (a === 'water') act.water(id); else if (a === 'mulch') act.mulch(id); else if (a === 'harvest') act.harvest(id); else if (a === 'pull') act.pull(id);
   else if (a === 'pickseed'){ closeSheet(); openSeedFor(id); return; }
-  else if (a === 'openbed'){ act.openBed(id); } else if (a === 'tetbuy'){ tetBuy(b.dataset.k); } else if (a === 'treeplant'){ treePlant(id, b.dataset.k); return; } else if (a === 'upx'){ upxBuy(b.dataset.k); return; } else if (a === 'dcbuy'){ dcBuy(b.dataset.k); return; } else if (a === 'dcput'){ closeSheet(); suaOn(true, 'dc:' + b.dataset.k); return; } else if (a === 'dctake'){ dcTake(+b.dataset.k); closeSheet(); return; } else if (a === 'dcmove'){ const i = +b.dataset.k, it = ST.dc.items[i]; if (it){ dcTake(i); closeSheet(); suaOn(true, 'dc:' + it.k); } return; } else if (a === 'bigmove'){ closeSheet(); suaOn(true, b.dataset.k); return; } else if (a === 'aobook'){ closeSheet(); openBook('ca'); return; } else if (a === 'bighome'){ bigHome(b.dataset.k); closeSheet(); return; } else if (a === 'aobuy'){ aoBuy(id); return; } else if (a === 'tetprev'){ const seq = [null, -7, -1, 0, 3]; const cur = ST.muaTest === 'tet' ? seq.indexOf(ST.tetDayTest ?? 0) : 0, nx = seq[(cur + 1) % seq.length]; if (nx === null){ ST.muaTest = null; delete ST.tetDayTest; } else { ST.muaTest = 'tet'; ST.tetDayTest = nx; } save(); } else if (a === 'khai'){ landStart(id); return; } else if (a === 'lwork'){ closeSheet(); landWork(id); return; }
+  else if (a === 'openbed'){ act.openBed(id); } else if (a === 'sapgo'){ closeSheet(); sapMode(true); return; } else if (a === 'tetbuy'){ tetBuy(b.dataset.k); } else if (a === 'treeplant'){ treePlant(id, b.dataset.k); return; } else if (a === 'upx'){ upxBuy(b.dataset.k); return; } else if (a === 'dcbuy'){ dcBuy(b.dataset.k); return; } else if (a === 'dcput'){ closeSheet(); if (sapOk()){ if (!SAP) sapMode(true); else sapTrayDraw(); return; } suaOn(true, 'dc:' + b.dataset.k); return; } else if (a === 'dctake'){ dcTake(+b.dataset.k); closeSheet(); return; } else if (a === 'dcmove'){ const i = +b.dataset.k, it = ST.dc.items[i]; if (it){ dcTake(i); closeSheet(); suaOn(true, 'dc:' + it.k); } return; } else if (a === 'bigmove'){ closeSheet(); suaOn(true, b.dataset.k); return; } else if (a === 'aobook'){ closeSheet(); openBook('ca'); return; } else if (a === 'bighome'){ bigHome(b.dataset.k); closeSheet(); return; } else if (a === 'aobuy'){ aoBuy(id); return; } else if (a === 'tetprev'){ const seq = [null, -7, -1, 0, 3]; const cur = ST.muaTest === 'tet' ? seq.indexOf(ST.tetDayTest ?? 0) : 0, nx = seq[(cur + 1) % seq.length]; if (nx === null){ ST.muaTest = null; delete ST.tetDayTest; } else { ST.muaTest = 'tet'; ST.tetDayTest = nx; } save(); } else if (a === 'khai'){ landStart(id); return; } else if (a === 'lwork'){ closeSheet(); landWork(id); return; }
   else if (a === 'nput'){ nong.put(+b.dataset.n, b.dataset.k); SHEET.pick = null; } else if (a === 'npick'){ SHEET.pick = +b.dataset.n; } else if (a === 'pickback'){ SHEET.pick = null; } else if (a === 'ntakeall'){ nong.takeAll(); } else if (a === 'noop'){ } else if (a === 'ntake'){ nong.take(+b.dataset.n); } else if (a === 'obuy'){ const at = SHEET && SHEET.kind === 'plot' ? SHEET.arg : null; closeSheet(); buyObj(b.dataset.k, at); return; } else if (a === 'ohere'){ placeObj(b.dataset.k, id); }
   else if (a === 'oopen'){ openSheet(OBJD[b.dataset.k].sheet); return; } else if (a === 'omove'){ closeSheet(); suaOn(true, b.dataset.k); return; }
   else if (a === 'kput'){ khap.put(+b.dataset.n, b.dataset.k); SHEET.pick = null; } else if (a === 'kpick' || a === 'spick'){ SHEET.pick = +b.dataset.n; } else if (a === 'ktakeall'){ khap.takeAll(); } else if (a === 'stakeall'){ lsay.takeAll(); } else if (a === 'ktake'){ khap.take(+b.dataset.n); } else if (a === 'hobon'){ hoBon(); } else if (a === 'horau'){ hoRau(); } else if (a === 'hophan'){ hoPhan(); } else if (a === 'bon'){ hoBon(id); }
@@ -3347,7 +3411,7 @@ function buyObj(k, at){ const D = OBJD[k], O = ST[k]; if (O.own || !objOn(k)) re
   if (!at) return say('Chưa có ô đất trống để đặt con. Khai hoang thêm một ô, hay san bớt một liếp trống.', 'dan', { now: true }); if (ST.xu < D.buy) return toast(`${D.title} ${D.buy} xu, con còn thiếu ${D.buy - ST.xu} xu.`, 'dan');
   ST.xu -= D.buy; O.own = 1; O.at = at; coinPop(`-${D.buy} xu · ${D.name}`, '#F08A6E'); sfx('up'); save(); refreshPlot(at); hud(); objPuff(at); if (BLDH[k]) bldStart(k); else say(D.hi, 'vui', { now: true }); camTo(new T.Vector3(PV[at].cx, .3, PV[at].cz), Math.max(cam.zoom, DEFZ() * 1.2)); }
 function placeObj(k, id){ const O = ST[k], P = PL[id]; if (!O || !O.own || !P || bigAt(id) || decoAt(id) >= 0 || !P.bai || hidP(P) || !locked(P) || objAt(id) || !landOwn(id) || pairHost(id)) return false; const old = O.at; O.at = id; save(); if (old) refreshPlot(old); refreshPlot(id); objPuff(id); sfx('pop'); buzz(12); return true; }
-function objRoot(V, k, t){ const O = ST[k], on = !!(O && O.own && O.at && PV[O.at] && !hidP(PL[O.at])); V.root.visible = on; if (V.b) V.b.visible = false; if (!on) return null; const v = PV[O.at]; V.root.position.set(v.cx, 0, v.cz); return v; }
+function objRoot(V, k, t){ const O = ST[k], on = !!(O && O.own && O.at && PV[O.at] && !hidP(PL[O.at])) && window.__sapLift !== 'obj:' + k; V.root.visible = on; if (V.b) V.b.visible = false; if (!on) return null; const v = PV[O.at]; V.root.position.set(v.cx, 0, v.cz); return v; }
 function objBub(V, v, url, t, y = .62, f, left){ const b = V.b; b.visible = true; try { bubIcon(b, url); } catch (e) {} bubCol(b, url === ICON.cuoc || url === UIC.task || url === UIC.sickle ? BUBC.lam : BUBC.lay); { const br = b.userData.bar; if (br){ br.visible = f != null; if (f != null) bubBar(br, f, left || 0); } } b.quaternion.copy(cam.quaternion); b.position.set(v.cx, y + Math.sin(t * 2) * .035, v.cz); b.scale.setScalar(.85 * BUBS * (1 + .07 * Math.abs(Math.sin(t * 3)))); }
 function bubHit(V, cx, cy){ if (!V.b || !V.b.visible) return false; ndc.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) * 2 + 1); ray.setFromCamera(ndc, cam); return ray.intersectObject(V.hb, false).length > 0; }
 await LDY(0);
@@ -4203,7 +4267,7 @@ const BLDH = { vit: 2, ao: 2, say: 4 }, BLDN = { vit: 'Bắt đầu dựng chu�
 const bldOn = k => !!(ST.bld && ST.bld[k] && !ST.bld[k].done);
 function bldStart(k){ ST.bld = ST.bld || {}; ST.bld[k] = { t: Date.now(), help: 0 }; save(); const at = bldAt(k); if (at && !VISIT){ camTo(new T.Vector3(at[0], .3, at[1]), Math.max(cam.zoom, DEFZ() * 1.1)); for (let i = 0; i < 16; i++) puff('leaf', at[0] + R(-.4, .4), .3, at[1] + R(-.4, .4), 1, pick(['#C9952A', '#B48560', '#86B06A']), .8); } toast(`${BLDN[k]} · xong sau ${BLDH[k]} tiếng`); }
 function bldLeft(k){ const B = ST.bld && ST.bld[k]; if (!B || B.done) return 0; return Math.max(0, (BLDH[k] - Math.min(BLDH[k] / 2, B.help || 0)) * 3600e3 / (ST.spd || 1) - (Date.now() - B.t)); }
-function bldTell(k){ const l = bldLeft(k), h = Math.floor(l / 3600e3), m = Math.max(1, Math.ceil((l % 3600e3) / 60000)); toast(`${BLDN[k].replace('Bắt đầu', 'Đang')} · còn ${h ? h + ' tiếng ' : ''}${m} phút · bạn ghé phụ bớt 1 tiếng`); }
+function bldTell(k){ const l = bldLeft(k); if (l <= 0 && !VISIT){ bldDone(k); return; } const h = Math.floor(l / 3600e3), m = Math.ceil((l % 3600e3) / 60000), tt = l < 60000 ? `${Math.max(1, Math.ceil(l / 1000))} giây` : `${h ? h + ' tiếng' : ''}${h && m ? ' ' : ''}${m ? m + ' phút' : ''}`; toast(`${BLDN[k].replace('Bắt đầu', 'Đang')} · còn ${tt} · bạn ghé phụ bớt 1 tiếng`); }
 function bldAt(k){ if (k === 'vit') return [VIT.at[0], VIT.at[1]]; if (k === 'ao') return bigCenter('ao'); const O = ST[k]; if (O && O.at && PV[O.at]) return [PV[O.at].cx, PV[O.at].cz]; return null; }
 function bldDone(k){ const B = ST.bld[k]; B.done = 1; save(); const at = bldAt(k); if (at && !VISIT) for (let i = 0; i < 20; i++) puff('spark', at[0] + R(-.5, .5), .6, at[1] + R(-.5, .5), 1, pick(['#F5D27A', '#FBF7EE']), .8);
   if (k === 'vit') penDone('vit'); else if (k === 'ao') setTimeout(() => say('Đào ao xong rồi! Cá nào con câu được, đẹp nhất Ngoại thả vô ao nuôi. Bạn bè ghé chơi là thấy liền.', 'vui', { idle: true }), 300); else if (OBJD[k]) setTimeout(() => say(OBJD[k].hi, 'vui', { idle: true }), 300); sfx('up'); hud(); }
@@ -4235,7 +4299,7 @@ const ONGV = (() => { const root = DYN(G(0, 0, 0)); return { root, m: null, key:
 const ongBloom = () => { try { return PLOTS.filter(P => { const p = ST.plots[P.id]; return p && p.crop && !p.dead; }).length + ((ST.dc && ST.dc.items) || []).length; } catch (e) { return 0; } };
 const ongH = () => Math.max(ONG.hMin, ONG.h0 - ongBloom() * .4);
 function ongSim(){ const O = ST.ong; if (!O || !O.own) return; const now = Date.now(), T2 = ongH() * 3600e3 / (ST.spd || 1), cap = ONG.cap * (O.n || 1); if (!O.t) O.t = now; if (O.honey >= cap){ O.t = now; return; } let k = 0; while (now - O.t >= T2 && O.honey < cap && k++ < 10){ O.honey++; O.t += T2; } }
-function ongTake(){ const O = ST.ong; if (!O || !O.honey) return false; bump('mat'); const n = O.honey, v = PV[O.at]; ST.inv.matong = (ST.inv.matong || 0) + n; O.honey = 0; O.got = (O.got || 0) + n; O.t = Date.now(); if (v){ flyTo(ICON.matong, v.cx, .6, v.cz); floatAt(v.cx, .9, v.cz, `+${n} hũ mật ong`, '#F2C230'); } sfx('pop'); gainXP(2 * n); save(); hud(); sayOnce('ong1', 'Mật ong rừng tràm là quý nhất, mật ong vườn nhà cũng ngọt lắm con. Đem bán hay để Ngoại làm chuối nướng mật ong.', 'vui'); return true; }
+function ongTake(){ const O = ST.ong; if (!O || !O.honey || !O.at) return false; bump('mat'); const n = O.honey, v = PV[O.at]; ST.inv.matong = (ST.inv.matong || 0) + n; O.honey = 0; O.got = (O.got || 0) + n; O.t = Date.now(); if (v){ flyTo(ICON.matong, v.cx, .6, v.cz); floatAt(v.cx, .9, v.cz, `+${n} hũ mật ong`, '#F2C230'); } sfx('pop'); gainXP(2 * n); save(); hud(); sayOnce('ong1', 'Mật ong rừng tràm là quý nhất, mật ong vườn nhà cũng ngọt lắm con. Đem bán hay để Ngoại làm chuối nướng mật ong.', 'vui'); return true; }
 function ongTick(t){ const v = objRoot(ONGV, 'ong', t); if (!v) return; ongSim(); const O = ST.ong, key = (O.n || 1) + ':' + (O.honey > 0 ? 1 : 0); if (key !== ONGV.key){ ONGV.key = key; if (ONGV.m) ONGV.root.remove(ONGV.m); const g = new T.Group(); ONGV.bees = []; const n = O.n || 1; for (let i = 0; i < n; i++){ const h = beeHive(O.honey > 0 && i === 0); h.scale.setScalar(n > 1 ? .78 : 1); h.position.set(n > 1 ? (i ? .2 : -.2) : 0, 0, n > 1 ? (i ? .06 : -.06) : 0); g.add(h); ONGV.bees.push(...h.userData.bees); } ONGV.m = g; ONGV.root.add(g); }
   beeAnim(ONGV.bees, t); if (O.honey > 0 && !VISIT) objBub(ONGV, v, ICON.matong, t, .95); }
 const ongHit = (cx, cy) => bubHit(ONGV, cx, cy);
@@ -4344,7 +4408,7 @@ function nhaTick(t){ if (!NHAV.root) return; if (!NHAV.b){ Object.assign(NHAV, m
   if (ST.nha && !ST.nha.done && !VISIT && nhaLeft() <= 0){ ST.nha.done = Date.now(); save(); setTimeout(() => { say('Nhà cửa sửa xong rồi con! Sân gạch mới, giàn bông giấy rồi sẽ trổ bông đỏ rực mái hiên.', 'nhay', { idle: true }); }, 400); try { pv.set(2.4, 1.2, 1.4).project(cam); confettiAt((pv.x + 1) / 2 * innerWidth, (1 - pv.y) / 2 * innerHeight, 40, 1.2); } catch (e) {} }
   NHAV.b.visible = false; if (st === 1 && !VISIT) objBub(NHAV, { cx: 4.15, cz: 2.25 }, ICON.cuoc || UIC.task, t, 1.3, 1 - nhaLeft() / Math.max(1, (NHA.h - Math.min(NHA.help, ST.nha.help || 0)) * 3600e3 / (ST.spd || 1)), nhaLeft()); }
 function ftTick(t){ maiTick(t); nhaTick(t); if (!VISIT && ((t * 10) | 0) % 30 === 0) ftCheck(); FDV.root.visible = !VISIT;
-  for (const k in FTV){ const V = FTV[k], F = ST.ft[k], on = !!F; V.root.visible = on; V.hit.visible = on && !VISIT; V.b.visible = false; if (!on) continue; { const pp = ftPos(k); V.root.position.set(pp[0], 0, pp[1]); V.hit.position.set(pp[0], 1.2, pp[1]); } if (VISIT){ if (V.key !== k + F.st){ V.key = k + F.st; if (V.m) V.root.remove(V.m); V.m = ftCompact(fairyModel(k, F.st), k); V.root.add(V.m); V.ff = []; } continue; } const st = F.st === 3 && k === 'tretramdot' ? 3 : F.st, key = k + st;
+  for (const k in FTV){ const V = FTV[k], F = ST.ft[k], on = !!F; V.root.visible = on && window.__sapLift !== 'big:' + k; V.hit.visible = on && !VISIT; V.b.visible = false; if (!on) continue; { const pp = ftPos(k); V.root.position.set(pp[0], 0, pp[1]); V.hit.position.set(pp[0], 1.2, pp[1]); } if (VISIT){ if (V.key !== k + F.st){ V.key = k + F.st; if (V.m) V.root.remove(V.m); V.m = ftCompact(fairyModel(k, F.st), k); V.root.add(V.m); V.ff = []; } continue; } const st = F.st === 3 && k === 'tretramdot' ? 3 : F.st, key = k + st;
     if (key !== V.key){ V.key = key; if (V.m) V.root.remove(V.m); V.m = ftCompact(fairyModel(k, k === 'tretramdot' && st === 2 ? 2 : st), k); V.root.add(V.m); V.ff = []; V.m.traverse(o => { if (o.userData.ff != null) V.ff.push(o); }); }
     for (const o of V.ff){ o.userData.y0 = o.userData.y0 ?? o.position.y; o.position.y = o.userData.y0 + Math.sin(t * 1.6 + o.userData.ff) * .08; }
     if (V.m.userData.so) sdAnim(V.m.userData.so, st, t); if (V.m.userData.bird) dhBird(V.m.userData.bird, t); if (V.m.userData.kvf) kvSpin(V.m.userData.kvf, t);
@@ -4659,6 +4723,97 @@ function suaOn(on, move){ if (on && (VISIT || !baiOn())) return; if (on && !move
   for (const P of PLOTS) if (P.bai) refreshPlot(P.id); if (SUA){ closeSheet(); const O = move && ST[move] && PV[ST[move].at]; camTo(O ? new T.Vector3(O.cx, .3, O.cz) : new T.Vector3(BAIC.x + .4, .3, BAIC.z + .3), Math.max(cam.zoom, DEFZ() * 1.15)); } }
 function suaTx(){ const t = $('#suaTx'); if (t && SUA) t.textContent = SUA.move ? `Chạm một ô trống để đặt ${SUA.move.startsWith('dc:') ? DCK[SUA.move.slice(3)].name.toLowerCase() : (BIGD[SUA.move] || OBJD[SUA.move]).name}${BIGD[SUA.move] ? ' (2×2 ô)' : ''}` : 'Chạm từng ô: khai hoang, đắp liếp, đặt đồ'; }
 
+
+/* ===== v112 Sắp vườn: nhấn giữ để nhấc đồ, chế độ Sắp vườn (nút + trên ô trống, khay Túi đồ), một cách đặt cho mọi món ===== */
+let SAP = false, DRAG = null, DROP = null, SAPSEL = null, SHSUB = null, SAPON = false, SAPITEMS = [], TRAYP = null;
+const SAPLV = 8;
+const sapOk = () => (ST.lv || 1) >= SAPLV && !VISIT && baiOn();
+const SAPSV = { ok: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  no: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3.6" stroke-linecap="round"/></svg>',
+  box: '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M3 8l9-4 9 4v9l-9 4-9-4z" fill="#E0A95C" stroke="#4A2F1E" stroke-width="2" stroke-linejoin="round"/><path d="M3 8l9 4 9-4M12 12v9" fill="none" stroke="#4A2F1E" stroke-width="2"/></svg>',
+  home: '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M3 11l9-7 9 7" fill="none" stroke="#4A2F1E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v10h12V10" fill="#E0A95C" stroke="#4A2F1E" stroke-width="2" stroke-linejoin="round"/><path d="M10 20v-5h4v5" fill="#FFF8EA" stroke="#4A2F1E" stroke-width="2"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>' };
+const SAPIC = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="5" y="5" width="54" height="54" rx="14" fill="#F2C64A" stroke="#4A2F1E" stroke-width="4"/><path d="M14 26l18-9 18 9-18 9z" fill="#FFF8EA" stroke="#4A2F1E" stroke-width="3.5" stroke-linejoin="round"/><path d="M14 38l18-9 18 9-18 9z" fill="#B9D79F" stroke="#4A2F1E" stroke-width="3.5" stroke-linejoin="round"/></svg>');
+function sapIc(it){ if (it.t === 'obj') return ICON[it.k === 'ong' ? 'matong' : it.k] || UIC.task; if (it.t === 'dc') return UIC['dc_' + it.k] || UIC.task; if (it.t === 'ao') return ICON.caro; return UIC['ft_' + it.k] || UIC.task; }
+function sapName(it){ return it.t === 'obj' ? OBJD[it.k].title : it.t === 'dc' ? DCK[it.k].name : it.t === 'ao' ? BIGD.ao.title : BIGD[it.k].title; }
+// món đang nằm ở ô id, nhấc lên được
+function sapItemAt(id){ const P = id && PL[id]; if (!P || !P.bai || hidP(P)) return null; const ok = objAt(id); if (ok) return bldOn(ok) ? null : { t: 'obj', k: ok, from: id }; const di = decoAt(id); if (di >= 0) return { t: 'dc', k: ST.dc.items[di].k, from: id }; const bk = bigAt(id); if (bk && BIGD[bk] && BIGD[bk].fairy) return { t: 'big', k: bk, from: ST.big[bk].at }; return null; }
+// ô id còn trống cho món it (ô món đang đứng tính là trống)
+function sapFree(id, it){ const P = PL[id]; if (!P || !P.bai || hidP(P) || !landOwn(id) || !locked(P) || pairHost(id) || (ST.pairs || {})[id]) return false; const bk = bigAt(id); if (bk && !(it && it.t === 'big' && bk === it.k)) return false; if (decoAt(id) >= 0 && !(it && it.t === 'dc' && id === it.from)) return false; const ok = objAt(id); if (ok && !(it && it.t === 'obj' && ok === it.k)) return false; return true; }
+function sapWhy(id, it){ const P = PL[id]; if (!P || !P.bai) return ''; if (!landOwn(id)) return 'Chưa khai hoang'; if (!locked(P)) return 'Đang có liếp'; if (pairHost(id) || (ST.pairs || {})[id]) return 'Đang có cây trái'; if ((it.t === 'big' || it.t === 'ao') && sapFree(id, it)) return 'Cần 4 ô trống, 2 ngang 2 dọc'; return 'Đang có đồ'; }
+const sapBk = it => it.t === 'ao' ? 'ao' : it.k;
+function sapFit(id, it){ if (!id) return null; if (it.t === 'big' || it.t === 'ao'){ const a = bigFit(id, sapBk(it)); return a ? block4(a) : null; } return sapFree(id, it) ? [id] : null; }
+function sapCellXY(cx, cy){ const g = groundAt(cx, cy); if (!g) return null; const x = g.x, z = g.z; let best = null, bd = .2; for (const P of PLOTS){ if (!P.bai || hidP(P)) continue; const [u0, v0, u1, v1] = P.b, d = Math.hypot(Math.max(u0 - x, 0, x - u1), Math.max(v0 - z, 0, z - v1)); if (d < bd){ bd = d; best = P.id; } } return best; }
+function sapGrab(cx, cy, id){ if (!sapOk()) return null; try { const fh = ftHitAt(cx, cy); if (fh && fh.k && BIGD[fh.k] && BIGD[fh.k].fairy && ST.ft[fh.k] && ST.ft[fh.k].st >= 1) return { t: 'big', k: fh.k, from: (ST.big[fh.k] || {}).at || null }; } catch (e) {} return sapItemAt(id || sapCellXY(cx, cy)); }
+// đặt món it vào ô id (mua luôn nếu chưa có)
+function sapPut(it, id){
+  if (it.t === 'obj'){ const O = ST[it.k]; if (!O.own){ if (!sapFree(id, it)) return false; buyObj(it.k, id); return !!(O.own && O.at === id); } if (O.at === id) return true; return placeObj(it.k, id); }
+  if (it.t === 'dc'){ if (it.from){ const D = (ST.dc.items || []).find(x => x.at === it.from && x.k === it.k); if (!D || !sapFree(id, it)) return false; if (D.at === id) return true; const old = D.at; D.at = id; save(); refreshPlot(old); refreshPlot(id); objPuff(id); sfx('pop'); buzz(12); return true; } return dcPlace(it.k, id); }
+  if (it.t === 'ao'){ const had = !!(ST.big.ao && ST.big.ao.own); aoBuy(id); return !had && !!(ST.big.ao && ST.big.ao.own); }
+  if (it.t === 'big') return bigPlace(it.k, id);
+  return false; }
+function sapStore(it){
+  if (it.t === 'obj'){ const O = ST[it.k], old = O.at; if (!old) return false; O.at = null; save(); refreshPlot(old); objPuff(old); sfx('pop'); return true; }
+  if (it.t === 'dc'){ const i = (ST.dc.items || []).findIndex(x => x.at === it.from && x.k === it.k); if (i < 0) return false; ST.dc.items.splice(i, 1); ST.dc.bag[it.k] = (ST.dc.bag[it.k] || 0) + 1; save(); refreshPlot(it.from); sfx('pop'); return true; }
+  if (it.t === 'big'){ if (!(ST.big[it.k] || {}).at) return false; bigHome(it.k); return true; }
+  return false; }
+function sapNow(it, id){ if (it.t === 'obj') return { t: 'obj', k: it.k, from: ST[it.k].at }; if (it.t === 'dc') return { t: 'dc', k: it.k, from: id }; if (it.t === 'big') return { t: 'big', k: it.k, from: (ST.big[it.k] || {}).at || null }; return null; }
+// kéo
+function sapDragStart(it, cx, cy){ DROP = null; window.__sapLift = it.from || it.t === 'big' ? it.t + ':' + it.k : null; DRAG = { it, x: cx, y: cy, hov: null, fit: null, tray: false }; try { ctl.enabled = false; } catch (e) {} SAPSEL = null; if (SHEET) closeSheet(); buzz(20); sfx('pick'); const gh = $('#sapGhost'); gh.src = sapIc(it); gh.hidden = false; document.body.classList.add('sapdrag'); sapDragMove(cx, cy); }
+function sapTrayHit(cx, cy){ const t = $('#sapTray'); if (!t || t.hidden) return false; const r = t.getBoundingClientRect(); return cx >= r.left && cx <= r.right && cy >= r.top - 8 && cy <= r.bottom; }
+function sapDragMove(cx, cy){ if (!DRAG) return; DRAG.x = cx; DRAG.y = cy; const gh = $('#sapGhost'); gh.style.left = cx + 'px'; gh.style.top = cy + 'px'; DRAG.tray = SAP && sapTrayHit(cx, cy); const id = DRAG.tray ? null : sapCellXY(cx, cy); DRAG.hov = id; DRAG.fit = id ? sapFit(id, DRAG.it) : null; gh.classList.toggle('bad', !!id && !DRAG.fit); }
+function sapDragEnd(){ const D = DRAG; DRAG = null; window.__sapLift = null; $('#sapGhost').hidden = true; document.body.classList.remove('sapdrag'); try { ctl.enabled = !FM.on; } catch (e) {} if (!D) return; const it = D.it;
+  if (D.tray){ if (it.from && sapStore(it)) toast(`Đã cất ${sapName(it).toLowerCase()} vô túi`); sapTrayDraw(); return; }
+  if (!D.fit){ if (D.hov && D.hov !== it.from) toast(sapWhy(D.hov, it), 'dan', { now: true }); return; }
+  if (it.from && (it.t === 'big' ? bigFit(D.hov, it.k) === it.from : D.fit[0] === it.from)) return;   // thả lại chỗ cũ
+  const prev = it.t === 'big' ? ((ST.big[it.k] || {}).at || null) : (it.from || null), buy = (it.t === 'obj' && !ST[it.k].own) || it.t === 'ao';
+  if (!sapPut(it, D.hov)) return; sapTrayDraw(); hud();
+  if (buy) return;   // mua xong là đặt luôn, khỏi hỏi lại
+  const now = sapNow(it, D.fit[0]); if (now && now.from) DROP = { it: now, prev }; }
+function sapDropAct(a){ const D = DROP; DROP = null; $('#sapBtns').hidden = true; if (!D) return; if (a === 'no'){ if (D.prev) sapPut(D.it, D.prev); else sapStore(D.it); } else if (a === 'box') sapStore(D.it); else sfx('pop'); sapTrayDraw(); }
+// chế độ Sắp vườn
+function sapMode(on){ if (on && !sapOk()) return; SAP = !!on; DROP = null; SAPSEL = null; document.body.classList.toggle('sap', SAP); $('#sapBar').hidden = !SAP; $('#sapTray').hidden = !SAP; placeSua();
+  if (SAP){ if (SHEET) closeSheet(); try { if (SUA) suaOn(false); } catch (e) {} sapTrayDraw(); try { camTo(new T.Vector3(BAIC.x + .4, .3, BAIC.z + .6), Math.max(cam.zoom, DEFZ() * 1.05)); } catch (e) {} sayOnce('sap1', 'Đất của con, muốn đặt gì ở đâu cũng được. Nhấn giữ món nào là nhấc lên kéo đi, kéo vô túi là cất.', 'vui'); }
+  else { $('#sapChips').hidden = true; sapClear(); } }
+function sapBag(){ const L = [], B = []; for (const k of OBJK){ const O = ST[k]; if (!O || !objOn(k)) continue; if (O.own && !O.at) L.push({ t: 'obj', k, n: 1 }); else if (!O.own) B.push({ t: 'obj', k, buy: OBJD[k].buy }); }
+  for (const k in (ST.dc.bag || {})) if (ST.dc.bag[k] > 0 && DCK[k]) L.push({ t: 'dc', k, n: ST.dc.bag[k] });
+  if (((ST.lv || 1) >= BIGD.ao.lv || (ST.keep || {}).ao) && !(ST.big.ao && ST.big.ao.own)) B.push({ t: 'ao', k: 'ao', buy: BIGD.ao.buy }); return [...L, ...B]; }
+function sapTrayDraw(){ const t = $('#sapTray'); if (!t || !SAP) return; SAPITEMS = sapBag();
+  let h = `<div class="sth"><small>TÚI ĐỒ · kéo ra vườn</small><span class="xu"><img src="${UIC.coin}" alt="">${ST.xu.toLocaleString('vi-VN')}</span></div><div class="row">`;
+  h += SAPITEMS.map((it, i) => `<div class="it${it.buy ? ' buy' : ''}${it.buy && ST.xu < it.buy ? ' poor' : ''}" data-i="${i}"><img src="${sapIc(it)}" alt=""><span>${sapName(it)}</span>${it.n > 1 ? `<b class="n">${it.n}</b>` : ''}${it.buy ? `<em><img src="${UIC.coin}" alt="">${it.buy}</em>` : ''}</div>`).join('');
+  if (dcOn()) h += `<div class="it more" data-a="more"><span class="pl">${SAPSV.plus}</span><span>Mua thêm</span></div>`;
+  if (!SAPITEMS.length && !dcOn()) h += `<div class="emp">Túi đang trống. Nhấn giữ món nào ngoài vườn rồi kéo vô đây là cất.</div>`;
+  t.innerHTML = h + '</div>'; }
+function sapChipsDraw(){ const ch = $('#sapChips'); const tree = Object.keys(CROPS).filter(k => CROPS[k].tree && !CROPS[k].rare && unlocked(k));
+  ch.innerHTML = `<button data-c="liep"><img src="${ICON.cai}" alt="">Liếp</button>` + (tree.length ? `<button data-c="cay"><img src="${ICON[tree[tree.length - 1]] || ICON.xoai}" alt="">Cây</button>` : ''); }
+function sapPick(id){ SAPSEL = SAPSEL === id ? null : id; if (SAPSEL){ sapChipsDraw(); sfx('pick'); } }
+function sapTap(cx, cy){ if (DROP){ DROP = null; return; } const id = sapCellXY(cx, cy); if (id && sapFree(id, null)) return sapPick(id); SAPSEL = null; if (id && sapItemAt(id)) toast('Nhấn giữ rồi kéo để dời, kéo vô túi để cất'); }
+function sapAltHTML(){ const tree = Object.keys(CROPS).filter(k => CROPS[k].tree && !CROPS[k].rare && unlocked(k)), ics = [tree.length ? ICON[tree[tree.length - 1]] : null, ICON.nong, dcOn() ? UIC.dc_mai_chieu_thuy : ICON.khap].filter(Boolean);
+  return `<div class="sapalt"><span class="ics">${ics.map(u => `<img src="${u}" alt="">`).join('')}</span><span class="tx">${tree.length ? 'Trồng cây, đặt đồ ở đây' : 'Đặt đồ ở đây'}</span><button class="btn" data-a="sapgo"><span>Sắp vườn</span></button></div>`; }
+// lớp vẽ: chạy trong vòng vẽ, ngay trước khi vẽ cảnh
+const sapV = new T.Vector3();
+function sapPj(x, z, y = .03){ sapV.set(x, y, z).project(cam); return [(sapV.x + 1) / 2 * innerWidth, (1 - sapV.y) / 2 * innerHeight]; }
+function sapPoly(b, i = .04){ return [[b[0] + i, b[1] + i], [b[2] - i, b[1] + i], [b[2] - i, b[3] - i], [b[0] + i, b[3] - i]].map(([x, z]) => sapPj(x, z).map(v => v.toFixed(1)).join(',')).join(' '); }
+function sapUnion(ids){ const bs = ids.map(x => PL[x].b); return [Math.min(...bs.map(b => b[0])), Math.min(...bs.map(b => b[1])), Math.max(...bs.map(b => b[2])), Math.max(...bs.map(b => b[3]))]; }
+const sapMid = P => sapPj((P.b[0] + P.b[2]) / 2, (P.b[1] + P.b[3]) / 2);
+const sapX = (x, w) => Math.max(8, Math.min(innerWidth - w - 8, x - w / 2));
+function sapClear(){ SAPON = false; const sv = $('#sapSvg'); sv.innerHTML = ''; sv.dataset.h = ''; sv.setAttribute('hidden', ''); $('#sapLay').innerHTML = ''; for (const k of ['#sapChips', '#sapTip', '#sapBtns']) $(k).hidden = true; }
+function sapTick(){ if (VISIT){ if (SAP) sapMode(false); DRAG = null; DROP = null; sapClear(); return; } SAPON = true; const sv = $('#sapSvg'), lay = $('#sapLay'); sv.removeAttribute('hidden'); let h = ''; const cells = PLOTS.filter(P => P.bai && !hidP(P) && landOwn(P.id));
+  if (DRAG){ const it = DRAG.it; for (const P of cells){ if (DRAG.fit && DRAG.fit.includes(P.id)) continue; const ok = it.t === 'big' || it.t === 'ao' ? !!bigFit(P.id, sapBk(it)) : sapFree(P.id, it); h += `<polygon class="${ok ? 'ok' : 'no'}" points="${sapPoly(P.b)}"/>`; }
+    if (DRAG.fit) h += `<polygon class="fit" points="${sapPoly(sapUnion(DRAG.fit), .03)}"/>`; else if (DRAG.hov && DRAG.hov !== DRAG.it.from) h += `<polygon class="bad" points="${sapPoly(PL[DRAG.hov].b)}"/>`; }
+  else if (DROP){ const cs = DROP.it.t === 'big' ? bigCells(DROP.it.k) : [DROP.it.from]; if (cs.length && cs[0] && PL[cs[0]]) h += `<polygon class="fit" points="${sapPoly(sapUnion(cs), .03)}"/>`; else DROP = null; }
+  else if (SAP){ for (const P of cells) if (sapFree(P.id, null)) h += `<polygon class="${P.id === SAPSEL ? 'sel' : 'em'}" points="${sapPoly(P.b)}"/>`; }
+  if (sv.dataset.h !== h){ sv.innerHTML = h; sv.dataset.h = h; }
+  // nút + trên ô trống
+  let n = 0; if (SAP && !DRAG && !DROP) for (const P of cells){ if (!sapFree(P.id, null)) continue; let b = lay.children[n++]; if (!b){ b = document.createElement('button'); b.className = 'sapplus'; b.innerHTML = SAPSV.plus; b.setAttribute('aria-label', 'Đặt gì ở ô này'); lay.appendChild(b); } b.dataset.id = P.id; b.classList.toggle('on', P.id === SAPSEL); const [x, y] = sapMid(P); b.style.transform = `translate(${(x - 22).toFixed(1)}px,${(y - 22).toFixed(1)}px)`; }
+  while (lay.children.length > n) lay.lastChild.remove();
+  if (SAPSEL && !sapFree(SAPSEL, null)) SAPSEL = null;
+  const ch = $('#sapChips'); if (SAP && SAPSEL && !DRAG && !DROP){ const [x, y] = sapMid(PL[SAPSEL]); ch.hidden = false; const w = ch.offsetWidth || 200, bar = $('#sapBar').getBoundingClientRect().bottom + 8; ch.style.transform = `translate(${sapX(x, w).toFixed(1)}px,${Math.max(bar, y - 76).toFixed(1)}px)`; } else ch.hidden = true;
+  const tp = $('#sapTip'); if (DRAG && DRAG.hov && !DRAG.fit && DRAG.hov !== DRAG.it.from){ const [x, y] = sapMid(PL[DRAG.hov]), tx = sapWhy(DRAG.hov, DRAG.it); if (tp.textContent !== tx) tp.textContent = tx; tp.hidden = false; const w = tp.offsetWidth || 100; tp.style.transform = `translate(${sapX(x, w).toFixed(1)}px,${(y + 16).toFixed(1)}px)`; } else tp.hidden = true;
+  const bt = $('#sapBtns'); if (DROP && !DRAG){ const cs = DROP.it.t === 'big' ? bigCells(DROP.it.k) : [DROP.it.from], B = sapUnion(cs), pts = [[B[0], B[1]], [B[2], B[1]], [B[2], B[3]], [B[0], B[3]]].map(([x, z]) => sapPj(x, z)), xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+    const k = DROP.it.t === 'big' ? 'home' : 'box', lbl = DROP.it.t === 'big' ? 'Về chỗ cũ' : 'Cất vô túi'; if (bt.dataset.k !== k){ bt.dataset.k = k; bt.innerHTML = `<button class="y" data-d="ok" aria-label="Đặt ở đây">${SAPSV.ok}</button><button class="n" data-d="no" aria-label="Hủy">${SAPSV.no}</button><button class="s" data-d="box" aria-label="${lbl}">${SAPSV[k]}</button>`; }
+    bt.hidden = false; const w = bt.offsetWidth || 164, lim = SAP ? $('#sapTray').getBoundingClientRect().top - 58 : innerHeight - 120; bt.style.transform = `translate(${sapX((Math.min(...xs) + Math.max(...xs)) / 2, w).toFixed(1)}px,${Math.max(8, Math.min(lim, Math.max(...ys) + 10)).toFixed(1)}px)`; } else bt.hidden = true; }
+function tk(n, f){ try { f(); } catch (e) { const E = window.__tke = window.__tke || {}; if (!E[n]){ E[n] = 1; console.warn('tick ' + n, e); } } }   /* mỗi việc trong vòng vẽ chạy riêng, một việc lỗi không chặn việc khác */
 await LDY(69);
 /* ===== UX kit cho bảng: điều con muốn biết nhất nằm trên cùng (hero), việc chính kế đó (nút to), chi tiết bên dưới, luật chơi gấp lại ===== */
 await LDY(0);
@@ -4808,8 +4963,9 @@ function suaHTML(id){ const P = PL[id], p = ST.plots[id], ok = objAt(id), cost =
     if (ls === 'wild'){ const c = landCost(zk), busy = landBusy() >= 2; h += UX.hero(ICON.cuoc || UIC.sickle, 'Đất hoang', `${Lz.cong[0]}, cuốc đất rồi phơi ải chừng ${fmtMin(landWait(zk))} là thành đất của con`); h += UX.cta([UX.btn('khai', 'Khai hoang', { g: 1, img: UIC.coin, dis: ST.xu < c || busy, sub: `${c} xu` })]); h += `<div class="note">${busy ? 'Đang khai hoang hai ô rồi, xong một ô mới làm thêm được.' : landStarted(zk) < 2 ? 'Hai ô đầu Ngoại phụ nửa tiền.' : 'Ô sau tốn hơn ô trước một chút.'}</div>`; return h; }
     if (ls === 'cong') return h + UX.hero(L.w ? (ICON.cuoc || UIC.sickle) : UIC.sickle, Lz.cong[L.w || 0], `Bước ${(L.w || 0) + 1}/2 · chạm vô ô ngoài vườn là làm`) + UX.cta([UX.btn('lwork', Lz.cong[L.w || 0], { g: 1, img: L.w ? (ICON.cuoc || UIC.sickle) : UIC.sickle })]);
     if (ls === 'ai'){ const lf = Math.max(0, L.end - Date.now()), T0 = Math.max(1, (L.m || 20) * 60000); return h + UX.hero(ICON.cuoc || UIC.sickle, 'Nắng đang làm đất tơi', 'Con đi làm việc khác, đất tự tơi kể cả lúc tắt game') + `<div class="pgb"><i><u style="width:${Math.round(Math.max(0, Math.min(1, 1 - lf / T0)) * 100)}%"></u><em>còn ${fmtMin(Math.max(1, lf / 60000))}</em></i></div>`; }
+    if (SHSUB === 'cay'){ const ks = Object.keys(CROPS).filter(k => CROPS[k].tree && !CROPS[k].rare && unlocked(k)); return UX.title('Trồng cây trái · chiếm ô này và ô ngay dưới') + '<div class="upg">' + ks.map(k => UX.upc('treeplant', ICON[k], 'Cây ' + CROPS[k].name.toLowerCase(), CROPS[k].seed, { k, dis: ST.xu < CROPS[k].seed })).join('') + '</div>'; }
     h += UX.hero(ICON.cuoc || UIC.sickle, 'Đất của con', P.zone === 'song' ? 'Đất phù sa màu mỡ, đắp liếp là đất tốt sẵn' : 'Đắp liếp để trồng, hay đặt đồ ở ô này');
-    h += UX.cta([UX.btn('openbed', 'Đắp liếp', { g: 1, img: UIC.seedbag })]);
+    h += UX.cta([UX.btn('openbed', 'Đắp liếp', { g: 1, img: UIC.seedbag })]); if (sapOk()) return h + sapAltHTML();
     if (((ST.lv || 1) >= BIGD.ao.lv || (ST.keep || {}).ao) && !(ST.big.ao && ST.big.ao.own)){ const fit = bigFit(id, 'ao'); h += UX.title('Hay đào ao cá · chiếm 2×2 ô') + '<div class="upg">' + UX.upc(fit ? 'aobuy' : 'noop', ICON.caro, 'Ao cá', fit ? BIGD.ao.buy : null, { dis: !fit || ST.xu < BIGD.ao.buy, why: fit ? '' : 'Cần 4 ô trống sát nhau' }) + '</div>'; }
     { const y = treeSpot(id); if (y){ const ks = Object.keys(CROPS).filter(k => CROPS[k].tree && !CROPS[k].rare); h += UX.title('Hay trồng cây trái · chiếm ô này và ô ngay dưới') + '<div class="upg">' + ks.map(k => unlocked(k) ? UX.upc('treeplant', ICON[k], 'Cây ' + CROPS[k].name.toLowerCase(), CROPS[k].seed, { k, dis: ST.xu < CROPS[k].seed }) : '').join('') + '</div>'; } else if (TREEZ[zoneOf(P)] && pairBelow(id)) h += '<div class="note">Muốn trồng cây trái thì ô ngay dưới cũng phải là đất trống của con.</div>'; }
     const objs = OBJK.filter(objOn); if (objs.length) h += UX.title('Hay đặt đồ ở đây') + '<div class="upg">' + objs.map(k => { const O = ST[k], D = OBJD[k]; return O.own ? UX.upc('ohere', ICON[k], `Dời ${D.name} về đây`, null, { k, why: 'đang ở ô khác' }) : UX.upc('obuy', ICON[k], D.title, D.buy, { k, dis: ST.xu < D.buy }); }).join('') + '</div>';
@@ -5248,10 +5404,10 @@ function plotHit0(cx, cy){ ndc.set(cx / innerWidth * 2 - 1, -(cy / innerHeight) 
 const needOf = id => { if (VISIT) return null; const P = PL[id]; if (P.tree && !unlocked(P.tree)) return null; if (locked(P)) return 'open'; const p = ST.plots[id]; if (!p.crop) return 'seed'; if (p.dead) return 'pull'; if (ripe(p)) return 'cut'; if (!P.trellis && (p.moist <= 0 || condOf(p) === 'wilt')) return 'water'; return null; };
 await LDY(0);
 canvas.addEventListener('pointerdown', e => { try { closeRing(); } catch (er) {} if (TOOL || !e.isPrimary || (e.pointerType === 'mouse' && e.button !== 0)){ G0 = null; return; }
-  const wg = (() => { if (VISIT) return null; try { if (!weedOn()) return null; { const bi = weedBubHit(e.clientX, e.clientY); if (bi >= 0) return { x: WEEDP[bi][0], z: WEEDP[bi][1] }; } const g = groundAt(e.clientX, e.clientY); return g && weedNear(g.x, g.z, .26) >= 0 ? { x: g.x, z: g.z } : null; } catch (er) { return null; } })();
-  const gk = VISIT || wg ? null : gaHit(e.clientX, e.clientY), id = gk || wg ? null : plotHit(e.clientX, e.clientY), need = wg ? 'weed' : id && needOf(id); G0 = { x: e.clientX, y: e.clientY, pid: e.pointerId, id, need, gk, wg, moved: false, held: false };
+  const wg = (() => { if (VISIT || SAP) return null; try { if (!weedOn()) return null; { const bi = weedBubHit(e.clientX, e.clientY); if (bi >= 0) return { x: WEEDP[bi][0], z: WEEDP[bi][1] }; } const g = groundAt(e.clientX, e.clientY); return g && weedNear(g.x, g.z, .26) >= 0 ? { x: g.x, z: g.z } : null; } catch (er) { return null; } })();
+  const gk = VISIT || wg ? null : gaHit(e.clientX, e.clientY), id = gk || wg ? null : plotHit(e.clientX, e.clientY), need = SAP ? null : wg ? 'weed' : id && needOf(id); G0 = { x: e.clientX, y: e.clientY, pid: e.pointerId, id, need, gk, wg, moved: false, held: false };
   if (need === 'cut' || need === 'water' || need === 'weed') ctl.enabled = false;   // đặt ngón lên liếp cần làm: không kéo màn hình
-  G0.tm = setTimeout(() => { if (G0 && !G0.moved && !FM.on && (id || gk)){ G0.held = true; ctl.enabled = true; buzz(15); gk ? openSheet('ga') : need === 'seed' && seedFor(PL[id]) ? openRing(id, 'seed') : openSheet('plot', id); } }, 520); }, { capture: true });
+  G0.tm = setTimeout(() => { if (G0 && !G0.moved && !FM.on){ const it = sapGrab(G0.x, G0.y, id); if (it){ G0.held = true; sapDragStart(it, G0.x, G0.y); return; } if (SAP) return; } if (G0 && !G0.moved && !FM.on && (id || gk)){ G0.held = true; ctl.enabled = true; buzz(15); gk ? openSheet('ga') : need === 'seed' && seedFor(PL[id]) ? openRing(id, 'seed') : openSheet('plot', id); } }, SAP ? 300 : 520); }, { capture: true });
 await LDY(0);
 addEventListener('pointermove', e => { if (!G0 || e.pointerId !== G0.pid || G0.moved || G0.held) return; if (Math.hypot(e.clientX - G0.x, e.clientY - G0.y) < 9) return; G0.moved = true; clearTimeout(G0.tm);
   if (G0.need === 'cut' || G0.need === 'water' || G0.need === 'weed'){ const kd = G0.need === 'water' ? 'water' : 'cut'; TOOL = { kind: kd, temp: true }; ghost.src = kd === 'cut' ? UIC.sickle : UIC.can; ghost.hidden = false; moveGhost(e.clientX, e.clientY); beginStroke({ pointerId: e.pointerId, clientX: G0.x, clientY: G0.y, pointerType: e.pointerType }); STROKE.moved = true; } });
@@ -5261,6 +5417,9 @@ addEventListener('click', e => { const t = TAPT; TAPT = 0; if (t && performance.
 addEventListener('pointerup', e => { if (!G0 || e.pointerId !== G0.pid) return; const g = G0; G0 = null; clearTimeout(g.tm); if (e.pointerType !== 'mouse') TAPT = performance.now(); ctl.enabled = !FM.on; if (FM.on){ if (!g.moved || FM.ph === 'aim') fmTap(e.clientX, e.clientY); return; }
   if (TOOL && TOOL.temp){ TOOL = null; ghost.hidden = true; ghost.classList.remove('pour', 'swing'); STROKE = null; save(); hud(); kfOpen(); return; }
   if (g.moved || g.held) return;
+  try { landCheck(); } catch (er) {}
+  if (DROP){ DROP = null; if (!SAP) return; }
+  if (SAP){ sapTap(e.clientX, e.clientY); return; }
   if (g.wg){ weedAt(g.wg.x, g.wg.z, .3); return; }
   if (VISIT){ const vid = g.id || plotHit(e.clientX, e.clientY); if (vid) visitTap(vid); return; }
   if (SIGN.length){ ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(ndc, cam); if (ray.intersectObjects(SIGN, false)[0]){ if ((ST.lv || 1) >= 4 || nextQ() === QUEST[5]) openBook('viec'); else toast('Tới cấp 4 Ngoại với con mới dọn góc này được nghe.', 'dan'); return; } }
@@ -5904,9 +6063,19 @@ function PHONE(){ return matchMedia('(max-width:560px)').matches; }
 function mobLay(){ const ph = PHONE(), H = innerHeight; document.body.classList.toggle('mshort', ph && H < 740); document.body.classList.toggle('mtiny', ph && H < 600); const vv = window.visualViewport; const lift = (vv && Math.abs(vv.scale - 1) < .02) ? Math.max(0, Math.min(120, Math.round(innerHeight - vv.height - vv.offsetTop))) : 0; document.documentElement.style.setProperty('--vvb', lift + 'px'); try { placeCtr(); } catch (e) {} }   /* đo lại vị trí nút theo ô xu mỗi khi khung đổi, khỏi chồng nhau */
 addEventListener('resize', mobLay); addEventListener('orientationchange', () => setTimeout(mobLay, 300)); if (window.visualViewport) visualViewport.addEventListener('resize', mobLay); setInterval(mobLay, 1200); setTimeout(mobLay, 100);
 try { const ro = new ResizeObserver(mobLay); const tp = document.querySelector('.ui.top'); if (tp) ro.observe(tp); } catch (e) {}
-function placeSua(){ const b = $('#bCtr'), s2 = $('#bSua'); if (!b || !s2) return; s2.hidden = true; if (s2.hidden) return; const r = b.getBoundingClientRect(); s2.style.top = Math.round(r.bottom + (PHONE() ? 6 : 10)) + 'px'; }
+function placeSua(){ const b = $('#bCtr'), s2 = $('#bSua'); if (!b || !s2) return; s2.hidden = !sapOk() || SAP || !!SUA; if (s2.hidden) return; const r = b.getBoundingClientRect(); s2.style.top = Math.round(r.bottom + (PHONE() ? 6 : 10)) + 'px'; }
 await LDY(0);
-$('#bSua').addEventListener('click', () => { suaOn(!SUA); }); $('#suaOk').addEventListener('click', () => { suaOn(false); });
+$('#bSua').addEventListener('click', () => { sapMode(!SAP); }); $('#sapOk').addEventListener('click', () => { sfx('pop'); sapMode(false); });
+$('#sapLay').addEventListener('click', e => { const b = e.target.closest('.sapplus'); if (b) sapPick(b.dataset.id); });
+$('#sapChips').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (!b || !SAPSEL) return; const id = SAPSEL; SAPSEL = null; if (b.dataset.c === 'liep'){ act.openBed(id); sfx('pop'); } else if (b.dataset.c === 'cay'){ if (!treeSpot(id)) return toast('Cây trái chiếm hai ô, ô ngay dưới cũng phải trống', 'dan', { now: true }); SHSUB = 'cay'; openSheet('plot', id); } });
+$('#sapBtns').addEventListener('click', e => { const b = e.target.closest('[data-d]'); if (b) sapDropAct(b.dataset.d); });
+$('#sapTray').addEventListener('pointerdown', e => { const c = e.target.closest('.it'); if (!c || c.dataset.a === 'more') return; const it = SAPITEMS[+c.dataset.i]; if (!it) return; if (it.buy && ST.xu < it.buy) return toast(`${sapName(it)} ${it.buy} xu, con còn thiếu ${it.buy - ST.xu} xu.`, 'dan', { now: true }); TRAYP = { pid: e.pointerId, x: e.clientX, y: e.clientY, it: { t: it.t, k: it.k } }; try { c.releasePointerCapture(e.pointerId); } catch (er) {} });
+$('#sapTray').addEventListener('click', e => { if (e.target.closest('[data-a="more"]')){ openSheet('cho'); SHEET.tab = 'tiem'; renderSheet(); } });
+addEventListener('pointermove', e => { if (DRAG){ sapDragMove(e.clientX, e.clientY); return; } if (TRAYP && e.pointerId === TRAYP.pid && Math.hypot(e.clientX - TRAYP.x, e.clientY - TRAYP.y) > 8){ const it = TRAYP.it; TRAYP = null; sapDragStart(it, e.clientX, e.clientY); } });
+addEventListener('pointerup', e => { if (TRAYP && e.pointerId === TRAYP.pid){ TRAYP = null; toast('Kéo món này ra một ô đất trống của con'); } if (DRAG) sapDragEnd(); });
+addEventListener('pointercancel', () => { TRAYP = null; if (DRAG) sapDragEnd(); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && SAP && !SHEET) sapMode(false); });
+setInterval(() => { try { placeSua(); } catch (e) {} }, 1500); $('#suaOk').addEventListener('click', () => { suaOn(false); });
 await LDY(0);
 addEventListener('resize', () => { placeCtr(); try { fanOvf(); } catch (e) {} });
 /* thanh hạt mở: ghi chiều cao để Ngoại đứng lên trên thanh, không bị che */
@@ -5998,7 +6167,7 @@ function camTick(dt){ if (!CAMGO) return; CAMGO.t = Math.min(1, CAMGO.t + dt / .
   /* đồng xu: vẽ 2D ở drawCoin() cho sáng và sắc nét */
   ri.dispose(); ri.forceContextLoss(); sd = ps; } try { UIC.coin = drawCoin(128); } catch (e) {}
 await LDY(0);
-$('#icSo').src = UIC.so; $('#icCho').src = ICON.cho; $('#icSet').src = ICON.set; $('#icCan').src = UIC.can; $('#icCtr').src = UIC.center; try { $('#icSua').src = ICON.cuoc; } catch (e) {}
+$('#icSo').src = UIC.so; $('#icCho').src = ICON.cho; $('#icSet').src = ICON.set; $('#icCan').src = UIC.can; $('#icCtr').src = UIC.center; try { $('#icSua').src = SAPIC; } catch (e) {}
 await LDY(0);
 for (const P of PLOTS) refreshPlot(P.id);
 { const im = new Image(); im.onload = () => { const g2 = $('#coinic').getContext('2d'); g2.setTransform(1, 0, 0, 1, 0, 0); g2.clearRect(0, 0, 128, 128); g2.drawImage(im, 0, 0, 128, 128); }; im.src = UIC.coin; }
@@ -6067,10 +6236,11 @@ function tickIn(){ const dt = Math.min(clock.getDelta(), .05), t = clock.elapsed
     if (dd < .03){ if (rnd() < .5 && a.kind !== 'duck') a.peck = .6; a.tgt.set(a.home.x + R(-a.rad, a.rad), 0, a.home.z + R(-a.rad, a.rad)); for (const [x0, z0, x1, z1] of BLOCK) if (a.tgt.x > x0 && a.tgt.x < x1 && a.tgt.z > z0 && a.tgt.z < z1) a.tgt.x = x1 + R(.03, .15); if (a.kind !== 'duck' && a.home.x > .2) a.tgt.x = Math.max(a.tgt.x, .3); }
     else { tv.normalize(); const want = Math.atan2(-tv.z, tv.x); let dr = want - g.rotation.y; dr = Math.atan2(Math.sin(dr), Math.cos(dr)); g.rotation.y += dr * Math.min(1, dt * 5); if (Math.abs(dr) < .6){ g.position.addScaledVector(tv, Math.min(dd, a.spd * dt)); g.position.y = Math.abs(Math.sin(a.t * 14)) * .012; } } }
   // bubbles billboard + bob
-  gaTick(t); try { ringPos(); oddTick(t); weedTick(t); ordTick(t); bepTick(t); vitTick(t); } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } try { nongTick(t); khapTick(t); hoTick(t); ongTick(t); loTick(t); cauTick(t, dt); kcaTick(t); kbenTick(); ftTick(t); aoTick(t); dcTick(); buTick(t, dt); muongTick(); boTick(); sayTick(t, dt); gioTick(t); gheTick(t); tbTick(t); treTick(); try { landTick(t); } catch (e) { if (!window.__le){ window.__le = 1; console.warn('land', e); } } try { seasonTick(t); } catch (e) { if (!window.__se){ window.__se = 1; console.warn('season', e); } } } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } const KFNOW = kFull(); for (const P of PLOTS){ const v = PV[P.id]; if (!v.want) continue; const bg = v.bub[v.want]; bg.quaternion.copy(cam.quaternion); bg.position.set(v.cx, v.bubY + Math.sin(t * 2 + v.cx) * .035, v.cz); bg.scale.setScalar(.9); if (v.want === 'u') bg.scale.setScalar(.9 * (1 + .12 * Math.max(0, Math.sin(t * 6)))); else if (v.want === 'h'){ const kf = KFNOW; bg.scale.setScalar(kf ? .8 : .9 * (1 + .07 * Math.abs(Math.sin(t * 3 + v.cx)))); const pl = bg.userData.pl; if (pl) pl.material.opacity = kf ? .4 : 1; } else if (v.want === 's') bg.scale.setScalar(.8); if (BUBS !== 1) bg.scale.multiplyScalar(BUBS); const far = cam.zoom < DEFZ() * .82; bubDot(bg, far); if (far){ bg.scale.setScalar(.42 * BUBS); bg.position.y = v.bubY - .12; } }
+  gaTick(t); try { ringPos(); oddTick(t); weedTick(t); ordTick(t); bepTick(t); vitTick(t); } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } try { tk('nong', () => nongTick(t)); tk('khap', () => khapTick(t)); tk('ho', () => hoTick(t)); tk('ong', () => ongTick(t)); tk('lo', () => loTick(t)); tk('cau', () => cauTick(t, dt)); tk('kca', () => kcaTick(t)); tk('kben', () => kbenTick()); tk('ft', () => ftTick(t)); tk('ao', () => aoTick(t)); tk('dc', () => dcTick()); tk('bu', () => buTick(t, dt)); tk('muong', () => muongTick()); tk('bo', () => boTick()); tk('say', () => sayTick(t, dt)); tk('gio', () => gioTick(t)); tk('ghe', () => gheTick(t)); tk('tb', () => tbTick(t)); tk('tre', () => treTick()); try { landTick(t); } catch (e) { if (!window.__le){ window.__le = 1; console.warn('land', e); } } try { seasonTick(t); } catch (e) { if (!window.__se){ window.__se = 1; console.warn('season', e); } } } catch (e) { if (!window.__oe) { window.__oe = 1; console.warn("odd", e); } } const KFNOW = kFull(); for (const P of PLOTS){ const v = PV[P.id]; if (!v.want) continue; const bg = v.bub[v.want]; bg.quaternion.copy(cam.quaternion); bg.position.set(v.cx, v.bubY + Math.sin(t * 2 + v.cx) * .035, v.cz); bg.scale.setScalar(.9); if (v.want === 'u') bg.scale.setScalar(.9 * (1 + .12 * Math.max(0, Math.sin(t * 6)))); else if (v.want === 'h'){ const kf = KFNOW; bg.scale.setScalar(kf ? .8 : .9 * (1 + .07 * Math.abs(Math.sin(t * 3 + v.cx)))); const pl = bg.userData.pl; if (pl) pl.material.opacity = kf ? .4 : 1; } else if (v.want === 's') bg.scale.setScalar(.8); if (BUBS !== 1) bg.scale.multiplyScalar(BUBS); const far = cam.zoom < DEFZ() * .82; bubDot(bg, far); if (far){ bg.scale.setScalar(.42 * BUBS); bg.position.y = v.bubY - .12; } }
   ctl.update(); const tg = ctl.target; tg.x = Math.max(-6.6, Math.min(11.5, tg.x)); tg.z = Math.max(-2.8, Math.min(10, tg.z));   // thấy được cả đất chưa mở
   if (r.shadowMap.enabled){ r.shadowMap.autoUpdate = QI >= 2; if (QI < 2 && (SHF = (SHF + 1) % 2) === 0) r.shadowMap.needsUpdate = true; }
-  r.render(S, cam);
+  const SAPH = []; try { if (SAP || DRAG){ for (const g of (window.__BUBALL || [])) if (g.visible){ g.visible = false; SAPH.push(g); } } if (SAP || DRAG || DROP) sapTick(); else if (SAPON) sapClear(); } catch (e) { if (!window.__sape){ window.__sape = 1; console.warn('sap', e); } }
+  r.render(S, cam); for (const g of SAPH) g.visible = true;
   // UI
   fpsN++; fpsT += dt; if (fpsT > .5){ const fe = $('#fps'); if (fe) fe.textContent = Math.round(fpsN / fpsT) + ' fps'; fpsN = 0; fpsT = 0; }
   const mn = Math.floor(HOUR * 60) % 1440; if (mn !== lastUI){ lastUI = mn; $('#tt').textContent = String(Math.floor(mn / 60)).padStart(2, '0') + ':' + String(mn % 60).padStart(2, '0'); $('#tn').textContent = PHASE(HOUR); drawSunIcon(HOUR); }
