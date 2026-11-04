@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-i2HnXqwpsLTnup99E4H9zrbguwRjXzMYZ5qfKIPzJUQ=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-ZhiVkExNB2+ioEW2r/poRqzi/VheEoz9gmR/d3gx/RE='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-i2HnXqwpsLTnup99E4H9zrbguwRjXzMYZ5qfKIPzJUQ=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-xCvVCvPLUWaYLgtMaVCFI5y+O7D0MBqIFc2Hjk53RHA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed."><meta name="theme-color" content="#F5F5F3">
 <meta property="og:type" content="website"><meta property="og:title" content="Fungii Studio · AI film, properly directed"><meta property="og:description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed.">
 <meta property="og:image" content="https://fungiistudio.com/og.jpg"><meta name="twitter:card" content="summary_large_image">
@@ -1117,7 +1117,10 @@ const STATIONS=COPY.stations.map((n,i)=>['S'+i,n]);
 const NST=STATIONS.length, ST={door:0,film:1,reel:2,craft:3,taste:4,studio:5,work:6,play:7,contact:8};
 const vhProbe=document.createElement('div');vhProbe.setAttribute('aria-hidden','true');vhProbe.style.cssText='position:absolute;left:0;top:0;width:1px;height:100vh;height:100lvh;visibility:hidden;pointer-events:none';document.body.appendChild(vhProbe);
 const IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-const VW=()=>Math.max(1,document.documentElement.clientWidth||innerWidth),VH=()=>Math.max(1,vhProbe.offsetHeight||document.documentElement.clientHeight||innerHeight);
+let _vw=0,_vh=0;const _measure=()=>{_vw=document.documentElement.clientWidth||innerWidth;_vh=vhProbe.offsetHeight||document.documentElement.clientHeight||innerHeight;};_measure();
+// perf: sizes are cached and refreshed by ResizeObserver/resize, so the frame loop never forces a layout read
+try{const ro=new ResizeObserver(_measure);ro.observe(vhProbe);ro.observe(document.documentElement);}catch(e){}addEventListener('resize',_measure);addEventListener('orientationchange',()=>setTimeout(_measure,60));
+const VW=()=>Math.max(1,_vw||innerWidth),VH=()=>Math.max(1,_vh||innerHeight);
 let W=VW(),H=VH(),mxN=0,myN=0,pX=-999,pY=-999,pSpeed=0,lastPT=0,pvx=0,pvy=0,ppx=-999,ppy=-999;
 addEventListener('pointermove',e=>{const now=performance.now(),dtp=Math.max(8,now-lastPT);pSpeed=Math.hypot(e.clientX-pX,e.clientY-pY)/dtp*1000;lastPT=now;pX=e.clientX;pY=e.clientY;mxN=e.clientX/innerWidth-.5;myN=e.clientY/innerHeight-.5;});
 const PAPER=new THREE.Color('#F5F5F3'),DARK=new THREE.Color('#1E1D23');
@@ -1135,7 +1138,7 @@ addEventListener('unhandledrejection',e=>showErr('Error: '+((e.reason&&e.reason.
 const IMGP=new Map();function prefetchImg(src){if(!src)return Promise.resolve(null);if(!IMGP.has(src))IMGP.set(src,new Promise(r=>{const im=new Image();im.decoding='async';im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src;}));return IMGP.get(src);}
 prefetchImg(COPY.reel.poster);(COPY.work.items||[]).forEach(it=>prefetchImg(it.poster));
 await fontsReady;
-const R=makeRenderer($('#world'));
+const R=makeRenderer($('#world'));if(/[?&]perf\b/.test(location.search))window.__fg={get R(){return R;},get scene(){return scene;}};
 // iOS caps total canvas memory: once a static canvas texture is on the GPU, drop its canvas
 function freeTex(){const q=window.__texQ||[];const keep=[];while(q.length){const t=q.shift();if(t.userData&&t.userData.pending){keep.push(t);continue;}const c=t.image;if(!c||!c.getContext)continue;if(t.userData&&t.userData.keep){keep.push(t);continue;}try{R.initTexture(t);}catch(e){keep.push(t);continue;}t.image={width:c.width,height:c.height};c.width=c.height=1;}q.push(...keep);}
 const CSSR=new CSS3DRenderer();CSSR.domElement.id='css3d';document.getElementById('stage').insertBefore(CSSR.domElement,document.getElementById('hits'));
@@ -1150,11 +1153,13 @@ async function svgTex(svg,px,now){px=px||1024;if(MOBILE)px=Math.round(px*.75);co
   if(!b){const c=await rasterSticker(svg,px);if(!c)return null;const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;t.userData={w:c.width,h:c.height};(window.__texQ=window.__texQ||[]).push(t);return t;}
   const t=new THREE.Texture();t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;t.userData={w:px,h:Math.ceil(b.h*px/b.w),pending:true};
   t.userData.ready=new Promise(res=>LAZY.push({t,svg,px,res,st:LZ_ST}));(window.__texQ=window.__texQ||[]).push(t);return t;}
-async function drainLazy(){if(lazyOn)return;lazyOn=true;let n=0;
+async function drainLazy(){if(lazyOn)return;lazyOn=true;
   const pick=()=>{let bi=0;const cur=isFinite(Ts)?Ts:0;let bc=1e9;LAZY.forEach((q,k)=>{const c=Math.abs(q.st-cur)-(q.st>=cur?.3:0)+k*1e-4;if(c<bc){bc=c;bi=k;}});return LAZY.splice(bi,1)[0];};
-  while(LAZY.length){const batch=[];while(batch.length<3&&LAZY.length)batch.push(pick());
-    await Promise.all(batch.map(async j=>{let c=null;try{c=await rasterSticker(j.svg,j.px);}catch(e){}const t=j.t;if(c){t.image=c;t.needsUpdate=true;}t.userData.pending=false;j.res(t);}));
-    n+=batch.length;if(n%12<3)freeTex();await new Promise(r=>setTimeout(r,0));}
+  // perf: rasterising + uploading a sticker costs 30-60ms; never do it mid-flight (that is what made the moves stutter)
+  const moving=()=>!!tween||Math.abs(scrollY/STEP-Ts)>.003||performance.now()/1000-lastUserScroll<.35||(CF&&Math.abs(CF.target-CF.pos)>.01);
+  const calm=()=>new Promise(res=>{const go=()=>{if(document.hidden||moving()){setTimeout(go,140);return;}if(window.requestIdleCallback)requestIdleCallback(()=>moving()?setTimeout(go,140):res(),{timeout:400});else setTimeout(res,30);};go();});
+  while(LAZY.length){await calm();const j=pick();let c=null;try{c=await rasterSticker(j.svg,j.px);}catch(e){}const t=j.t;if(c){t.image=c;t.needsUpdate=true;}t.userData.pending=false;j.res(t);
+    await new Promise(r=>requestAnimationFrame(()=>r()));freeTex();}
   lazyOn=false;freeTex();}
 function alphaBottom(c){const x=c.getContext('2d'),w=c.width,h=c.height,d=x.getImageData(0,0,w,h).data;for(let y=h-1;y>0;y--){for(let i=0;i<w;i+=2)if(d[(y*w+i)*4+3]>128)return (y+1)/h;}return 1;}
 function card(tex,h){const w=h*tex.userData.w/tex.userData.h;const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),basic(tex));m.userData.w=w;m.userData.h=h;return m;}
@@ -1246,7 +1251,7 @@ function faceYaw(obj,target){obj.rotation.set(0,Math.atan2(target.x-obj.position
 const floorM=(()=>{const tiles=canvasTex(512,512,(x,w,h)=>{x.fillStyle='#F7F7F5';x.fillRect(0,0,w,h);x.fillStyle='#CFD3D6';for(let i=0;i<=8;i++){x.fillRect(i*64-1,0,3,h);x.fillRect(0,i*64-1,w,3);}},true);tiles.repeat.set(70,70);
   const m=new THREE.MeshStandardMaterial({map:tiles,roughness:.35});const f=new THREE.Mesh(new THREE.PlaneGeometry(40000,40000),m);f.rotation.x=-Math.PI/2;f.position.set(-500,FLOOR-1,-14000);scene.add(f);return m;})();
 
-/* =========================================================
+performance.mark('fg:S0');/* =========================================================
    S0 · THE DOOR — a full-screen shop window of small glass panes.
    The logo is painted (opaque) on the panes, the mullions cut it into pieces.
    Every pane can swing; the cursor brushes them; one of them is the door.
@@ -1299,7 +1304,7 @@ function paneHover(){if(!panes.length)return;ndc.set(pX/W*2-1,-(pY/H)*2+1);ray.s
   if(p&&p!==hoverPane){const sg=(pvx>=0?1:-1)*(p.i%2?1:-1)*(Math.abs(pvx)>Math.abs(pvy)?1:(pvy>0?1:-1));p.vel+=sg*(3+Math.min(26,pSpeed/140));Snd.tick();
     panes.forEach(q=>{if(q===p)return;const d=Math.abs(q.i-p.i)+Math.abs(q.j-p.j);if(d===1)q.vel+=sg*Math.min(9,pSpeed/420);});}hoverPane=p;}
 
-/* =========================================================
+performance.mark('fg:S1');/* =========================================================
    S1 · ARES' STUDIO — a paper diorama far behind the glass; a vortex of notes around him
    ========================================================= */
 const G1=new THREE.Group();scene.add(G1);
@@ -1325,7 +1330,7 @@ const bubA=makeBubble(COPY.s1.bubbles,G1,190,'l');
  $('#s1title').innerHTML='<div>'+esc(COPY.s1.line1)+'</div><div class="prop">'+[...COPY.s1.line2].map((ch,i)=>'<span class="'+P1[i%8][0]+'" style="font-size:'+P1[i%8][1]+'em">'+esc(ch)+'</span>').join('')+'</div><div>'+esc(COPY.s1.line3)+'</div>';}
 
 freeTex();
-/* =========================================================
+performance.mark('fg:S2');/* =========================================================
    S2 · THE SCREEN — the reel plays; click to watch with sound; a sticker shortcuts to Work
    ========================================================= */
 const screen=new THREE.Group();scene.add(screen);
@@ -1346,7 +1351,7 @@ const reelWrap=document.createElement('div');reelWrap.className='reelWrap';reelV
 reelWrap.insertAdjacentHTML('beforeend','<button type="button" class="rw-play" aria-label="Watch the showreel with sound">'+dieCut('<circle cx="70" cy="70" r="60"/>','#FF55BB','<path d="M55 42 L102 70 L55 98 Z" fill="#FBFBF8" stroke="#111" stroke-width="5" stroke-linejoin="round"/>','0 0 140 140','pl2')+'</button><div class="rw-reel">'+STK.reel+'</div><button type="button" class="rw-more" aria-label="'+esc(COPY.reel.more)+'">'+moreSvg+'</button>');
 const reelObj=new CSS3DObject(reelWrap);reelObj.position.z=1.5;if(IOS){reelVid.style.cssText='position:fixed;left:0;top:0;width:2px;height:2px;opacity:.01;pointer-events:none';$('#vids').appendChild(reelVid);reelWrap.style.display='none';screenM.colorWrite=true;[reelStk,moreStk,playStk].forEach(m=>{m.material.visible=true;});}else screen.add(reelObj);
 
-/* =========================================================
+performance.mark('fg:S3');/* =========================================================
    S3 · NÙ'S CORNER + the seven craft stickers
    ========================================================= */
 const G3=new THREE.Group();scene.add(G3);
@@ -1365,7 +1370,7 @@ const PILE_AT=[[.2,-.56,-8],[.36,-.62,6],[.52,-.55,-5],[.26,-.74,4],[.44,-.78,-7
 const craftA=[],craftB=[];
 
 freeTex();
-/* =========================================================
+performance.mark('fg:S4');/* =========================================================
    S4 · TASTE — the salt shaker (follows the cursor, shake it with a click)
    ========================================================= */
 const shaker=(()=>{const spin=new THREE.Group();scene.add(spin);const TILT=2.28;const tilt=new THREE.Group();tilt.rotation.z=TILT;spin.add(tilt);const body=new THREE.Group();body.position.y=-160;tilt.add(body);
@@ -1436,7 +1441,7 @@ const withTaste=(()=>{const t=mixedTitle([[[COPY.taste.with,PXf,.2,'#FF55BB']],c
   const m=new THREE.Mesh(new THREE.PlaneGeometry(t.userData.w,t.userData.h),basic(t,{alphaTest:.3}));m.userData.w=t.userData.w;scene.add(m);return m;})();
 
 freeTex();
-/* =========================================================
+performance.mark('fg:S5');/* =========================================================
    S5 · THE OPEN HEADS — 3/4, skull cut away, a tiny Ares / Nù working inside the pile of notes
    ========================================================= */
 const HS5=5.2;
@@ -1469,7 +1474,7 @@ const headA=await buildOpenHead('A'),headN=await buildOpenHead('N');scene.add(he
 const seqTA=[0,0,0,11,11,0,7,7,8,8,0,0],seqTN=[0,1,2,3,0,1,2,3,9,9];
 
 freeTex();
-/* =========================================================
+performance.mark('fg:S6');/* =========================================================
    S6 · WORK — big polaroids floating in the middle of the space
    ========================================================= */
 const WORK_ALL=COPY.work.items,WORK=WORK_ALL.filter(it=>it.featured!==false);
@@ -1510,7 +1515,7 @@ const blobs=[];['#F2FFA0','#FFB8B0','#6EE8FF','#2BD1B0','#FF55BB'].forEach((c,k)
   const m=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:t,transparent:true,opacity:.5,depthWrite:false,toneMapped:false,fog:false}));scene.add(m);blobs.push(m);});
 
 freeTex();
-/* =========================================================
+performance.mark('fg:S7');/* =========================================================
    S7 · PLAYGROUND — Fungii's product concepts, on a stand you can turn
    (VIVERA: the eyewear from vivera/index.html, rebuilt for this scene)
    ========================================================= */
@@ -1647,7 +1652,7 @@ function showPlay(i){const S=PSLOTS[i];if(!S)return;const prev=PSLOTS[PLI];if(pr
   if(document.getElementById('playLay'))fillPlay(S.it);}
 const playGo=d=>{if(PSLOTS.length<2)return;PF.target=clamp(Math.round(PF.target)+d,0,PSLOTS.length-1);Snd.tick();};
 
-/* =========================================================
+performance.mark('fg:S8');/* =========================================================
    S8 · THE NYLON BAG — contact, packaged
    ========================================================= */
 const bag=new THREE.Group();scene.add(bag);const pz0=m=>m.userData.z0||0;
@@ -1844,10 +1849,10 @@ const navBtns=[...document.querySelectorAll('#nav button')];
 // grain modes: A = print grain · C = fine overlay · tinted riso grains · Blackout
 (function(){const tile=(col,dens,alpha)=>{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d'),d=x.createImageData(180,180);const rgb=col?[1,3,5].map(k=>parseInt(col.slice(k,k+2),16)):null;
     for(let i=0;i<d.data.length;i+=4){const on=Math.random()<dens;if(rgb){d.data[i]=rgb[0];d.data[i+1]=rgb[1];d.data[i+2]=rgb[2];}else{const v=Math.random()*255|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;}d.data[i+3]=on?alpha:0;}x.putImageData(d,0,0);return 'url('+c.toDataURL()+')';};
-  const MODES=[{k:'a',n:'A'},{k:'warm',n:'B',bg:tile('#B5B0AA',.4,170),blend:'multiply',op:.5},{k:'pink',n:'Pink',bg:tile('#FF55BB',.28,150),blend:'multiply',op:.4},{k:'blue',n:'Blue',bg:tile('#0096E8',.28,150),blend:'multiply',op:.35},
+  const MODES=[{k:'a',n:'A'},{k:'warm',n:'B',mk:()=>tile('#B5B0AA',.4,170),blend:'multiply',op:.5},{k:'pink',n:'Pink',mk:()=>tile('#FF55BB',.28,150),blend:'multiply',op:.4},{k:'blue',n:'Blue',mk:()=>tile('#0096E8',.28,150),blend:'multiply',op:.35},
     {k:'none',n:'off',off:true}];
   const g=$('#grain'),b=$('#grainBtn');const DEF=MODES.findIndex(q=>q.k===(COPY.grainDefault||'none'));let m=Math.max(0,DEF);try{const k=localStorage.getItem('fg-grain2');const i=MODES.findIndex(q=>q.k===k);if(i>=0)m=i;}catch(e){}
-  const set=()=>{const M=MODES[m];g.className=M.off?'g-b':M.k==='a'?'g-a':'g-t';g.style.backgroundImage=M.bg||'';g.style.mixBlendMode=M.blend||'';g.style.opacity=M.op!=null?M.op:'';b.textContent=M.off?'No grain':'Grain '+M.n;try{localStorage.setItem('fg-grain2',M.k);}catch(e){}};set();
+  const set=()=>{const M=MODES[m];if(M.mk&&!M.bg)M.bg=M.mk();g.className=M.off?'g-b':M.k==='a'?'g-a':'g-t';g.style.backgroundImage=M.bg||'';g.style.mixBlendMode=M.blend||'';g.style.opacity=M.op!=null?M.op:'';b.textContent=M.off?'No grain':'Grain '+M.n;try{localStorage.setItem('fg-grain2',M.k);}catch(e){}};set();
   b.addEventListener('click',()=>{m=(m+1)%MODES.length;set();});})();
 // click targets that follow 3D objects
 const hits=[];function hit(label,obj,fn,when){const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',label);b.hidden=true;$('#hits').appendChild(b);b.addEventListener('click',fn);const H={b,obj,when};hits.push(H);return H;}
@@ -2019,8 +2024,25 @@ const HASH_ST={'#reel':2,'#work':6,'#client':6,'#originals':6,'#play':7,'#playgr
 const HASH_TAB={'#client':'client','#originals':'orig'};
 {const i=HASH_ST[location.hash];if(i!==undefined){scrollTo(0,i*STEP);Ts=i;lastY=scrollY;}if(HASH_TAB[location.hash])setWorkTab(HASH_TAB[location.hash]);}
 addEventListener('hashchange',()=>{const i=HASH_ST[location.hash];if(i!==undefined)jump(i);if(HASH_TAB[location.hash])setWorkTab(HASH_TAB[location.hash]);});
-$('#loading').hidden=true;setTimeout(drainLazy,60);
+performance.mark('fg:built');const warm=warmGPU();$('#loading').hidden=true;performance.mark('fg:shown');warm.then(()=>{performance.mark('fg:warm');setTimeout(drainLazy,60);});
 
+
+/* ---- perf: compile every shader (screen + transmission-pass variants) while the visitor is still at the door ---- */
+async function warmGPU(){
+  const hid=[];scene.traverse(o=>{if(!o.visible){hid.push(o);o.visible=true;}});
+  const jobs=[];let rt=null;const tm=R.toneMapping;
+  try{jobs.push(R.compileAsync(scene,cam));
+    // objects seen through glass are drawn again into the transmission buffer, without tone mapping: compile that variant too
+    rt=new THREE.WebGLRenderTarget(4,4,{type:THREE.HalfFloatType});R.setRenderTarget(rt);R.toneMapping=THREE.NoToneMapping;jobs.push(R.compileAsync(scene,cam));}
+  catch(e){}finally{R.toneMapping=tm;R.setRenderTarget(null);hid.forEach(o=>{o.visible=false;});}
+  // transmissive double-sided glass is also drawn back-face-only into that buffer
+  try{rt=rt||new THREE.WebGLRenderTarget(4,4,{type:THREE.HalfFloatType});const back=[];scene.traverse(o=>{[].concat(o.material||[]).forEach(m=>{if(m&&m.transmission>0&&m.side===THREE.DoubleSide&&!back.includes(m))back.push(m);});});
+    if(back.length){hid.forEach(o=>{o.visible=true;});R.setRenderTarget(rt);back.forEach(m=>{m.side=THREE.BackSide;m.needsUpdate=true;});try{jobs.push(R.compileAsync(scene,cam));}finally{back.forEach(m=>{m.side=THREE.DoubleSide;m.needsUpdate=true;});R.setRenderTarget(null);hid.forEach(o=>{o.visible=false;});}}}catch(e){}
+  await Promise.race([Promise.all(jobs).catch(()=>null),new Promise(r=>setTimeout(r,6000))]);if(rt)rt.dispose();
+  // image textures (posters, key art) upload one per idle slot instead of the frame a station first appears
+  const tx=new Set();scene.traverse(o=>{const ms=o.material?[].concat(o.material):[];ms.forEach(m=>{for(const k in m){const v=m[k];if(v&&v.isTexture&&!v.isVideoTexture&&!v.isRenderTargetTexture&&!v.isCanvasTexture&&v.image&&!(v.userData&&v.userData.pending))tx.add(v);}});});
+  for(const t of tx){await new Promise(r=>window.requestIdleCallback?requestIdleCallback(r,{timeout:500}):setTimeout(r,30));try{R.initTexture(t);}catch(e){}}
+}
 /* =========================================================
    LOOP
    ========================================================= */
@@ -2124,9 +2146,19 @@ function frameBody(now){
   const st=Math.abs(Ts-rs)<.03?rs:-1;
   if(st!==-1&&st!==prevSt){prevSt=st;if(st>0)Snd.arp(st%2===1);if(st===5)Snd.pop();}
   if(st===-1&&Math.abs(Ts-rs)>.2)prevSt=-1;
+  govern(rdt);
   R.render(scene,cam);
   CSSR.render(scene,cam);trackHits();tasteTag();
 }
+/* ---- perf: if frames run long for a while, render fewer pixels (retina only); climb back when there is headroom ---- */
+const PR_MAX=Math.min(devicePixelRatio||1,2),PR_MIN=Math.max(1,PR_MAX*.6);let prCur=PR_MAX;const GOV={d:[],t:0,good:0,hold:0};
+function setPR(v){prCur=v;R.setPixelRatio(v);R.transmissionResolutionScale=v>=1.5?.5:.7;if(dots&&dots.material.uniforms.uPx)dots.material.uniforms.uPx.value=2*v;}
+setPR(PR_MAX);
+function govern(rdt){if(document.hidden||rdt<=0||rdt>.25)return;GOV.d.push(rdt);GOV.t+=rdt;if(GOV.t<1)return;
+  const s=GOV.d.sort((a,b)=>a-b),n9=Math.max(1,Math.floor(s.length*.9));let sum=0;for(let i=0;i<n9;i++)sum+=s[i];const med=sum/n9,p80=s[Math.floor(s.length*.8)];GOV.d.length=0;GOV.t=0;if(GOV.hold>0){GOV.hold--;return;}
+  if(med>1/42&&prCur>PR_MIN){setPR(Math.max(PR_MIN,+(prCur-.25).toFixed(2)));GOV.good=0;GOV.hold=1;}
+  else if(p80<1/56&&prCur<PR_MAX){if(++GOV.good>=4){setPR(Math.min(PR_MAX,+(prCur+.25).toFixed(2)));GOV.good=0;GOV.hold=2;}}
+  else GOV.good=0;}
 freeTex();setTimeout(freeTex,4000);requestAnimationFrame(frame);
 
 </script>
