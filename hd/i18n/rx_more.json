@@ -1,5 +1,21 @@
 [
  [
+  "^Mua (\\d+) bao · (\\d+) xu$",
+  "Buy $1 bag · $2 coins"
+ ],
+ [
+  "^\\+ (\\d+) xu$",
+  "+ $1 coins"
+ ],
+ [
+  "^(\\d+)p$",
+  "$1m"
+ ],
+ [
+  "^([\\d,]+)h$",
+  "$1h"
+ ],
+ [
   "nghe nói vườn mình mới có, đem ra chợ nổi bán thử",
   "heard our garden has something new; trying it at the floating market"
  ],
