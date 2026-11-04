@@ -19,7 +19,7 @@ rep("ST.inv[p.crop] = (ST.inv[p.crop] || 0) + n; p.stolen = 0; if (!c.tree){",
     "ST.inv[p.crop] = (ST.inv[p.crop] || 0) + n; p.stolen = 0; if (!c.tree && ownObj('ho') && hoRoom()){ hoAdd(1); const v1 = PV[id]; setTimeout(() => floatAt(v1.cx, .45, v1.cz, '+1 gốc rau vô hố ủ', '#D9B77A'), 1100); setTimeout(() => sayOnce('gocrau', 'Gốc rễ với lá già hái ra Ngoại bỏ vô hố ủ hết, đủ đồ là ủ ra phân bón lại cho đất.', 'vui'), 1600); } if (!c.tree){")
 # bong bóng hố ủ khi có phân chuồng chờ hốt
 rep("  if (H.bags) objBub(HOV, v, ICON.phan, t); }",
-    "  if (H.bags) objBub(HOV, v, ICON.phan, t); else if (hoRoom() && phanCh() >= 1) objBub(HOV, v, ICON.mai, t); }")
+    "  if (H.bags) objBub(HOV, v, ICON.phan, t); else if (hoRoom() && phanCh() >= 1) objBub(HOV, v, ICON.mai, t); else if (H.t > 0) objBub(HOV, v, ICON.ho, t, .62, 1 - H.t / (H.done ? HO.t : HO.first)); }")   # đang ủ: bong bóng có thanh
 rep("UX.btn('hophan', 'Hốt phân chuồng', { img: ICON.phan,", "UX.btn('hophan', 'Hốt phân chuồng', { g: !H.bags && phanCh() >= 1 && hoRoom(), img: ICON.phan,")
 # bảng: ba nguồn
 rep("else h += UX.hero(ICON.ho, `Cần thêm ${Math.max(0, HO.need - H.mat)} phần đồ ủ`, 'Quét lá, vớt lục bình, hốt phân chuồng gà vịt bỏ vô hố', H.mat ? '' : 'warn');",
