@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ik33OgaqnJMsTEsVi42yO7DCmh9Z4gnWXxeR1b5AS3s=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-+xRHr9DiCtJee8P6DIm2lKzGMP7nCFJaGVQ+3Ekk8n0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ej6aLUE6s9/2t+rPcBwFWaCpWVjbwCQldzNdbdlok6k=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-CrJLeTUn3qzqx93sAJjcg7Mtv3qPFw6fsLgQNEE9ZTc='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed."><meta name="theme-color" content="#F5F5F3">
 <meta property="og:type" content="website"><meta property="og:title" content="Fungii Studio · AI film, properly directed"><meta property="og:description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed.">
 <meta property="og:image" content="https://fungiistudio.com/og.jpg"><meta name="twitter:card" content="summary_large_image">
@@ -825,12 +825,12 @@ window.COPY = {
         note: 'Made by Fungii · free to use',
         backLogo: 'shotlab/logo.png', backKick: 'FUNGII LAB · CAMERA LANGUAGE', backColor: '#F5F5F3', backStripe: true,
         site: 'shotlab/' },
-      { id: 'mietvuon', name: 'MIỆT VƯỜN 2.0', year: '2026', model: 'none',
+      { id: 'mietvuon', name: 'MIỆT VƯỜN 2.0', year: '2026', model: 'house',
         line: 'Go home to the Mekong. Keep a garden with Grandma.',
         about: 'A cosy browser game set in a Mekong Delta garden. Plant, compost, pickle, and trade with the neighbours and the boats that drift by, to a đàn tranh soundtrack. Plays on phone and desktop.',
         tags: ['Game', 'Web', 'Free'],
         note: 'Made by Fungii · free to play',
-        backdrop: 'mietvuon2/og.jpg',
+        backdrop: 'media/mietvuon-card.jpg',
         site: 'mietvuon2/' }
     ]
   },
@@ -1636,7 +1636,24 @@ const TOYP=(()=>{const T=THREE,mats={};
     st.blink-=dt;const bl=st.blink<.12?.12:1;eyes.forEach(e=>e.scale.y=1.25*bl);if(st.blink<0)st.blink=2+Math.random()*3;}
   function shake(){st.vh+=3.4;st.vt+=(Math.random()<.5?-1:1)*2.2;st.wave=1;GLS.vy+=(Math.random()<.5?-1:1)*.8;GLS.idle=0;}
   return {pivot,step,shake,W:3.6};})();
-const PMODELS={glasses:VIV,toy:TOYP};
+// Miệt Vườn 2.0: Ngoại's house exported from the game itself (flat-shaded, colours in the vertices) on a patch of grass
+const HOUSEP=(()=>{const T=THREE;const mat=new T.MeshStandardMaterial({vertexColors:true,flatShading:true,roughness:.92,metalness:0,envMapIntensity:.9});
+  const g0=new T.BufferGeometry();g0.setAttribute('position',new T.BufferAttribute(new Float32Array(9),3));g0.setAttribute('color',new T.BufferAttribute(new Float32Array(9),3));
+  const mesh=new T.Mesh(g0,mat),SC=1.32;mesh.scale.setScalar(SC);mesh.position.y=-1.1;const body=new T.Group();body.add(mesh);const pivot=new T.Group();pivot.add(body);
+  fetch('media/mietvuon-house.bin').then(r=>r.ok?r.arrayBuffer():null).then(buf=>{if(!buf)return;const n=new DataView(buf).getUint32(0,true),q=new Int16Array(buf,4,n),c=new Uint8Array(buf,4+n*2,n);
+    const pos=new Float32Array(n),col=new Float32Array(n);for(let i=0;i<n;i++)pos[i]=q[i]/8000;
+    // the game is lit by a hard sun; here only the soft studio light falls on it, so lift saturation a touch to keep the greens green
+    for(let i=0;i<n;i+=3){const r=c[i]/255,g=c[i+1]/255,b=c[i+2]/255,l=.2126*r+.7152*g+.0722*b,k=1.3;col[i]=Math.max(0,l+(r-l)*k)*.92;col[i+1]=Math.max(0,l+(g-l)*k)*.92;col[i+2]=Math.max(0,l+(b-l)*k)*.92;}
+    const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(pos,3));g.setAttribute('color',new T.BufferAttribute(col,3));g.computeVertexNormals();g.computeBoundingSphere();mesh.geometry=g;g0.dispose();}).catch(()=>{});
+  const st={hop:0,vh:0,sq:0,vs:0};
+  function step(dt){const G=GLS;G.t+=dt;G.idle+=dt;
+    if(!G.drag){G.ry+=G.vy*dt;G.rx+=G.vx*dt;const f=Math.exp(-dt*2.6);G.vy*=f;G.vx*=f;if(G.idle>2.5&&!REDUCE)G.ry+=dt*.22;G.rx+=(.2-G.rx)*Math.min(1,dt*.8)*(G.idle>2.5?1:0);}
+    G.rx=clamp(G.rx,-.7,.7);pivot.rotation.set(G.rx,G.ry,0);
+    st.vh+=(-st.hop*60-st.vh*6)*dt;st.hop=Math.max(0,st.hop+st.vh*dt);if(st.hop===0&&st.vh<0)st.vh=0;
+    st.vs+=(-st.sq*120-st.vs*8)*dt;st.sq+=st.vs*dt;body.position.y=st.hop;body.scale.set(1+st.sq*.4,1-st.sq,1+st.sq*.4);}
+  function shake(){st.vh+=2.4;st.vs+=1.6;GLS.vy+=(Math.random()<.5?-1:1)*.8;GLS.idle=0;}
+  return {pivot,step,shake,W:3.6};})();
+const PMODELS={glasses:VIV,toy:TOYP,house:HOUSEP};
 function fillPlay(it){const P=COPY.play||{};
   $('#playInfo h3').textContent=it.name;$('#playInfo .line').textContent=it.line||'';$('#playInfo .about').textContent=it.about||'';$('#playInfo .pnote').textContent=it.note||'';
   $('#playInfo .tags').innerHTML=(it.tags||[]).map((t,k)=>'<span style="background:'+TAGC[k%TAGC.length]+'">'+esc(t)+'</span>').join('');
