@@ -1,0 +1,262 @@
+[
+ [
+  "^Today · (thứ \\w+|Chủ nhật)$",
+  "Today"
+ ],
+ [
+  "^Place the lò sấy$",
+  "Place the drying oven"
+ ],
+ [
+  "^Mỗi lu sành chứa thêm (\\d+) món\\. Kho đầy thì hái không được\\.$",
+  "Each clay jar holds $1 more items. When storage is full you can't harvest."
+ ],
+ [
+  "^Có (\\d+) bao$",
+  "$1 bags"
+ ],
+ [
+  "^Sổ cá · đã câu (\\d+)/(\\d+) loài$",
+  "Fish book · $1/$2 kinds caught"
+ ],
+ [
+  "^Cá mé lục bình (\\d+)/(\\d+)$",
+  "Hyacinth-edge fish $1/$2"
+ ],
+ [
+  "^Cá giữa sông (\\d+)/(\\d+)$",
+  "Mid-river fish $1/$2"
+ ],
+ [
+  "^Cá ăn đêm (\\d+)/(\\d+)$",
+  "Night fish $1/$2"
+ ],
+ [
+  "^Câu được (\\d+) · lớn nhất (.+)$",
+  "Caught $1 · biggest $2"
+ ],
+ [
+  "^(\\d+) gam$",
+  "$1 g"
+ ],
+ [
+  "^([\\d,]+) ký$",
+  "$1 kg"
+ ],
+ [
+  "^(mé lục bình|gần bến|giữa sông) · (.+)$",
+  "$1 · $2"
+ ],
+ [
+  "^Sổ cổ tích · (\\d+)/(\\d+) cây$",
+  "Folk-tale book · $1/$2 trees"
+ ],
+ [
+  "^Kho (\\d+)/(\\d+) chỗ$",
+  "Storage $1/$2"
+ ],
+ [
+  "^Bán hết được chừng (\\d+) xu$",
+  "Selling everything ≈ $1 coins"
+ ],
+ [
+  "^Kho có (\\d+) món$",
+  "Storage has $1 items"
+ ],
+ [
+  "^Bán cả kho · \\+(\\d+) xu$",
+  "Sell everything · +$1 coins"
+ ],
+ [
+  "^còn (\\d+) (.+) nữa thì hạ giá$",
+  "price drops after $1 more"
+ ],
+ [
+  "^Có (\\d+) trứng chờ lượm$",
+  "$1 eggs to collect"
+ ],
+ [
+  "^Trứng kế tiếp chừng (.+)$",
+  "Next egg in about $1"
+ ],
+ [
+  "^Máng ăn · đủ (.+)$",
+  "Trough · lasts $1"
+ ],
+ [
+  "^Đàn · (\\d+)/(\\d+) chỗ$",
+  "Flock · $1/$2 slots"
+ ],
+ [
+  "^Lượm (\\d+) trứng$",
+  "Collect $1 eggs"
+ ],
+ [
+  "^mua cám (\\d+) xu/phần$",
+  "buy feed $1 coins/portion"
+ ],
+ [
+  "^(\\d+)/(\\d+) chỗ$",
+  "$1/$2 slots"
+ ],
+ [
+  "^Chuồng (\\d+) con$",
+  "Coop for $1"
+ ],
+ [
+  "^Để (\\d+) trứng cho gà ấp$",
+  "Leave $1 eggs to hatch"
+ ],
+ [
+  "^ổ tối đa (\\d+) trứng · nở sau (.+)$",
+  "nest up to $1 eggs · hatches in $2"
+ ],
+ [
+  "^Máng còn thức ăn thì mỗi gà mái đẻ một trứng, chừng (\\d+) tiếng một lần\\.$",
+  "While there's feed, each hen lays an egg about every $1 hours."
+ ],
+ [
+  "^Một trái bắp trong kho đổ được (\\d+) phần máng\\. Hết bắp thì mua cám, (\\d+) xu một phần\\.$",
+  "One ear of corn fills $1 portions of the trough. Out of corn, buy feed at $2 coins a portion."
+ ],
+ [
+  "^đủ chừng (.+)$",
+  "lasts about $1"
+ ],
+ [
+  "^(\\d+) vịt mái$",
+  "$1 ducks"
+ ],
+ [
+  "^· chuồng (\\d+)/(\\d+) chỗ$",
+  "· pen $1/$2"
+ ],
+ [
+  "^Vịt đẻ mỗi (\\d+) tiếng một trứng nếu máng còn thức ăn\\.$",
+  "Ducks lay an egg every $1 hours while there's feed."
+ ],
+ [
+  "^(\\d+) nong đang trống$",
+  "$1 trays empty"
+ ],
+ [
+  "^chỗ · đồ khô cất ở đây$",
+  "slots · dried goods go here"
+ ],
+ [
+  "^Khạp (\\d+)$",
+  "Jar $1"
+ ],
+ [
+  "^Cần thêm (\\d+) phần đồ ủ$",
+  "$1 more portions needed"
+ ],
+ [
+  "^Phân chuồng · (\\d+) phần/6 giờ$",
+  "Manure · $1 per 6 hours"
+ ],
+ [
+  "^Hái rau thì gốc rễ.*$",
+  "Harvesting adds roots and old leaves (+1). Every three chickens or ducks make 1 portion of manure every six hours; tap Collect manure. Sweeping fallen leaves adds +2. When it's full Grandma composts it into a bag a day. Beds planted over and over get tired soil and yield less; one bag of fertilizer adds about one bunch next harvest."
+ ],
+ [
+  "^Liếp trong · ô (\\d+)$",
+  "Inner bed · plot $1"
+ ],
+ [
+  "^Phủ rơm · còn (\\d+)$",
+  "Mulch · $1 left"
+ ],
+ [
+  "^(\\d+) (giờ|tiếng)( (\\d+) phút)?$",
+  "$1 h$3"
+ ],
+ [
+  "^(\\d+) phút$",
+  "$1 min"
+ ],
+ [
+  "^(\\d+) h (\\d+) phút$",
+  "$1 h $2 min"
+ ],
+ [
+  "(\\d+) giờ (\\d+) phút",
+  "$1 h $2 min"
+ ],
+ [
+  "(\\d+) (giờ|tiếng)",
+  "$1 h"
+ ],
+ [
+  "(\\d+) phút",
+  "$1 min"
+ ],
+ [
+  "mồi trùn",
+  "worm bait"
+ ],
+ [
+  "mồi cơm nguội",
+  "rice bait"
+ ],
+ [
+  "mồi tép",
+  "shrimp bait"
+ ],
+ [
+  "mồi ốc",
+  "snail bait"
+ ],
+ [
+  "mé lục bình",
+  "by the hyacinth"
+ ],
+ [
+  "gần bến",
+  "near the pier"
+ ],
+ [
+  "giữa sông",
+  "mid-river"
+ ],
+ [
+  "chờ mùa nước nổi",
+  "flood season only"
+ ],
+ [
+  " · cả ngày",
+  " · all day"
+ ],
+ [
+  " · sáng",
+  " · morning"
+ ],
+ [
+  " · trưa",
+  " · noon"
+ ],
+ [
+  " · chiều",
+  " · afternoon"
+ ],
+ [
+  " · đêm",
+  " · night"
+ ],
+ [
+  "^Today · .*$",
+  "Today"
+ ],
+ [
+  "lò sấy",
+  "drying oven"
+ ],
+ [
+  "^Đang có ([\\d.]+) xu$",
+  "You have $1 coins"
+ ],
+ [
+  "^Kho (\\d+)/(\\d+) · thêm (\\d+) chỗ$",
+  "Storage $1/$2 · +$3 slots"
+ ]
+]
