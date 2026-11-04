@@ -1,0 +1,18 @@
+/* Tab Sổ làm lại (bản mẫu chờ duyệt): ba tab bằng nhau, luôn có icon + chữ mực nâu, tab đang mở cao hơn và liền trang, tab khác lùi ra sau */
+.bkt{color:#3E2718!important;text-shadow:none!important;font-family:var(--f-game)!important;line-height:1.05!important;box-shadow:inset 0 -5px 0 rgba(0,0,0,.10),0 -1px 0 rgba(255,255,255,.35) inset!important}
+.bkt img{filter:none!important}
+.bkt span,.bkt.off span{display:block!important;font-size:inherit!important}
+.bkt.off{filter:saturate(.55) brightness(.96)}
+.bkt.on{z-index:2}
+@media (max-width:760px){
+  .bktabs{left:14px!important;right:58px!important;gap:5px!important;top:auto!important;bottom:calc(100% - 10px)!important;align-items:flex-end!important}
+  .bkt,.bkt.on,.bkt.off{flex:1 1 0!important;width:auto!important;min-width:0!important;flex-direction:row!important;gap:6px!important;padding:0 6px 10px!important;border-radius:14px 14px 0 0!important;font-size:14px!important}
+  .bkt.on{height:60px!important}.bkt.off{height:52px!important}
+  .bkt img,.bkt.on img,.bkt.off img{width:30px!important;height:30px!important;flex:none}
+}
+@media (min-width:761px){
+  .bktabs{gap:6px!important}
+  .bkt,.bkt.on,.bkt.off{width:96px!important;height:84px!important;flex-direction:column!important;gap:4px!important;padding:6px 6px 6px 14px!important;border-radius:0 18px 18px 0!important;font-size:13px!important}
+  .bkt.off{transform:translateX(-8px)}
+  .bkt img,.bkt.on img,.bkt.off img{width:40px!important;height:40px!important}
+}
