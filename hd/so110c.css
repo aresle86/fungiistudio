@@ -1,0 +1,58 @@
+
+:root{--k:#4A2F1E;--pap:#FFF8EA;--ink2:#8A5D3B}
+/* tab: thẻ đánh dấu sách thò mép, icon + một chữ, màu khu; tab mở to hơn, liền trang */
+.bktabs{gap:8px!important}
+.bkt{border:2px solid var(--k)!important;box-shadow:0 3px 0 var(--k)!important;text-shadow:none!important;color:var(--k)!important;font:400 14px/1 var(--f-game)!important;filter:none!important;padding:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important}
+.bkt img{filter:none!important;width:36px!important;height:36px!important;margin:0!important}
+.bkt span{display:block!important;font-size:13px!important}
+.bkt.off{opacity:1!important;filter:saturate(.55) brightness(1.08)!important}
+.bkt[data-k="viec"]{background:#F6B49F!important}.bkt[data-k="kho"]{background:#F5D27A!important}.bkt[data-k="giong"]{background:#B9D79F!important}
+@media (min-width:561px){
+ .bktabs{left:calc(100% - 4px)!important;right:auto!important;top:40px!important;bottom:auto!important;flex-direction:column!important;align-items:flex-start!important}
+ .bkt{border-radius:0 12px 12px 0!important;border-left:0!important}
+ .bkt.on{width:92px!important;height:76px!important}.bkt.off{width:78px!important;height:66px!important}
+}
+@media (max-width:560px){
+ .bktabs{flex-direction:row!important;align-items:flex-end!important}
+ .bkt{border-radius:12px 12px 0 0!important;border-bottom:0!important}
+ .bkt.on{width:88px!important;height:66px!important}.bkt.off{width:74px!important;height:56px!important}
+}
+/* tiêu đề trang: bảng tên màu khu, chữ mực */
+.bkhd{transform:none!important;margin:0 0 6px!important;padding:4px 14px 4px 6px!important;border:2px solid var(--k);border-radius:10px!important;box-shadow:0 3px 0 var(--k)!important}
+.bkhd img{filter:none!important;width:34px!important;height:34px!important;margin:0!important}
+.bkhd b{text-shadow:none!important;color:var(--k)!important;font-size:20px!important}
+.uxt{color:var(--k)!important;font-size:15px!important}
+.uxt small{color:var(--ink2)!important;font:600 12px var(--f-body)!important}
+/* thẻ việc cấp */
+.qcd{background:#fff!important;box-shadow:0 3px 0 var(--k)!important;border:2px solid var(--k);border-radius:10px!important;position:relative}
+.qcd{column-gap:10px}.qcd .qg{display:flex!important;align-items:center;gap:10px;margin:8px 0 0 -54px!important}.qcd .qg img{width:24px;height:24px;flex:none;margin:0 10px}.qcd .qg span{flex:1}
+.qcd .mbar{margin-left:0!important;width:100%!important}   /* icon phần việc nằm dưới cột icon lớn, chữ thẳng mép trái với tiêu đề */
+.qcd>img{width:44px!important;height:44px!important}
+/* thẻ việc hôm nay */
+.tkc{background:#fff!important;box-shadow:0 3px 0 var(--k)!important;border:2px solid var(--k);border-radius:10px!important;padding:8px 10px!important;margin-bottom:10px!important}
+.tkc>img{width:40px!important;height:40px!important;flex:none}
+.tkc .tt b{font:400 15px/1.15 var(--f-game);color:var(--k)}
+.tkc .tt span{color:var(--ink2)!important;font-weight:600!important}
+.tkc{position:relative;align-items:flex-start!important}
+.tkc>img{margin-top:2px}
+.tkc .tt{padding-right:84px}
+.tkc .tt .mbar{margin-top:5px!important}
+.tkc .rw{position:absolute;right:10px;top:10px;width:72px;height:24px;box-sizing:border-box;justify-content:center;padding:0 4px!important}
+.tkc .tkgo{position:absolute;right:10px;bottom:10px;margin:0!important;background:var(--pap)!important;color:var(--k)!important;border:2px solid var(--k)!important;border-radius:8px!important;box-shadow:0 2px 0 var(--k)!important;font:400 12px/1 var(--f-game)!important;padding:0!important;min-height:0!important;height:24px!important;width:72px!important;box-sizing:border-box;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+.tkc{min-height:72px;box-sizing:border-box}
+.tkc .tt{padding-right:84px!important}
+.tkc .rw{background:#FFF3C4;border:2px solid var(--k);border-radius:8px;padding:2px 7px 2px 3px;color:var(--k)!important}
+.tkc.done{background:#EEF7E4!important}
+.tkc.bonus{background:#FFF8E0!important}
+.mbar,.uxh .bar{height:10px!important;border-radius:4px!important;background:#6B4529!important;border:2px solid var(--k);box-sizing:border-box}
+.mbar i,.uxh .bar i{background:#F2C64A!important;border-radius:2px!important}
+/* nút Nhận: loại thưởng (vàng), đúng cột phải 72px */
+.tkc .tkcl{position:absolute!important;right:10px;top:50%;transform:translateY(-50%);width:72px!important;min-height:0!important;height:44px!important;box-sizing:border-box;background:#F2C64A!important;color:var(--k)!important;border:2px solid var(--k)!important;border-radius:10px!important;box-shadow:0 3px 0 var(--k)!important;font:400 12px/1.1 var(--f-game)!important;text-shadow:none!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;padding:0!important}
+.tkc .tkcl img{width:16px!important;height:16px!important}
+/* nhãn mục trong Sổ: chữ game, màu mực (không chữ viết tay) */
+#bk .bkhn{font:400 15px/1.3 var(--f-game)!important;color:var(--k)!important}
+#bk .uxt,#bk .ksub,#bk .kh{font-family:var(--f-game)!important;color:var(--k)!important}
+/* nút trong Sổ: 4 loại như bảng */
+#bk .btn{border:2px solid var(--k)!important;border-radius:10px!important;box-shadow:0 3px 0 var(--k)!important;text-shadow:none!important}
+#bk .btn:not(.g):not(.r){background:var(--pap)!important;color:var(--k)!important}
+#bk .btn.g{background:#7DB84A!important;color:#FBF7EE!important;text-shadow:0 1px 0 var(--k)!important}

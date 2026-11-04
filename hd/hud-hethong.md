@@ -67,3 +67,12 @@ Chỉ hiện khi có việc cần quyết (chưa có gà trống, máng sắp h�
 2. Thẻ Ngoại nhờ 3 ô, thẻ việc trong Sổ.
 3. Thẻ ngày, thẻ lên cấp về cùng khung giấy ghim.
 4. Sổ: tab đánh dấu sách thò mép (mock riêng, chờ duyệt).
+
+## 9. Quy tắc bổ sung (anh Ares duyệt 4/11 khi làm Sổ)
+- **Lưới căn lề:** trong một thẻ, mọi chữ dùng chung một mép trái. Cột hình bên trái (icon lớn, icon nhỏ của từng phần nằm dưới icon lớn), cột chữ ở giữa, cột hành động bên phải.
+- **Cột phải cố định:** chip thưởng và nút phụ cùng bề ngang (72px), cùng chiều cao (24px), cùng mép phải, cách mép trên/dưới thẻ bằng nhau, thẳng hàng qua mọi thẻ.
+- **Không nhãn khó hiểu:** nhãn nào phải tự giải thích; tiêu đề đã nói thì không gắn thêm tag.
+- **Icon trước chữ** cho từng mục, từng phần việc.
+- **HUD phải sinh động, trực quan:** ưu tiên hình, icon, thanh, màu khu hơn chữ; trạng thái đổi thì có chuyển động nhẹ (nảy, lóe, số chạy); không để mảng chữ dày.
+- Tab Sổ: thẻ đánh dấu sách thò mép (máy tính mép phải, điện thoại mép trên), icon + một chữ, màu khu (Việc #F6B49F, Kho #F5D27A, Sưu tập #B9D79F); tiêu đề trang là bảng tên cùng màu, chữ mực.
+- **Trước khi gửi hình:** phóng to từng thẻ, dò lại theo skill thiết kế và bảng này.
