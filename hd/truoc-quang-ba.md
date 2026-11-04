@@ -25,6 +25,7 @@ Sắp theo mức: **A = phải xong trước khi share rộng**, B = nên có, C
 | B7 | Icon túi hạt cùng nét với menu | Vẽ lại |
 
 ## C. Sau (đã duyệt, chưa làm)
+- **Ao cá thành công trình lớn** cho cấp cao (`ao-cong-trinh.md`): 3 giai đoạn 2×2 → 2×3 → 3×3, cá nuôi có trần, đồ trang trí ao, kèm bảng Đất trống lưới. Làm sau Sổ và hiệu ứng.
 - v110 dây leo: dựng giàn trên đất mới, mướp, bầu, bí đao, đậu rồng, chanh dây (mô hình gửi duyệt trước).
 - Phần B: tủ đồ, tiệm may, thợ nhà.
 - Bảng Đất trống 2×2, khóa khu đất theo tiến độ, chuỗi nhiệm vụ 3 bước (`dexuat-v107.md`).
