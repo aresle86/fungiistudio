@@ -1,0 +1,2 @@
+-- anh Ares 4/11: hái trộm (hái ké) vườn bạn tối đa 3 món mỗi ngày. Chỉ đổi 'steal' then 5 → 3 trong v_max của mv2_act.
+-- Đã apply 4/11 chiều (migration mv2_act_steal_3). Game v110b cũng giới hạn 3 phía máy.

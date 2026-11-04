@@ -26,3 +26,7 @@ begin
   insert into public.mv2_events (owner, visitor, kind, payload) values (v_o, v_me, p_kind, coalesce(p_payload, '{}'::jsonb));
   return json_build_object('ok', true, 'left', v_max - v_n - 1);
 end $function$;
+
+-- 4/11 chiều: thiếu bước này nên mọi lần "hái giùm" bị lỗi 400 (vi phạm mv2_events_kind_check). Đã apply (migration mv2_events_kind_help).
+alter table public.mv2_events drop constraint mv2_events_kind_check;
+alter table public.mv2_events add constraint mv2_events_kind_check check (kind = any (array['visit','water','steal','gift','ask','repay','help']));
