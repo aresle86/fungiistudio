@@ -1,5 +1,21 @@
 [
  [
+  "nghe nói vườn mình mới có, đem ra chợ nổi bán thử",
+  "heard our garden has something new; trying it at the floating market"
+ ],
+ [
+  "^Vịt đẻ mỗi (\\d+) (?:h|tiếng) một trứng nếu máng còn thức ăn\\. Vịt ăn rau muống trong kho \\(1 bó = (\\d+) phần\\), lục bình vớt dưới mương \\(\\+1 phần, khỏi tốn xu\\), thiếu thì mua cám (\\d+) xu một phần\\.(.*)$",
+  "Ducks lay an egg every $1 hours while there's feed. They eat water spinach from storage (1 bunch = $2 portions) and water hyacinth from the canal (+1 portion, free); otherwise buy feed at $3 coins a portion.$4"
+ ],
+ [
+  "^ Lò ấp trấu cạnh chuồng ấp trứng vịt ra vịt con\\.$",
+  " A rice-husk incubator by the pen hatches duck eggs into ducklings."
+ ],
+ [
+  "^giống mua ở túi Hạt, đồ dùng mua ở đây(.*)$",
+  "seeds are bought from the Seed bag; tools here"
+ ],
+ [
   "^Máng ăn · đủ (.+)$",
   "Feed lasts $1"
  ],
