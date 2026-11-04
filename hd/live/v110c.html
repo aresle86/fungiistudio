@@ -951,6 +951,7 @@ body.bookon #tstw{top:auto!important;bottom:calc(6px + env(safe-area-inset-botto
 #bk .btn{border:2px solid var(--k)!important;border-radius:10px!important;box-shadow:0 3px 0 var(--k)!important;text-shadow:none!important}
 #bk .btn:not(.g):not(.r){background:var(--pap)!important;color:var(--k)!important}
 #bk .btn.g{background:#7DB84A!important;color:#FBF7EE!important;text-shadow:0 1px 0 var(--k)!important}
+#bk .bkhn.ngd{font:400 19px/1.35 var(--f-hand)!important;color:var(--k)!important}   /* lời Ngoại: chữ viết tay */
 
 .bklab{display:none!important}
 .bkt.on{transform:none!important}
@@ -5118,7 +5119,7 @@ function pgSeed(k){ const c = CROPS[k], n = ST.seeds[k] || 0, [ni, nl] = NEED[k]
   let h = (narrow() ? `<button class="btn" data-b="back" style="margin-bottom:8px">‹ Sổ giống</button>` : '') + `<div style="display:flex;gap:16px;align-items:center"><div class="stk" style="flex:none;pointer-events:none"><div class="pic" style="height:150px;background:radial-gradient(closest-side,#F6E3C4,transparent);border-radius:50%"><img src="${ICON[k]}" style="width:146px;height:146px" alt=""></div></div><div><div style="font-family:var(--f-game);font-size:30px;color:#6B4529">${c.name}</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"><span class="chip"><img src="${UIC.sprout}" alt="">${KINDL[c.kind]}</span><span class="chip"><img src="${UIC[ni]}" alt="">${nl}</span></div></div></div>`;
   h += `<div class="big" style="display:flex;justify-content:space-around;margin:14px 0 6px;padding:10px 0;background:#F3EADB;border-radius:16px">${stI('coin', c.seed)}${stI('clock', growS(c.grow))}${stI('yield', yS(c))}</div>`;
   if (c.tree) h += `<div class="bkhn" style="font-size:18px;color:#6B4529">Trồng một lần, cây sống mãi. Mỗi vụ ${c.yield} ${c.unit}, vụ sau cách ${growS(c.re)}. Không héo, chỉ ngừng lớn khi đất khô.</div>`; else if (c.cuts > 1) h += `<div class="bkhn" style="font-size:18px;color:#6B4529">Hái ${c.cuts} đợt, mỗi đợt ${c.yield} ${c.unit}, đợt sau cách ${growS(c.re)}.${c.dry > DRY ? ' Rễ sâu, ' + growS(c.dry) + ' mới khô đất.' : ''}</div>`; else if (c.dry > DRY) h += `<div class="bkhn" style="font-size:18px;color:#6B4529">Rễ sâu, ${growS(c.dry)} mới khô đất.</div>`;
-  h += `<div class="bkhn">Ngoại dặn:<br>${(TIPS[k] || ['Giống quý mùa Tết, chăm như rau thường là lên.', 'Chín tới thì lấp lánh, hái liền cho đẹp.']).map(x => '· ' + x).join('<br>')}</div>`;
+  h += `<div class="bkhn ngd">Ngoại dặn:<br>${(TIPS[k] || ['Giống quý mùa Tết, chăm như rau thường là lên.', 'Chín tới thì lấp lánh, hái liền cho đẹp.']).map(x => '· ' + x).join('<br>')}</div>`;
   h += `<div class="acts" style="margin-bottom:${narrow() ? 0 : 120}px"><span class="chip" style="font-size:16px;padding:5px 12px 5px 5px"><img src="${UIC.seedbag}" alt="">Có ${n} ${c.tree ? 'cây giống' : 'bao'}</span><button class="btn" data-b="buy" data-k="${k}" ${ST.xu < c.seed ? 'disabled' : ''}>Mua 1 ${c.tree ? 'cây giống' : 'bao'} · ${c.seed} xu</button><button class="btn g" data-b="hold" data-k="${k}" ${!n && ST.xu < c.seed ? 'disabled' : ''}>Đem đi gieo</button></div>`;
   if (!narrow()) h += `<img class="bkng" src="${NGOAI.ex_dan}" alt="">`; return h; }
 function pgKho(full = true){ const items = Object.entries(ST.inv).filter(([k, n]) => n > 0); let h = hdr('kho') + '<div style="margin-top:10px">';

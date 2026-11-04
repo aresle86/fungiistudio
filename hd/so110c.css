@@ -56,3 +56,4 @@
 #bk .btn{border:2px solid var(--k)!important;border-radius:10px!important;box-shadow:0 3px 0 var(--k)!important;text-shadow:none!important}
 #bk .btn:not(.g):not(.r){background:var(--pap)!important;color:var(--k)!important}
 #bk .btn.g{background:#7DB84A!important;color:#FBF7EE!important;text-shadow:0 1px 0 var(--k)!important}
+#bk .bkhn.ngd{font:400 19px/1.35 var(--f-hand)!important;color:var(--k)!important}   /* lời Ngoại: chữ viết tay */

@@ -19,5 +19,6 @@ rep("if (q.t === 'goal') body += q.goals.map(([t, f2, nn]) => { const v = Math.m
     "if (q.t === 'goal') body += q.goals.map(([t, f2, nn]) => { const v = Math.min(nn, f2()); return `<div class=\"qg${v >= nn ? ' ok' : ''}\"><img src=\"${gIcon(t)}\" alt=\"\"><span>")
 rep("const narrow = () => innerWidth <= 760;",
     "const narrow = () => innerWidth <= 760;\nconst GIC = [[/bón|phân|ủ/i, 'phan'], [/phơi|sấy|nong/i, 'nong'], [/trứng|gà/i, 'trungga'], [/vịt/i, 'trungvit'], [/cá|câu/i, 'caro'], [/ghe/i, 'ghe'], [/đơn|giao/i, 'cho'], [/giỏ/i, 'gio'], [/mái|nhà|sửa/i, 'cuoc'], [/hái|trái|cây/i, 'xoai'], [/liếp|gieo|đắp/i, 'cai'], [/xu|góp/i, 'xu']], gIcon = t => { const m = GIC.find(([r]) => r.test(t)); return (m && (ICON[m[1]] || UIC[m[1]])) || UIC.task || ICON.la; };   /* icon cho từng phần việc Ngoại nhờ */")
+rep('h += `<div class="bkhn">Ngoại dặn:<br>', 'h += `<div class="bkhn ngd">Ngoại dặn:<br>')   # lời Ngoại giữ chữ viết tay
 rep("const BUILD = 'v110b'", "const BUILD = 'v110c'")
 open(dst, 'w', encoding='utf-8').write(s); print('ok', len(s))
