@@ -66,5 +66,7 @@ rep("function renderBook(){", post + "function renderBook(){")
 rep("h += `<div class=\"sub\">Trời trong vườn</div>",
     "h += `<div class=\"sub\">Ngôn ngữ · Language</div><div class=\"acts\">${[['vi', 'Tiếng Việt'], ['en', 'English']].map(([k, n]) => `<button class=\"btn${LANG === k ? ' g' : ''}\" data-a=\"lang\" data-k=\"${k}\" aria-pressed=\"${LANG === k}\">${n}</button>`).join('')}</div>`;\n    h += `<div class=\"sub\">Trời trong vườn</div>")
 rep("else if (a === 'gafeed') ga.feed();", "else if (a === 'lang'){ try { localStorage.setItem('mv2-lang', b.dataset.k); } catch (e) {} if (b.dataset.k !== LANG) location.reload(); return; } else if (a === 'gafeed') ga.feed();")
+for _f in ['function bark(txt, mood = \'vui\'){', 'function say(txt, mood = \'vui\', o = {}){', 'function toast(txt, kind){']:
+    rep(_f, _f + " if (EN && typeof txt === 'string') txt = enT(txt);")   # lời Ngoại, thông báo: dịch ngay lúc gọi (chữ hiện từng chữ nên không dò được trên màn)
 rep("const BUILD = 'v110d'", "const BUILD = 'v111a'")
 open(dst, 'w', encoding='utf-8').write(s); print('ok', len(s))
