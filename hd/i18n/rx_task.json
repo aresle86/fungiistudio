@@ -1,0 +1,30 @@
+[
+ [
+  "^Bán (\\d+) món ở chợ$",
+  "Sell $1 items at the market"
+ ],
+ [
+  "^Tưới liếp (\\d+) lần$",
+  "Water beds $1 times"
+ ],
+ [
+  "^Hái (\\d+) (.+)$",
+  "Harvest $1 $2"
+ ],
+ [
+  "^Đặt (.+) trong vườn$",
+  "Place the $1"
+ ],
+ [
+  "^(\\d+)/(\\d+)$",
+  "$1/$2"
+ ],
+ [
+  "^Giao · (\\d+) xu$",
+  "Deliver · $1 coins"
+ ],
+ [
+  "^Mua (\\d+) bó rơm dự trữ$",
+  "Buy $1 bunches of straw"
+ ]
+]

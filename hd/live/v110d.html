@@ -814,7 +814,6 @@ body.bookon #tstw{top:auto!important;bottom:calc(6px + env(safe-area-inset-botto
 .btn.s1{min-width:44px}
 .rgi{position:relative}.rgi.tired{opacity:.72}.rgi .rgtd{position:absolute;left:50%;top:-4px;transform:translateX(-50%) rotate(-6deg);font:400 11px var(--f-game);font-style:normal;color:#FBF7EE;background:#B0603A;border-radius:8px;padding:2px 7px;white-space:nowrap;z-index:1}
 </style><style id="s108">
-.fui .fcard.lock .btn{pointer-events:none;opacity:.55}
 .oa .oskip{min-height:36px!important;font-size:12px!important;padding:4px 8px!important}
 /* ===== v108 hệ thống giao diện (hd/hud-hethong.md) ===== */
 .sheet{background:linear-gradient(var(--vg) 0 34px,var(--dz) 34px)!important}
@@ -862,15 +861,16 @@ body.bookon #tstw{top:auto!important;bottom:calc(6px + env(safe-area-inset-botto
 .upc span{color:#8A5D3B}
 .upc img{width:30px;height:30px}
 /* thẻ Ngoại nhờ: 3 ô */
-.nxq{display:block!important;max-width:none!important;width:min(250px,calc(100vw - 120px))!important;padding:14px 10px 6px!important;border-radius:14px!important}
-.nxq .q.one{background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
-.nxq .q.one .tag{display:none!important}
-.nxq .q.one>img{width:28px!important;height:28px!important}
-.nxq .q.one .qt{gap:3px!important}
-.nxq .q.one .qt>b{font-size:12px!important}
+.nxq{display:block!important;max-width:none!important;width:min(210px,calc(70vw - 77px))!important;padding:16px 8px 6px!important;border-radius:16px!important;padding:13px 6px 5px!important}
+.nxq>small{font-size:10px!important;padding:2px 7px!important;top:-9px!important}
+.nxq .q.one{padding:5px 6px!important;gap:6px!important}
+.nxq .q.one>img{width:26px!important;height:26px!important}
+.nxq .q.one .qt>b{font-size:12px!important;white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.15!important}
 .nxq .q.one .bar{height:10px!important}
 .nxq .q.one .bar em{font-size:9px!important}
-.nxq .nqd2{margin-top:4px!important;font-size:11px!important}
+.nxq .q.one .tag{font-size:8px!important;line-height:11px!important;padding:0 4px!important;top:-7px!important}
+.nxq .nqd2{margin-top:4px!important;font-size:12px!important}
+.nxq::before{width:11px!important;height:11px!important;top:-6px!important}
 .nxq[hidden],body.sheeton .nxq,body.tooling .nxq,body.visit .nxq{display:none!important}
 .nxq .q.one{flex-direction:row;align-items:center;text-align:left;gap:8px;padding:6px 8px}
 .nxq .q.one>img{width:34px;height:34px;flex:none}
@@ -3859,7 +3859,7 @@ function fshTick(dt){ while (FSH.list.length < 4) fshSpawn();
     o.m.rotation.y = -o.a; { const tl = o.m.children[0]; if (tl){ o.wag = (o.wag || R(0, 6)) + dt * (o === FM.tgt && (FM.ph === 'come' || FM.ph === 'reel') ? 16 : FM.ph === 'bite' && o === FM.tgt ? 22 : 6 + o.sp * 10); tl.rotation.y = Math.sin(o.wag) * .45; } } if (o.m.material !== FSH.mat) o.m.material.opacity = .45 + Math.sin(performance.now() / 260) * .15; if (o.life < 0 && o !== FM.tgt){ S.remove(o.m); FSH.list.splice(FSH.list.indexOf(o), 1); } } }
 await LDY(0);
 let FUI = null;
-function fuiSet(html){ setTimeout(() => { const c = FUI && FUI.querySelector('.fcard'); if (c && !c.dataset.lk){ c.dataset.lk = 1; c.classList.add('lock'); setTimeout(() => c.classList.remove('lock'), 1200); } }, 0); if (!FUI){ FUI = document.createElement('div'); FUI.className = 'fui'; document.body.appendChild(FUI); FUI.addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; e.stopPropagation(); if (b.dataset.f === 'x') fmExit(); else if (b.dataset.f === 'ok'){ FM.ph = 'aim'; fuiAim(); } else if (b.dataset.f === 'cast'){ fmCastBtn(); } else if (b.dataset.f === 'giut'){ if (FM.ph === 'bite') fmTap(0, 0); } else if (b.dataset.f === 'khoe'){ fishShare(b.dataset.k, +b.dataset.w); } else if (b.dataset.f === 'bait'){ FM.bait = FM.bait === b.dataset.k ? '' : b.dataset.k; ST.moi.last = FM.bait; save(); fshClear(); fuiAim(); sfx('pick'); } else if (b.dataset.f === 'auto'){ ST.autoReel = !ST.autoReel; save(); b.classList.toggle('on', !!ST.autoReel); b.textContent = ST.autoReel ? 'Tự kéo: bật' : 'Tự kéo: tắt'; } }); } FUI.innerHTML = html; FUI.hidden = false; }
+let FUIT = 0, FUIDN = 0; function fuiSet(html){ FUIT = performance.now(); if (!FUI){ FUI = document.createElement('div'); FUI.className = 'fui'; document.body.appendChild(FUI); FUI.addEventListener('pointerdown', () => { FUIDN = performance.now(); }, true); FUI.addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; e.stopPropagation(); if (b.closest('.fcard') && FUIDN < FUIT + 120) return; if (b.dataset.f === 'x') fmExit(); else if (b.dataset.f === 'ok'){ FM.ph = 'aim'; fuiAim(); } else if (b.dataset.f === 'cast'){ fmCastBtn(); } else if (b.dataset.f === 'giut'){ if (FM.ph === 'bite') fmTap(0, 0); } else if (b.dataset.f === 'khoe'){ fishShare(b.dataset.k, +b.dataset.w); } else if (b.dataset.f === 'bait'){ FM.bait = FM.bait === b.dataset.k ? '' : b.dataset.k; ST.moi.last = FM.bait; save(); fshClear(); fuiAim(); sfx('pick'); } else if (b.dataset.f === 'auto'){ ST.autoReel = !ST.autoReel; save(); b.classList.toggle('on', !!ST.autoReel); b.textContent = ST.autoReel ? 'Tự kéo: bật' : 'Tự kéo: tắt'; } }); } FUI.innerHTML = html; FUI.hidden = false; }
 await LDY(0);
 const fuiAim = () => { if (FM.bait && !moiHas(FM.bait)) FM.bait = ''; const chip = (k, n, ic) => `<button class="fmoi${FM.bait === k ? ' on' : ''}" data-f="bait" data-k="${k}" ${k && !n ? 'disabled' : ''}>${ic ? `<img src="${ICON[ic]}" alt="">` : ''}${k ? (k === 'com' ? 'cơm' : k === 'sau' ? 'sâu' : BAITN[k]) : 'Không mồi'}${k ? ` <i>${n}</i>` : ''}</button>`;
   fuiSet(`<div class="fbar"><img src="${ICON.cancau}" alt=""><span><b>Câu cá · ${GION[gioNow()]}${gioNow() === 'dem' && trang() ? ', ' + TRANGN[trang()].replace('đêm ', '') : ''}${nuoc() ? ', ' + NUOCN[nuoc()] : ''}</b><small>${cauLeft() > 0 ? (FM.tut ? 'Chạm vào bóng cá có vòng sáng để quăng câu' : `Chạm vào bóng cá dưới nước để quăng · còn ${cauLeft()} con hôm nay`) : `Hôm nay câu đủ ${cauCap()} con rồi`}</small></span><button class="x" data-f="x" aria-label="Thôi câu">×</button></div>${FM.tut ? '' : `<div class="fmois">${chip('', 1)}${chip('trun', moiHas('trun'), 'trun')}${chip('com', moiHas('com'), 'com')}${chip('tep', moiHas('tep'), 'tep')}${moiHas('sau') || FM.bait === 'sau' ? chip('sau', moiHas('sau'), 'sau') : ''}</div>`}<button class="fact cast" data-f="cast" ${cauLeft() > 0 ? '' : 'disabled'}><i class="fic"><img src="${ICON.phao || ICON.cancau}" alt=""></i><span>Quăng câu</span></button>`); };
