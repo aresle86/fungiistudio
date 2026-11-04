@@ -1,5 +1,17 @@
 [
  [
+  "^Máng ăn · đủ (.+)$",
+  "Feed lasts $1"
+ ],
+ [
+  "^mua cám (\\d+) xu/phần$",
+  "$1 coins a portion"
+ ],
+ [
+  "^Chuồng (\\d+) con$",
+  "Coop for $1 hens"
+ ],
+ [
   "^Today · (thứ \\w+|Chủ nhật)$",
   "Today"
  ],
@@ -80,10 +92,6 @@
   "Next egg in about $1"
  ],
  [
-  "^Máng ăn · đủ (.+)$",
-  "Trough · lasts $1"
- ],
- [
   "^Đàn · (\\d+)/(\\d+) chỗ$",
   "Flock · $1/$2 slots"
  ],
@@ -92,16 +100,8 @@
   "Collect $1 eggs"
  ],
  [
-  "^mua cám (\\d+) xu/phần$",
-  "buy feed $1 coins/portion"
- ],
- [
   "^(\\d+)/(\\d+) chỗ$",
   "$1/$2 slots"
- ],
- [
-  "^Chuồng (\\d+) con$",
-  "Coop for $1"
  ],
  [
   "^Để (\\d+) trứng cho gà ấp$",
