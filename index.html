@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-i2HnXqwpsLTnup99E4H9zrbguwRjXzMYZ5qfKIPzJUQ=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-vKrTU9/aNnCBPhpFqX/clQFo+f8KYyYvWQHRe6Xw3RU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-i2HnXqwpsLTnup99E4H9zrbguwRjXzMYZ5qfKIPzJUQ=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-+xRHr9DiCtJee8P6DIm2lKzGMP7nCFJaGVQ+3Ekk8n0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed."><meta name="theme-color" content="#F5F5F3">
 <meta property="og:type" content="website"><meta property="og:title" content="Fungii Studio · AI film, properly directed"><meta property="og:description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed.">
 <meta property="og:image" content="https://fungiistudio.com/og.jpg"><meta name="twitter:card" content="summary_large_image">
@@ -2028,6 +2028,13 @@ performance.mark('fg:built');const warm=warmGPU();$('#loading').hidden=true;perf
 
 
 /* ---- perf: compile every shader (screen + transmission-pass variants) while the visitor is still at the door ---- */
+let warmDraw=null;
+// drawn right after a real frame, scissored to one corner pixel, so it is invisible but compiles the exact on-screen variants
+function warmDrawNow(){const keep=new Set([playG,bag]),flip=[],cul=[];const ac=R.autoClear;
+  try{scene.children.forEach(o=>{const on=keep.has(o);if(o.visible!==on){flip.push([o,o.visible]);o.visible=on;}});
+    keep.forEach(g=>g.traverse(o=>{if(!o.visible){flip.push([o,false]);o.visible=true;}if(o.frustumCulled){cul.push(o);o.frustumCulled=false;}}));
+    performance.mark('fg:warmdraw');R.autoClear=false;R.setScissorTest(true);R.setScissor(0,0,1,1);R.render(scene,cam);performance.mark('fg:warmdrawn');}
+  catch(e){}finally{R.setScissorTest(false);R.autoClear=ac;flip.forEach(([o,v])=>{o.visible=v;});cul.forEach(o=>{o.frustumCulled=true;});}}
 async function warmGPU(){
   const hid=[];scene.traverse(o=>{if(!o.visible){hid.push(o);o.visible=true;}});
   const jobs=[];let rt=null;const tm=R.toneMapping;
@@ -2047,11 +2054,7 @@ async function warmGPU(){
   // last pass: one tiny off-screen draw of everything (catches clipped / per-draw variants and uploads every texture), done while resting
   await new Promise(res=>{const go=()=>{if(document.hidden||tween||Math.abs(scrollY/STEP-Ts)>.003||performance.now()/1000-lastUserScroll<.4){setTimeout(go,200);return;}if(window.requestIdleCallback)requestIdleCallback(res,{timeout:600});else setTimeout(res,30);};setTimeout(go,300);});
   // only the Playground + bag need it (clipped lens liquid, glass); drawing the whole world here would stall
-  const keep=new Set([playG,bag]),flip=[],cul=[];let rt2=null;
-  try{scene.children.forEach(o=>{const on=keep.has(o);if(o.visible!==on){flip.push([o,o.visible]);o.visible=on;}});
-    keep.forEach(g=>g.traverse(o=>{if(!o.visible){flip.push([o,false]);o.visible=true;}if(o.frustumCulled){cul.push(o);o.frustumCulled=false;}}));
-    rt2=new THREE.WebGLRenderTarget(4,4);R.setRenderTarget(rt2);performance.mark('fg:warmdraw');R.render(scene,cam);performance.mark('fg:warmdrawn');}
-  catch(e){}finally{R.setRenderTarget(null);flip.forEach(([o,v])=>{o.visible=v;});cul.forEach(o=>{o.frustumCulled=true;});if(rt2)rt2.dispose();}
+  await new Promise(r=>{warmDraw=r;});
 }
 /* =========================================================
    LOOP
@@ -2157,7 +2160,7 @@ function frameBody(now){
   if(st!==-1&&st!==prevSt){prevSt=st;if(st>0)Snd.arp(st%2===1);if(st===5)Snd.pop();}
   if(st===-1&&Math.abs(Ts-rs)>.2)prevSt=-1;
   govern(rdt);
-  R.render(scene,cam);
+  R.render(scene,cam);if(warmDraw){const r=warmDraw;warmDraw=null;warmDrawNow();r();}
   CSSR.render(scene,cam);trackHits();tasteTag();
 }
 /* ---- perf: if frames run long for a while, render fewer pixels (retina only); climb back when there is headroom ---- */
