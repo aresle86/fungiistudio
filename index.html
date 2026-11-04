@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-i2HnXqwpsLTnup99E4H9zrbguwRjXzMYZ5qfKIPzJUQ=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-c+xLGNbfh70cijuE3uK0tktuOTVTv27TxdxUpNox5cA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-i2HnXqwpsLTnup99E4H9zrbguwRjXzMYZ5qfKIPzJUQ=' 'sha256-ysRZfogXlxawiIWfKBuUvk70uo71lbSjpW3k4AQhWl8=' 'sha256-vKrTU9/aNnCBPhpFqX/clQFo+f8KYyYvWQHRe6Xw3RU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://zgfanxtjdvioxpgpbcke.supabase.co; frame-src https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="modulepreload" href="./vendor/three.module.min.js"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed."><meta name="theme-color" content="#F5F5F3">
 <meta property="og:type" content="website"><meta property="og:title" content="Fungii Studio · AI film, properly directed"><meta property="og:description" content="Fungii is a two-person AI film studio in Saigon. AI film, properly directed.">
 <meta property="og:image" content="https://fungiistudio.com/og.jpg"><meta name="twitter:card" content="summary_large_image">
@@ -2038,6 +2038,10 @@ async function warmGPU(){
   // transmissive double-sided glass is also drawn back-face-only into that buffer
   try{rt=rt||new THREE.WebGLRenderTarget(4,4,{type:THREE.HalfFloatType});const back=[];scene.traverse(o=>{[].concat(o.material||[]).forEach(m=>{if(m&&m.transmission>0&&m.side===THREE.DoubleSide&&!back.includes(m))back.push(m);});});
     if(back.length){hid.forEach(o=>{o.visible=true;});R.setRenderTarget(rt);back.forEach(m=>{m.side=THREE.BackSide;m.needsUpdate=true;});try{jobs.push(R.compileAsync(scene,cam));}finally{back.forEach(m=>{m.side=THREE.DoubleSide;m.needsUpdate=true;});R.setRenderTarget(null);hid.forEach(o=>{o.visible=false;});}}}catch(e){}
+  // the film cards swap their poster for a live video texture once it plays: that is another shader variant
+  try{const sw=[];polas.forEach(P=>{if(P.vt&&P.photo&&P.photo.material.map!==P.vt){sw.push([P.photo.material,P.photo.material.map]);P.photo.material.map=P.vt;}});
+    if(IOS&&screenM.map!==reelVT){sw.push([screenM,screenM.map]);screenM.map=reelVT;}
+    if(sw.length){hid.forEach(o=>{o.visible=true;});try{jobs.push(R.compileAsync(scene,cam));}finally{sw.forEach(([m,t])=>{m.map=t;});hid.forEach(o=>{o.visible=false;});}}}catch(e){}
   await Promise.race([Promise.all(jobs).catch(()=>null),new Promise(r=>setTimeout(r,6000))]);if(rt)rt.dispose();
   performance.mark('fg:compiled');
   // last pass: one tiny off-screen draw of everything (catches clipped / per-draw variants and uploads every texture), done while resting
