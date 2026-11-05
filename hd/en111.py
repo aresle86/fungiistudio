@@ -68,5 +68,5 @@ rep("h += `<div class=\"sub\">Trời trong vườn</div>",
 rep("else if (a === 'gafeed') ga.feed();", "else if (a === 'lang'){ try { localStorage.setItem('mv2-lang', b.dataset.k); } catch (e) {} if (b.dataset.k !== LANG) location.reload(); return; } else if (a === 'gafeed') ga.feed();")
 for _f in ['function bark(txt, mood = \'vui\'){', 'function say(txt, mood = \'vui\', o = {}){', 'function toast(txt, kind){']:
     rep(_f, _f + " if (EN && typeof txt === 'string') txt = enT(txt);")   # lời Ngoại, thông báo: dịch ngay lúc gọi (chữ hiện từng chữ nên không dò được trên màn)
-rep("const BUILD = 'v110e'", "const BUILD = 'v111a'")
+rep("const BUILD = 'v114f'", "const BUILD = 'v114g'")
 open(dst, 'w', encoding='utf-8').write(s); print('ok', len(s))

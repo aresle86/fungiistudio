@@ -3,6 +3,7 @@ s=open(sys.argv[2] if len(sys.argv)>2 else 'live/vuon3d.html').read()
 t=s.replace("https://cdn.jsdelivr.net/npm/three@0.169.0/+esm","./node_modules/three/build/three.module.js").replace("https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/controls/OrbitControls.js/+esm","./node_modules/three/examples/jsm/controls/OrbitControls.js").replace("https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/utils/BufferGeometryUtils.js/+esm","./node_modules/three/examples/jsm/utils/BufferGeometryUtils.js")
 # test không được chạm máy chủ thật: trỏ Supabase vào địa chỉ chết
 import os as _o
+t=t.replace("return /^vi/i.test(navigator.language || '') ?","return true ?")  # trang test mặc định tiếng Việt, muốn tiếng Anh thì đặt mv2-lang
 if not _o.environ.get('MV_ONLINE'): t=t.replace("https://zgfanxtjdvioxpgpbcke.supabase.co","http://127.0.0.1:9")
 # vườn tạo từ trang test luôn mang tên TEST để dễ nhận và dọn
 _a="rpc('mv2_register', { p_name: ST.player.name, p_garden: ST.player.garden })"

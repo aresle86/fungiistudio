@@ -1,0 +1,28 @@
+# multi114: mua thêm nong, khạp, lò sấy. python3 multi114.py live/v114e.html live/v114f.html
+import sys
+src,dst=sys.argv[1],sys.argv[2]; s=open(src,encoding='utf-8').read()
+rd=lambda f:open(f,encoding='utf-8').read()
+def rep(a,b,n=1):
+    global s
+    assert s.count(a)==n,(a[:70],s.count(a))
+    s=s.replace(a,b)
+rep("const BUILD = 'v114e'","const BUILD = 'v114f'")
+rep("const OBJK = Object.keys(OBJD);",rd('multi114.js')+"const OBJK = Object.keys(OBJD);")
+rep("if (!ST.ho) ST.ho = {","for (const k of ['nong2', 'khap2', 'say2']) if (!ST[k]) ST[k] = { own: 0, at: null }; if (!ST.ho) ST.ho = {")
+rep("objOn = k => (ST.lv || 1) >= OBJD[k].lv || !!(ST[k] && ST[k].own) || !!(ST.keep || {})[k]","objOn = k => { const D = OBJD[k]; if (ST[k] && ST[k].own) return true; if (D.need){ const B = ST[D.need]; return (ST.lv || 1) >= D.lv && !!B.own && B[D.arr].length >= D.full; } return (ST.lv || 1) >= D.lv || !!(ST.keep || {})[k]; }")
+rep("ST.xu -= D.buy; O.own = 1; O.at = at;","ST.xu -= D.buy; O.own = 1; O.at = at; if (D.need) objCap(k);")
+rep("const NONGV = (() => { const root = DYN(G(0, 0, 0)), pr = ROOT;","const mkNong = () => { const root = DYN(G(0, 0, 0)), pr = ROOT;")
+rep("ROOT = pr; return { root, slots, t2, ...mkBub() }; })();","ROOT = pr; return { root, slots, t2, ...mkBub() }; }; const NONGV = mkNong();")
+rep("const KHAPV = (() => { const root = DYN(G(0, 0, 0)), pr = ROOT;","const mkKhap = () => { const root = DYN(G(0, 0, 0)), pr = ROOT;")
+rep("ROOT = pr; return { root, jars, ...mkBub() }; })();","ROOT = pr; return { root, jars, ...mkBub() }; }; const KHAPV = mkKhap();")
+rep("const SAYV = (() => { const root = DYN(G(0, 0, 0)), pr = ROOT;","const mkSay = () => { const root = DYN(G(0, 0, 0)), pr = ROOT;")
+rep("ROOT = pr; return { root, fire, ...mkBub() }; })();","ROOT = pr; return { root, fire, ...mkBub() }; }; const SAYV = mkSay();")
+rep("N.trays.forEach((tr, i) => nongFill(NONGV.slots[i], tr)); const done = N.trays.find(tr => tr && tr.t <= 0);","N.trays.slice(0, 8).forEach((tr, i) => nongFill(NONGV.slots[i], tr)); const done = N.trays.slice(0, 8).find(tr => tr && tr.t <= 0);")
+rep("const done = K.jars.find(j => j && j.t <= 0); if (done) objBub(KHAPV,","const done = K.jars.slice(0, 4).find(j => j && j.t <= 0); if (done) objBub(KHAPV,")
+rep("const L = ST.say, on = L.trays.some(x => x && x.t > 0); SAYV.fire.visible = on;","const L = ST.say, on = L.trays.slice(0, 2).some(x => x && x.t > 0); SAYV.fire.visible = on;")
+rep("const done = L.trays.find(x => x && x.t <= 0); if (done) objBub(SAYV,","const done = L.trays.slice(0, 2).find(x => x && x.t <= 0); if (done) objBub(SAYV,")
+rep("function sayTick(t, dt){",rd('multi114b.js')+"function sayTick(t, dt){")
+rep("if (ok === 'nong') nong.takeAll(); if (ok === 'khap') khap.takeAll(); if (ok === 'say') lsay.takeAll();","if (ok === 'nong' || ok === 'nong2') nong.takeAll(); if (ok === 'khap' || ok === 'khap2') khap.takeAll(); if (ok === 'say' || ok === 'say2') lsay.takeAll();")
+rep("tk('rad', () => radTick(t));","tk('rad', () => radTick(t)); tk('obj2', () => obj2Tick(t, dt));")
+rep("get: () => ({ RAD,","get: () => ({ openSheet, buyObj, placeObj, objOn, objAt, nong, khap, lsay, RAD,")
+open(dst,'w',encoding='utf-8').write(s); print('ok',len(s))

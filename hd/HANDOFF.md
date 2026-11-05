@@ -259,3 +259,11 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 
 ### v113w (5/11) — câu cá theo cấp
 - `CAU = { lv: 9, day: 6, them: [[12, 7], [15, 8], [18, 10]] }`, cộng 1 lượt thưởng như cũ. Lên đúng mốc có dòng "Câu thêm cá" và Ngoại báo. Test: `tCau113.js`, `tCauLv.js`.
+
+### v114g (5/11) — sao lưu, ao ba bậc, giảm lượt vẽ, ghe, đèn đỏ, radio, mua thêm đồ, tiếng Anh
+- Dựng: `./build114.sh` (deco113 → sv114 → aog114 → opt114 → fix114 → rad114 → multi114 → en111), ra `live/v114g.html`. Test: `tBak114 tAog114 tFix114 tRad114 tMulti114 tEn114`, trang test mặc định tiếng Việt.
+- Sao lưu chỉ nằm trên máy người chơi (`mv2-bak`, 6 bản, tối đa 1,2 MB), không ghi Supabase.
+- Ao: `ST.big.ao = { own, at, tier, to, at0, dc, nuoi }`. Ao lớn 3×3 chỉ vừa khu H. Đèn lồng ao tối đa 2 đèn thật.
+- Radio ẩn khi chưa có nhạc. Bỏ file vào `hd/nhac/` tên `giut_*`, `cailuong_*`, `chieu_*`, `tin_*`, chạy lại build và chép thư mục `nhac` vào `mietvuon2/nhac`. Cần làm bước chép này khi có nhạc thật.
+- Mua thêm: khoá giả `nong2, khap2, say2` trong `OBJD`, chung khay với món đầu, không đổi cấu trúc lưu.
+- Tiếng Anh: `i18n/en_*.json`, `rx_*.json`. Máy không để tiếng Việt tự vào tiếng Anh. Lời Ngoại chưa soát hết.
