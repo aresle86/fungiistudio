@@ -1,7 +1,16 @@
 import sys
 s=open(sys.argv[2] if len(sys.argv)>2 else 'live/vuon3d.html').read()
 t=s.replace("https://cdn.jsdelivr.net/npm/three@0.169.0/+esm","./node_modules/three/build/three.module.js").replace("https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/controls/OrbitControls.js/+esm","./node_modules/three/examples/jsm/controls/OrbitControls.js").replace("https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/utils/BufferGeometryUtils.js/+esm","./node_modules/three/examples/jsm/utils/BufferGeometryUtils.js")
+# test không được chạm máy chủ thật: trỏ Supabase vào địa chỉ chết
+import os as _o
+if not _o.environ.get('MV_ONLINE'): t=t.replace("https://zgfanxtjdvioxpgpbcke.supabase.co","http://127.0.0.1:9")
+# vườn tạo từ trang test luôn mang tên TEST để dễ nhận và dọn
+_a="rpc('mv2_register', { p_name: ST.player.name, p_garden: ST.player.garden })"
+assert _a in t
+t=t.replace(_a,"rpc('mv2_register', { p_name: 'TEST ' + ST.player.name, p_garden: 'TEST ' + ST.player.garden })")
 a="{ const L0 = $('#load'), wait = Math.max(900, 3300 - performance.now()); L0.classList.add('done'); const pc = L0.querySelector('.lpc'); if (pc) pc.textContent = '100%'; const sp = L0.querySelector('.lbar span'); if (sp && !VISIT) sp.textContent = 'Vào vườn thôi!'; setTimeout(() => { L0.classList.add('out'); setTimeout(() => { L0.hidden = true; }, 760); }, wait); } window.__ready = true; requestAnimationFrame(tick);"
+if a not in t:
+    _i=t.index("{ const L0 = $('#load'), wait"); a=t[_i:t.index('window.__ready = true',_i)+len('window.__ready = true;')]
 assert a in t
 extra=open(sys.argv[1]).read() if len(sys.argv)>1 else ''
 t=t.replace("  requestAnimationFrame(tick); }\n"+a,"  if (!window.__stop) requestAnimationFrame(tick); }\nwindow.__tick = tick; window.__r = r; window.__g = { cam, PV, T, get ST(){ return ST; }, act, sim, refreshPlot, openSheet, closeSheet, say };\n"+extra+"\n"+a+" if (!window.__keepLoad) $('#load').hidden = true;")

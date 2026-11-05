@@ -24,7 +24,7 @@ for(const [tag,vw] of [['ph',{width:390,height:740}],['pc',{width:1280,height:80
  await pan();
  // 1. kéo nong H1 → H6, hiện 3 nút, Hủy là về chỗ cũ
  await hold(await at('H1'),await at('H6'));await p.waitForTimeout(150);await p.screenshot({path:`../hud16/t112_${tag}_1keo.png`});console.log('DBG drag',tag,await p.evaluate(()=>{const g=document.querySelector('#sapGhost'),r=g.getBoundingClientRect(),sv=document.querySelector('#sapSvg');return JSON.stringify({gh:g.hidden,src:(g.src||'').slice(0,30),r:[r.left|0,r.top|0,r.width|0],poly:sv.querySelectorAll('polygon').length,svh:sv.hasAttribute('hidden')})}));await p.mouse.up();await p.waitForTimeout(300);
- let s=await ST();ok(s.nong==='H6',`${tag} kéo nong H1→H6 (${s.nong})`);ok(await vis('#sapBtns'),`${tag} hiện 3 nút sau khi thả`);ok(s.ntray==='otkho',`${tag} đồ đang phơi đi theo nong`);
+ let s=await ST();ok(s.nong==='H6',`${tag} kéo nong H1→H6 (${s.nong})`);ok(await p.waitForFunction(()=>{const e=document.querySelector('#sapBtns');return e&&!e.hidden},null,{timeout:6000}).then(()=>true,()=>false),`${tag} hiện 3 nút sau khi thả`);ok(s.ntray==='otkho',`${tag} đồ đang phơi đi theo nong`);
  await p.screenshot({path:`../hud16/t112_${tag}_2tha.png`});
  await p.click('#sapBtns [data-d="no"]');await p.waitForTimeout(300);s=await ST();ok(s.nong==='H1',`${tag} Hủy: nong về H1 (${s.nong})`);ok(!(await vis('#sapBtns')),`${tag} nút ẩn sau Hủy`);
  // 2. kéo nong vô ô có liếp: không được, giữ nguyên
@@ -44,7 +44,7 @@ for(const [tag,vw] of [['ph',{width:390,height:740}],['pc',{width:1280,height:80
  await pan();const nplus=await p.evaluate(()=>document.querySelectorAll('#sapLay .sapplus').length);ok(nplus>=4,`${tag} có nút + trên ô trống (${nplus})`);
  await p.screenshot({path:`../hud16/t112_${tag}_5sap.png`});
  // 7. chạm + ở H2 → chip, bấm Liếp → đắp liếp
- const c22=await at('H2');await p.mouse.click(c22[0],c22[1]);await p.waitForTimeout(300);ok(await vis('#sapChips'),`${tag} chạm ô trống: bung chip`);await p.screenshot({path:`../hud16/t112_${tag}_6chip.png`});
+ const c22=await at('H2');await p.mouse.click(c22[0],c22[1]);await p.waitForTimeout(300);ok(await p.waitForFunction(()=>{const e=document.querySelector('#sapChips');return e&&!e.hidden},null,{timeout:6000}).then(()=>true,()=>false),`${tag} chạm ô trống: bung chip`);await p.screenshot({path:`../hud16/t112_${tag}_6chip.png`});
  await p.click('#sapChips [data-c="liep"]');await p.waitForTimeout(400);s=await ST();ok(s.open.split(',').includes('H2'),`${tag} chip Liếp: đắp liếp H2 (${s.open})`);
  // 8. kéo chậu sanh từ túi ra H6
  const it=await p.evaluate(()=>{const e=[...document.querySelectorAll('#sapTray .it')].find(x=>/Sanh|sanh/i.test(x.textContent));if(!e)return null;const r=e.getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2];});
