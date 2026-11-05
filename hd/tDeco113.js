@@ -1,5 +1,5 @@
 // Test đồ trang trí v113: mua, đặt 2x2, chặn ô, dời bằng tay, cất, liếp, mương, chuồng không bị thu nhỏ, giá, tải lại. node tDeco113.js
-const {chromium}=require('playwright');const PAGE=process.env.PAGE||'mv2_t113t.html';
+const {chromium}=require('playwright');const PAGE=process.env.PAGE||'mv2_t113u.html';
 const today=(d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate())(new Date());
 const own=Object.fromEntries([...Array.from({length:12},(_,i)=>'H'+(i+1)),...Array.from({length:8},(_,i)=>'S'+(i+1))].map(k=>[k,{st:'own'}]));
 const SAVE={v:1,eco:2,split:1,qv2:1,exp:1,k102:1,seen:{hello:1,sap1:1},player:{av:1,name:'Q',garden:'Q'},lv:16,xp:20000,xu:100000,inv:{},gb:{},seeds:{},plots:{},qd:Object.fromEntries(Array.from({length:14},(_,i)=>[i+3,1])),land:own,open:['H4'],dc:{rao:'rao_tre',ga:'ga_tre',vit:'vit_mac',own:{},bag:{ghe_da:1},items:[]},tm:'fixed',ovr:12,realTime:false,spd:1,real:Date.now(),dd:{last:today,n:1,full:0}};

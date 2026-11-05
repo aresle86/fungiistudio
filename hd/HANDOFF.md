@@ -9,7 +9,7 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 
 | Thứ | Ở đâu / trạng thái |
 |---|---|
-| Bản live | **v112a**, https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
+| Bản live | **v113t**, https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
 | Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v110, khớp live). Dựng: `v107b` → `ui108.py` → `v108a` → `fix109.py` → `v109a` → `net110.py`, `ho110.py`, `cel110.py`, `odd110.py` → `v110a` (BUILD `v110a`; khi ship đổi thành `v110`) |
 | Việc kế tiếp | **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
 | Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (v105) |
@@ -251,3 +251,8 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Skill Makone nằm ở `~/Makone/skills` (world, object, craft), không nằm trong danh sách skill của phiên.
 
 - Test: trang do `gen_test*.py` dựng không chạm Supabase thật. Cần thử mạng thật thì đặt `MV_ONLINE=1`; vườn tạo từ trang test luôn mang tên bắt đầu bằng `TEST `.
+
+### v113v (5/11) — Ông Địa ngồi thẳng, bụp ra, xoay một vòng rồi nói; tối ưu mô hình
+- Dựng: `python3 deco113.py live/v112a.html live/v113v.html`. Que mảnh trong `lim` ít mặt theo bán kính, mái chòi 14 cột lá, viên ngói miếu 3 mặt (`ngoiRoof` thêm tham số `seg`, nhà chính không đổi), gạch sân miếu là tấm phẳng có nền lót.
+- Đo: `node tOpt.js` (số tam giác, bóng, lượt vẽ), `node tOpt2.js` (cả cảnh), `node tOptCmp.js truoc|sau` (so hình). Miếu 19.8k còn 14.2k, chòi 17.8k còn 11.5k. Cả cảnh còn khoảng 800 lượt vẽ, phần lớn là mảnh nhỏ chưa gộp của người và con vật: đây là chỗ lợi nhất để tối ưu tiếp.
+- Bảng ao đã duyệt, chưa vào game (`ao114_models.js`, `ao114.py`, `tAoSheet.js`). Nước ao dùng `waterMat` như sông, không gợn vì ba lớp nước sát nhau. Ao lớn 17.8k. Khi đưa vào game: lưới nước giữ `keep` nhưng `dcBuild` đang đặt bóng cho mesh `keep` và không nhận bóng, phải sửa; đèn lồng ao cần giới hạn số đèn thật, phần dư chỉ tự sáng; `LIGHTS.push` trong mô hình phải tránh tích lũy khi dựng lại.

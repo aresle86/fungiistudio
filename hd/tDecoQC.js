@@ -1,5 +1,5 @@
 // Dò đâm xuyên: mọi thanh mảnh (cột, dây, nan) bắn tia dọc thân, báo mặt nào nằm giữa thân nó. Thêm: khung từng món khi đặt kề nhau. node tDecoQC.js
-const {chromium}=require('playwright');const PAGE=process.env.PAGE||'mv2_t113t.html';
+const {chromium}=require('playwright');const PAGE=process.env.PAGE||'mv2_t113u.html';
 (async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});const p=await b.newPage({viewport:{width:600,height:400}});const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());await p.addInitScript(()=>{localStorage.clear();localStorage.setItem('mv3d-q','1')});
 await p.goto('http://127.0.0.1:8777/'+PAGE,{timeout:300000});await p.waitForFunction(()=>window.__DCX0,null,{timeout:400000});
 const out=await p.evaluate(()=>{const {dcModel,DCK,T}=window.__DCX0;const res={};const V=()=>new T.Vector3();

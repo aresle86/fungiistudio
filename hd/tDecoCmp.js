@@ -1,5 +1,5 @@
 // So sánh đồ trang trí cũ và mới: đo số khối, chụp cùng tỉ lệ xếp theo giá, chụp cận hai góc, đặt thật ngoài vườn. node tDecoCmp.js
-const {chromium}=require('playwright');const fs=require('fs');const PAGE=process.env.PAGE||'mv2_t113t.html';
+const {chromium}=require('playwright');const fs=require('fs');const PAGE=process.env.PAGE||'mv2_t113u.html';
 const P2={lu_da_luon:300,den_long:350,bong_giay:400,ghe_da:400,vong:450,ban_ghe_tre:500,cauvua:500,nguyetque:600,sudo:800,kimquyt:900,vantue:1100,mai_chieu_thuy:1400,sanh:1800,hon_non_bo:1600,cong_tre:1800,cong_gach:4000};
 const NEW=['den_sao','lu_mua','bu_nhin','bu_nhin_do','bu_nhin_hoa','hon_non_bo','vong','van_ngua','gian_bg','coi_xay','xuong','gieng','choi_la','mieu'];
 const today=(d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate())(new Date());
