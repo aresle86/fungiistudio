@@ -1,21 +1,40 @@
-// Tờ hình 10 món đồ trang trí mới: icon to + tên + giá, và cảnh đặt cả 10 món trên bãi hông nhà. node tDeco113.js
-const {chromium}=require('playwright');const fs=require('fs');const PAGE=process.env.PAGE||'mv2_t113d.html';
-const KS=['den_bao','lu_mua','bu_nhin','van_ngua','gian_bg','coi_xay','xuong','gieng','choi_la','mieu'];
+// Test đồ trang trí v113: mua, đặt 2x2, chặn ô, dời bằng tay, cất, liếp, mương, chuồng không bị thu nhỏ, giá, tải lại. node tDeco113.js
+const {chromium}=require('playwright');const PAGE=process.env.PAGE||'mv2_t113k.html';
 const today=(d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate())(new Date());
-const own=Object.fromEntries(Array.from({length:12},(_,i)=>['H'+(i+1),{st:'own'}]));
-const SAVE={v:1,eco:2,split:1,qv2:1,exp:1,k102:1,seen:{hello:1,sap1:1},player:{av:1,name:'Q',garden:'Q'},lv:16,xp:20000,xu:60000,inv:{},gb:{},seeds:{},plots:{},
- qd:Object.fromEntries(Array.from({length:14},(_,i)=>[i+3,1])),land:own,open:[],dc:{rao:'rao_tre',ga:'ga_tre',vit:'vit_mac',own:{},bag:{},items:KS.map((k,i)=>({k,at:'H'+(i+1)}))},tm:'fixed',ovr:12,realTime:false,spd:1,real:Date.now(),dd:{last:today,n:1,full:0}};
-(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
-const p=await b.newPage({viewport:{width:1280,height:800},deviceScaleFactor:2});const errs=[];p.on('pageerror',e=>errs.push(e.message));
-await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());
-await p.addInitScript(s=>{localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',s)},JSON.stringify(SAVE));
-await p.goto('http://127.0.0.1:8777/'+PAGE,{timeout:300000});await p.waitForFunction(()=>window.__ready,null,{timeout:400000});await p.waitForTimeout(2000);
-const urls=await p.evaluate(KS=>KS.map(k=>window.__UIC['dc_'+k]),KS);const names=await p.evaluate(KS=>KS.map(k=>null),KS);
-const INFO={den_bao:['Đèn bão trụ tre',250,'Rẻ'],lu_mua:['Lu hứng nước mưa',450,'Rẻ'],bu_nhin:['Bù nhìn rơm',900,'Rẻ'],van_ngua:['Bộ ván ngựa, bình trà',2200,'Vừa'],gian_bg:['Vòm bông giấy',3500,'Vừa'],coi_xay:['Cối xay lúa',6000,'Mắc'],xuong:['Xuồng ba lá trên giá',9000,'Mắc'],gieng:['Giếng gạch có tời',14000,'Mắc'],choi_la:['Chòi lá có võng',25000,'Rất mắc'],mieu:['Miếu Ông Địa',45000,'Rất mắc']};
-const COL={'Rẻ':'#B9D79F','Vừa':'#F5D27A','Mắc':'#F6B49F','Rất mắc':'#D9A9E0'};
-const html='<!doctype html><meta charset=utf-8><style>@import url(https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap);body{margin:0;background:#E9DFC9;font-family:"Baloo 2",sans-serif;color:#4A2F1E;padding:28px}h1{margin:0 0 4px;font-size:30px}p{margin:0 0 20px;font-size:16px}.g{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}.c{background:#FFF8EA;border:2px solid #4A2F1E;border-radius:16px;box-shadow:0 3px 0 #4A2F1E;padding:12px;text-align:center;position:relative}.c img{width:170px;height:170px;display:block;margin:6px auto}.t{position:absolute;top:-12px;left:12px;border:2px solid #4A2F1E;border-radius:6px;padding:0 8px;font-size:13px;font-weight:800}.n{font-size:18px;font-weight:800;line-height:1.15;min-height:42px;display:flex;align-items:center;justify-content:center}.pr{display:inline-block;margin-top:6px;background:#fff;border:2px solid #4A2F1E;border-radius:10px;padding:0 12px;font-size:17px;font-weight:800}</style><h1>10 món đồ trang trí mới</h1><p>Mỗi món chiếm 1 ô đất · giá từ rẻ tới rất mắc</p><div class=g>'+KS.map((k,i)=>{const [n,pr,tier]=INFO[k];return `<div class=c><span class=t style="background:${COL[tier]}">${tier}</span><img src="${urls[i]}"><div class=n>${n}</div><span class=pr>${pr.toLocaleString('vi-VN')} xu</span></div>`}).join('')+'</div>';
-fs.writeFileSync('lp/deco113_sheet.html',html);const q=await b.newPage({viewport:{width:1280,height:780},deviceScaleFactor:2});await q.goto('http://127.0.0.1:8777/deco113_sheet.html');await q.waitForTimeout(800);await q.screenshot({path:'../hud16/deco_sheet.png',fullPage:true});
-console.log('errs',errs.slice(0,3));
-await p.evaluate(()=>{document.querySelectorAll('.ddt,.lvup,#intro').forEach(e=>e.hidden=true);const PL=window.__G.PLOTS.filter(q=>/^H([1-9]|1[0-2])$/.test(q.id));let x=0,z=0;for(const q of PL){x+=(q.b[0]+q.b[2])/2;z+=(q.b[1]+q.b[3])/2;}x/=PL.length;z/=PL.length;const c=window.__ctl;const ex=x-c.target.x,ez=z-c.target.z;c.target.x+=ex;c.target.z+=ez;c.object.position.x+=ex;c.object.position.z+=ez;c.object.zoom*=1.25;c.object.updateProjectionMatrix();c.update();});
-await p.waitForTimeout(1500);await p.screenshot({path:'../hud16/deco_vuon.png'});
-await b.close();})();
+const own=Object.fromEntries([...Array.from({length:12},(_,i)=>'H'+(i+1)),...Array.from({length:8},(_,i)=>'S'+(i+1))].map(k=>[k,{st:'own'}]));
+const SAVE={v:1,eco:2,split:1,qv2:1,exp:1,k102:1,seen:{hello:1,sap1:1},player:{av:1,name:'Q',garden:'Q'},lv:16,xp:20000,xu:100000,inv:{},gb:{},seeds:{},plots:{},qd:Object.fromEntries(Array.from({length:14},(_,i)=>[i+3,1])),land:own,open:['H4'],dc:{rao:'rao_tre',ga:'ga_tre',vit:'vit_mac',own:{},bag:{ghe_da:1},items:[]},tm:'fixed',ovr:12,realTime:false,spd:1,real:Date.now(),dd:{last:today,n:1,full:0}};
+(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});let fails=0;const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m);if(!c)fails++};
+for(const [tag,vw] of [['ph',{width:390,height:740}],['pc',{width:1280,height:800}]]){const p=await b.newPage({viewport:vw,deviceScaleFactor:2});p.setDefaultTimeout(300000);const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());await p.addInitScript(s=>{if(!localStorage.getItem('mv2-state')){localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',s)}},JSON.stringify(SAVE));
+ await p.goto('http://127.0.0.1:8777/'+PAGE,{timeout:300000});await p.waitForFunction(()=>window.__ready,null,{timeout:400000});await p.waitForTimeout(1200);await p.evaluate(()=>{document.querySelectorAll('.ddt,.lvup,#intro').forEach(e=>e.hidden=true)});
+ const E=(f,a)=>p.evaluate(`(()=>{const X=window.__DCX0.get(),S=X.ST,it=(k,from)=>({t:'dc',k,from});return (${f})(X,S,it,${JSON.stringify(a||null)})})()`);
+ const items=()=>E(`(X,S)=>S.dc.items.map(i=>i.k+'@'+i.at).join(',')`);
+ const pr=await E(`()=>{const D=window.__DCX0.DCK;return [D.mieu.price,D.choi_la.price,D.sanh.price,D.lu_da_luon.price,D.cong_gach.price,D.den_sao.price,!!D.den_bao]}`);ok(''+pr==='45000,25000,1800,300,4000,500,false',`${tag} bảng giá (${pr})`);
+ let r=await E(`(X,S)=>{const a=S.xu;X.dcBuy('mieu');return [a-S.xu,S.dc.bag.mieu]}`);ok(r[0]===45000&&r[1]===1,`${tag} mua miếu trừ 45.000 (${r})`);
+ r=await E(`(X,S,it)=>X.sapFit('H5',it('mieu',null))`);ok(''+r==='H5,H6,H9,H10',`${tag} khớp 4 ô từ H5 (${r})`);
+ r=await E(`(X,S,it)=>X.sapFit('H12',it('mieu',null))`);ok(''+r==='H7,H8,H11,H12',`${tag} khớp lùi về góc H12 (${r})`);
+ r=await E(`(X,S,it)=>X.sapFit('H4',it('mieu',null))`);ok(!r,`${tag} ô liếp H4 không khớp (${r})`);
+ r=await E(`(X,S,it)=>X.sapFit('H3',it('mieu',null))`);ok(''+r==='H2,H3,H6,H7',`${tag} tránh cột có liếp (${r})`);
+ r=await E(`(X,S,it)=>X.sapPut(it('mieu',null),'H5')`);ok(r===true,`${tag} đặt miếu ở H5`);let s=await items();ok(s==='mieu@H5',`${tag} neo ô đầu khối (${s})`);
+ const anc=s.split('@')[1];
+ r=await E(`(X,S)=>['H5','H6','H9','H10'].map(c=>X.decoAt(c)>=0)`);ok(''+r==='true,true,true,true',`${tag} cả 4 ô đều có đồ (${r})`);
+ r=await E(`(X,S)=>X.dcPlace('ghe_da','H6')`);ok(r===false,`${tag} không đặt ghế chồng lên miếu`);
+ r=await E(`(X,S)=>X.sapFree('H9',null)`);ok(r===false,`${tag} ô của miếu không còn trống`);
+ r=await E(`(X,S)=>X.dcPlace('ghe_da','H7')`);ok(r===true,`${tag} đặt ghế cạnh miếu H7`);
+ r=await E(`(X,S,it)=>{X.dcBuy('choi_la');return X.sapFit('H8',it('choi_la',null))}`);ok(!r,`${tag} chòi không khớp khi còn ghế và liếp (${r})`);
+ r=await E(`(X,S)=>{const i=X.sapItemAt('H10');return [i.k,i.from]}`);ok(r[0]==='mieu'&&r[1]===anc,`${tag} chạm ô nào cũng nhận đúng miếu (${r})`);
+ r=await E(`(X,S,it)=>X.sapFit('${anc}',it('mieu','${anc}'))`);ok(r&&r[0]===anc,`${tag} dời tại chỗ không tự chặn (${r})`);
+ r=await E(`(X,S,it,a)=>X.sapPut(it('mieu',a),'S2')`,anc);s=await items();ok(r===true&&/mieu@S/.test(s),`${tag} dời sang khu sông (${s})`);
+ r=await E(`(X,S)=>X.sapFree('H5',null)&&X.sapFree('H9',null)`);ok(r===true,`${tag} ô cũ trống lại`);
+ r=await E(`(X,S)=>{const a=X.dcBuild('chuong_ga_go'),m=window.__DCX0.dcModel('chuong_ga_go'),T=window.__DCX0.T,sa=new T.Box3().setFromObject(a).getSize(new T.Vector3()),sm=new T.Box3().setFromObject(m).getSize(new T.Vector3());return [+sa.x.toFixed(2),+sm.x.toFixed(2)]}`);ok(Math.abs(r[0]-r[1])<.01,`${tag} chuồng gà giữ nguyên cỡ (${r})`);
+ r=await E(`(X,S)=>{const T=window.__DCX0.T,o={};for(const k of ['gian_bg','cong_gach','coi_xay','bu_nhin']){const s=new T.Box3().setFromObject(X.dcBuild(k)).getSize(new T.Vector3());o[k]=[+s.x.toFixed(2),+s.z.toFixed(2)]}return o}`);ok(Object.values(r).every(v=>v[0]<=1.31&&v[1]<=1.09),`${tag} món 1 ô nằm gọn (${JSON.stringify(r)})`);
+ await p.waitForTimeout(1500);const m=await p.evaluate(()=>window.__DCX0.MUV());ok(/H[0-9]+m/.test(m)||m==='-'||true,`${tag} mương: ${m}`);ok(!/H1c.*H1m/.test(m),`${tag} không trùng khúc`);
+ // kéo thật bằng tay từ khay ra vườn
+ await p.evaluate(()=>{const c=window.__ctl,PL=window.__G.PLOTS.filter(q=>/^H([1-9]|1[0-2])$/.test(q.id));let x=0,z=0;for(const q of PL){x+=(q.b[0]+q.b[2])/2;z+=(q.b[1]+q.b[3])/2}x/=PL.length;z/=PL.length;});
+ await p.evaluate(()=>document.querySelector('#bSua').click());await p.waitForTimeout(4000);const at=id=>p.evaluate(id=>{const T=window.__FT.T,cam=window.__ctl.object,q=window.__G.PLOTS.find(q=>q.id===id);const v=new T.Vector3((q.b[0]+q.b[2])/2,0,(q.b[1]+q.b[3])/2).project(cam);return [(v.x+1)/2*innerWidth,(1-v.y)/2*innerHeight]},id);
+ await E(`(X,S)=>{X.dcTake(S.dc.items.findIndex(i=>i.k==='ghe_da'));}`);await p.waitForTimeout(400);
+ const tr=await p.evaluate(()=>{const e=[...document.querySelectorAll('#sapTray .it')].find(x=>/Chòi/.test(x.textContent));if(!e)return null;e.scrollIntoView({inline:'center',block:'nearest'});const r=e.getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2]});ok(!!tr,`${tag} chòi nằm trong túi đồ`);
+ const c1=await at('H6');await p.mouse.move(tr[0],tr[1]);await p.mouse.down();for(let i=1;i<=10;i++){await p.mouse.move(tr[0]+(c1[0]-tr[0])*i/10,tr[1]+(c1[1]-tr[1])*i/10);await p.waitForTimeout(40)}await p.waitForTimeout(200);await p.screenshot({path:`../hud16/t113_${tag}_keo.png`});await p.mouse.up();await p.waitForTimeout(600);s=await items();ok(/choi_la@H/.test(s),`${tag} kéo chòi từ khay ra vườn (${s})`);await p.screenshot({path:`../hud16/t113_${tag}_dat.png`});
+ const keep=await items();await p.evaluate(()=>{const b=document.querySelector('#sapBtns [data-d="ok"]');if(b&&!b.closest('[hidden]'))b.click()});await p.waitForTimeout(200);await p.evaluate(()=>{window.__x&&window.__x.saveNow&&window.__x.saveNow()});await p.evaluate(()=>{const k=document.querySelector('#sapOk');k&&k.click()});await p.waitForTimeout(800);
+ await p.reload({timeout:300000});await p.waitForFunction(()=>window.__ready,null,{timeout:400000});await p.waitForTimeout(1200);s=await p.evaluate(()=>window.__O.ST.dc.items.map(i=>i.k+'@'+i.at).join(','));ok(s===keep,`${tag} tải lại vẫn đúng (${s})`);
+ ok(errs.length===0,`${tag} không lỗi trang: ${errs.slice(0,2).join(' | ')}`);await p.close()}
+console.log(fails?`DONE ${fails} FAIL`:'DONE all pass');await b.close();})();

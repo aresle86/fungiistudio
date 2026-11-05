@@ -1,0 +1,14 @@
+// Dò đâm xuyên: mọi thanh mảnh (cột, dây, nan) bắn tia dọc thân, báo mặt nào nằm giữa thân nó. Thêm: khung từng món khi đặt kề nhau. node tDecoQC.js
+const {chromium}=require('playwright');const PAGE=process.env.PAGE||'mv2_t113k.html';
+(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});const p=await b.newPage({viewport:{width:600,height:400}});const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());await p.addInitScript(()=>{localStorage.clear();localStorage.setItem('mv3d-q','1')});
+await p.goto('http://127.0.0.1:8777/'+PAGE,{timeout:300000});await p.waitForFunction(()=>window.__DCX0,null,{timeout:400000});
+const out=await p.evaluate(()=>{const {dcModel,DCK,T}=window.__DCX0;const res={};const V=()=>new T.Vector3();
+ for(const k of Object.keys(DCK)){const D=DCK[k];if(D.def)continue;let m;try{m=dcModel(k)}catch(e){res[k]=[{err:e.message}];continue}m.updateMatrixWorld(true);const ms=[];m.traverse(o=>{if(o.isMesh){o.material=Array.isArray(o.material)?o.material:o.material;ms.push(o)}});
+  const info=ms.map(o=>{if(!o.geometry.boundingBox)o.geometry.computeBoundingBox();const bb=o.geometry.boundingBox,s=bb.getSize(V()),c=bb.getCenter(V());const sc=o.getWorldScale(V());const dims=[['x',s.x*sc.x],['y',s.y*sc.y],['z',s.z*sc.z]].sort((a,b)=>b[1]-a[1]);return {o,dims,c,bb}});
+  const hits=[];const ray=new T.Raycaster();const saved=ms.map(o=>o.material.side);ms.forEach(o=>o.material.side=T.DoubleSide);
+  const big=info.filter(i=>i.dims[1][1]>.05);const targets=big.map(i=>i.o);
+  for(const i of info){const [a,bd,cd]=i.dims;if(a[1]<.24||a[1]<bd[1]*4)continue;const ax=a[0],dir=V();dir[ax]=1;const q=new T.Quaternion();i.o.getWorldQuaternion(q);dir.applyQuaternion(q).normalize();const c=i.c.clone().applyMatrix4(i.o.matrixWorld);const st=c.clone().addScaledVector(dir,-a[1]/2);ray.set(st,dir);ray.near=a[1]*.12;ray.far=a[1]*.88;const hs=ray.intersectObjects(targets.filter(o=>o!==i.o),false);if(hs.length){const seen=new Map();for(const h of hs){const id=h.object.uuid;seen.set(id,(seen.get(id)||0)+1)}for(const [id,n] of seen){const t=ms.find(o=>o.uuid===id);const tc=t.material.color.getHexString(),sc=i.o.material.color.getHexString();hits.push([sc,+a[1].toFixed(2),[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)].join(','),'qua',tc,t.geometry.type,n])}}}
+  ms.forEach((o,j)=>o.material.side=saved[j]);res[k]=hits;}
+ return res});
+let tot=0;for(const k in out){const u=new Map();for(const h of out[k]){const key=h.slice(0,1).concat(h.slice(3,6)).join(' ');if(!u.has(key))u.set(key,{n:0,e:h});u.get(key).n++}if(u.size){console.log('\n'+k);for(const [key,v] of u){console.log('  x'+v.n,'thanh #'+v.e[0],'dài',v.e[1],'tại',v.e[2],'qua #'+v.e[4],v.e[5]);tot+=v.n}}}
+console.log('\nTỔNG',tot,'errs',errs.slice(0,3));await b.close();})();
