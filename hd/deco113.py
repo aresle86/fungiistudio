@@ -17,7 +17,12 @@ rep("ghe_da: { cat: 'k', name: 'Ghế đá', price: 150 },",
 
 JS = open('deco113_models.js', encoding='utf-8').read() + open('deco113_dia.js', encoding='utf-8').read()
 rep("function dcModel(k){ const g = new T.Group(), pr = ROOT; ROOT = g;", JS + "function dcModel(k){ const g = new T.Group(), pr = ROOT; ROOT = g;\n  if (DCX[k] && !DCNOX){ DCX[k](); ROOT = pr; return g; }")
-rep("const BUILD = 'v112a'", "const BUILD = 'v113v'")
+rep("const BUILD = 'v112a'", "const BUILD = 'v113w'")
+# câu cá: lên cấp câu được nhiều hơn
+rep("const CAU = { lv: 9, day: 5 };", "const CAU = { lv: 9, day: 6, them: [[12, 7], [15, 8], [18, 10]] };")
+rep("const cauCap = () => CAU.day + (ST.cau.bonus === dayKey() ? 1 : 0),", "const cauCap = () => CAU.them.reduce((a, [l, c]) => (ST.lv || 1) >= l ? c : a, CAU.day) + (ST.cau.bonus === dayKey() ? 1 : 0),")
+rep("...((typeof LVFEAT !== 'undefined' && LVFEAT[n]) || [])]", "...((typeof LVFEAT !== 'undefined' && LVFEAT[n]) || []), ...(CAU.them.some(([l]) => l === n) ? [['cancau', 'Câu thêm cá']] : [])]")
+rep("for (const P of PLOTS) refreshPlot(P.id); if (n === 2){", "for (const P of PLOTS) refreshPlot(P.id); if (CAU.them.some(([l]) => l === n)) lvSay('Dạo này cá về nhiều lắm con. Từ nay mỗi ngày con câu thêm được vài con nữa nghe.', 'vui', { idle: true }); if (n === 2){")
 # mái ngói miếu: viên ngói ít mặt hơn, nhà chính vẫn như cũ
 rep("function ngoiRoof(p, w, d, h, o){", "function ngoiRoof(p, w, d, h, o, seg = 6){")
 rep("new T.CylinderGeometry(.04, .036, sl / rows + .01, 6, 1, true, 0, Math.PI)", "new T.CylinderGeometry(.04, .036, sl / rows + .01, seg, 1, true, 0, Math.PI)")
@@ -68,7 +73,7 @@ rep("dcFxTick(t, night, DCV.items.values());", "dcFxTick(t, night, DCV.items.val
 rep("UIC['dc_' + k] = toonURL(); sc.traverse(o => o.geometry && o.geometry.dispose()); }\n  ri.dispose(); ri.forceContextLoss(); }", "UIC['dc_' + k] = toonURL(); sc.traverse(o => o.geometry && o.geometry.dispose()); }\n  { const sc = new T.Scene(), m = diaModel(); sc.add(m); sc.add(new T.HemisphereLight('#fff6e6', '#9aaa78', 1.9)); const l = new T.DirectionalLight('#fff0d0', 1.9); l.position.set(-2, 6, 3); sc.add(l); const cm = new T.OrthographicCamera(-.42, .42, .42, -.42, .01, 100), c = new T.Vector3(0, .34, 0); cm.position.copy(c).add(new T.Vector3(.35, .3, 1.3).normalize().multiplyScalar(20)); cm.lookAt(c); toonRender(ri, sc, cm); UIC.dia = toonURL(); }\n  ri.dispose(); ri.forceContextLoss(); }")
 rep("get: () => ({ dcBuy,", "get: () => ({ diaCall, diaReady, DIA, dcBuy,")
 rep("else if (k === 'pop'){ pluck(NGU.at(Math.min(7, 3 + SEQ++)), t0, .5);", "else if (k === 'dia'){ const d = out(); songlang(t0, .4); tone(t0 + .03, 2.4, 523.25, 0, .15, d); tone(t0 + .03, 1.7, 1046.5, 0, .07, d); tone(t0 + .03, 1.1, 1571, 0, .035, d); for (let i = 0; i < 6; i++) pluck(NGU.at(Math.min(7, i + 2)), t0 + .14 + i * .085, .42, .99); tone(t0 + .8, 1.9, 783.99, 0, .06, d); }\n    else if (k === 'diaout'){ const d = out(); pluck(NGU.at(5), t0, .34); pluck(NGU.at(3), t0 + .1, .3); tone(t0, .5, 880, 440, .04, d); }\n    else if (k === 'pop'){ pluck(NGU.at(Math.min(7, 3 + SEQ++)), t0, .5);")
-rep("get: () => ({ diaCall,", "get: () => ({ sfx, sfxTap: () => { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const d = AC.createMediaStreamDestination(); out(); SFXG.connect(d); return { AC, d }; }, diaCall,")
+rep("get: () => ({ diaCall,", "get: () => ({ cauCap, cauLeft, FISHK, GD, levelUp, sfx, sfxTap: () => { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const d = AC.createMediaStreamDestination(); out(); SFXG.connect(d); return { AC, d }; }, diaCall,")
 # hố ủ: bong bóng phải nhận thời gian còn lại, trước đây luôn ghi "còn 1 phút"
 rep("objBub(HOV, v, ICON.ho, t, .62, 1 - H.t / (H.done ? HO.t : HO.first));", "objBub(HOV, v, ICON.ho, t, .62, 1 - H.t / (H.done ? HO.t : HO.first), H.t * 1000);")
 # Sắp vườn: san liếp trống, nút kéo cây cổ tích, báo khi không còn chỗ 2x2
