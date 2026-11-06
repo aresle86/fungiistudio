@@ -267,3 +267,12 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Radio ẩn khi chưa có nhạc. Bỏ file vào `hd/nhac/` tên `giut_*`, `cailuong_*`, `chieu_*`, `tin_*`, chạy lại build và chép thư mục `nhac` vào `mietvuon2/nhac`. Cần làm bước chép này khi có nhạc thật.
 - Mua thêm: khoá giả `nong2, khap2, say2` trong `OBJD`, chung khay với món đầu, không đổi cấu trúc lưu.
 - Tiếng Anh: `i18n/en_*.json`, `rx_*.json`. Máy không để tiếng Việt tự vào tiếng Anh. Lời Ngoại chưa soát hết.
+
+## v115d (06/11/2026): sửa gấp sau báo lỗi live
+
+- **Vườn "mất" là do http.** `http://fungiistudio.com` không tự chuyển sang https, mà trình duyệt lưu riêng cho mỗi địa chỉ. `load115_head.html` chuyển http sang https, mang vườn theo qua `#mv2mig=`; vườn cấp cao hơn được giữ, vườn kia vô `mv2-bak`. Link `#mv2mig` giả có thể đè vườn bằng vườn cấp cao hơn, bản cũ vẫn còn trong sao lưu. Đừng bật Enforce HTTPS của GitHub Pages sớm: nó chuyển trước khi script chạy, vườn đang nằm ở http sẽ kẹt lại.
+- **Kẹt 62% là do tạo quá nhiều WebGLRenderer.** Tái hiện được trên WebKit của Playwright: v115b kẹt đúng 62%, v115d vào trong khoảng 4 giây. Mọi chỗ vẽ biểu tượng lúc tải dùng chung `ICR()`, giải phóng sau `__ready`. Thêm nữa: `toonRender` có đường lùi khi lỗi, màn tải tự tải lại một lần, rồi hiện nút Tải lại (`load115_watch.js`).
+- **Lưu ý gen_test:** `gen_test.py` và `gen_test2.py` khớp đúng chuỗi ngay trước `{ const L0 = $('#load')`. Chèn gì vào giữa là mất `__tick`, `__g`, cả loạt test báo undefined.
+- **Chậu Tết vẽ lại** (`chau115.py`): icon cúc, mai không còn dùng Math.random; `maiTree` trong vườn đổi thân chữ S. Chưa đổi `cucBush` trên liếp và chậu trên ghe chợ hoa.
+- **Quét toàn game:** `node tScan.js webkit nhanh` với `PAGE=`. Macbook không có lệnh `timeout`, dùng `perl -e 'alarm N; exec @ARGV'`. Không chạy song song hai trình duyệt: test sẽ timeout giả (tDia113, tSap112 báo lỗi khi máy bận, chạy riêng thì qua).
+- **Còn lại từ bài quét:** tiếng Anh còn sót chữ Việt (tên vườn lúc thử, bảng 3D "Mé sông"); `.stk` Xoài, Dừa tràn nhẹ.

@@ -1,0 +1,20 @@
+<script>
+/* địa chỉ http và https là hai kho lưu riêng trên máy: mở http thì chuyển qua https, mang theo vườn đang có ở http; vườn nào cao cấp hơn thì giữ, vườn kia cất vô bản sao lưu */
+(function(){ try {
+  var H = 'fungiistudio.com';
+  if (location.protocol === 'http:' && location.hostname === H){
+    var pay = '';
+    try { var st = localStorage.getItem('mv2-state'), tag = st ? st.length + ':' + st.slice(-60) : '';
+      if (st && localStorage.getItem('mv2-moved') !== tag){ pay = '#mv2mig=' + encodeURIComponent(JSON.stringify({ s: st, c: localStorage.getItem('mv2-cloud'), r: localStorage.getItem('mv2-rev'), l: localStorage.getItem('mv2-lang') })); localStorage.setItem('mv2-moved', tag); } } catch (e) {}
+    location.replace('https://' + H + location.pathname + location.search + (pay || location.hash)); return; }
+  var m = /^#mv2mig=(.+)$/.exec(location.hash); if (!m) return;
+  history.replaceState(null, '', location.pathname + location.search);
+  var d = JSON.parse(decodeURIComponent(m[1])), a = JSON.parse(d.s), old = null;
+  try { old = JSON.parse(localStorage.getItem('mv2-state') || 'null'); } catch (e) {}
+  var stash = function(st, why){ var s = JSON.stringify(st), L = []; try { L = JSON.parse(localStorage.getItem('mv2-bak') || '[]'); } catch (e) {} if (L.some(function(e){ return e.s === s; })) return; L.unshift({ at: Date.now(), why: why, lv: st.lv || 1, xu: st.xu || 0, s: s }); var n = 0; L = L.filter(function(e, i){ n += e.s.length; return i === 0 || n <= 1200000; }); localStorage.setItem('mv2-bak', JSON.stringify(L.slice(0, 6))); };
+  var hon = !old || !old.player || (a.lv || 1) > (old.lv || 1) || ((a.lv || 1) === (old.lv || 1) && (a.xp || 0) > (old.xp || 0));
+  if (a.player && hon){ if (old && old.player) stash(old, 'Vườn cũ trước khi gộp'); localStorage.setItem('mv2-state', d.s); if (d.c) localStorage.setItem('mv2-cloud', d.c); else localStorage.removeItem('mv2-cloud'); if (d.r) localStorage.setItem('mv2-rev', d.r); else localStorage.removeItem('mv2-rev'); }
+  else if (a.player) stash(a, 'Vườn mở bằng http');
+  if (d.l && !localStorage.getItem('mv2-lang')) localStorage.setItem('mv2-lang', d.l);
+} catch (e) {} })();
+</script>
