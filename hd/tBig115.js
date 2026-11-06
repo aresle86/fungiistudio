@@ -1,0 +1,17 @@
+// dời cây cổ tích bằng dữ liệu cố định: kéo nút tới 4 ô trống, 4 ô vướng ao thì từ chối
+const {chromium}=require('playwright');const today=(d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate())(new Date());const PAGE=process.argv[2]||'mv2_t115k.html';
+let fails=0;const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m);if(!c)fails++};
+const land=Object.fromEntries(['H','S'].flatMap(p=>Array.from({length:p==='H'?12:8},(_,i)=>[p+(i+1),{st:'own'}])));
+const SV={v:1,eco:2,split:1,qv2:1,exp:1,k102:1,seen:{hello:1,sap1:1},player:{av:1,name:'Q',garden:'Q'},lv:16,xp:20000,xu:60000,inv:{},gb:{},seeds:{},plots:{},qd:Object.fromEntries(Array.from({length:14},(_,i)=>[i+3,1])),land,open:[],dc:{own:{},bag:{},items:[]},ft:{tretramdot:{t:Date.now()-1e9,st:3,dot:100,said:1,told:3}},big:{ao:{at:'H1',own:1,tier:1,dc:{},nuoi:[]}},realTime:true,spd:1,real:Date.now(),dd:{last:today,n:1,full:0}};
+(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+for(const [tag,vw] of [['ph',{width:390,height:740}],['pc',{width:1280,height:800}]]){const p=await b.newPage({viewport:vw});p.setDefaultTimeout(200000);const e=[];p.on('pageerror',x=>e.push(x.message));await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());await p.addInitScript(s=>{localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',s)},JSON.stringify(SV));await p.goto('http://127.0.0.1:8777/'+PAGE);await p.waitForFunction(()=>window.__ready);await p.waitForTimeout(1500);
+await p.evaluate(()=>{document.querySelectorAll('.ddt,.lvup,#intro').forEach(e=>e.hidden=true);document.querySelectorAll('.ddt').forEach(e=>e.classList.remove('on'));const q=window.__G.PLOTS.find(x=>x.id==='H6'),c=window.__ctl,ex=q.b[2]-c.target.x,ez=q.b[3]-c.target.z;c.target.x+=ex;c.target.z+=ez;c.object.position.x+=ex;c.object.position.z+=ez;c.update()});await p.waitForTimeout(800);
+await p.click('#bSua').catch(()=>{});await p.waitForTimeout(1000);
+const at=id=>p.evaluate(id=>{const q=window.__G.PLOTS.find(x=>x.id===id),T=window.__FT.T,v=new T.Vector3((q.b[0]+q.b[2])/2,0,(q.b[1]+q.b[3])/2).project(window.__ctl.object);return [(v.x+1)/2*innerWidth,(1-v.y)/2*innerHeight]},id);
+const drag=async(to)=>{const g=await p.evaluate(()=>{const b=document.querySelector('.sapgrip[data-k=tretramdot]');if(!b)return null;const r=b.getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2]});if(!g)return false;const c=await at(to);await p.mouse.move(g[0],g[1]);await p.mouse.down();for(let i=1;i<=8;i++){await p.mouse.move(g[0]+(c[0]-g[0])*i/8,g[1]+(c[1]-g[1])*i/8);await p.waitForTimeout(60)}await p.waitForTimeout(300);await p.mouse.up();await p.waitForTimeout(700);return true};
+const big=()=>p.evaluate(()=>{const S=window.__O.ST;return (S.big.tretramdot||{}).at||null});
+ok(await p.evaluate(()=>!!document.querySelector('.sapgrip[data-k=tretramdot]')),tag+' có nút dời tre');ok((await big())===null,tag+' lúc đầu đứng bãi cỏ');
+ok(await drag('H2'),tag+' kéo vô chỗ vướng ao');ok((await big())===null,tag+' vướng ao: từ chối, cây vẫn ở bãi cỏ');await p.screenshot({path:`/tmp/big_${tag}1.png`});
+await drag('H7');await p.waitForTimeout(300);const a=await big();await p.screenshot({path:`/tmp/big_${tag}2.png`});ok(!!a,tag+' 4 ô trống: dời được, đặt ở '+a);
+ok(e.length===0,tag+' không lỗi '+e[0]);await p.close()}
+console.log(fails?`DONE ${fails} FAIL`:'DONE all pass');await b.close()})();

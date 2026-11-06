@@ -304,7 +304,12 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - **Lò ấp (`lo115.py`, `tLo115.js`):** chuồng đầy vẫn ấp đủ 4 trứng. Lúc bắt, con không có chỗ thì Ngoại bán 40 xu một con (`LO.sellDuck`), không còn nằm chờ trong lò. Bản lưu đang kẹt tự gỡ khi bấm nút. Bán lúc bấm chứ không tự bán, nên còn nới chuồng trước được.
 - **Bộ câu (`NOTE.texts`, 55 câu):** thay toàn bộ câu nháp v115h, v115h chưa từng lên live nên đổi số thứ tự an toàn. **Từ v115j trở đi chỉ được thêm vào cuối.** Nhóm: theo 4 chỗ giấu, `qua`, `khia`, `cadao`, `do` (có đáp án).
 - **Lọc câu:** câu chỗ giấu và câu gửi quà chỉ hiện khi kẹp quà; cờ `q` cần có quà; cờ `food` ẩn khi kẹp hạt. `noteFix` bỏ câu đã chọn khi không còn hợp.
-- **tSan113 "kéo nút dời được cây":** tải vườn thật MV-9494 từ máy chủ, vườn này không còn tre tầm vông nên báo lỗi ở mọi bản từ v115f. Không phải lỗi game, bài cần đổi sang dữ liệu cố định.
+- **tSan113 "kéo nút dời được cây":** tải vườn thật MV-9494, cây tre vẫn còn nhưng dữ liệu đã đổi (có thêm trầu cau, ao ở S3) nên bài báo lỗi ở mọi bản từ v115f. Dùng `tBig115.js` (dữ liệu cố định) để kiểm tra dời cây.
+
+## v115k (07/11/2026): chạm ổ trứng chọn ấp hay lượm
+- **`egg115.py`, `tGa115.js`, `tEgg115.js`:** `gaEggAsk()` đúng thì `ga.collect()` mở `gaEggRing()` tại ổ (RINGID `__nest`). Còn nhiệm vụ gà con mà thiếu điều kiện thì vòng này báo thiếu gì, không tự lượm. Đang có ổ, chuồng đầy sau lứa đầu, dưới cấp 5: lượm liền. `collect(true)` luôn lượm.
+- Bảng chuồng: ấp được thì nút lớn trên "Nuôi thêm", không được thì thẻ khóa nằm trong đó kèm lý do.
+- **`tBig115.js`:** dời cây cổ tích bằng dữ liệu cố định, qua cả điện thoại lẫn máy tính.
 
 ## Việc kế tiếp đã duyệt: mật thư giấu thật (làm sau bản đang chờ push)
 - Bỏ ghim, chỗ giấu chỉ có túm lá rung nhẹ, vùng chạm rộng hơn hình. Nhóm "Gợi ý chỗ giấu" ra khỏi bảng chọn câu, game tự chọn câu gợi ý theo chỗ giấu.
