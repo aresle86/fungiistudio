@@ -311,8 +311,8 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Bảng chuồng: ấp được thì nút lớn trên "Nuôi thêm", không được thì thẻ khóa nằm trong đó kèm lý do.
 - **`tBig115.js`:** dời cây cổ tích bằng dữ liệu cố định, qua cả điện thoại lẫn máy tính.
 
-## Việc kế tiếp đã duyệt: mật thư giấu thật (làm sau bản đang chờ push)
-- Bỏ ghim, chỗ giấu chỉ có túm lá rung nhẹ, vùng chạm rộng hơn hình. Nhóm "Gợi ý chỗ giấu" ra khỏi bảng chọn câu, game tự chọn câu gợi ý theo chỗ giấu.
-- Lời Ngoại, anh Ares chốt chữ: **"Hồi nãy Tư ghé, có nhắn lại: *câu gợi ý*"**. Không dùng "để lại mấy chữ", vì câu gợi ý không nằm trong lá thư.
-- Sổ mục Thư có "Còn 1 lá chưa tìm ra" và nút Ngoại chỉ giùm; quá 1 ngày ghim tự hiện.
-- Cần thêm câu gợi ý không nhắc tới quà cho thư không kẹp quà, nhất là bụi chuối và khạp nước. Hiện chỉ có 3 câu trung tính.
+## v115l (07/11/2026): mật thư giấu thật
+- **`hide115.py`, `tNote115.js`:** không ghim. Ngoại: "Hồi nãy Tư ghé, có nhắn lại: *câu gợi ý*" (anh Ares chốt chữ "có nhắn lại", không dùng "để lại mấy chữ" vì câu gợi ý không nằm trong thư). Nhiều người ghé cùng lúc thì Ngoại nhắn riêng sau 7 giây.
+- **Câu gợi ý:** `noteHint(n)` tự chọn theo chỗ giấu và số thư. Có kẹp quà dùng các câu nhóm chỗ giấu trong `NOTE.texts`; không quà dùng `NOTE.hints`, không nhắc tới quà. Nhóm chỗ giấu ra khỏi bảng chọn câu, các câu vẫn giữ nguyên số thứ tự.
+- **Tìm thư:** `pick0` là khối chạm vô hình quanh túm lá. `noteShown(n)`: ghim chỉ hiện khi `n.show`, quá 1 ngày (`n.at`), hoặc thư cũ không có `at`. Sổ mục Thư có câu nhắn và nút Ngoại chỉ giùm (`thuchi`).
+- **tSan113 "ghe bẹo ghé lại":** phụ thuộc giờ thật, trước `GHEH0` buổi sáng ghe chưa ghé nên báo lỗi. Không phải lỗi game.
