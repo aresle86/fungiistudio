@@ -1,0 +1,12 @@
+const PINGC = new Map(), PINM = new T.MeshBasicMaterial({ vertexColors: true, depthTest: false, transparent: true });
+function pinGeo(col, dc, dot){ const key = col + dc + (dot ? 1 : 0); let g = PINGC.get(key); if (g) return g; const BN = '#4A2F1E', tri = (w, h) => { const sh = new T.Shape(); sh.moveTo(-w, 0); sh.lineTo(w, 0); sh.lineTo(0, -h); sh.lineTo(-w, 0); return new T.ShapeGeometry(sh); };
+  const parts = [[new T.CircleGeometry(.268, 40), BN, 0, 0]]; if (!dot) parts.push([tri(.095, .13), BN, -.2, .001]); parts.push([new T.CircleGeometry(.205, 32), dc, 0, .012], [new T.RingGeometry(.2, .245, 40), col, 0, .014]); if (!dot) parts.push([tri(.07, .1), col, -.215, .015]);
+  const L = parts.map(([g0, c, y, z]) => { const g1 = g0.index ? g0.toNonIndexed() : g0; g1.deleteAttribute('uv'); g1.deleteAttribute('normal'); g1.translate(0, y, z); const n = g1.attributes.position.count, cc = new T.Color(c), a = new Float32Array(n * 3); for (let i = 0; i < n; i++){ a[i * 3] = cc.r; a[i * 3 + 1] = cc.g; a[i * 3 + 2] = cc.b; } g1.setAttribute('color', new T.BufferAttribute(a, 3)); return g1; });
+  g = mergeGeometries(L, false); L.forEach(x => x.dispose()); PINGC.set(key, g); return g; }
+function pinSync(g){ const u = g.userData; if (u.pm) u.pm.geometry = pinGeo('#' + u.ring.material.color.getHexString(), '#' + u.disk.material.color.getHexString(), !!u.dot); }
+function vcEmis(m){ m.onBeforeCompile = s => { s.fragmentShader = s.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\n#ifdef USE_COLOR\ntotalEmissiveRadiance *= vColor;\n#endif'); }; m.customProgramCacheKey = () => 'vcEmis'; }
+function mergeRig(root, live = []){ const ls = new Set(live.filter(Boolean)); const owners = [root, ...ls]; root.updateWorldMatrix(true, true);
+  for (const g of owners){ const inv = g.matrixWorld.clone().invert(), L = []; const walk = p => { for (const c of [...p.children]){ if (ls.has(c)) continue; if (c.isMesh){ if (!c.children.length && !c.userData.keep && vcKey(c.material)) L.push(c); else if (c.children.length) walk(c); } else if (!c.isLight) walk(c); } }; walk(g); if (L.length < 2) continue;
+    const tmp = new T.Group(); for (const m of L){ m.matrix.multiplyMatrices(inv, m.matrixWorld); m.matrixAutoUpdate = false; m.userData.sway = 0; tmp.add(m); } for (const m of mergeMeshes(tmp)) g.add(m);
+    const prune = p => { for (const c of [...p.children]){ if (c.isMesh || c.isLight || ls.has(c)) continue; prune(c); if (!c.children.length) p.remove(c); } }; prune(g); }
+  return root; }

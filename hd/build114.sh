@@ -16,3 +16,6 @@ python3 perf115.py live/v115_1d.html live/v115_1e.html
 python3 sync115.py live/v115_1e.html live/v115_1f.html
 python3 load115.py live/v115_1f.html live/v115_2.html
 python3 en111.py live/v115_2.html live/v115f.html v115f
+python3 draw115.py live/v115_2.html live/v115_3.html
+python3 ui115g.py live/v115_3.html live/v115_3b.html
+python3 en111.py live/v115_3b.html live/v115g.html v115g

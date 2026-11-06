@@ -284,3 +284,11 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - **Điện thoại 30 khung hình khi rảnh:** `perf115.py`. Chỉ áp dụng MOBILE và QI<2; 1,5 giây sau khi chạm vẫn đủ khung. Bóng cập nhật mỗi 4 khung. Trên M1: lượt vẽ mỗi giây giảm khoảng 15%; chưa đo được trên điện thoại thật.
 - **Tự chọn bản lưu:** `sync115.py`. Cùng mã mà bản mạng tốt hơn thì tự lấy, bản máy tốt hơn thì giữ im (bên thua vào backup). Chỉ hỏi khi là mã khác.
 - **Lưu ý kiểm tra:** `lp/mv2_test.html` phải dựng lại mỗi bản (`python3 gen_test.py x40f.js live/X.html`), nếu cũ thì tNav, tFan, tBld... báo hết giờ giả. tDia113 đôi khi hết giờ khi máy bận, chạy riêng thì qua.
+
+## v115g (06/11/2026): giảm một nửa lượt vẽ, số báo Chợ, thẻ đơn
+- **Lượt vẽ:** `draw115.py` + `draw115_pin.js`. Đo trên M1 (`tPerf115.js`, cấp 5, 30 khung): 247 còn 123 lượt mỗi khung; 7.419 còn 3.680 lượt mỗi giây (v115d: 8.787). Chưa đo trên điện thoại thật.
+- **Ghim là nhóm nặng nhất (7 khối mỗi cái):** phần nền gộp thành một khối dùng chung theo màu (`pinGeo`, `pinSync`). Năm khối gốc giữ lại nhưng ẩn, chỉ để lưu màu: đổi màu xong phải gọi `pinSync(g)`.
+- **Người và con vật:** `mergeRig(root, live)` gộp khối, chỉ giữ riêng phần chuyển động: nhân vật 63 còn 6, gà khoảng 27 còn 4. Thêm phần chuyển động mới thì phải đưa vào `live`, không thì bị gộp cứng.
+- **Icon ghim gộp:** `vcEmis` cho ánh sáng đêm nhân theo màu từng đỉnh. Phải đặt sau khi clone vật liệu vì clone không giữ onBeforeCompile.
+- **Giao diện:** `ui115g.py`. Số báo kho thò ra trái icon Chợ; "Để bữa khác" chỉ còn chữ; nút tắt ghi "Còn thiếu N món · X xu".
+- **Còn ngờ:** tDeco113 bước kéo chòi ra vườn: v115g rớt 2/7 lần (5 lần cuối qua), v115f qua 3/3. Chưa rõ do máy bận hay lỗi thật. Trang kiểm tra phải dựng bằng `/tmp/x10.js`, không phải x40f, nếu không tDeco/tDia/tSan báo thiếu ST.
