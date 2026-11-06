@@ -292,3 +292,10 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - **Icon ghim gộp:** `vcEmis` cho ánh sáng đêm nhân theo màu từng đỉnh. Phải đặt sau khi clone vật liệu vì clone không giữ onBeforeCompile.
 - **Giao diện:** `ui115g.py`. Số báo kho thò ra trái icon Chợ; "Để bữa khác" chỉ còn chữ; nút tắt ghi "Còn thiếu N món · X xu".
 - **Còn ngờ:** tDeco113 bước kéo chòi ra vườn: v115g rớt 2/7 lần (5 lần cuối qua), v115f qua 3/3. Chưa rõ do máy bận hay lỗi thật. Trang kiểm tra phải dựng bằng `/tmp/x10.js`, không phải x40f, nếu không tDeco/tDia/tSan báo thiếu ST.
+
+## v115h (06/11/2026): mật thư bụi chuối
+- **Chơi thế nào:** ghé vườn bạn, bấm "Quà · mật thư", chọn chỗ giấu, chọn câu mẫu, kẹp quà nếu muốn. Mỗi người chỉ giấu được 1 lá mỗi ngày cho một vườn. Chủ vườn thấy ghim thư ở chỗ giấu, bấm mở, nhận quà một lần, lưu lại trong Sổ mục Thư.
+- **Không có chữ tự do:** chỉ gửi số thứ tự câu mẫu, nên không phải kiểm duyệt. `NOTE.texts` chỉ được thêm vào cuối, không đổi thứ tự, vì thư cũ lưu theo số thứ tự. Bốn chỗ giấu: bụi chuối, hòn đá mé sông, khạp nước, đống rơm.
+- **File:** `note115.py`, `note115.js`, `note115.css`; kiểm tra `tNote115.js`. Lưu thư trong `ST.notes`, giữ tối đa 40 lá đã đọc.
+- **Supabase đã áp dụng:** migration `mv2_note_kind`, thêm loại `note` vào `mv2_act`, kiểm dữ liệu chặt (chỉ các khóa t, st, spot, gk, gs; không nhận chữ tự do). Bản cũ của người chơi coi `note` như một lượt ghé.
+- **Còn biết:** tiếng Anh, biển khai hoang trong cảnh vẫn là chữ Việt (đã có từ trước, để lại cho đợt soát tiếng Anh).
