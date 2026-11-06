@@ -295,7 +295,19 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 
 ## v115h (06/11/2026): mật thư bụi chuối
 - **Chơi thế nào:** ghé vườn bạn, bấm "Quà · mật thư", chọn chỗ giấu, chọn câu mẫu, kẹp quà nếu muốn. Mỗi người chỉ giấu được 1 lá mỗi ngày cho một vườn. Chủ vườn thấy ghim thư ở chỗ giấu, bấm mở, nhận quà một lần, lưu lại trong Sổ mục Thư.
-- **Không có chữ tự do:** chỉ gửi số thứ tự câu mẫu, nên không phải kiểm duyệt. `NOTE.texts` chỉ được thêm vào cuối, không đổi thứ tự, vì thư cũ lưu theo số thứ tự. Bốn chỗ giấu: bụi chuối, hòn đá mé sông, khạp nước, đống rơm.
+- **Không có chữ tự do:** chỉ gửi số thứ tự câu mẫu, nên không phải kiểm duyệt. Thư lưu theo số thứ tự câu trong `NOTE.texts`. Bốn chỗ giấu: bụi chuối, hòn đá mé sông, khạp nước, đống rơm.
 - **File:** `note115.py`, `note115.js`, `note115.css`; kiểm tra `tNote115.js`. Lưu thư trong `ST.notes`, giữ tối đa 40 lá đã đọc.
 - **Supabase đã áp dụng:** migration `mv2_note_kind`, thêm loại `note` vào `mv2_act`, kiểm dữ liệu chặt (chỉ các khóa t, st, spot, gk, gs; không nhận chữ tự do). Bản cũ của người chơi coi `note` như một lượt ghé.
 - **Còn biết:** tiếng Anh, biển khai hoang trong cảnh vẫn là chữ Việt (đã có từ trước, để lại cho đợt soát tiếng Anh).
+
+## v115j (06/11/2026): lò ấp không còn kẹt, bộ câu mật thư của anh Ares
+- **Lò ấp (`lo115.py`, `tLo115.js`):** chuồng đầy vẫn ấp đủ 4 trứng. Lúc bắt, con không có chỗ thì Ngoại bán 40 xu một con (`LO.sellDuck`), không còn nằm chờ trong lò. Bản lưu đang kẹt tự gỡ khi bấm nút. Bán lúc bấm chứ không tự bán, nên còn nới chuồng trước được.
+- **Bộ câu (`NOTE.texts`, 55 câu):** thay toàn bộ câu nháp v115h, v115h chưa từng lên live nên đổi số thứ tự an toàn. **Từ v115j trở đi chỉ được thêm vào cuối.** Nhóm: theo 4 chỗ giấu, `qua`, `khia`, `cadao`, `do` (có đáp án).
+- **Lọc câu:** câu chỗ giấu và câu gửi quà chỉ hiện khi kẹp quà; cờ `q` cần có quà; cờ `food` ẩn khi kẹp hạt. `noteFix` bỏ câu đã chọn khi không còn hợp.
+- **tSan113 "kéo nút dời được cây":** tải vườn thật MV-9494 từ máy chủ, vườn này không còn tre tầm vông nên báo lỗi ở mọi bản từ v115f. Không phải lỗi game, bài cần đổi sang dữ liệu cố định.
+
+## Việc kế tiếp đã duyệt: mật thư giấu thật (làm sau bản đang chờ push)
+- Bỏ ghim, chỗ giấu chỉ có túm lá rung nhẹ, vùng chạm rộng hơn hình. Nhóm "Gợi ý chỗ giấu" ra khỏi bảng chọn câu, game tự chọn câu gợi ý theo chỗ giấu.
+- Lời Ngoại, anh Ares chốt chữ: **"Hồi nãy Tư ghé, có nhắn lại: *câu gợi ý*"**. Không dùng "để lại mấy chữ", vì câu gợi ý không nằm trong lá thư.
+- Sổ mục Thư có "Còn 1 lá chưa tìm ra" và nút Ngoại chỉ giùm; quá 1 ngày ghim tự hiện.
+- Cần thêm câu gợi ý không nhắc tới quà cho thư không kẹp quà, nhất là bụi chuối và khạp nước. Hiện chỉ có 3 câu trung tính.

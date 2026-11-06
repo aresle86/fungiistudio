@@ -19,4 +19,5 @@ python3 en111.py live/v115_2.html live/v115f.html v115f
 python3 draw115.py live/v115_2.html live/v115_3.html
 python3 ui115g.py live/v115_3.html live/v115_3b.html
 python3 note115.py live/v115_3b.html live/v115_3c.html
-python3 en111.py live/v115_3c.html live/v115h.html v115h
+python3 lo115.py live/v115_3c.html live/v115_3d.html
+python3 en111.py live/v115_3d.html live/v115j.html v115j
