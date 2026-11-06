@@ -10,5 +10,9 @@ python3 rad114.py live/v114d.html live/v114e.html ${1:-nhac}
 python3 multi114.py live/v114e.html live/v114f.html
 python3 qc115.py live/v114f.html live/v115_1.html
 python3 chau115.py live/v115_1.html live/v115_1b.html
-python3 load115.py live/v115_1b.html live/v115_2.html
-python3 en111.py live/v115_2.html live/v115d.html v115d
+python3 ga115.py live/v115_1b.html live/v115_1c.html
+python3 vis115.py live/v115_1c.html live/v115_1d.html
+python3 perf115.py live/v115_1d.html live/v115_1e.html
+python3 sync115.py live/v115_1e.html live/v115_1f.html
+python3 load115.py live/v115_1f.html live/v115_2.html
+python3 en111.py live/v115_2.html live/v115f.html v115f

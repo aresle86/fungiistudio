@@ -276,3 +276,11 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - **Chậu Tết vẽ lại** (`chau115.py`): icon cúc, mai không còn dùng Math.random; `maiTree` trong vườn đổi thân chữ S. Chưa đổi `cucBush` trên liếp và chậu trên ghe chợ hoa.
 - **Quét toàn game:** `node tScan.js webkit nhanh` với `PAGE=`. Macbook không có lệnh `timeout`, dùng `perl -e 'alarm N; exec @ARGV'`. Không chạy song song hai trình duyệt: test sẽ timeout giả (tDia113, tSap112 báo lỗi khi máy bận, chạy riêng thì qua).
 - **Còn lại từ bài quét:** tiếng Anh còn sót chữ Việt (tên vườn lúc thử, bảng 3D "Mé sông"); `.stk` Xoài, Dừa tràn nhẹ.
+
+## v115f (06/11/2026): bình tưới, ấp trứng, ghé vườn, 30 khung hình, tự chọn bản lưu
+- **Bình tưới báo đúng:** `canBadge()` là hàm, cập nhật mỗi 2 giây và sau khi tưới (`ga115.py`).
+- **Ấp trứng:** quest gà con có nút "Tới chuồng gà"; lượm trứng khi Ngoại đang mong gà con thì mở tấm chuồng để chọn "Để n trứng cho gà ấp" hay "Lượm hết". Trứng trong kho cũng đem ấp được (`gaHatchWant`, `gaBroodN`, `gaHatchOk`).
+- **Ghé vườn:** thanh ghé vườn ghi rõ chế độ (`visitMode()`: ve/phu/xong), viền và vòng ghim xanh = đem về, vàng = hái phụ, chữ nổi nói rõ của ai (`vis115.py`).
+- **Điện thoại 30 khung hình khi rảnh:** `perf115.py`. Chỉ áp dụng MOBILE và QI<2; 1,5 giây sau khi chạm vẫn đủ khung. Bóng cập nhật mỗi 4 khung. Trên M1: lượt vẽ mỗi giây giảm khoảng 15%; chưa đo được trên điện thoại thật.
+- **Tự chọn bản lưu:** `sync115.py`. Cùng mã mà bản mạng tốt hơn thì tự lấy, bản máy tốt hơn thì giữ im (bên thua vào backup). Chỉ hỏi khi là mã khác.
+- **Lưu ý kiểm tra:** `lp/mv2_test.html` phải dựng lại mỗi bản (`python3 gen_test.py x40f.js live/X.html`), nếu cũ thì tNav, tFan, tBld... báo hết giờ giả. tDia113 đôi khi hết giờ khi máy bận, chạy riêng thì qua.

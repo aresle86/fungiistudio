@@ -1,0 +1,1 @@
+[["^Hái ké đem về · còn (\\d+) món$", "Pick for yourself · $1 left"], ["^Hái giùm (.+)$", "Pick for $1"], ["^Rau về kho (.+) · được hái ké 1 món$", "Harvest goes to $1 · you may pick 1 for yourself"], ["^Đem về \\+(\\d+) (.+)$", "Taking home +$1 $2"], ["^Tưới hay hái 1 liếp giúp (.+), xong được hái ké 1 món$", "Water or pick 1 bed for $1, then you may pick 1 for yourself"]]
