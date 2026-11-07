@@ -1,0 +1,14 @@
+[
+[
+"^Mua đất · (\\d+) xu$",
+"Buy land · $1 coins"
+],
+[
+"^Miếng đất này (\\d+) xu, con còn thiếu (\\d+) xu\\.$",
+"This plot is $1 coins; you need $2 more."
+],
+[
+"^-(\\d+) xu · đất thổ cư$",
+"-$1 coins · residential land"
+]
+]

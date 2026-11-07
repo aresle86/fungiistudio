@@ -1,0 +1,22 @@
+[
+[
+"^Thẻ về vườn đang (\\d+)/7 ngày liền\\.$",
+"Visit card: $1/7 days in a row."
+],
+[
+"^Đã thu (\\d+)/3 vụ khổ qua trên giàn\\.$",
+"Bitter melon on the trellis: $1/3 harvests."
+],
+[
+"^Đã qua lại (\\d+)/5 lần\\.$",
+"Visits back and forth: $1/5."
+],
+[
+"^Đã hái (\\d+)/5 vụ khế\\.$",
+"Starfruit harvests: $1/5."
+],
+[
+"^Đã hái (\\d+)/3 vụ dừa\\.$",
+"Coconut harvests: $1/3."
+]
+]

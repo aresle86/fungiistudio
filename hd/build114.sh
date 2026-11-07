@@ -31,3 +31,11 @@ python3 eco115.py live/v115_3k.html live/v115_3l.html
 python3 dcl115.py live/v115_3l.html live/v115_3m.html
 python3 ft115.py live/v115_3m.html live/v115_3n.html
 python3 en111.py live/v115_3n.html live/v115p.html v115p
+# v116a: cây cổ tích thành sự kiện lớn (lời đồn, điềm báo, cảnh mở cây, nhạc cổ tích)
+python3 ft116.py live/v115_3n.html live/v116_1.html
+python3 nm116.py live/v116_1.html live/v116_2.html
+python3 en111.py live/v116_2.html live/v116a.html v116a
+# v117a: sân cỏ (đất thổ cư), giá khai hoang mới, Sắp vườn từ cấp 7, máy nóng tự hạ khi đuối
+python3 sc117.py live/v116_2.html live/v117_1.html
+python3 aq117.py live/v117_1.html live/v117_2.html
+python3 en111.py live/v117_2.html live/v117a.html v117a
