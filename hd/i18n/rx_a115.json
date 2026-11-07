@@ -1,0 +1,370 @@
+[
+[
+"^Ngoại cho 3 bó rơm",
+"Grandma gives you 3 bundles of straw"
+],
+[
+"^Ngoại cho 2 bao hạt giống",
+"Grandma gives you 2 seed bags"
+],
+[
+"^Ngoại cho 3 con trùn làm mồi",
+"Grandma gives you 3 worms for bait"
+],
+[
+"^Ngoại cho (\\d+) (?:xu|coins)",
+"Grandma gives you $1 coins"
+],
+[
+"^Ngoại cho 2 bó củi với 1 bịch đường",
+"Grandma gives you 2 bundles of firewood and 1 bag of sugar"
+],
+[
+" Thêm 3 bao hạt nữa nè\\.",
+" Plus 3 more seed bags."
+],
+[
+" Bảy ngày liền con về với Ngoại, ngoài vườn có chuyện lạ lắm\\.",
+" Seven days in a row with Grandma. Something strange is happening in the garden."
+],
+[
+"^Về vườn ngày (\\d+)/7$",
+"Back at the garden: day $1/7"
+],
+[
+"^Vịt đẻ mỗi (\\d+) (?:tiếng|h|hr) một trứng nếu máng còn thức ăn\\. Vịt ăn rau muống trong kho \\(1 bó = (\\d+) phần\\), thiếu thì mua cám (\\d+) xu một phần\\.(.*)$",
+"Ducks lay one egg every $1 hours while the trough has food. They eat water spinach from storage (1 bunch = $2 portions); if short, buy feed at $3 coins a portion.$4"
+],
+[
+"^Ao vừa(?= )",
+"Medium pond"
+],
+[
+"^Ao lớn(?= )",
+"Large pond"
+],
+[
+"^Phát cỏ trước, rồi cuốc đất\\. Chạm vô ô mà làm nghe\\.$",
+"Cut the grass first, then hoe the soil. Tap a plot to start."
+],
+[
+"^Đắp bờ trước, rồi cuốc đất\\. Chạm vô ô mà làm nghe\\.$",
+"Build up the bank first, then hoe the soil. Tap a plot to start."
+],
+[
+"^Chặt gốc tre trước, rồi cuốc đất\\. Chạm vô ô mà làm nghe\\.$",
+"Chop the bamboo stumps first, then hoe the soil. Tap a plot to start."
+],
+[
+"^Đủ nhóm cá mé lục bình rồi đó con! Ngoại tặng con chậu lục bình bông tím, Ngoại để ở bến rồi\\.$",
+"You completed the hyacinth-edge fish, dear! Grandma has a gift for you: a pot of purple water hyacinth. It's by the pier."
+],
+[
+"^Đủ nhóm cá giữa sông rồi đó con! Ngoại tặng con cái lờ tre, Ngoại để ở bến rồi\\.$",
+"You completed the mid-river fish, dear! Grandma has a gift for you: a bamboo fish trap. It's by the pier."
+],
+[
+"^Đủ nhóm cá ăn đêm rồi đó con! Ngoại tặng con cây đèn bão, Ngoại để ở bến rồi\\.$",
+"You completed the night-feeding fish, dear! Grandma has a gift for you: a storm lantern. It's by the pier."
+],
+[
+"^Bắt đầu (.+) · xong sau (\\d+) (?:tiếng|h|hr)$",
+"Started · done in $2 h"
+],
+[
+"^Bắt đầu đóng ghe · xong sau (\\d+) (?:tiếng|h|hr)$",
+"Boat building started · done in $1 h"
+],
+[
+"^Khai hoang · (\\d+) xu$",
+"Clear land · $1 coins"
+],
+[
+"^(.+) xong rồi con! Rộng rinh chưa, thả thêm cá đi\\.$",
+"$1 is done, dear! Nice and roomy. Stock more fish."
+],
+[
+"^(.+) · xong sau (\\d+) (?:tiếng|h|hr)$",
+"$1 · done in $2 h"
+],
+[
+"^(?:Đang lợp mái|Đang sửa nhà|Đang đóng ghe) · còn (.*)· bạn ghé phụ bớt 1 (?:tiếng|h|hr)$",
+"Building · $1left · each visiting friend saves 1 hour"
+],
+[
+"^(.+) · còn (.+) · bạn ghé phụ bớt 1 (?:tiếng|h|hr)$",
+"$1 · $2 left · each visiting friend saves 1 hour"
+],
+[
+"^(.+) cần (\\d+) ô ngang, (\\d+) ô dọc đã khai hoang và còn trống, gồm cả chỗ ao đang nằm\\. Dọn bớt hay dời ao qua chỗ rộng hơn nghe con\\.$",
+"$1 needs $2 by $3 cleared, empty plots, counting where the pond is now. Clear some or move the pond somewhere roomier, dear."
+],
+[
+"^(.+) trước, rồi cuốc đất\\. Chạm vô ô mà làm nghe\\.$",
+"$1 first, then hoe the soil. Tap a plot to start."
+],
+[
+"^(Giàn này|Gốc này|Chỗ này) để trồng (.+), mai mốt Ngoại cho giống nghe con\\.$",
+"This spot is for $2. Grandma will give you the seedling later, dear."
+],
+[
+"^(.+) hơi héo rồi\\. Tưới một chút cho cây tỉnh lại\\.$",
+"$1 is wilting a little. A bit of water will perk it up."
+],
+[
+"^(.+) khô mất rồi\\. Thôi, mình dọn liếp trồng lại\\.$",
+"$1 has dried out. Never mind, let's clear the bed and replant."
+],
+[
+"^(\\d+) con ra chuồng, còn (\\d+) con Ngoại bán cho hàng xóm được (\\d+) xu\\.$",
+"$1 went to the pen. Grandma sold the other $2 to the neighbours for $3 coins."
+],
+[
+"^Chuồng chật rồi, (\\d+) con vịt con Ngoại bán cho hàng xóm được (\\d+) xu\\.$",
+"The pen is full. Grandma sold $1 ducklings to the neighbours for $2 coins."
+],
+[
+"^(.+) hái xong rồi, nghỉ chừng (.+) cây lại ra trái\\.$",
+"$1 is picked. It will fruit again in about $2."
+],
+[
+"^(.+) hái xong đợt này, cây ra trái lại được (\\d+) đợt nữa đó con\\.$",
+"$1 is picked. It will fruit $2 more times, dear."
+],
+[
+"^(.+) trồng ở gốc dừa mé sông cạnh bến con\\.$",
+"$1 grows at the coconut spot by the pier, dear."
+],
+[
+"^(.+) trồng ở góc cây trái bên hông nhà con\\.$",
+"$1 grows in the fruit corner beside the house, dear."
+],
+[
+"^(.+) ở (.+) của (.+), chín rồi\\.$",
+"$1 at $2, belongs to $3, ripe."
+],
+[
+"^(.+) ở (.+) của (.+), đang lớn\\.$",
+"$1 at $2, belongs to $3, still growing."
+],
+[
+"^(.+) của (.+), chín rồi\\.$",
+"$2's $1, ripe."
+],
+[
+"^(.+) của (.+), đang lớn\\.$",
+"$2's $1, still growing."
+],
+[
+"^Hái \\+(\\d+) (.+)$",
+"Picked +$1 $2"
+],
+[
+"^(\\d+) bó rau muống$",
+"$1 bunches of water spinach"
+],
+[
+"^\\+(\\d+) rơm$",
+"+$1 straw"
+],
+[
+"^\\+(\\d+) xu · bán (\\d+) vịt con$",
+"+$1 coins · sold $2 ducklings"
+],
+[
+"^\\+(\\d+) xu · bán (\\d+) (.+)$",
+"+$1 coins · sold $2 $3"
+],
+[
+"^\\+1 (.+) làm mồi$",
+"+1 $1 for bait"
+],
+[
+"^-(\\d+) xu · sửa (.+)$",
+"-$1 coins · repair $2"
+],
+[
+"^-(\\d+) xu · dựng (.+)$",
+"-$1 coins · build $2"
+],
+[
+"^-(\\d+) trái bắp$",
+"-$1 corn"
+],
+[
+"^-(\\d+) xu · mai vàng chậu$",
+"-$1 coins · potted apricot blossom"
+],
+[
+"^-(\\d+) cục vàng · -(\\d+) xu · (.+)$",
+"-$1 gold · -$2 coins · $3"
+],
+[
+"^-(\\d+) cục vàng · (.+)$",
+"-$1 gold · $2"
+],
+[
+"^Thư bạn bè · (\\d+) lá$",
+"Friends' notes · $1"
+],
+[
+"^Con giấu thư rồi, (.+) về là kiếm ra\\.$",
+"Note hidden. $1 will find it when they get home."
+],
+[
+"^Bầy gà con lớn rồi con\\. (.*)$",
+"The chicks have grown, dear. $1"
+],
+[
+"^Bắt đầu đóng ghe · xong sau (\\d+) (?:tiếng|h|hr)$",
+"Boat building started · done in $1 h"
+],
+[
+"^Chạm một ô đất trống ở bãi để đặt (.+)$",
+"Tap an empty plot in the yard to place $1"
+],
+[
+"^Con mái vàng đòi ấp rồi\\. Ngoại để lại (\\d+) trứng cho nó nằm, chừng (\\d+) (?:tiếng|h|hr) là nở\\. Gà nằm ấp với lúc dẫn con thì không đẻ nghe\\.$",
+"The yellow hen wants to brood. Grandma left her $1 eggs, about $2 hours to hatch. A hen won't lay while brooding or minding chicks."
+],
+[
+"^Cây giống (.+) (\\d+) xu, còn thiếu (\\d+) xu\\.$",
+"$1 sapling costs $2 coins; you're $3 short."
+],
+[
+"^Cây giống (.+) đem ra mé sông cạnh bến trồng nghe\\.$",
+"Plant the $1 sapling on the riverbank by the pier."
+],
+[
+"^Cây giống (.+) đem ra góc cây trái bên hông nhà trồng nghe\\.$",
+"Plant the $1 sapling in the fruit corner beside the house."
+],
+[
+"^Có (\\d+) liếp héo, (\\d+) liếp khô mất rồi\\. Héo thì tưới, khô thì dọn trồng lại\\.$",
+"$1 beds wilting, $2 dried out. Water the wilted, clear and replant the dried."
+],
+[
+"^Có (\\d+) liếp héo rồi\\. Héo thì tưới, khô thì dọn trồng lại\\.$",
+"$1 beds wilting. Water the wilted, clear and replant the dried."
+],
+[
+"^Có (\\d+) liếp khô mất rồi\\. Héo thì tưới, khô thì dọn trồng lại\\.$",
+"$1 beds dried out. Water the wilted, clear and replant the dried."
+],
+[
+"^Có (\\d+) ô đất ải xong rồi con, đắp liếp hay đặt đồ được rồi\\.$",
+"$1 plots have finished drying, dear. You can build beds or place things now."
+],
+[
+"^Cần đủ (.+) ô đất trống của con nằm sát nhau, chưa đắp liếp\\.$",
+"You need $1 of your own empty plots side by side, with no beds on them."
+],
+[
+"^Ghe lớn chở lờ ra sông · (\\d+) (?:tiếng|h|hr) thăm lờ một lần · hay gặp loài cá mới$",
+"Big boat carries fish traps out · check traps every $1 h · often finds new fish"
+],
+[
+"^Ghi vô Sổ bướm: (.+)$",
+"Added to the Butterfly Book: $1"
+],
+[
+"^Giờ con đắp thêm liếp được rồi, tối đa (\\d+) liếp\\. Chạm vô đám cỏ rậm cạnh vườn mà dọn\\.$",
+"You can build more beds now, up to $1. Tap the thick grass by the garden to clear it."
+],
+[
+"^Gà con nở rồi con! (\\d+)/(\\d+) trứng nở, gà mẹ đang dẫn đi kiếm mồi\\.$",
+"Chicks hatched, dear! $1/$2 eggs hatched. The mother hen is leading them around for food."
+],
+[
+"^Gốc này để trồng (.+) con\\.$",
+"This spot is for $1, dear."
+],
+[
+"^Hết cây giống (.+) mà xu còn thiếu (\\d+)\\. Hái rau đem bán trước nghe con\\.$",
+"Out of $1 saplings and $2 coins short. Pick and sell some greens first, dear."
+],
+[
+"^Hết bao hạt (.+) mà xu còn thiếu (\\d+)\\. Hái rau đem bán trước nghe con\\.$",
+"Out of $1 seeds and $2 coins short. Pick and sell some greens first, dear."
+],
+[
+"^Hết hạt (.+) rồi\\. Giống quý chỉ bán ở Tiệm Tết trong Chợ\\.$",
+"Out of $1 seeds. Rare seeds are only sold at the Tết Shop in the Market."
+],
+[
+"^Kho còn (\\d+) chỗ mà vụ này ra (\\d+) món\\. Mình bán bớt rồi hái tiếp\\.$",
+"Storage has $1 spaces left but this harvest gives $2. Let's sell some, then keep picking."
+],
+[
+"^(?:Kiểu này|Món này) (\\d+) xu, con còn thiếu (\\d+) xu\\.$",
+"This costs $1 coins; you're $2 short."
+],
+[
+"^Kéo lưới được (\\d+) con cá, thêm 1 phần bùn ao vô hố ủ$",
+"Netted $1 fish, plus 1 scoop of pond mud for compost"
+],
+[
+"^Kéo lưới được (\\d+) con cá$",
+"Netted $1 fish"
+],
+[
+"^Nhắn xin hạt rồi\\. Đợi (.+) trả lời nghe\\.$",
+"Seed request sent. Wait for $1 to reply."
+],
+[
+"^Nở (\\d+) con vịt rồi nè! Thả chung với đàn luôn\\.$",
+"$1 ducklings hatched! They've joined the flock."
+],
+[
+"^Rê qua mấy liếp để phủ rơm · còn (\\d+) bó$",
+"Drag across beds to mulch · $1 left"
+],
+[
+"^Tuần rồi con câu con (.+) lớn nhất xóm! Hội câu gửi con 150 xu với cái cúp, Ngoại để ngoài bến cho bà con coi\\.$",
+"Last week you caught the biggest $1 in the village! The fishing club sent 150 coins and a trophy. Grandma put it by the pier for all to see."
+],
+[
+"^Tặng 1 bao hạt (.+)$",
+"Gift 1 bag of $1 seeds"
+],
+[
+"^Vườn của (.+) nè\\. Ở xóm mình đổi công: tưới giùm hay hái giùm một liếp thì được hái ké một món đem về\\.$",
+"This is $1's garden. Here in the village we trade help: water or pick one bed for them, and you may take one item home."
+],
+[
+"^Vườn này Ngoại chăm đủ thứ cây nè con\\. Chạm vô liếp coi cây gì, liếp nào chín thì Ngoại cho hái (\\d+) món đem về\\. Liếp nào khô thì tưới giùm Ngoại nghe\\.$",
+"Grandma grows all sorts here, dear. Tap a bed to see what it is. You may take $1 ripe items home. Water any dry beds for Grandma, will you?"
+],
+[
+"^Ô này đang đặt (.+)\\. Dời đi rồi mới đắp liếp được con\\.$",
+"$1 is on this plot. Move it before building a bed, dear."
+],
+[
+"^Đang chiếm (.+) ô đất · nuôi được (\\d+) con$",
+"Takes up $1 plots · holds $2 fish"
+],
+[
+"^Đào ao tốn (\\d+) xu, con còn thiếu (\\d+) xu\\.$",
+"Digging a pond costs $1 coins; you're $2 short."
+],
+[
+"^Đất mệt · hụt (\\d+) (.+)$",
+"Tired soil · lost $1 $2"
+],
+[
+"^Đủ nhóm (.+) rồi đó con! Ngoại tặng con (.+), Ngoại để ở bến rồi\\.$",
+"You completed the $1 group, dear! Grandma has a gift for you: $2. It's by the pier."
+],
+[
+"^Đủ tre rồi\\. Ra (.+) mà sửa\\.$",
+"Enough bamboo. Go fix the $1."
+],
+[
+"^Đủ tre rồi\\. Ra (.+) mà dựng\\.$",
+"Enough bamboo. Go build the $1."
+],
+[
+"^(\\d+) lá$",
+"$1"
+]
+]

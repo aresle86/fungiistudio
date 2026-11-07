@@ -328,3 +328,10 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - **Lưu ý test:** tGa115, tQc115, tSync115, tGhe113 nhận trang qua biến môi trường `PAGE`, không nhận tham số dòng lệnh. Quên là test chạy trên bản cũ và báo lỗi giả.
 - Mưa theo giờ chưa làm vì đụng luật chơi, đưa vào bản kế hoạch.
 
+## v115n, v115o (07/11/2026): ao nhỏ, tiếng Anh, cất đồ ao, lục bình, báo lỗi
+- Build: `ao115.py` (xếp lại ao nhỏ), `en115.py` (biển gỗ, chữ bay, thẻ về vườn dịch tiếng Anh), `dc115.py` (cất/đặt đồ ao qua `B.off`; lục bình chỉ từ `gioOn()`), `rp115.py` (báo lỗi, tự ghi lỗi). Bản dịch mới: `i18n/en_v115n.json`, `i18n/rx_a115.json` (tên `rx_a` để chạy trước các mẫu chung).
+- **Lục bình:** anh chốt chưa cần thì chưa cho lụm. Cấp dưới 15 không xuất hiện, vườn cũ tự dọn, không còn đường ra rơm. Vịt cấp 6 tới 14 chỉ ăn rau muống hoặc cám.
+- **Báo lỗi:** Cài đặt > Báo lỗi, góp ý. Máy chủ: bảng `mv2_reports`, `mv2_errs`, hàm `mv2_report`, `mv2_err`, `mv2_admin_list`, `mv2_admin_done`, `mv2_admin_ok` (`sql/mv2_report.sql`). Trang đọc `mietvuon2/baoloi.html` (nguồn `site/baoloi.html`), khóa ở `hd/.baoloi-key`, không đưa lên git. Đọc trực tiếp bằng SQL cũng được.
+- **Bot:** `tBot90.js` chạy không dừng ở cấp 20. Trên v115o: cấp 8 ngày 3,8, cấp 12 ngày 10,3, cấp 16 ngày 18,5; 1.240 XP và 5.000 xu mỗi ngày. Bot kẹt cấp 16 vì không đào ao, cần dạy.
+- **Kế hoạch:** https://claude.ai/artifact/BUijyUMFRaC5KpSAuUHtrw. Anh đã tick: cây khô chỉ héo không chết; sửa nền trước rồi mới thêm cấp. Chưa làm.
+

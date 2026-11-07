@@ -23,4 +23,8 @@ python3 lo115.py live/v115_3c.html live/v115_3d.html
 python3 egg115.py live/v115_3d.html live/v115_3e.html
 python3 hide115.py live/v115_3e.html live/v115_3f.html
 python3 fx115.py live/v115_3f.html live/v115_3g.html
-python3 en111.py live/v115_3g.html live/v115m.html v115m
+python3 ao115.py live/v115_3g.html live/v115_3h.html
+python3 en115.py live/v115_3h.html live/v115_3i.html
+python3 dc115.py live/v115_3i.html live/v115_3j.html
+python3 rp115.py live/v115_3j.html live/v115_3k.html
+python3 en111.py live/v115_3k.html live/v115o.html v115o
