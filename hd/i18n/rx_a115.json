@@ -1,5 +1,17 @@
 [
 [
+"^Lên cấp (\\d+) Tiệm có thêm (.+)\\.$",
+"At level $1 the Shop adds: $2."
+],
+[
+"^\\+4 tàu lá dừa · (\\d+)/20$",
+"+4 nipa fronds · $1/20"
+],
+[
+"^\\+2 cây tre · (\\d+)/10$",
+"+2 bamboo poles · $1/10"
+],
+[
 "^Ngoại cho 3 bó rơm",
 "Grandma gives you 3 bundles of straw"
 ],

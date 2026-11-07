@@ -4,7 +4,7 @@ await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q
 await p.goto('http://127.0.0.1:8777/mv2_test.html',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__ready,null,{timeout:300000});
 const tk=()=>p.evaluate(()=>{for(let i=0;i<3;i++)window.__tick();});
 const shot=async(n,x=7.4,z=9.5,zm=2.2)=>{await p.evaluate(([x,z,zm])=>{for(let i=0;i<3;i++)window.__tick();const c=window.__ctl;const d=c.object.position.clone().sub(c.target);c.target.set(x,.3,z);c.object.position.copy(c.target).add(d);c.object.zoom=zm;c.object.updateProjectionMatrix();for(let i=0;i<3;i++)window.__tick();},[x,z,zm]);await p.screenshot({path:'../'+n+'.png',timeout:120000}).catch(()=>console.log('shotfail'));};
-await p.evaluate(()=>{window.__stop=true;document.getElementById('intro').style.display='none';const g=window.__g;g.ST.player={av:1,name:'N',garden:'V'};g.ST.lv=18;g.ST.xp=4800;g.ST.xu=1000;g.ST.tm='fixed';g.ST.ovr=10;});
+await p.evaluate(()=>{window.__stop=true;document.getElementById('intro').style.display='none';const g=window.__g;g.ST.player={av:1,name:'N',garden:'V'};g.ST.lv=18;g.ST.xp=24000;g.ST.xu=9000;g.ST.tm='fixed';g.ST.ovr=10;});
 await tk();
 const S=()=>p.evaluate(()=>{const g=window.__g,X=window.__FT3,V=X.TBV;return JSON.stringify({lv:g.ST.lv,tb:g.ST.tb,root:V.root.visible,bub:V.b.visible,kids:V.m?V.m.children.length:0,left:Math.round(X.tbLeft()/60000),lo:Math.round(X.loLeft()/60000),xu:g.ST.xu});});
 console.log('lv18',await S());
