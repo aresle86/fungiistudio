@@ -316,3 +316,15 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - **Câu gợi ý:** `noteHint(n)` tự chọn theo chỗ giấu và số thư. Có kẹp quà dùng các câu nhóm chỗ giấu trong `NOTE.texts`; không quà dùng `NOTE.hints`, không nhắc tới quà. Nhóm chỗ giấu ra khỏi bảng chọn câu, các câu vẫn giữ nguyên số thứ tự.
 - **Tìm thư:** `pick0` là khối chạm vô hình quanh túm lá. `noteShown(n)`: ghim chỉ hiện khi `n.show`, quá 1 ngày (`n.at`), hoặc thư cũ không có `at`. Sổ mục Thư có câu nhắn và nút Ngoại chỉ giùm (`thuchi`).
 - **tSan113 "ghe bẹo ghé lại":** phụ thuộc giờ thật, trước `GHEH0` buổi sáng ghe chưa ghé nên báo lỗi. Không phải lỗi game.
+
+## v115m (07/11/2026): hiệu ứng
+- `fx115.py`, `tFx115.js`, soi khung hình bằng `tFxShot.js`. Build: `fx115.py live/v115_3f.html live/v115_3g.html`, rồi en111 ra v115m.
+- **Rau bay vô Kho:** `flyTo(src,x,y,z,n)` bay vòng cung tới nút Chợ (trước đây bay vô Sổ), tối đa 4 món mỗi lần, số Kho nảy khi chạm. Cả nút hái trong bảng cũng bay.
+- **Xu:** `coinFly` đồng xu xoay theo vòng cung, kêu từng đồng; `xuShow` cho số xu chạy, chờ đồng đầu chạm túi (`XUHOLD`). Số thật vẫn là ST.xu, chỉ chữ hiển thị chạy.
+- **Giao đơn:** thẻ đơn thành khúc sông, xuồng chở hàng chèo qua (`ordGoFx`); đóng bảng thì xuồng 3D rời bến chèo đi (`xgFlush`, `fxTick`, dựng lười 1 lần, 24 khối, chỉ vẽ lúc đang chèo). Làn chèo z = R0+.4 rồi lệch R0+.62 để né xuồng ba lá `BOAT` ở bến và ghe bẹo.
+- **Ghe bẹo:** giao đủ, đóng bảng thì ghe nhổ sào chạy thật (`GGO`, `ggoTick`), không còn biến mất.
+- **Pháo hoa:** đóng thẻ lên cấp thì bắn 3 phát (cấp chia hết cho 5: 5 phát) trên mái nhà, vẽ canvas 2D riêng, xong gỡ liền (`fwGo`).
+- Bật giảm chuyển động của máy thì bỏ các hiệu ứng bay, khúc sông, pháo hoa.
+- **Lưu ý test:** tGa115, tQc115, tSync115, tGhe113 nhận trang qua biến môi trường `PAGE`, không nhận tham số dòng lệnh. Quên là test chạy trên bản cũ và báo lỗi giả.
+- Mưa theo giờ chưa làm vì đụng luật chơi, đưa vào bản kế hoạch.
+
