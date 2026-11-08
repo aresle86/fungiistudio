@@ -1,1 +1,1 @@
-window.__N = { DISH, MUOI, SAYR, bepCook, bepCan, S, ordCanMake, ordMake, CROPS, ICON, UNLOCK, unlocked, PLOTS, CB, WHERE, TREEOWN, fits, QUESTS: typeof QUEST !== 'undefined' ? QUEST : null };
+window.__N = { DISH, MUOI, SAYR, bepCook, bepCan, S, ordCanMake, ordMake, CROPS, ICON, UNLOCK, unlocked, PLOTS, CB, WHERE, TREEOWN, fits, PV, PL, QUESTS: typeof QUEST !== 'undefined' ? QUEST : null };

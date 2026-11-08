@@ -142,8 +142,14 @@ window.IC119 = (T, add) => {
   // ---- MỒNG TƠI: bó đọt mồng tơi lá tròn dày xanh thẫm, cọng tím, cột dây đỏ ----
   // ---- CHỢ: sạp có mái bạt sọc đỏ trắng, sọt trái cây to ----
   // ======== RÁC CÂU: dép cũ, chai nhựa ========
-  O.dep = p => { const g = grp(p, 0, 0, 0, -.3, 0, -.45, 1.3); const sh = new T.Shape(); sh.moveTo(0, -.32); sh.bezierCurveTo(.14, -.32, .15, -.05, .11, .08); sh.bezierCurveTo(.15, .24, .1, .34, 0, .34); sh.bezierCurveTo(-.1, .34, -.15, .24, -.11, .08); sh.bezierCurveTo(-.15, -.05, -.14, -.32, 0, -.32);
-    add(g, new T.ExtrudeGeometry(sh, { depth: .05, bevelEnabled: false }), '#4A8AC8'); add(g, new T.ShapeGeometry(sh), '#E8E2D2', 0, 0, .051, null, [.9, .94, 1]); const st = [V(0, .2, .06), V(.0, .14, .12), V(.1, -.02, .06)], st2 = [V(0, .2, .06), V(.0, .14, .12), V(-.1, -.02, .06)]; for (const q of [st, st2]) g.add(new T.Mesh(tube(q, () => .022, 6, 5), new T.MeshStandardMaterial({ color: '#3E7AB8', flatShading: true }))); add(g, new T.SphereGeometry(.04, 6, 4), '#6A9A5A', .06, -.2, .055, null, [1, 1, .3]); };
+  O.dep = p => { // dép tổ ong: đế nhựa trắng ngà, quai trước rộng phủ mũi chân đục lỗ lục giác như tổ ong, quai hậu mảnh; dính chút rong vì vớt dưới sông
+    const g = grp(p, 0, -.04, 0, -1.05, 0, -.75, 1.25), mk = (geo, c, x, y, z) => { const m = new T.Mesh(geo, new T.MeshStandardMaterial({ color: c, flatShading: true, side: T.DoubleSide })); m.position.set(x, y, z); g.add(m); return m; };
+    const sh = new T.Shape(); sh.moveTo(0, -.32); sh.bezierCurveTo(.14, -.32, .15, -.05, .11, .08); sh.bezierCurveTo(.15, .24, .1, .34, 0, .34); sh.bezierCurveTo(-.1, .34, -.15, .24, -.11, .08); sh.bezierCurveTo(-.15, -.05, -.14, -.32, 0, -.32);
+    add(g, new T.ExtrudeGeometry(sh, { depth: .06, bevelEnabled: false }), '#CFC6AE'); add(g, new T.ShapeGeometry(sh), '#EFE9D8', 0, 0, .061, null, [.92, .95, 1]);
+    const UR = .13, UY = .1, UH = .3; const up = mk(new T.CylinderGeometry(UR, UR, UH, 16, 1, true, -Math.PI / 2, Math.PI), '#F4F0E2', 0, UY, .06); up.scale.set(1, 1, .85);
+    for (let row = 0; row < 5; row++) for (let k = 0; k < 7; k++){ const th = -1.26 + k * .42 + (row % 2 ? .21 : 0); if (Math.abs(th) > 1.36) continue; const y = UY - UH / 2 + .04 + row * .055, n = V(Math.sin(th), 0, Math.cos(th) * .85).normalize(); const h = mk(new T.CylinderGeometry(.019, .019, .012, 6), '#8A8474', Math.sin(th) * UR * 1.005, y, .06 + Math.cos(th) * UR * .85 * 1.005); h.quaternion.setFromUnitVectors(V(0, 1, 0), n); }
+    const hs = mk(new T.TorusGeometry(.105, .018, 5, 12, Math.PI), '#F4F0E2', 0, -.2, .06); hs.rotation.set(Math.PI / 2, 0, 0);
+    add(g, new T.SphereGeometry(.045, 6, 4), '#6A9A5A', .07, -.24, .07, null, [1, 1, .3]); };
   O.chai = p => { const g = grp(p, 0, 0, 0, 0, 0, -.9); const pr = [[.0, -.36], [.13, -.35], [.14, -.3], [.13, -.24], [.14, -.18], [.14, .08], [.11, .16], [.05, .24], [.045, .3]]; const geo = new T.LatheGeometry(pr.map(([r, y]) => new T.Vector2(r, y)), 14);
     glass(g, geo, 0, 0, 0, '#A8D8E0', .5); add(g, new T.CylinderGeometry(.141, .141, .14, 14, 1, true), '#E84A3A', 0, -.06, 0); add(g, new T.CylinderGeometry(.052, .052, .07, 10), '#3E8A5A', 0, .33, 0); add(g, new T.CylinderGeometry(.06, .06, .015, 10), '#3E8A5A', 0, .29, 0); };
   // ---- DƯA CẢI MUỐI: hũ thủy tinh, khúc bẹ cải vàng ngà xắt khúc, lá vàng úa ô liu, nước muối vàng trong ----
@@ -190,5 +196,13 @@ window.IC119 = (T, add) => {
   O.duadudu = p => jar2(p, '#E8C878', .05, j => { for (let k = 0; k < 26; k++) add(j, new T.BoxGeometry(.2, .02, .09), k % 2 ? '#DCE89C' : '#C8DC84', R(-.05, .05), -.2 + (k % 9) * .05, R(-.05, .05), [R(-.6, .6), R(0, 3), R(-.6, .6)]); for (let k = 0; k < 4; k++) add(j, new T.TorusGeometry(.024, .01, 4, 8), '#E0402A', R(-.06, .06), -.1 + k * .07, .06, [R(0, 1), R(0, 1), 0]); });
   // ---- MỨT SUNG: hũ thủy tinh đầy trái sung bổ đôi rim đường, nâu hổ phách ----
   O.mutsung = p => jar2(p, '#D89A4A', .05, j => { for (let k = 0; k < 15; k++){ const c = grp(j, R(-.07, .07), -.18 + (k % 6) * .075, R(-.07, .07), R(0, 1), R(0, 6), R(0, 1), 1.1); add(c, new T.SphereGeometry(.08, 8, 6, 0, Math.PI), k % 2 ? '#B87A3A' : '#C88A44', 0, 0, 0, null, [1, 1.1, 1]); add(c, new T.CircleGeometry(.075, 10), '#E8C080', 0, 0, .001, [0, Math.PI, 0], [1, 1.1, 1]); for (let d = 0; d < 6; d++) add(c, new T.SphereGeometry(.008, 4, 3), '#F2DCA0', R(-.04, .04), R(-.05, .05), -.004); } });
+  // ======== v121: món từ sầu riêng, dừa sáp ========
+  // ---- CHÈ SẦU RIÊNG: chén nước cốt dừa trắng ngà, múi sầu riêng vàng, hột lựu đỏ, đậu xanh ----
+  O.chesaurieng = p => { const g = bowl(p, '#F4ECD4'); for (let k = 0; k < 6; k++){ const a = k * 1.05 + .3, rr = k ? .2 : 0; add(g, new T.IcosahedronGeometry(.1, 1), k % 2 ? '#F2CC48' : '#EEC23A', Math.cos(a) * rr, .1, Math.sin(a) * rr * .9, [R(0, 1), R(0, 3), 0], [1.3, .7, .9]); }
+    for (let k = 0; k < 12; k++) add(g, new T.BoxGeometry(.035, .035, .035), '#D8303A', R(-.32, .32), .075, R(-.3, .3), [R(0, 1), R(0, 1), 0]); for (let k = 0; k < 9; k++) add(g, new T.SphereGeometry(.03, 5, 4), '#E8C860', R(-.3, .3), .075, R(-.3, .3)); };
+  // ---- DỪA SÁP DẦM: trái dừa xanh vạt nắp, cơm sáp trắng đặc, đường, muỗng ----
+  O.duasapdam = p => { const g = grp(p, 0, -.08, 0, .2, 0, 0); add(g, new T.SphereGeometry(.36, 16, 12, 0, Math.PI * 2, Math.PI * .28, Math.PI * .72), '#7DB83A', 0, 0, 0, null, [1, 1.05, 1]); add(g, new T.CircleGeometry(.3, 18), '#F8F4E6', 0, .24, 0, [-Math.PI / 2, 0, 0]);
+    add(g, new T.TorusGeometry(.3, .03, 5, 18), '#EDE6C8', 0, .245, 0, [Math.PI / 2, 0, 0]); for (let k = 0; k < 6; k++) add(g, new T.SphereGeometry(.1, 7, 5), k % 2 ? '#FBF8EC' : '#F2EEDC', R(-.13, .13), .27, R(-.13, .13), null, [1.2, .45, 1]); for (let k = 0; k < 14; k++) add(g, new T.BoxGeometry(.02, .02, .02), '#FFFFFF', R(-.15, .15), .31, R(-.15, .15));
+    const sp = grp(g, .1, .36, .05, .3, .4, -.7); add(sp, new T.BoxGeometry(.04, .36, .015), '#C8CCD0', 0, .14, 0); add(sp, new T.SphereGeometry(.06, 8, 6), '#D4D8DC', 0, -.06, 0, null, [1, 1.3, .35]); };
   return O;
 };

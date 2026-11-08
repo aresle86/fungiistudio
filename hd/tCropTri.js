@@ -1,0 +1,13 @@
+// tCropTri: đếm tam giác và số khối của từng loại rau/cây khi lớn hết cỡ (vườn cuối game giống tPerfBrk). node tCropTri.js [trang]
+const { chromium } = require('playwright'); const PAGE = process.argv[2] || 'mv2_t120a.html';
+const today = (d => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate())(new Date());
+const own = Object.fromEntries([...Array.from({ length: 12 }, (_, i) => 'H' + (i + 1)), ...Array.from({ length: 8 }, (_, i) => 'S' + (i + 1)), ...Array.from({ length: 10 }, (_, i) => 'N' + (i + 1))].map(k => [k, { st: 'own' }]));
+const SV = { v: 1, eco: 2, split: 1, qv2: 1, exp: 1, k102: 1, seen: { hello: 1, sap1: 1 }, player: { av: 1, name: 'Q', garden: 'Q' }, spd: 1, lv: 25, xp: 40000, xu: 90000, inv: {}, gb: {}, seeds: {}, plots: {}, qd: Object.fromEntries(Array.from({ length: 18 }, (_, i) => [i + 3, 1])), land: own, open: [], dc: {}, realTime: true, real: Date.now(), dd: { last: today, n: 3, full: 0 }, ftrD: today };
+(async () => { const b = await chromium.launch({ args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist'] }); const p = await b.newPage(); p.setDefaultTimeout(600000);
+  await p.route(u => !u.href.startsWith('http://127.0.0.1'), r => r.abort()); await p.addInitScript(([s]) => { localStorage.setItem('mv3d-q', '1'); localStorage.setItem('mv2-state', s); }, [JSON.stringify(SV)]);
+  await p.goto('http://127.0.0.1:8777/' + PAGE); await p.waitForFunction('window.__ready', null, { timeout: 600000 }); await p.waitForTimeout(2000);
+  const R = await p.evaluate(() => { const G = window.__g, ST = G.ST, N = window.__N, out = {}; const cnt = g => { let m = 0, t = 0; g.traverse(x => { if (x.isMesh){ m++; const q = x.geometry; t += (q.index ? q.index.count : q.attributes.position.count) / 3; } }); return [m, Math.round(t)]; };
+    const bed = N.PLOTS.find(P => !P.tree && !P.trellis && !P.bai), tre = N.PLOTS.find(P => P.trellis), free = N.PLOTS.find(P => P.bai && !P.tree && !P.trellis);
+    for (const k of Object.keys(N.CROPS)){ const c = N.CROPS[k]; const P = c.tree ? (N.PLOTS.find(q => q.tree === k) || free) : c.climb || k === 'khoqua' ? tre : bed; if (!P) continue; try { ST.plots[P.id] = { ...(ST.plots[P.id] || {}), crop: k, g: c.tree ? 9e9 : c.grow * .99, dry: 0 }; if (ST.land) ST.land[P.id] = { st: 'own' }; G.refreshPlot(P.id); out[k] = [P.id, ...cnt(N.PV[P.id].crop)]; } catch (e) { out[k] = ['err ' + e.message.slice(0, 60)]; } }
+    return out; });
+  for (const [k, v] of Object.entries(R).sort((a, b2) => (b2[1][2] || 0) - (a[1][2] || 0))) console.log(k, v.join(' | ')); await b.close(); })().catch(e => { console.log('CRASH', e.message.slice(0, 300)); process.exit(1); });

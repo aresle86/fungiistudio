@@ -5,7 +5,8 @@ const SV=(o={})=>({v:1,eco:2,split:1,qv2:1,exp:1,k102:1,seen:{hello:1,don1:1},pl
 const mk=async(sv,lang='')=>{const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});p.setDefaultTimeout(240000);p.errs=[];p.on('pageerror',e=>p.errs.push(e.message));await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());await p.addInitScript(([s,l])=>{localStorage.clear();localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',s);if(l)localStorage.setItem('mv2-lang',l)},[JSON.stringify(sv),lang]);await p.goto('http://127.0.0.1:8777/'+PAGE);await p.waitForFunction(()=>window.__ready);await p.waitForTimeout(2500);await p.evaluate(()=>{document.querySelectorAll('.ddt,.lvup,#intro').forEach(e=>e.hidden=true);document.querySelectorAll('.ddt').forEach(e=>e.classList.remove('on'));window.LVON=false;document.body.classList.remove('lvon')});return p};
 const S=p=>p.evaluate(()=>window.__DCX0.get().fxS());
 const shot=(p,n)=>p.screenshot({path:`/tmp/fx_${n}.png`,timeout:120000});
-const xuSeq=async(p,ms)=>{const a=[];const t0=Date.now();while(Date.now()-t0<ms){a.push(await p.evaluate(()=>document.querySelector('#xu').textContent));await p.waitForTimeout(60)}return a};
+const xuSeq=async(p,ms)=>{await p.waitForTimeout(ms);return p.evaluate(()=>{const a=window.__xuSeq||[];window.__xuOb&&window.__xuOb.disconnect();return a})};
+const xuWatch=p=>p.evaluate(()=>{const e=document.querySelector('#xu');window.__xuSeq=[e.textContent];window.__xuOb=new MutationObserver(()=>window.__xuSeq.push(e.textContent));window.__xuOb.observe(e,{childList:true,characterData:true,subtree:true})});
 const ORD=(id='o1',who='Dì Năm',items=[['cai',2],['hanh',1]])=>({id,who,why:'nấu canh chua',items,xu:120,xp:5});
 // 1. hái bằng nút trong bảng: rau bay vô nút Chợ
 let p=await mk(SV());
@@ -16,7 +17,7 @@ await p.waitForTimeout(220);let f=await p.evaluate(()=>[...document.querySelecto
 await p.waitForTimeout(900);f=await p.evaluate(()=>document.querySelectorAll('.fly').length);ok(f===0,'bay xong gỡ sạch');ok(await p.evaluate(()=>window.__g.ST.inv.cai)>inv0,'vô kho thật');
 // 2. giao đơn: khúc sông, xuồng chèo, số xu chạy
 await p.evaluate(O=>{const g=window.__g;g.ST.ord=g.ST.ord||{list:[],acc:0};g.ST.ord.list=[O];g.ST.inv.cai=6;g.ST.inv.hanh=6;g.ST.xu=1000;window.__w.hud();g.openSheet('cho')},ORD());await p.waitForTimeout(600);
-await p.evaluate(()=>{const b=document.querySelector('[data-a=ordgive]:not([disabled])');window.__hasOrd=!!b;if(b)b.click()});ok(await p.evaluate(()=>window.__hasOrd),'có nút giao');
+await xuWatch(p);await p.evaluate(()=>{const b=document.querySelector('[data-a=ordgive]:not([disabled])');window.__hasOrd=!!b;if(b)b.click()});ok(await p.evaluate(()=>window.__hasOrd),'có nút giao');
 const seq=await xuSeq(p,1500);const un=[...new Set(seq)];console.log('xu:',un.join(' > '));ok(un.length>=3,`số xu chạy qua ${un.length} mốc`);
 const vis=await p.evaluate(()=>{const v=document.querySelector('.ordgo');return v?v.querySelector('b').textContent:null});console.log('khúc sông:',vis);
 await p.evaluate(()=>{});await shot(p,'2c');
