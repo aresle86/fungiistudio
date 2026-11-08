@@ -9,9 +9,10 @@ const r=await p.evaluate(()=>{const X=window.__DCX0.get(),A=X.AQ,R=X.r,out={};co
  // giả lập máy đuối: 4 lần đo liền, mỗi lần 2 giây chỉ có 12 hình (6 hình/giây)
  A.t0=0;A.bad=0;A.good=0;let fn=100000;X.AQ.lv=0;window.__aqT=fn;const run=(sec,fps)=>{const n=Math.round(sec*fps);const step=1000/fps;for(let i=0;i<n;i++){fn+=step;window.__DCX0.get();A.t0===0?(A.t0=fn,A.n=0):0;X.aqTick?0:0;}};
  return {l0:out.l0}});
-console.log(JSON.stringify(r));ok(r.l0[0]===0&&r.l0[1]===2&&r.l0[2]===true&&r.l0[3]===4096,'mặc định giữ chất lượng cao: '+JSON.stringify(r.l0));
+console.log(JSON.stringify(r));const PR2=1.75;   /* v119: mức Cao trên điện thoại độ nét tối đa 1,75 */
+ok(r.l0[0]===0&&r.l0[1]===PR2&&r.l0[2]===true&&r.l0[3]===4096,'mặc định giữ chất lượng cao: '+JSON.stringify(r.l0));
 const s=await p.evaluate(()=>{const X=window.__DCX0.get(),A=X.AQ,R=X.r;const out=[];for(const l of [1,2,3,2,0]){X.aqSet(l);out.push([l,A.lv,R.getPixelRatio(),R.shadowMap.enabled,X.aqQ().sh])}return out});
-console.log(JSON.stringify(s));ok(s[0][4]===1024&&s[0][2]===2,'bậc 1: bóng đổ nhẹ hơn, giữ độ nét');ok(s[1][2]===1.25,'bậc 2: độ nét 1,25');ok(s[2][2]===1&&s[2][3]===false,'bậc 3: độ nét 1, tắt bóng');ok(s[4][2]===2&&s[4][3]===true&&s[4][4]===4096,'nâng về lại đủ chất lượng');
+console.log(JSON.stringify(s));ok(s[0][4]===1024&&s[0][2]===PR2,'bậc 1: bóng đổ nhẹ hơn, giữ độ nét');ok(s[1][2]===1.25,'bậc 2: độ nét 1,25');ok(s[2][2]===1&&s[2][3]===false,'bậc 3: độ nét 1, tắt bóng');ok(s[4][2]===PR2&&s[4][3]===true&&s[4][4]===4096,'nâng về lại đủ chất lượng');
 const u=await p.evaluate(()=>{const X=window.__DCX0.get(),A=X.AQ;X.aqSet(0);A.t0=0;A.bad=0;A.good=0;let fn=100000;const run=(sec,fps)=>{const n=Math.round(sec*fps);for(let i=0;i<n;i++){fn+=1000/fps;X.aqTick(fn,0);}};
  const o={};run(2,60);run(6,10);o.short=A.lv;run(4,10);o.after8=A.lv;run(20,60);o.notYet=A.lv;run(45,60);o.back=A.lv;window.__stop=1;return o});
 console.log(JSON.stringify(u));ok(u.short===0,'đuối 6 giây thì chưa hạ');ok(u.after8===1,'đuối khoảng 8 giây thì hạ một bậc');ok(u.notYet===1,'mát lại 20 giây chưa nâng');ok(u.back===0,'mát lại 1 phút thì nâng lại');
