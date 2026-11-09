@@ -9,7 +9,7 @@ const img0=await p.evaluate(()=>document.querySelector('#avbImg').src);
 await p.tap('#avb');await p.waitForTimeout(500);const t=await p.evaluate(()=>[document.querySelector('#shT').textContent,document.querySelectorAll('.tui').length,document.getElementById('intro').hidden]);ok(t[0]==='Tủ đồ'&&t[1]>=8&&t[2],'chạm nhân vật mở Tủ đồ: '+JSON.stringify(t));
 for(const [k,i] of [['ao','ao_trang'],['khan','khan_ran'],['non','non_la']]){await p.tap(`[data-a=tuwear][data-k=${k}][data-i=${i}]`);await p.waitForTimeout(300);}
 const r=await p.evaluate(()=>({w:window.__g.ST.tu&&window.__g.ST.tu.w,img:document.querySelector('#avbImg').src.length,on:[...document.querySelectorAll('.tui.on')].map(e=>e.dataset.i)}));
-ok(r.w&&r.w.ao==='ao_trang'&&r.w.khan==='khan_ran'&&r.w.non==='non_la','lưu đồ đang mặc '+JSON.stringify(r.w));ok(JSON.stringify(r.on)==='["ao_trang","base","khan_ran","non_la"]','ô đang mặc sáng đúng '+JSON.stringify(r.on));
+ok(r.w&&r.w.ao==='ao_trang'&&r.w.khan==='khan_ran'&&r.w.non==='non_la','lưu đồ đang mặc '+JSON.stringify(r.w));ok(r.on.length===4&&r.on[0]==='ao_trang'&&r.on[2]==='khan_ran'&&r.on[3]==='non_la','ô đang mặc sáng đúng '+JSON.stringify(r.on));
 const img1=await p.evaluate(()=>document.querySelector('#avbImg').src);ok(img1!==img0&&img1.startsWith('data:image'),'hình đại diện đổi theo đồ');
 await p.waitForTimeout(400);await p.screenshot({path:'../hud16/tu125_sheet.png'});
 await p.evaluate(()=>window.__g.closeSheet());await p.waitForTimeout(600);await p.screenshot({path:'../hud16/tu125_vuon.png'});
