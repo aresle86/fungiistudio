@@ -1,0 +1,26 @@
+// tKho123c: hai thẻ kho (Kho lu, Gác bếp) ở tab Bán và trang Sức chứa; muối đường không tốn chỗ; 5 kệ. node tKho123c.js [trang]
+const {chromium}=require('playwright');const PAGE=process.argv[2]||'mv2_t123c.html';let bad=0;const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m);if(!c)bad++};
+(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});p.setDefaultTimeout(600000);const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/'+PAGE);await p.waitForFunction(()=>window.__ready,null,{timeout:600000});
+const r=await p.evaluate(()=>{const g=window.__g,ST=g.ST;ST.player={av:1,name:'Na',garden:'V'};ST.lv=12;ST.xu=1557;ST.qd=ST.qd||{};for(let i=2;i<=12;i++)ST.qd[i]=1;document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);
+ ST.inv={trungvit:4,chuoi:1,cai:30,bap:12};ST.gb={trungchien:1,canhchua:1,otkho:6,muoi:8,duong:5,cui:7};g.openSheet('cho');window.__U.SHEET.tab='ban';window.__U.renderSheet();
+ const cs=[...document.querySelectorAll('.khoc')].map(c=>({t:c.querySelector('b').textContent,n:c.querySelector('.kn').textContent,btn:(c.querySelector('button')||{}).textContent}));return {cs}});
+console.log(JSON.stringify(r));
+ok(r.cs.length===2&&r.cs[0].t==='Kho lu'&&r.cs[1].t==='Gác bếp','tab Bán có 2 thẻ: Kho lu, Gác bếp');ok(/^47\/60/.test(r.cs[0].n),'Kho lu 47/60 ('+r.cs[0].n+')');ok(/^8\/20/.test(r.cs[1].n),'Gác bếp 8/20: muối, đường, củi không tốn chỗ ('+r.cs[1].n+')');ok(/Thêm lu/.test(r.cs[0].btn)&&/Thêm kệ/.test(r.cs[1].btn),'mỗi thẻ có nút nâng');
+await p.waitForTimeout(400);await p.screenshot({path:'../hud16/kho123c_ban.png'});
+const u=await p.evaluate(()=>{const ST=window.__g.ST;const out=[];for(let i=0;i<6;i++){const b=document.querySelector('.khoc [data-a=gbx]');if(!b)break;ST.xu=9999;window.__U.renderSheet();document.querySelector('.khoc [data-a=gbx]').click();out.push(ST.gbx)}return {out,max:!!document.querySelector('.khoc .kmax'),n:document.querySelectorAll('.khoc .kn')[1].textContent}});
+console.log(JSON.stringify(u));ok(u.out.length===5&&u.max&&/^8\/70/.test(u.n),'nâng được 5 kệ, gác bếp lên 70, hết kệ thì ghi "Đủ kệ rồi"');
+const l=await p.evaluate(()=>{const ST=window.__g.ST,x=ST.lu||0;ST.xu=9999;document.querySelector('.khoc [data-a=buylu]').click();return [x,ST.lu]});ok(l[1]===l[0]+1,'nút Thêm lu trong chợ mua được lu');
+await p.evaluate(()=>{window.__POP.closeSheet();window.__OB('kho')});await p.waitForTimeout(1500);
+const bk=await p.evaluate(()=>({n:document.querySelectorAll('#bSo .khoc, .khoc').length,bar:document.querySelectorAll('.khoc .kbar i').length,dd:/Đồ dùng · không tốn chỗ/.test(document.body.innerText),chai:/Chái bếp/.test(document.body.innerText)}));console.log(JSON.stringify(bk));
+ok(bk.n>=2&&bk.bar>=2,'Sổ → Kho cũng có 2 thẻ kho');ok(bk.dd&&!bk.chai,'Sổ ghi "Đồ dùng · không tốn chỗ", hết chữ chái bếp');
+await p.screenshot({path:'../hud16/kho123c_so.png'});
+const ux=await p.evaluate(async()=>{const g=window.__g,ST=g.ST,P=window.__POP;P.closeSheet();try{window.__w.closeBook()}catch(e){}ST.say.own=1;ST.say.trays=[null,null];ST.say2.own=0;ST.gb.cui=7;
+ const txt=()=>[...document.querySelectorAll('.upc')].map(e=>e.textContent);ST.lv=12;P.openSheet('say');await new Promise(r=>setTimeout(r,300));const lo=txt();P.closeSheet();
+ ST.lv=15;ST.xu=5000;P.openSheet('say');await new Promise(r=>setTimeout(r,300));const hi=txt();return {lo,hi}});
+console.log(JSON.stringify(ux));ok(!ux.lo.some(x=>/Lò sấy thứ hai/.test(x)),'chưa tới cấp: không hiện lò sấy thứ hai');ok(ux.hi.some(x=>/Lò sấy thứ hai/.test(x)&&/2000/.test(x)),'tới cấp: bảng lò sấy có thẻ Mở rộng "Lò sấy thứ hai · 2000 xu"');
+await p.waitForTimeout(300);await p.screenshot({path:'../hud16/say123c_morong.png'});
+const by=await p.evaluate(async()=>{const ST=window.__g.ST,g=window.__g;for(const id of ['S2','S3','S4'])ST.land[id]={st:'own'};for(const P of window.__x.PLOTS)g.refreshPlot(P.id);const b=[...document.querySelectorAll('.upc')].find(e=>/Lò sấy thứ hai/.test(e.textContent));b.click();await new Promise(r=>setTimeout(r,500));return {own:ST.say2.own,n:ST.say.trays.length,xu:ST.xu}});
+console.log(JSON.stringify(by));ok(by.own&&by.n===4,'bấm mua: có lò thứ hai, lò sấy thành 4 khay');
+ok(errs.length===0,'không lỗi '+(errs[0]||''));await b.close();console.log('DONE',bad?bad+' FAIL':'all pass');})();

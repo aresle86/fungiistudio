@@ -1,0 +1,32 @@
+// tFix123b: tưới/hái cây trái 2 ô qua ô dưới; lý do mua hợp cả đơn; ghe bẹo đủ đơn mới giao, 2-3 món. node tFix123b.js [trang]
+const {chromium}=require('playwright');const PAGE=process.argv[2]||'mv2_t123b.html';let bad=0;const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m);if(!c)bad++};
+(async()=>{const b=await chromium.launch({args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});p.setDefaultTimeout(600000);const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());await p.addInitScript(()=>{try{localStorage.clear();localStorage.setItem('mv3d-q','1')}catch(e){}});
+await p.goto('http://127.0.0.1:8777/'+PAGE);await p.waitForFunction(()=>window.__ready,null,{timeout:600000});
+const t=await p.evaluate(()=>{const g=window.__g,ST=g.ST,TR=window.__TR,W=window.__WT,o={};ST.player={av:1,name:'Na',garden:'V'};ST.lv=20;ST.xu=9000;ST.qd=ST.qd||{};for(let i=2;i<=20;i++)ST.qd[i]=1;for(const id of ['S1','S5'])ST.land[id]={st:'own'};for(const P of window.__x.PLOTS)g.refreshPlot(P.id);document.querySelectorAll('.lvup,#intro').forEach(e=>e.hidden=true);
+ TR.treePlant('S1','dudu');o.crop=ST.plots.S1&&ST.plots.S1.crop;o.pair=ST.pairs.S1;const PL=window.__x.PL;const c=id=>{const B=PL[id].b;return [(B[0]+B[2])/2,(B[1]+B[3])/2]};
+ const [gx,gz]=c(o.pair);const P=W.plotAt(gx,gz);o.at=P&&P.id;ST.plots.S1.moist=0;ST.plots.S1.dry=5;W.waterAt(gx,gz,.016);o.moist=ST.plots.S1.moist;
+ window.__T.setTool({kind:'water'});o.hitW=W.toolHit(gx,gz);window.__T.setTool(null);
+ ST.plots.S1.g=(ST.plots.S1.g||0)+1e7;g.refreshPlot('S1');window.__T.setTool({kind:'cut'});o.hitC=W.toolHit(gx,gz);window.__T.setTool(null);return o});
+console.log(JSON.stringify(t));
+ok(t.crop==='dudu'&&t.pair,'trồng đu đủ chiếm 2 ô '+t.pair);ok(t.at==='S1','ô dưới tính là ô của cây');ok(t.moist>=.95,'rê nước qua ô dưới: cây được tưới '+t.moist);ok(t.hitW,'cầm thùng tưới ở ô dưới: nhận là chỗ tưới');ok(t.hitC,'cầm liềm ở ô dưới: nhận là chỗ hái');
+const w=await p.evaluate(()=>{const W=window.__WT;if(!W.ordWhyOf)return null;const f=(it,id)=>W.ordWhyOf({items:it,id:id||'a1'});const r={one:f([['ot',3]]),combo:f([['caro',2],['ot',2]]),mix:f([['ot',4],['dacai',1],['bap',6]],'z9'),same:f([['cachua',3],['daubap',3]])};
+ const O=window.__O,ST=O.ST;ST.ord=ST.ord||{list:[],acc:0,first:0};let badW=[],n=0,occ=0;for(let i=0;i<300;i++){ST.ord.list=[];const o=O.ordMake('nb');if(!o)continue;n++;const ks=o.items.map(x=>x[0]);const why=W.ordWhyOf(o);if(W.NBOCC.includes(why))occ++;
+  const fits=ks.some(k=>O.DISH[k])?why==='đãi khách':W.ORDCOMBO.some(([a,t])=>t===why&&a.every(x=>ks.includes(x)))||W.NBOCC.includes(why)||ks.every(k=>(W.NBWHY[k]||'nấu cơm chiều')===why);if(!fits)badW.push(ks.join('+')+'→'+why)}
+ r.n=n;r.occ=occ;r.bad=badW.slice(0,5);return r});
+console.log(JSON.stringify(w));
+ok(w&&w.one==='làm nước mắm','một món ớt: làm nước mắm');ok(w&&w.combo==='kho tộ','cá rô + ớt: kho tộ');ok(w&&w.mix!=='làm nước mắm'&&/giỗ|thợ|khách|sui|rằm/.test(w.mix),'ớt + dưa cải + bắp: mua cho dịp trong nhà ('+(w&&w.mix)+')');ok(w&&w.bad.length===0&&w.n>200,'300 đơn: lý do hợp cả đơn ('+(w&&w.occ)+' đơn mua cho dịp)');
+await p.evaluate(()=>{const g=window.__g,ST=g.ST;ST.ghe=ST.ghe||{};ST.ghe.o={id:'ghe1',who:'Ghe bẹo cô Sáu',why:'đem ra chợ nổi Cái Răng bán',items:[['dudu',4],['bap',6]],xu:400,xp:9,ghe:1,got:{}};ST.ghe.d='';ST.inv=ST.inv||{};ST.gb=ST.gb||{};
+ ST.ord={list:[{id:'n1',who:'Chú Năm',why:'làm nước mắm',items:[['ot',4],['dacai',1],['bap',6]],xu:450,xp:7}],acc:0,first:1};g.openSheet('cho');g.SHEET&&(g.SHEET.tab='don');try{window.__U.SHEET.tab='don'}catch(e){}window.__U.renderSheet()});
+await p.waitForTimeout(600);
+const gh=await p.evaluate(()=>{const b=document.querySelector('[data-a=ghegive]');const rows=[...document.querySelectorAll('.ordr .ow span')].map(e=>e.textContent);return {btn:b&&b.textContent,dis:b&&b.disabled,note:!!document.querySelector('.onote'),rows}});
+console.log(JSON.stringify(gh));
+ok(/^Còn thiếu \d+ món/.test(gh.btn||'')&&gh.dis,'ghe chưa đủ: nút "Còn thiếu" và khóa ('+gh.btn+')');ok(!gh.note,'không còn dòng giải thích gửi trước');ok(gh.rows.some(r=>/^mua về /.test(r)&&!/nước mắm/.test(r)),'thẻ Chú Năm hết "làm nước mắm" cho đơn ớt + dưa cải + bắp');
+const gv=await p.evaluate(()=>{const g=window.__g,ST=g.ST,W=window.__WT,o=ST.ghe.o;const inv0=ST.inv.bap||0;W.gheGive(null);const r={kept:(ST.inv.bap||0)===inv0,got:JSON.stringify(o.got||{})};
+ ST.nong=Object.assign(ST.nong||{},{own:1,made:{otkho:1,chuoiphoi:1,trakhoqua:1}});ST.khap=Object.assign(ST.khap||{},{own:1,made:{dacai:1}});const ns=[];for(let i=0;i<60;i++){ST.ghe.o=null;ST.ghe.d='';const it=W.gheMore([],2+(Math.random()<.5?1:0));ns.push(it.length)}r.min=Math.min(...ns);r.avg=ns.reduce((a,b)=>a+b,0)/ns.length;
+ const ld=W.gheLead({items:[['matong',2]],xu:200,xp:8,lead:'matong',ghe:1,who:'x',why:'y'});r.lead=ld.items.length;r.leadXu=ld.xu;return r});
+console.log(JSON.stringify(gv));
+ok(gv.kept&&gv.got==='{}','ghe chưa đủ: bấm giao không lấy hàng');ok(gv.min>=2,'đơn ghe ít nhất 2 món (min '+gv.min+', tb '+gv.avg.toFixed(1)+')');ok(gv.lead>=2&&gv.leadXu>200,'đơn món mới của ghe kèm thêm hàng quen ('+gv.lead+' món, '+gv.leadXu+' xu)');
+await p.evaluate(()=>{const g=window.__g,ST=g.ST;ST.inv.bap=6;ST.gb=ST.gb||{};ST.ghe.o={id:'ghe2',who:'Ghe bẹo cô Sáu',why:'đem ra chợ nổi Cái Răng bán',items:[['dudu',4],['bap',6]],xu:400,xp:9,ghe:1,got:{}};window.__U.renderSheet()});await p.waitForTimeout(400);
+await p.screenshot({path:'../hud16/fix123b_don.png'});
+ok(errs.length===0,'không lỗi '+(errs[0]||''));await b.close();console.log('DONE',bad?bad+' FAIL':'all pass');})();
