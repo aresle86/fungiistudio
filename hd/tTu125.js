@@ -1,0 +1,20 @@
+// tTu125: tủ đồ. Cấp 8 chạm hình nhân vật mở Tủ đồ; mặc bà ba trắng, khăn rằn, nón lá: lưu ST.tu.w, hình đại diện đổi, nhân vật vườn dựng lại; tải lại vẫn mặc; cấp 3 chạm vẫn mở bảng đổi dáng. node tTu125.js [trang]
+const {chromium}=require('playwright');const PAGE=process.argv[2]||'mv2_t125.html';let bad=0;const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m);if(!c)bad++};const today=(d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate())(new Date());
+const SV=lv=>({v:1,eco:2,split:1,qv2:1,exp:1,k102:1,seen:{hello:1,sap1:1,don1:1},player:{av:1,name:'Út Lựu',garden:'Vườn Út Lựu'},lv,xp:lv*400,xu:500,inv:{},gb:{},seeds:{},plots:{},qd:Object.fromEntries(Array.from({length:lv},(_,i)=>[i+2,1])),realTime:true,spd:1,real:Date.now(),dd:{last:today,n:1,full:0},ftrD:today});
+(async()=>{const b=await chromium.launch({args:['--use-angle=metal','--enable-gpu','--ignore-gpu-blocklist']});
+const ctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});let p=await ctx.newPage();p.setDefaultTimeout(200000);const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());
+await p.addInitScript(s=>{if(!localStorage.getItem('mv2-state'))localStorage.setItem('mv2-state',s);localStorage.setItem('mv3d-q','1')},JSON.stringify(SV(8)));
+await p.goto('http://127.0.0.1:8777/'+PAGE);await p.waitForFunction('window.__ready');await p.waitForTimeout(2500);
+const img0=await p.evaluate(()=>document.querySelector('#avbImg').src);
+await p.tap('#avb');await p.waitForTimeout(500);const t=await p.evaluate(()=>[document.querySelector('#shT').textContent,document.querySelectorAll('.tui').length,document.getElementById('intro').hidden]);ok(t[0]==='Tủ đồ'&&t[1]>=8&&t[2],'chạm nhân vật mở Tủ đồ: '+JSON.stringify(t));
+for(const [k,i] of [['ao','ao_trang'],['khan','khan_ran'],['non','non_la']]){await p.tap(`[data-a=tuwear][data-k=${k}][data-i=${i}]`);await p.waitForTimeout(300);}
+const r=await p.evaluate(()=>({w:window.__g.ST.tu&&window.__g.ST.tu.w,img:document.querySelector('#avbImg').src.length,on:[...document.querySelectorAll('.tui.on')].map(e=>e.dataset.i)}));
+ok(r.w&&r.w.ao==='ao_trang'&&r.w.khan==='khan_ran'&&r.w.non==='non_la','lưu đồ đang mặc '+JSON.stringify(r.w));ok(JSON.stringify(r.on)==='["ao_trang","base","khan_ran","non_la"]','ô đang mặc sáng đúng '+JSON.stringify(r.on));
+const img1=await p.evaluate(()=>document.querySelector('#avbImg').src);ok(img1!==img0&&img1.startsWith('data:image'),'hình đại diện đổi theo đồ');
+await p.waitForTimeout(400);await p.screenshot({path:'../hud16/tu125_sheet.png'});
+await p.evaluate(()=>window.__g.closeSheet());await p.waitForTimeout(600);await p.screenshot({path:'../hud16/tu125_vuon.png'});
+await p.reload();await p.waitForFunction('window.__ready');await p.waitForTimeout(2500);const w2=await p.evaluate(()=>window.__g.ST.tu&&window.__g.ST.tu.w);const img2=await p.evaluate(()=>document.querySelector('#avbImg').src);ok(w2&&w2.non==='non_la'&&img2===img1,'tải lại vẫn mặc, hình y vậy');
+await p.tap('#avb');await p.waitForTimeout(400);await p.tap('[data-a=tuwear][data-k=ao][data-i=base]');await p.tap('[data-a=tuwear][data-k=non][data-i=none]');await p.waitForTimeout(300);const w3=await p.evaluate(()=>window.__g.ST.tu.w);ok(w3.ao==='base'&&w3.non==='none','cởi ra mặc lại áo của con');
+await p.close();
+p=await ctx.newPage();p.on('pageerror',e=>errs.push(e.message));await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());await p.evaluate?.call;await p.addInitScript(s=>{localStorage.setItem('mv2-state',s);localStorage.setItem('mv3d-q','1')},JSON.stringify(SV(3)));await p.goto('http://127.0.0.1:8777/'+PAGE);await p.waitForFunction('window.__ready');await p.waitForTimeout(2000);await p.tap('#avb');await p.waitForTimeout(400);ok(await p.evaluate(()=>!document.getElementById('intro').hidden),'cấp 3 chạm vẫn mở bảng đổi dáng');
+ok(errs.length===0,'không lỗi '+(errs[0]||''));await b.close();console.log('DONE',bad?bad+' FAIL':'all pass');})();
