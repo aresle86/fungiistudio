@@ -1,0 +1,18 @@
+// tFix122: (1) Chợ › Bán chạm nút "1" liên tục 10 lần (cách 150ms) bán đủ 10; (2) kho đầy: kéo ngón từ liếp chín thì màn hình chạy, không cầm liềm; kho còn chỗ thì vẫn cầm liềm. node tFix122.js [trang]
+const {chromium}=require('playwright');const PAGE=process.argv[2]||'mv2_t122a.html';let bad=0;const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m);if(!c)bad++};const today=(d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate())(new Date());
+const SV=inv=>({v:1,eco:2,split:1,qv2:1,exp:1,k102:1,seen:{hello:1,sap1:1,don1:1},player:{av:1,name:'Q',garden:'Q'},lv:8,xp:3000,xu:500,inv,gb:{},seeds:{},plots:{},qd:{3:1,4:1,5:1,6:1,7:1},realTime:true,spd:1,real:Date.now(),dd:{last:today,n:1,full:0},ftrD:today});
+(async()=>{const b=await chromium.launch({args:['--use-angle=metal','--enable-gpu','--ignore-gpu-blocklist']});
+const mk=async inv=>{const ctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:3,isMobile:true,hasTouch:true});const p=await ctx.newPage();p.setDefaultTimeout(200000);p.errs=[];p.on('pageerror',e=>p.errs.push(e.message));await p.route(u=>!u.href.startsWith('http://127.0.0.1'),r=>r.abort());await p.addInitScript(s=>{localStorage.setItem('mv3d-q','1');localStorage.setItem('mv2-state',s)},JSON.stringify(SV(inv)));await p.goto('http://127.0.0.1:8777/'+PAGE);await p.waitForFunction('window.__ready');await p.waitForTimeout(3000);return p};
+// 1
+let p=await mk({cai:30,hanh:20});
+await p.evaluate(()=>window.__g.openSheet('cho'));await p.waitForTimeout(300);await p.evaluate(()=>{const t=[...document.querySelectorAll('[data-a=ctab]')].find(x=>x.dataset.k==='ban');t&&t.click()});await p.waitForTimeout(500);
+const i0=await p.evaluate(()=>window.__g.ST.inv.cai);for(let i=0;i<10;i++){const bx=await p.evaluate(()=>{const e=document.querySelector('[data-a=sell1][data-k=cai]').getBoundingClientRect();return [e.x+e.width/2,e.y+e.height/2]});await p.touchscreen.tap(bx[0],bx[1]);await p.waitForTimeout(150);}
+await p.waitForTimeout(400);const i1=await p.evaluate(()=>window.__g.ST.inv.cai);ok(i0-i1===10,`chạm "1" 10 lần liền: bán ${i0-i1} bó`);ok(p.errs.length===0,'không lỗi '+(p.errs[0]||''));await p.close();
+// 2
+const drag=async full=>{const p=await mk(full?{cai:400}:{cai:1});const r=await p.evaluate(()=>{const g=window.__g,O=window.__x,P=O.PLOTS.find(P=>!P.tree&&!P.trellis&&!P.bai&&g.ST.plots[P.id]);const q=g.ST.plots[P.id];q.crop='cai';q.g=9e9;q.moist=1;g.refreshPlot(P.id);const v=g.PV[P.id],w=new g.T.Vector3(v.cx,.05,v.cz).project(g.cam);return {x:(w.x+1)/2*innerWidth,y:(1-w.y)/2*innerHeight,cam:g.cam.position.toArray(),free:O.kCap?O.kCap()-O.kUsed():null}});
+ const cdp=await p.context().newCDPSession(p);const T=(type,x,y)=>cdp.send('Input.dispatchTouchEvent',{type,touchPoints:type==='touchEnd'?[]:[{x,y,id:1}]});
+ await T('touchStart',r.x,r.y);let sk=false;for(let k=1;k<=12;k++){await T('touchMove',r.x+k*12,r.y+k*6);await p.waitForTimeout(30);if(k===8)sk=await p.evaluate(()=>{const gh=[...document.querySelectorAll('img')].find(i=>i.id==='ghost'||i.className.includes('ghost'));return !!gh&&!gh.hidden})}
+ await T('touchEnd');await p.waitForTimeout(600);const c1=await p.evaluate(()=>window.__g.cam.position.toArray());const mv=Math.hypot(...c1.map((v,i)=>v-r.cam[i]));const err=p.errs[0]||'';await p.close();return {sk,mv,err}};
+const A=await drag(true);ok(!A.sk&&A.mv>.05,`kho đầy, kéo từ liếp chín: không cầm liềm (${A.sk}), màn hình chạy ${A.mv.toFixed(2)}`);
+const B=await drag(false);ok(B.sk,`kho còn chỗ, kéo từ liếp chín: cầm liềm (${B.sk})`);ok(!A.err&&!B.err,'không lỗi '+A.err+B.err);
+await b.close();console.log('DONE',bad?bad+' FAIL':'all pass');})();
