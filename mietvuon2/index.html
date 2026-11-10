@@ -1187,7 +1187,7 @@ if (!document.createElement('canvas').getContext('webgl2')) { $('#load small').t
 /* đi ghé vườn: vườn đang ghé nằm trong sessionStorage, không ghi đè vườn mình */
 const VISIT = (() => { try { return JSON.parse(sessionStorage.getItem('mv2-visit') || 'null'); } catch (e) { return null; } })();
 try { const ld = document.querySelector('#load .lbar span'); if (ld && VISIT) ld.textContent = `Đang chèo xuồng qua ${VISIT.name.toLowerCase()}…`; else if (ld && sessionStorage.getItem('mv2-back')) ld.textContent = 'Đang chèo xuồng về nhà…'; } catch (e) {}
-const BUILD = 'v124b';   /* đổi mỗi lần đưa bản mới; tab mở lâu sẽ thấy nút tải bản mới */
+const BUILD = 'v125';   /* đổi mỗi lần đưa bản mới; tab mở lâu sẽ thấy nút tải bản mới */
 const ldPlace = () => { try { const L0 = document.getElementById('load'), bar = L0 && L0.querySelector('.lbar'); if (!bar || L0.hidden) return; const tops = ['.lword', '.ltwo', '.lflow'].map(q => L0.querySelector(q)).filter(Boolean).map(e => e.getBoundingClientRect().top).filter(v => v > 0), top = tops.length ? Math.min(...tops) : innerHeight * .3, h = bar.offsetHeight || 60; const ib = bar.querySelector('i'); if (top - h < 24){ const R = Math.max(...['.lword', '.ltwo'].map(q => L0.querySelector(q)).filter(Boolean).map(e => e.getBoundingClientRect().right)), sp = innerWidth - R; if (ib) ib.style.width = Math.max(110, Math.min(220, sp - 28)) + 'px'; bar.style.left = (sp > 130 ? R + sp / 2 : innerWidth - 80) + 'px'; bar.style.top = Math.round(innerHeight * .12) + 'px'; } else { if (ib) ib.style.width = ''; bar.style.left = '50%'; bar.style.top = Math.max(8, (top - h) / 2) + 'px'; } }   /* màn ngang thấp không đủ trời trên chữ: đặt qua khoảng trời bên phải */ catch (e) {} };   /* thanh load nằm giữa khoảng trời trống phía trên chữ Miệt Vườn */
 ldPlace(); addEventListener('resize', ldPlace); setTimeout(ldPlace, 1300); setTimeout(ldPlace, 2400);
 let BOOK = null; let LDT = performance.now(); const LDY = p => { const b = document.querySelector('#load .lbar i'); if (b){ const v = Math.max(+b.dataset.p || 6, p); b.dataset.p = v; b.style.setProperty('--p', v + '%'); const pc = document.querySelector('#load .lpc'); if (pc) pc.textContent = Math.round(v) + '%'; } if (performance.now() - LDT < 50) return; return new Promise(r => { let d = 0; const f = () => { if (!d){ d = 1; LDT = performance.now(); r(); } }; requestAnimationFrame(() => setTimeout(f, 0)); setTimeout(f, 80); }); };   /* nhường máy vẽ màn load giữa các phần dựng vườn: nhà không khựng, thanh chạy theo tiến độ thật */
@@ -3005,26 +3005,27 @@ await LDY(0);
 const sun = new T.DirectionalLight('#fff0d0', 1.75); sun.castShadow = true; Object.assign(sun.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9, near: .5, far: 60 }); sun.shadow.bias = -.0004; sun.shadow.normalBias = .012; sun.shadow.radius = 4; S.add(sun); S.add(sun.target); sun.target.position.set(4.2, 0, 4.6);
 await LDY(0);
 const KF = [
-  [0, '#4a5a8e', '#2a3346', .9, '#a8bcff', .42, .24, 1, '#2E3E62', 1.05],
-  [4.6, '#4a5a8e', '#2a3346', .9, '#a8bcff', .42, .24, 1, '#2E3E62', 1.05],
-  [5.3, '#c89aa8', '#5a5a6a', 1.0, '#ff9a7a', .7, .17, .45, '#b08a8a', 1.0],
-  [5.9, '#ffd6b4', '#b0a886', 2.0, '#ffb070', 1.7, .3, .05, '#c79a7a', 1.12],
-  [6.6, '#ffe6c0', '#b4ae84', 2.15, '#ffc684', 1.9, .32, 0, '#9ab070', 1.14],
-  [8.2, '#fff0da', '#a4b080', 1.85, '#ffe2b0', 1.65, .26, 0, '#86B06A', 1.07],
-  [12, '#fff4e2', '#94a474', 1.45, '#fff0d8', 1.38, .2, 0, '#86B06A', .97],
-  [16, '#ffe6c0', '#a0a070', 1.55, '#ffc27a', 1.75, .22, 0, '#8aa860', 1.03],
-  [17.8, '#f6b896', '#8a7a70', 1.35, '#ff9a64', 1.4, .2, .2, '#a08a6a', 1.05],
-  [19, '#6a6a9a', '#3a3a4a', .95, '#a89aff', .45, .22, .85, '#454a72', 1.02],
-  [20, '#4a5a8e', '#2a3346', .9, '#a8bcff', .42, .24, 1, '#2E3E62', 1.05],
-  [24, '#4a5a8e', '#2a3346', .9, '#a8bcff', .42, .24, 1, '#2E3E62', 1.05]];
+  [0, '#3f58a0', '#1e2a44', .95, '#9fb8ff', .62, .16, 1, '#26365c', 1.05, 20, 70],
+  [4.6, '#3f58a0', '#1e2a44', .95, '#9fb8ff', .62, .16, 1, '#26365c', 1.05, 20, 70],
+  [5.3, '#b98aa6', '#4c4a60', .85, '#ff8a66', 1.1, .12, .45, '#b58a8c', 1.0, 16, 52],
+  [5.9, '#f4e2cc', '#b0a878', 1.6, '#ffa860', 3.0, .2, .05, '#e8c090', 1.12, 22, 70],
+  [6.6, '#f6ead2', '#b0ac7c', 1.7, '#ffbe78', 3.2, .2, 0, '#d8c890', 1.14, 24, 80],
+  [8.2, '#f4f0e2', '#a4b080', 1.55, '#ffe0ac', 2.8, .18, 0, '#a4c080', 1.07, 30, 110],
+  [12, '#f2f4ec', '#94a874', 1.35, '#fff0d8', 2.4, .16, 0, '#8cb46e', 1.0, 34, 140],
+  [16, '#f6e8cc', '#a4a66c', 1.5, '#ffc680', 3.0, .18, 0, '#a8b46c', 1.05, 28, 100],
+  [17.8, '#eec4b4', '#98846c', 1.4, '#ff985a', 2.9, .18, .2, '#d09c74', 1.1, 22, 70],
+  [19, '#5c62a4', '#30324c', .9, '#a89aff', .6, .14, .85, '#40487a', 1.02, 18, 60],
+  [20, '#3f58a0', '#1e2a44', .95, '#9fb8ff', .62, .16, 1, '#26365c', 1.05, 20, 70],
+  [24, '#3f58a0', '#1e2a44', .95, '#9fb8ff', .62, .16, 1, '#26365c', 1.05, 20, 70]];
+const FOG = MOBILE ? null : new T.Fog('#8cb46e', 34, 140); if (FOG) S.fog = FOG;   /* sương xa: điện thoại tắt */
 await LDY(0);
 const cA = new T.Color(), cB = new T.Color();
 function sky(h){ let i = 0; while (i < KF.length - 2 && KF[i + 1][0] <= h) i++; const a = KF[i], b = KF[i + 1], t = (h - a[0]) / Math.max(.001, b[0] - a[0]), s = t * t * (3 - 2 * t);
   const lc = (ia) => cA.set(a[ia]).lerp(cB.set(b[ia]), s).clone(), ln = ia => a[ia] + (b[ia] - a[ia]) * s;
-  hemi.color.copy(lc(1)); hemi.groundColor.copy(lc(2)); hemi.intensity = ln(3); sun.color.copy(lc(4)); sun.intensity = ln(5); amb.intensity = ln(6); U.uNight.value = ln(7); S.background.copy(lc(8)); r.toneMappingExposure = ln(9);
+  hemi.color.copy(lc(1)); hemi.groundColor.copy(lc(2)); hemi.intensity = ln(3); sun.color.copy(lc(4)); sun.intensity = ln(5); amb.intensity = ln(6); U.uNight.value = ln(7); S.background.copy(lc(8)); r.toneMappingExposure = ln(9); if (FOG){ FOG.color.copy(S.background); FOG.near = ln(10); FOG.far = ln(11); }
   const day = h > 5.2 && h < 18.8; const ctr = sun.target.position;
-  if (day){ const a2 = (h - 5.2) / 13.6 * Math.PI, el = Math.max(.42, Math.sin(a2)); sun.position.set(ctr.x - Math.cos(a2) * 14, ctr.y + el * 16, ctr.z - 4 + Math.cos(a2) * 6); }
-  else sun.position.set(ctr.x - 7, ctr.y + 14, ctr.z - 5); }
+  if (day){ const a2 = (h - 5.2) / 13.6 * Math.PI, el = Math.max(.34, Math.sin(a2) * .92); sun.position.set(ctr.x - Math.cos(a2) * 15, ctr.y + el * 16, ctr.z - 3 + Math.cos(a2) * 7); }
+  else sun.position.set(ctr.x - 9, ctr.y + 11, ctr.z - 6); }
 await LDY(0);
 const PHASE0 = h => h < 4.6 ? 'Khuya' : h < 5.9 ? 'Bình minh' : h < 10.5 ? 'Buổi sáng' : h < 13.5 ? 'Giữa trưa' : h < 17.6 ? 'Buổi chiều' : h < 19 ? 'Chạng vạng' : h < 22.5 ? 'Tối' : 'Khuya';
 const PHASE = h => { const p = PHASE0(h); return EN ? ({ 'Khuya': 'Late night', 'Bình minh': 'Dawn', 'Buổi sáng': 'Morning', 'Giữa trưa': 'Noon', 'Buổi chiều': 'Afternoon', 'Chạng vạng': 'Dusk', 'Tối': 'Evening' }[p] || p) : p; };
