@@ -18,13 +18,13 @@ const STEPS = [
   ['ben', "openSheet('ben')"], ['chono', "openSheet('chono')"], ['vuon', "openSheet('vuon')"],
   ['o-dat', "openSheet('plot',Object.keys(ST.plots)[0])"], ['o-dat-2', "openSheet('plot',Object.keys(ST.plots).find(k=>ST.plots[k].crop)||Object.keys(ST.plots)[3])"],
   ['caidat', "openSheet('set')"], ['ga', "openSheet('ga')"], ['vit', "openSheet('vit')"], ['ao', "openSheet('big','ao')"], ['vusua', "openSheet('big','vusua')"],
-  ['bep', "openSheet('bep')"], ['tb', "openSheet('tb')"], ['quay', "openSheet('quay')"], ['tudo', "openSheet('tudo')"], ['tiemmay', "openSheet('tiemmay')"],
+  ['bep', "openSheet('bep')"], ['tb', "openSheet('tb')"], ['tb-ghe', "ST.tb={t:0,help:0,done:1,lo:1};const c=cnoS();c.own.son=1;c.own.ngoc=1;openSheet('tb')"], ['quay', "openSheet('quay')"], ['tudo', "openSheet('tudo')"], ['tiemmay', "openSheet('tiemmay')"],
   ['thu', "openSheet('thu')"], ['say', "openSheet('say')"], ['radio', "openSheet('radio')"], ['ong', "openSheet('ong')"], ['nong', "openSheet('nong')"],
   ['lo', "openSheet('lo')"], ['khap', "openSheet('khap')"], ['ho', "openSheet('ho')"], ['gio', "openSheet('gio')"], ['baoloi', "openSheet('bug')"],
   ['vong-chon', "openRing(Object.keys(ST.plots)[0])"], ['vong-hat', "openRing(Object.keys(ST.plots)[0],'seed')"],
   ['sap-xep', "sapMode(true)"], ['chon-dang', "openIntro()"],
   // ba màn dưới đổi cảnh, chạy riêng từng màn: node uicheck.js <trang> <thư mục> 390 844 cau-ca
-  ['cau-ca', "for(const k in ST.inv)ST.inv[k]=0;fmEnter()", 3000], ['tham-vuon', "visitGo()"], ['cho-huyen', "ST.lv=Math.max(ST.lv,CHM.lv);chEnter()", 9000],
+  ['cau-ca', "for(const k in ST.inv)ST.inv[k]=0;fmEnter()", 3000], ['cau-ghe', "ST.tb={t:0,help:0,done:1,lo:Date.now()};for(const k in ST.inv)ST.inv[k]=0;fmEnter();FM.ghe=true;tbGheMove();fuiAim()", 3000], ['tham-vuon', "visitGo()"], ['cho-huyen', "ST.lv=Math.max(ST.lv,CHM.lv);chEnter()", 9000],
 ];
 const MEASURE = () => {
   const VW = innerWidth, VH = innerHeight, OK = new Set([0, 1, 2, 4, 8, 12, 16, 24]);
