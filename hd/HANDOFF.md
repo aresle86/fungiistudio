@@ -470,3 +470,5 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 
 
 **v158 (16/11/2026, live):** `python3 fix158.py live/v157.html live/v158.html`. Chỉ đổi giá bao hạt lạ `BLA.gia` 40 -> 120 xu (Ares chốt: 40 xu quá rẻ so với hạt tiệm cỡ 35 xu). Giữ 3 hạt mỗi bao, 3 bao mỗi ngày, tỉ lệ cũ. Với 120 xu: hạt thường trong bao đáng khoảng 93 xu, một hạt quý tốn khoảng 600 xu tiền bao. Hai cổng UI ra 0 ở ba cỡ màn.
+
+**v159 (17/11/2026, live):** `fix159.py` (v158 -> v159). Ghe ông Bảy có thêm 5 mô hình nhỏ treo cho 5 giống quý mới (`mMuop`, `mMia`, `mBau`, `mHanh`, `mRm` trong `bayArt`), `bayWant` lấy cả `BAYK5` nên ông "tìm mua" đủ 11 giống. Các món cũ (khóm, bắp tím, khổ qua, ớt, mồng tơi) dời xuống cho nằm dưới móc treo, chỉ đổi số trong `mini`. Cá vẫn treo ở gốc đuôi, vây đuôi nằm trên móc. Hai cổng UI ra 0 ở ba cỡ; màn 1280 của uicheck chập chờn "sat" và hai bước `ao`, `cho-huyen` báo LOI MO ngay cả trên v158, chưa tìm nguyên do.
