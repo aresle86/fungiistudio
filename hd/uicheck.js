@@ -16,17 +16,21 @@ const STEPS = [
   ['so-ca', "openBook('ca')"], ['so-cotich', "openBook('cotich')"], ['so-mon', "openBook('mon')"], ['so-thu', "openBook('thu')"], ['so-buom', "openBook('buom')"],
   ['cho-ban', "openSheet('cho')"], ['cho-mua', "openSheet('cho');SHEET.tab='mua';renderSheet()"], ['cho-don', "openSheet('cho');SHEET.tab='don';renderSheet()"], ['cho-tiem', "openSheet('cho');SHEET.tab='tiem';renderSheet()"],
   ['so-quy', "openBook('quy')"], ['so-quy-bieu', "ST.quy = { n: {}, got: { otvang: 1, baptim: 1 }, hint: {}, nm: {} }; ST.inv.otvang = 2; ST.bay = { met: 1, stamp: { otvang: 'x', baptim: 'x' }, th: {}, set: {}, moc: { 2: 1 } }; openBook('quy')"], ['bay', "ST.inv.otvang = 3; ST.inv.khommat = 2; ST.inv.locbong = 1; ST.bay = { met: 1, stamp: { khommat: 'x' }, th: {}, set: {} }; openSheet('bay')"], ['bay-mac-ca', "ST.inv.otvang = 3; ST.inv.khommat = 2; ST.inv.locbong = 1; ST.bay = { met: 1, vis: 5, stamp: { khommat: 'x' }, th: {}, set: {} }; openSheet('bay'); if (typeof bayMcHTML === 'function'){ SHEET.bay.mc = 'khommat'; renderSheet(); }"],
-  ['ben', "openSheet('ben')"], ['chono', "openSheet('chono')"], ['vuon', "openSheet('vuon')"],
+  ['ben', "openSheet('ben')"], ['dai', "openSheet('radio', 0)"], ['dai-ma', "ST.radSt='ma'; openSheet('radio', 0)"], ['chono', "openSheet('chono')"], ['vuon', "openSheet('vuon')"],
   ['o-dat', "openSheet('plot',Object.keys(ST.plots)[0])"], ['o-dat-2', "openSheet('plot',Object.keys(ST.plots).find(k=>ST.plots[k].crop)||Object.keys(ST.plots)[3])"],
-  ['caidat', "openSheet('set')"], ['ga', "openSheet('ga')"], ['vit', "openSheet('vit')"], ['ao', "openSheet('big','ao')"], ['vusua', "openSheet('big','vusua')"],
+  ['caidat', "openSheet('set')"], ['ga', "openSheet('ga')"], ['vit', "openSheet('vit')"], ['ao', "if(!(ST.big.ao&&ST.big.ao.own)){for(const id of Object.keys(PL)){if(blockN(id,2,2)){ST.big.ao={own:1,at:id};break}}}openSheet('big','ao')"], ['vusua', "openSheet('big','vusua')"],
   ['bep', "openSheet('bep')"], ['tb', "openSheet('tb')"], ['tb-ghe', "ST.tb={t:0,help:0,done:1,lo:1};const c=cnoS();c.own.son=1;c.own.ngoc=1;openSheet('tb')"], ['kia', "if(typeof KIA!=='undefined'){ST.kia={n:0,b:null};openSheet('kia')}"], ['kia-van', "if(typeof KIA!=='undefined'){ST.kia={n:1,b:null};openSheet('kia')}"], ['kia-dang', "if(typeof KIA!=='undefined'){ST.kia={n:1,b:{t:Date.now(),help:0}};openSheet('kia')}"], ['quay', "openSheet('quay')"], ['bao-la', "if(typeof blHTML==='function'){ST.xu=500;ST.bl=null;openSheet('baola')}"], ['bao-la-mo', "if(typeof blHTML==='function'){ST.xu=500;ST.bl={d:dayKey(),n:1,miss:2};quyQ().got.otvang=1;openSheet('baola');SHEET.bl={kind:'quy',out:[{k:'otvang',n:1,q:1},{k:'cai',n:2}]};renderSheet()}"], ['bao-la-don', "if(typeof blHTML==='function'){ST.xu=500;ST.bl={d:dayKey(),n:3,miss:5};quyQ().got.otvang=1;openSheet('baola');SHEET.bl={kind:'don',out:[{k:'hanh',n:1},{k:'bap',n:1},{don:'Nghe nói muốn gặp mồng tơi tía thì liếp mồng tơi phải hái từ lứa thứ hai, mà phải hái lúc trời còn sương.'}]};renderSheet()}"], ['tudo', "openSheet('tudo')"], ['tiemmay', "openSheet('tiemmay')"],
   ['thu', "openSheet('thu')"], ['say', "openSheet('say')"], ['radio', "openSheet('radio')"], ['ong', "openSheet('ong')"], ['nong', "openSheet('nong')"],
   ['lo', "openSheet('lo')"], ['khap', "openSheet('khap')"], ['ho', "openSheet('ho')"], ['gio', "openSheet('gio')"], ['baoloi', "openSheet('bug')"],
   ['say-mat', "ST.say.own=1;ST.inv.matong=2;ST.say.mat=1;ST.xu=9000;openSheet('say')"], ['say-chon', "ST.say.own=1;ST.say.mat=1;ST.inv.matong=2;openSheet('say');SHEET.pick=0;renderSheet()"], ['bep-kem', "ST.gb.khocasac=2;ST.gb.otkho=2;ST.bep.kem=1;ST.bep.lit=1;ST.bep.pots=ST.bep.pots.map(()=>null);openSheet('bep')"], ['bep-kem-chon', "ST.gb.khocasac=2;ST.gb.otkho=2;ST.bep.kem=1;ST.bep.lit=1;ST.bep.pots=ST.bep.pots.map(()=>null);openSheet('bep');SHEET.pick=0;renderSheet()"],
   ['vong-chon', "openRing(Object.keys(ST.plots)[0])"], ['vong-hat', "openRing(Object.keys(ST.plots)[0],'seed')"],
-  ['sap-xep', "sapMode(true)"], ['chon-dang', "openIntro()"],
+  ['sap-xep', "sapMode(true)"], ['chon-dang', "openIntro()"], ['nghe-don', "ftrShow(FTK[0],true)"],
   // ba màn dưới đổi cảnh, chạy riêng từng màn: node uicheck.js <trang> <thư mục> 390 844 cau-ca
-  ['cau-ca', "for(const k in ST.inv)ST.inv[k]=0;fmEnter()", 3000], ['cau-ghe', "ST.tb={t:0,help:0,done:1,lo:Date.now()};for(const k in ST.inv)ST.inv[k]=0;fmEnter();FM.ghe=true;tbGheMove();fuiAim()", 3000], ['tham-vuon', "visitGo()"], ['cho-huyen', "ST.lv=Math.max(ST.lv,CHM.lv);chEnter()", 9000],
+  // hai màn hàng xóm: mạng bị chặn lúc kiểm nên dựng sẵn danh sách giả; bước 'tai' có thêm ô thứ 5 là lệnh chạy sau khi trang tải lại
+  ['hang-xom', "CLOUD.cred={code:'MV-T0',secret:'x'};ST.lv=Math.max(ST.lv,9);NB2.list=[{code:'MV-B1',name:'Út Mai',garden:'Vườn Út Mai',lv:12,av:0,followed:1},{code:'MV-B2',name:'Chú Tư',garden:'Vườn Chú Tư',lv:8,av:1,followed:1},{code:'MV-B3',name:'Bé Na',garden:'Vườn Bé Na',lv:15,av:2,followed:1}];NB2.at=Date.now();localStorage.setItem('mv2-vd',JSON.stringify({d:dayKey(),by:{'MV-B2':{s:3,c:0},'MV-B3':{s:1,c:1},mau:{s:1}}}));openSheet('vuon')"],
+  ['tham-ban', "sessionStorage.setItem('uc-ls',JSON.stringify({'mv2-cloud':JSON.stringify({code:'MV-T0',secret:'x'}),'mv2-vd':JSON.stringify({d:dayKey(),by:{'MV-B2':{s:3,c:0},'MV-B3':{s:1,c:1},mau:{s:1}}})}));sessionStorage.setItem('mv2-visit',JSON.stringify({kind:'ban',code:'MV-B1',owner:'Út Mai',name:'Vườn Út Mai',myLv:9,myInv:[],left:2,cong:0,state:mauState(),loot:{inv:{},xp:0,water:0,friend:'Út Mai',giftOut:[]}}));location.reload()", 900, 'tai', "0"],
+  ['qua-vuon', "sessionStorage.setItem('uc-ls',JSON.stringify({'mv2-cloud':JSON.stringify({code:'MV-T0',secret:'x'}),'mv2-vd':JSON.stringify({d:dayKey(),by:{'MV-B2':{s:3,c:0},'MV-B3':{s:1,c:1},mau:{s:1}}})}));sessionStorage.setItem('mv2-visit',JSON.stringify({kind:'ban',code:'MV-B1',owner:'Út Mai',name:'Vườn Út Mai',myLv:9,myInv:[],left:2,cong:0,state:mauState(),loot:{inv:{},xp:0,water:0,friend:'Út Mai',giftOut:[]}}));location.reload()", 900, 'tai', "NB2.list=[{code:'MV-B1',name:'Út Mai',garden:'Vườn Út Mai',lv:12,av:0,followed:1},{code:'MV-B2',name:'Chú Tư',garden:'Vườn Chú Tư',lv:8,av:1,followed:1},{code:'MV-B3',name:'Bé Na',garden:'Vườn Bé Na',lv:15,av:2,followed:1}];NB2.at=Date.now();openSheet('vqua')"],
+  ['cau-ca', "for(const k in ST.inv)ST.inv[k]=0;fmEnter()", 3000], ['cau-ghe', "ST.tb={t:0,help:0,done:1,lo:Date.now()};for(const k in ST.inv)ST.inv[k]=0;fmEnter();FM.ghe=true;tbGheMove();fuiAim()", 3000], ['tham-vuon', "visitGo()", 900, 'tai'], ['cho-huyen', "ST.lv=Math.max(ST.lv,CHM.lv);chEnter()", 9000],
 ];
 const MEASURE = () => {
   const VW = innerWidth, VH = innerHeight, OK = new Set([0, 1, 2, 4, 8, 12, 16, 24]);
@@ -34,7 +38,7 @@ const MEASURE = () => {
     if (e.checkVisibility && !e.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) return null; return r; };
   const sig = e => { const c = x => x.tagName.toLowerCase() + (x.id ? '#' + x.id : '') + (typeof x.className === 'string' && x.className.trim() ? '.' + x.className.trim().split(/\s+/).filter(k => !/^(on|off|now|done|sel|act|no|ok|hot)$/.test(k)).slice(0, 3).join('.') : ''); return (e.parentElement && e.parentElement !== document.body ? c(e.parentElement) + ' > ' : '') + c(e); };
   // chỉ đo lớp trên cùng: phần tử nằm dưới tấm che (scrim) thì bỏ
-  const top = e => { const r = e.getBoundingClientRect(), x = Math.min(VW - 1, Math.max(0, r.left + r.width / 2)), y = Math.min(VH - 1, Math.max(0, r.top + Math.min(r.height / 2, 12))); const t = document.elementFromPoint(x, y); return !t || t === e || e.contains(t) || t.contains(e) || !(t.closest('#scrim') || (t.closest('#sheet,#book,#intro,#lvup') && !e.closest('#sheet,#book,#intro,#lvup'))); };
+  const top = e => { const r = e.getBoundingClientRect(), x = Math.min(VW - 1, Math.max(0, r.left + r.width / 2)), y = Math.min(VH - 1, Math.max(0, r.top + Math.min(r.height / 2, 12))); const t = document.elementFromPoint(x, y); return !t || t === e || e.contains(t) || t.contains(e) || !(t.closest('#scrim') || (t.closest('#sheet,#book,#intro,#lvup,.ftr') && !e.closest('#sheet,#book,#intro,#lvup,.ftr'))); };
   const all = [...document.body.querySelectorAll('*')].filter(e => !/^(SCRIPT|STYLE|CANVAS|BR|PATH|G|SVG|DEFS)$/i.test(e.tagName) && !e.closest('svg') && !e.closest('#err,#load'));
   const out = []; const add = (t, e, v) => out.push([t, sig(e), v]);
   const V = []; for (const e of all){ const r = vis(e); if (r && top(e)) V.push([e, r, getComputedStyle(e)]); }
@@ -75,21 +79,25 @@ const MEASURE = () => {
   const b = await chromium.launch({ args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist'] });
   const p = await b.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: W < 600 ? 2 : 1 }); const errs = []; p.on('pageerror', e => errs.push(e.message));
   await p.route(u => !u.href.startsWith('http://127.0.0.1'), r => r.abort());
-  await p.addInitScript(() => { try { localStorage.clear(); localStorage.setItem('mv3d-q', '1'); localStorage.setItem('mv2-lang', 'vi'); localStorage.setItem('mv2-state', JSON.stringify({ v: 1, eco: 2, split: 1, qv2: 1, seen: { hello: 1 }, player: { av: 1, name: 'Bot', garden: 'Bot' }, lv: 19, xp: 26000, xu: 90000, exp: 1, qd: {}, inv: {}, seeds: {}, plots: {}, realTime: true, spd: 1, real: Date.now() })); } catch (e) {} });
-  await p.goto('http://127.0.0.1:8777/' + page, { waitUntil: 'domcontentloaded' }); await p.waitForFunction(() => window.__ready, null, { timeout: 100000 }); await p.waitForTimeout(2500);
+  await p.addInitScript(() => { try { localStorage.clear(); try { const uc = sessionStorage.getItem('uc-ls'); if (uc) for (const [k, v] of Object.entries(JSON.parse(uc))) localStorage.setItem(k, v); } catch (e) {} localStorage.setItem('mv3d-q', '1'); localStorage.setItem('mv2-lang', 'vi'); localStorage.setItem('mv2-state', JSON.stringify({ v: 1, eco: 2, split: 1, qv2: 1, seen: { hello: 1 }, player: { av: 1, name: 'Bot', garden: 'Bot' }, lv: 19, xp: 26000, xu: 90000, exp: 1, qd: {}, inv: {}, seeds: {}, plots: {}, realTime: true, spd: 1, real: Date.now() })); } catch (e) {} });
+  await p.goto('http://127.0.0.1:8777/' + page, { waitUntil: 'domcontentloaded' }); 
   const ev = s => p.evaluate(s => window.__ev(s), s);
-  await ev('document.querySelectorAll(".ddt,#intro").forEach(e=>e.hidden=true)');
-  try { await ev("(()=>{for(const k of Object.keys(ICON)){try{const g=GD(k);if(g&&g.name)ST.inv[k]=6}catch(e){}}ST.notes=ST.notes&&ST.notes.length?ST.notes:ST.notes;})()"); } catch (e) { console.log('inv', e.message.slice(0, 120)); }
-  const rep = {}, tot = {}, uniq = new Map();
-  for (const [name, code, cho] of STEPS){ if (ONLY && !ONLY.includes(name)) continue;
-    try { await ev("(()=>{try{closeSheet()}catch(e){}try{if(FM.on)fmExit()}catch(e){}try{closeBook()}catch(e){}try{if(typeof SAP!=='undefined'&&SAP)sapMode(false)}catch(e){}try{RING.hidden=true}catch(e){}try{document.querySelector('#intro').hidden=true}catch(e){}})()"); } catch (e) {}
-    let bad = ''; if (code){ try { await ev(code); } catch (e) { bad = e.message.split('\n')[0].slice(0, 140); } }
+  // dọn sân trước khi đo; gọi lại mỗi lần trang tải lại. ftrD = hôm nay để bảng "Ngoại nghe đồn" không tự nhảy ra che màn đang đo (nó có bước đo riêng: nghe-don)
+  const san = async () => { await p.waitForFunction(() => window.__ready && typeof window.__ev === 'function', null, { timeout: 100000 }); await p.waitForTimeout(2500);
+    await ev('document.querySelectorAll(".ddt,#intro").forEach(e=>e.hidden=true)');
+    try { await ev("(()=>{try{ST.ftrD=dayKey()}catch(e){}for(const k of Object.keys(ICON)){try{const g=GD(k);if(g&&g.name)ST.inv[k]=6}catch(e){}}})()"); } catch (e) { console.log('inv', e.message.slice(0, 120)); } };
+  await san();
+  const rep = {}, tot = {}, uniq = new Map(), mo = [];
+  for (const [name, code, cho, tai, sau] of STEPS){ if (ONLY && !ONLY.includes(name)) continue;
+    try { await ev("(()=>{try{closeSheet()}catch(e){}try{if(FM.on)fmExit()}catch(e){}try{closeBook()}catch(e){}try{if(typeof SAP!=='undefined'&&SAP)sapMode(false)}catch(e){}try{RING.hidden=true}catch(e){}try{document.querySelector('#intro').hidden=true}catch(e){}try{document.querySelectorAll('.ftr').forEach(e=>e.remove())}catch(e){}})()"); } catch (e) {}
+    let bad = ''; if (code){ try { if (tai){ await Promise.all([p.waitForEvent('load', { timeout: 30000 }), ev(code)]); await p.waitForFunction(() => window.__ready && typeof window.__ev === 'function', null, { timeout: 100000 }); await p.waitForTimeout(2500); if (sau) await ev(sau); } else await ev(code); } catch (e) { bad = e.message.split('\n')[0].slice(0, 140); } }
     await p.waitForTimeout(cho || 900);
     const r = await p.evaluate(MEASURE); rep[name] = r; const c = {}; for (const [t, s, v] of r){ c[t] = (c[t] || 0) + 1; tot[t] = (tot[t] || 0) + 1; const k = t + ' | ' + s + ' | ' + String(v).replace(/ voi .*/, ''); if (!uniq.has(k)) uniq.set(k, [name, String(v)]); }
     await p.screenshot({ path: out + '/' + name + '.png' });
-    console.log(name.padEnd(12), JSON.stringify(c), bad ? 'LOI MO: ' + bad : '');
+    console.log(name.padEnd(12), JSON.stringify(c), bad ? 'LOI MO: ' + bad : ''); if (bad) mo.push(name);
+    if (tai){ try { await p.evaluate(() => { try { sessionStorage.clear(); localStorage.removeItem('mv2-cloud'); localStorage.removeItem('mv2-vd'); } catch (e) {} }); await p.reload({ waitUntil: 'domcontentloaded' }); await san(); } catch (e) { console.log('ve nha', e.message.slice(0, 120)); mo.push(name + ' (ve nha)'); } }
   }
   fs.writeFileSync(out + '/baocao.json', JSON.stringify({ page, W, H, tot, uniq: [...uniq].map(([k, v]) => [k, ...v]), rep }, null, 1));
-  console.log('TONG', JSON.stringify(tot), 'khac nhau', uniq.size, 'loi trang', errs.length, errs.slice(0, 3));
-  await b.close(); process.exit(uniq.size ? 1 : 0);
+  console.log('TONG', JSON.stringify(tot), 'khac nhau', uniq.size, 'loi trang', errs.length, errs.slice(0, 3), 'khong mo duoc', mo.length, mo);
+  await b.close(); process.exit(uniq.size || mo.length ? 1 : 0);
 })().catch(e => { console.log('FAIL', e.message); process.exit(2); });
