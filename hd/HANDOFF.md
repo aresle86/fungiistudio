@@ -488,3 +488,10 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Cũ: `chTap` bắn tia vô hộp bao từng ghe (tính luôn cây bẹo, cờ), ghe gần máy quay ăn → ghe trước che ghe sau.
 - Mới: `cnoRects()` + `cnoPick(cx, cy, old)` chọn theo hình trên màn hình: trúng bảng tên → ghe của bảng đó; thân ghe lấy tâm gần ngón tay nhất, tối thiểu 44px; ở bến, bấm xuồng dưới bảng tên nào thì mở vườn của bảng đó.
 - Đã chạy uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng.
+
+## v166 (19/11/2026) — tặng giống quý, nấu bằng giống quý
+- `fix166.py` từ `live/v165.html`. Số Ares duyệt 19/11.
+- Bảng tên xuồng Bến bà con hạ sát xuồng (`TAGY` .95). Dịch lời đồn cá của ông Tám bán cần câu.
+- Tặng giống quý: nút `nbq` trên thẻ hàng xóm mở hàng chọn giống (`.gqrow`, `SHEET.gq`, `gqList()` = giống còn ≥ 2 hạt), `nbqgive` gọi `mv2_act` kiểu `gift` (không sửa máy chủ, chung lượt 1 lần / người / ngày), +15 kinh nghiệm. "Tặng hạt" thường bỏ qua hạt giống quý. Người nhận hái ra thì `quyHarvest` ghi `Q.got`, không có 300 xu.
+- Nấu bằng giống quý: bảng chọn món cho nồi có dòng "Giống quý" (khóa `k~q`, `gqSub`, `gqRows`); giá = giá thường + 2,6 × giá gốc × số trái quý. Phần thêm ghi sổ `ST.gbq[k] = {n, s, c}`; `gqSold()` chạy đầu mỗi `save()`, trả xu khi món rời gác bếp (món quý tính đi trước). Nồi nấu kèm ra 2 phần thì cả 2 đều có phần thêm. Không áp cho hàng chờ, phơi, muối, sấy, quầy nước.
+- uicheck thêm bước `hang-xom-quy`, `bep-quy-chon`, `bep-quy`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử tặng thật giữa hai vườn qua máy chủ; chưa thử iPhone thật.
