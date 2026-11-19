@@ -495,3 +495,10 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Tặng giống quý: nút `nbq` trên thẻ hàng xóm mở hàng chọn giống (`.gqrow`, `SHEET.gq`, `gqList()` = giống còn ≥ 2 hạt), `nbqgive` gọi `mv2_act` kiểu `gift` (không sửa máy chủ, chung lượt 1 lần / người / ngày), +15 kinh nghiệm. "Tặng hạt" thường bỏ qua hạt giống quý. Người nhận hái ra thì `quyHarvest` ghi `Q.got`, không có 300 xu.
 - Nấu bằng giống quý: bảng chọn món cho nồi có dòng "Giống quý" (khóa `k~q`, `gqSub`, `gqRows`); giá = giá thường + 2,6 × giá gốc × số trái quý. Phần thêm ghi sổ `ST.gbq[k] = {n, s, c}`; `gqSold()` chạy đầu mỗi `save()`, trả xu khi món rời gác bếp (món quý tính đi trước). Nồi nấu kèm ra 2 phần thì cả 2 đều có phần thêm. Không áp cho hàng chờ, phơi, muối, sấy, quầy nước.
 - uicheck thêm bước `hang-xom-quy`, `bep-quy-chon`, `bep-quy`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử tặng thật giữa hai vườn qua máy chủ; chưa thử iPhone thật.
+
+## v167 (19/11/2026) — gác bếp nới chỗ
+- `fix167.py` từ `live/v166.html`. Ares duyệt "Cách 2".
+- Gác bếp mua được 10 kệ (cũ 5). Kệ 1-5: +10 chỗ. Kệ 6-10: +15 chỗ. Tối đa 145 (cũ 70). `gbCapN(n)`, `GBX_MAX = 10`.
+- Giá giữ đà cũ `150 + 100 × số kệ đã có`: kệ 6-10 là 650, 750, 850, 950, 1.050 xu.
+- uicheck thêm bước `so-kho-ke`, `so-kho-du-ke`.
+- Ý còn treo, chưa duyệt: chạn đồ khô riêng cho phơi / sấy / muối (phải vẽ trước).

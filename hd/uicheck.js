@@ -12,7 +12,7 @@ const page = process.argv[2], out = process.argv[3], W = +process.argv[4] || 390
 const ONLY = process.argv[6] ? process.argv[6].split(',') : null;
 const STEPS = [
   ['hud', ''],
-  ['so-viec', "openBook('viec')"], ['so-kho', "openBook('kho')"], ['so-giong', "openBook('giong')"], ['so-giong-1', "openBook('giong','cai')"],
+  ['so-viec', "openBook('viec')"], ['so-kho', "openBook('kho')"], ['so-kho-ke', "ST.gbx=7;GB_CAP=gbCapN(7);ST.xu=9000;openBook('kho')"], ['so-kho-du-ke', "ST.gbx=10;GB_CAP=gbCapN(10);openBook('kho')"], ['so-giong', "openBook('giong')"], ['so-giong-1', "openBook('giong','cai')"],
   ['so-ca', "openBook('ca')"], ['so-cotich', "openBook('cotich')"], ['so-mon', "openBook('mon')"], ['so-thu', "openBook('thu')"], ['so-buom', "openBook('buom')"],
   ['cho-ban', "openSheet('cho')"], ['cho-mua', "openSheet('cho');SHEET.tab='mua';renderSheet()"], ['cho-don', "openSheet('cho');SHEET.tab='don';renderSheet()"], ['cho-tiem', "openSheet('cho');SHEET.tab='tiem';renderSheet()"],
   ['so-quy', "openBook('quy')"], ['so-quy-bieu', "ST.quy = { n: {}, got: { otvang: 1, baptim: 1 }, hint: {}, nm: {} }; ST.inv.otvang = 2; ST.bay = { met: 1, stamp: { otvang: 'x', baptim: 'x' }, th: {}, set: {}, moc: { 2: 1 } }; openBook('quy')"], ['bay', "ST.inv.otvang = 3; ST.inv.khommat = 2; ST.inv.locbong = 1; ST.bay = { met: 1, stamp: { khommat: 'x' }, th: {}, set: {} }; openSheet('bay')"], ['bay-mac-ca', "ST.inv.otvang = 3; ST.inv.khommat = 2; ST.inv.locbong = 1; ST.bay = { met: 1, vis: 5, stamp: { khommat: 'x' }, th: {}, set: {} }; openSheet('bay'); if (typeof bayMcHTML === 'function'){ SHEET.bay.mc = 'khommat'; renderSheet(); }"],
