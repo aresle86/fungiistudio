@@ -510,3 +510,12 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Vú sữa bán 40 xu, trầu 20 xu. Cờ `giu`: không vô "Bán cả kho", không bày Bến bà con.
 - Cúng ông Địa: có miếu thì bảng miếu có nút `diacung` "Cúng 1 trái vú sữa", 1 lần / ngày (`diaState().cd`), ông Địa hiện ra nói một lời đồn của `donAny()` (cá quý / giống quý chưa có); không còn gì để mách thì không tốn trái.
 - uicheck: bỏ `hang-xom-quy`, thêm `tang-qua`, `tang-qua-xin`, `tang-qua-mon`, `tang-qua-thu`, `tang-thu`, `tang-xong`, `tham-tang`, `mieu-cung`, `mieu-cung-roi`, `cho-vusua`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Tặng thật A → B qua máy chủ chạy đúng; chưa thử iPhone thật.
+
+## v169 + v170 (20/11/2026) — máy quay điện thoại lùi ra, ghe hoa quả Tết gom hàng, báo mùa
+- `fix169.py` từ `live/v168.html`, `fix170.py` từ `live/v169.html`. Ares duyệt số "Làm cả hai", nhắn "Đẩy v170" 20/11 (v169 đi chung).
+- v169: `DEFZ()` điện thoại dọc theo cỡ vườn (chưa mở bãi 1,45; mở bãi 1,3; mở mé sông 1,15); `camPeek()` lia tới coi rồi tự lùi về; `welcome()` không giữ mức phóng dở. Bảng chọn trên liếp đè nút Về giữa / Sắp vườn thì tạm ẩn hai nút (`body.ringov`).
+- v170 ghe hoa quả Tết gom hàng (`TGHE`, `tgHTML`, `tgGive`, bảng `'tetghe'`): dưa hấu 50 xu/trái (Chợ 40), cúc 34 xu/chậu (Chợ 27), mỗi ngày tối đa 10 dưa + 15 cúc (`ST.tetGhe`); giao đủ cả hai → 1 bao hạt lạ (`blRoll`). Bong bóng trái dưa trên ghe (`TGV`, `tgHitAt`). Ghe có thêm 6 trái dưa hấu.
+- v170 báo mùa: thẻ `#tetChip` "Mùa Tết · tới hết <ngày>" (không đếm lùi) mở bảng `'tet'`; Ngoại báo 1 lần khi vô mùa (`tet<năm>_bao`) và 1 lần trước mùa 1–3 ngày (`tet<năm>_sap`, `tetSoon()`). Máy ≤560px: thẻ ghim hàng riêng (absolute, top 100px), thẻ việc `.nxq` tụt xuống 172px (`body.teton`).
+- Mở Sổ thì cất thẻ "Về vườn ngày n/7" (trước đó có thể đè nút đóng Sổ).
+- Thử: `ST.muaTest='tet'` (hoặc `'soon'`), `ST.tetDayTest=-4`.
+- uicheck thêm `tet-chip`, `tet-mua`, `tet-ghe`, `tet-ghe-du`, `tet-het`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật. Cúc thêm chỗ dùng (trà, chưng Tết, cúng) Ares chưa chọn.
