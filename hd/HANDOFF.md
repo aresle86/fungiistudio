@@ -502,3 +502,11 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Giá giữ đà cũ `150 + 100 × số kệ đã có`: kệ 6-10 là 650, 750, 850, 950, 1.050 xu.
 - uicheck thêm bước `so-kho-ke`, `so-kho-du-ke`.
 - Ý còn treo, chưa duyệt: chạn đồ khô riêng cho phơi / sấy / muối (phải vẽ trước).
+
+## v168 (20/11/2026) — một bảng Tặng quà, vú sữa / trầu bán được, cúng ông Địa
+- `fix168.py` từ `live/v167.html`. Ares duyệt phương án 1 + "cho bán ở chợ" + ý cúng ông Địa (19/11), nhắn "Đẩy" 20/11.
+- Bến bà con: máy 360×740 hiện đủ 8 bảng tên vườn (ngưỡng `need` 2.6 → 3, hai cột bảng kẹp cách 8px quanh giữa cầu).
+- Tặng quà: thẻ hàng xóm và thanh thăm vườn chỉ còn nút "Tặng quà". Một bảng `tqHTML()`: chọn món → kèm lá thư (tùy) → gửi; "Xin hạt" chung bảng. Hàm `tqKey/tqList/tqSend/tqAsk…` thay `visitSheetHTML`, `noteComposeHTML`, `noteSend`, `noteFix`; trạng thái `SHEET.tq`, `SHEET.nc`; sổ ngày `vdPut(code, {tq:1})` / `{ak:1}`. Không sửa máy chủ (`mv2_act` gift / ask / note, 1 lần / người / ngày). Kinh nghiệm: quà 3 (giống quý 15), kèm thư +2. Giống quý chỉ tặng khi còn ≥ 2 hạt.
+- Vú sữa bán 40 xu, trầu 20 xu. Cờ `giu`: không vô "Bán cả kho", không bày Bến bà con.
+- Cúng ông Địa: có miếu thì bảng miếu có nút `diacung` "Cúng 1 trái vú sữa", 1 lần / ngày (`diaState().cd`), ông Địa hiện ra nói một lời đồn của `donAny()` (cá quý / giống quý chưa có); không còn gì để mách thì không tốn trái.
+- uicheck: bỏ `hang-xom-quy`, thêm `tang-qua`, `tang-qua-xin`, `tang-qua-mon`, `tang-qua-thu`, `tang-thu`, `tang-xong`, `tham-tang`, `mieu-cung`, `mieu-cung-roi`, `cho-vusua`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Tặng thật A → B qua máy chủ chạy đúng; chưa thử iPhone thật.
