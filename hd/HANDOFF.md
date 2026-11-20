@@ -528,3 +528,13 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Hình giàn trên đất: `gianFrame(...GIANB)` xoay 90° trong ô (`v.gianG`), cây giàn vẽ theo hộp `GIANB`. Giàn trên đất không cần tưới.
 - uicheck thêm `sap-gian-trong`, `sap-gian-doi`, `sap-gian-hoi`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
 - Còn chờ Ares: đợt 2 dời liếp / dời giàn; đợt 3 dời cây, bỏ cây san đất.
+
+## v172 (20/11/2026) — dời liếp, dời giàn (Sắp vườn, đợt 2)
+
+`python3 fix172.py live/v171.html live/v172.html`. Ares nhắn "Làm đợt 2", coi hình xong nhắn "Đẩy v172" 20/11.
+- Trong Sắp vườn: nhấn giữ liếp / giàn trên ô đất khai hoang là nhấc lên (`sapLiepAt(id)`, món kéo `{t:'liep', k:'liep'|'gian', from}`), kéo qua ô đất trống là dời, thả lên liếp / giàn khác là hai bên đổi chỗ (`liepMove(a, b)`, `liepOk(id, it)`). Miễn phí. Cây, độ ẩm, rơm, đất đi theo; cờ `ST.gian` đi theo.
+- Thả xong 2 nút Đặt ở đây / Về chỗ cũ; liếp không cất vô túi (kéo vô túi thì nhắc). Lời Ngoại `sap2` nói một lần.
+- Đổi chỗ thêm vô vì vườn đầy (như vườn Ares) không còn ô trống nào để dời.
+- Chưa dời: liếp gốc quanh nhà (ô không phải bãi), ô có cây ăn trái (đợt 3, chưa duyệt).
+- uicheck thêm `sap-doi-keo`, `sap-doi-tha`, `sap-doi-xong`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+- Biết trước: máy tính bàn, ô khuất dưới bảng Túi đồ thì thả vô tính là thả vô túi (có từ trước), phải lia máy quay.
