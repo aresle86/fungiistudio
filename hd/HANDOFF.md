@@ -538,3 +538,12 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Chưa dời: liếp gốc quanh nhà (ô không phải bãi), ô có cây ăn trái (đợt 3, chưa duyệt).
 - uicheck thêm `sap-doi-keo`, `sap-doi-tha`, `sap-doi-xong`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
 - Biết trước: máy tính bàn, ô khuất dưới bảng Túi đồ thì thả vô tính là thả vô túi (có từ trước), phải lia máy quay.
+
+## v173 (20/11/2026) — dời cây ăn trái, đổi chỗ, cất cây vô túi (Sắp vườn, đợt 3)
+
+`python3 fix173.py live/v172.html live/v173.html`. Ares nhắn "Duyệt, làm đi", coi hình xong nhắn "Đẩy v173" 20/11.
+- Trong Sắp vườn: nhấn giữ cây ăn trái là nhấc lên (`sapCayAt(id)`, `cayTop(id)`, món kéo `{t:'cay', k, from: ô trên}`), kéo qua 2 ô trên dưới: đất trống là dời, cây khác là đổi chỗ, 2 ô liếp / giàn thì cây qua đó còn liếp về chỗ cũ (`cayFit(id, it)`, `cayMove(a, b)` đổi trạng thái 4 ô, đối xứng nên "Về chỗ cũ" là gọi ngược). Miễn phí, giữ độ lớn và trái; `ST.pairs` cập nhật theo.
+- Kéo vô Túi đồ: `cayStore(it)` hỏi một câu (`CAYASK`, nút `cayok` / `cayno` trong `#sapChips`, `cayAct(c)`); đồng ý thì trả 1 cây giống (`ST.seeds[k]++`), không trả xu, 2 ô thành đất trống (làm liếp / giàn như đợt 1). Cây đang có trái thì nhắc hái trước. Cây héo thì dọn, không trả giống.
+- Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
+- Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
+- uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
