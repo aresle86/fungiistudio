@@ -519,3 +519,12 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Mở Sổ thì cất thẻ "Về vườn ngày n/7" (trước đó có thể đè nút đóng Sổ).
 - Thử: `ST.muaTest='tet'` (hoặc `'soon'`), `ST.tetDayTest=-4`.
 - uicheck thêm `tet-chip`, `tet-mua`, `tet-ghe`, `tet-ghe-du`, `tet-het`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật. Cúc thêm chỗ dùng (trà, chưng Tết, cúng) Ares chưa chọn.
+
+## v171 (20/11/2026) — giàn dựng được trên ô đất (Sắp vườn, đợt 1)
+
+`python3 fix171.py live/v170.html live/v171.html`. Ares duyệt: "số giàn ko giới hạn, giá giàn mắc gấp rưỡi liếp. Đổi liếp qua giàn như dựng mới.", nhắn "Đẩy v171" 20/11.
+- `ST.gian[id] = 1` cho ô bãi (không phải thổ cư `P.co`); `P.trellis` của ô bãi là getter đọc `ST.gian`. `GIANXU = 90` (giá liếp gốc 60 × 1,5, vì liếp trên đất khai hoang đang 0 xu). `gianMake(id)`, `gianUnmake(id)`; `baiSan` xoá luôn giàn.
+- Sắp vườn: ô trống có "Liếp" + "Giàn · 90 xu"; liếp có "Làm giàn · 90 xu"; giàn có "Làm liếp" (miễn phí) + "San thành cỏ". Ô đang có cây: hỏi một câu (`SAPASK`, `#sapChips.ask`), đồng ý thì nhổ và trả 1 bao hạt; cây tới lứa thì nhắc hái trước. `sapDoi(id)`, `sapDoiAct(c)`, `gianOk()`. Ô có cây ăn trái chưa đổi được.
+- Hình giàn trên đất: `gianFrame(...GIANB)` xoay 90° trong ô (`v.gianG`), cây giàn vẽ theo hộp `GIANB`. Giàn trên đất không cần tưới.
+- uicheck thêm `sap-gian-trong`, `sap-gian-doi`, `sap-gian-hoi`. uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+- Còn chờ Ares: đợt 2 dời liếp / dời giàn; đợt 3 dời cây, bỏ cây san đất.
