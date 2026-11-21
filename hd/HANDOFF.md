@@ -547,3 +547,32 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+
+## v174 (21/11/2026) — chống mất vườn, bớt nóng máy, ba lỗi người chơi báo
+
+`python3 fix174.py live/v173.html live/v174.html`. Ares nhắn "Chốt, làm v174", coi hai ảnh màn hình mới rồi nhắn "Gộp vô v174" và "Đẩy v174" 21/11.
+
+**Cứu bản lưu (chỗ nguy nhất, làm trước mọi thứ khác)**
+- `BADSAVE`: có bản lưu mà đọc không ra (`JSON.parse` hỏng, thiếu `plots`, `v !== 1`) thì **giữ nguyên văn bản cũ, không đè**. `save()` đứng im chừng nào `BADSAVE` còn. `badSaveAsk()` mở bảng Cài đặt, Ngoại nói một câu; đầu bảng có lời nhắc + nút `badnew` ("Thôi, bắt đầu vườn mới") cất bản cũ vô `mv2-bak` rồi mới cho ghi tiếp. Trước v174 chỗ này lặng lẽ `NEWST()` rồi ghi đè.
+- `store.set` trả `true/false`. `save()` lưu hỏng thì dọn `mv2-bak` còn 1 bản rồi thử lại; vẫn hỏng thì toast một lần (`SAVEERR`). Trước đây hỏng trong im lặng vĩnh viễn.
+- `cloudSave`: `rev0`/`crev0` chụp trước khi gửi; nhánh `catch` **trả số thứ tự về chỗ cũ**. Trước đây máy mất mạng phóng `rev` lên rồi về sau đè vườn của máy kia mà không hỏi.
+- `CLOUD.lost`: máy chủ trả "not allowed" thì **không cho `cloudEnsure()` đăng ký vườn mới**, `lostSay()` báo một lần, Cài đặt hiện lời nhắc + nút `cldnew` để người chơi tự quyết. **Đây là chỗ sinh ra 169 dòng trùng trên `mv2_farms`** (195 dòng / 34 người thật; một người bị nhân thành 118 bản, 104 bản có `lv > 1`). Rác cũ chưa dọn, chờ Ares duyệt riêng.
+- `cloudEnsure` cấp mã lần đầu thì Ngoại chỉ chỗ lấy mã khôi phục (`ST.seen.rcode`). Trước đây mã nằm im trong Cài đặt, không ai thấy.
+- `reset2` ("Chơi lại") gọi `BAK.take('Trước khi chơi lại')` trước khi xoá; bản tự lưu gần nhất có thể đã cũ 3 tiếng.
+
+**Bớt nóng máy**
+- `tick()`: bỏ `MOBILE &&` trong `idle` — máy tính và laptop cũng hạ nhịp vẽ khi để yên. Trước đây chỉ điện thoại và iPad được, máy tính vẽ hết công suất mãi mãi.
+- `refreshPlot` tách thành `refreshPlot0` + vỏ bọc so `vSig(PV[id])` trước/sau, **chỉ đặt `SHDIRTY` khi liếp thật sự đổi**. `vSig` duyệt mọi `isObject3D` trên `v` (visible + số con) cộng `v.key`. Trước đây câu đầu hàm đặt `SHDIRTY = 1` vô điều kiện, mà lượt soát chạy mỗi 0,4 giây → bóng cả vườn vẽ lại 2–3 lần/giây dù vườn đứng im.
+
+**Ba lỗi người chơi báo**
+- `quickSeed` bỏ qua `CROPS[k].rare === 'quy'`, và gieo giống quý không đặt `ST.lastSeed`. Bong bóng hạt là **gieo ngay, không hỏi**, nên gieo một hạt quý xong là mọi liếp trống thành nút trồng hạt quý. Hạt Tết (`rare: 'tet'`) **chưa đụng**, chờ Ares chốt.
+- `nbSugHTML` gom theo `name + garden`, giữ bản `lv` cao nhất rồi mới `slice(0, 5)`. Danh sách "Bà con đang chơi" trước đây bị một tài khoản trùng chiếm hết 5 chỗ.
+
+**Đo và kiểm**
+- Số đo bản live v173 ở khổ 390×844: tải về 910 KB (nén, gốc 2,4 MB), 57–74 lượt vẽ/khung, 90–128 nghìn tam giác/khung, bộ nhớ JS 155–160 MB. three.js + 2 font vẫn tải từ `cdn.jsdelivr.net` và Google — **chưa có bản dự phòng cùng máy chủ**, kho ngoài chậm là game không mở lên được (chưa làm).
+- Lỗi giàn (chưa sửa, để v175): đo bằng `plotHit0` — chạm vô thân giàn thì ô có giàn **trúng 0%**, ô thường trúng 100%. Tia chạm chỉ thấy bong bóng và **mặt đất**; giàn không nằm trong danh sách tia nhìn thấy nên tia xuyên qua rơi ra xa hơn 0,14 của mọi liếp → không trúng gì. Cây trái không bị vì có sẵn khối chạm riêng (`HITS`, `hh = 2.4`). Bong bóng ô có giàn còn treo ở 1,62 so với 0,72 của ô thường.
+- Cây cổ tích (chưa sửa, để v175): 6 cây nhét trong mảnh 6×3, cặp gần nhất cách 1,71–1,90; cả 11 cặp đều dưới 4. `ftCheck` **không có chốt chặn hai cây cùng lúc**. Định nghĩa `FT` không có ô nào cho phần thưởng — chỉ tên, chuyện kể, số chặng, thời gian lớn.
+- uiluat 0, uicheck 3 cỡ 0. Thêm hai bộ kiểm riêng ngoài bộ chuẩn: 15 bài cứu bản lưu, 12 bài cho ba chỗ gộp — đạt hết. **Chưa thử iPhone thật.**
+- **Bộ sinh trang test hỏng từ v173:** móc `__ev` (`window.__Q` + `window.__ev = s => eval(s)`) nằm trong một file chưa từng commit, nên `gen_test2.py x40f.js ...` ra trang không điều khiển được và `uicheck` treo. Đã dựng lại móc từ `lp/mv2_t172.html`. **Cần commit file móc đó vào kho**, không thì bản sau lại mất.
+- `qcLv.js` cũng không chạy được: nó `localStorage.clear()` rồi chờ `__ready`, mà game giờ đứng chờ chọn ngôn ngữ. Cần thêm `localStorage.setItem('mv2-lang','vi')` vào `addInitScript`.
+- `uicheck.js` mở Chromium bằng `--use-angle=metal`; máy nào không với tới GPU thì treo, đổi sang `--use-angle=swiftshader --enable-unsafe-swiftshader` là chạy. WebKit (`tWk115.js`) không chạy nổi ở đây: v173 live cũng kẹt 0% y hệt, nên cổng này chỉ kết luận được trên iPhone thật.
