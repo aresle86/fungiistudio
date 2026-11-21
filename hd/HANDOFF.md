@@ -583,3 +583,12 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Artifact game đã lên v174 (bản 156), đẩy từ `hd/live/vuon3d.html`. Trình xem Artifact **không cho trang tải file về**, nên nút xuất/lưu trong game không chạy ở đó (trên fungiistudio.com vẫn chạy); muốn chạy thì phải khai `downloads` capability — chưa làm, không cần.
 - Doc kịch bản (5zrepCFVxTCYk3zmhfgAuU) đã thêm dòng changelog v174 vào cuối danh sách.
 - `claude/mietvuon/miet-vuon-2.0.html` trong Project **vẫn ở v105** — phiên Claude Code không với tới file Project, phải mở Project cập nhật tay.
+
+**Dọn vườn trùng trong Supabase (21/11, Ares cho phép "Dọn hết 161")**
+- Trước: `mv2_farms` 195 dòng / 34 người thật / 8 người bị trùng / 161 dòng dư. Sau: **34 dòng, 34 người, 0 trùng**. `mv2_follows` 55 → 44 (xoá 11 đường trỏ vô dòng cũ). `mv2_ben` **không đụng**, vẫn 141 đơn.
+- Cách chọn dòng giữ lại: `row_number() over (partition by name, garden order by updated_at desc nulls last, rev desc, created_at desc, id)`, giữ `hang = 1`.
+- **Sao lưu nguyên văn ở `mv2_farms_bak_21_11` (161 dòng, 142 có dữ liệu vườn) và `mv2_follows_bak_21_11` (11 dòng)**, kèm cột `hang`. Bảng CTAS sinh ra **không có RLS** → đã `enable row level security` (0 luật = chặn hết) và `revoke all ... from anon, authenticated`; kiểm `has_table_privilege('anon', …, 'SELECT')` = false. **Lần sau tạo bảng tạm trong `public` phải khoá ngay** — trong đó có `code` và `secret_hash`.
+- 123 trong 161 dòng là **dấu vết bot thử máy** (N/V 118, Nhu/Nhu 18, Bot/Bot 7 — gộp cả dòng giữ lại; mỗi dòng `rev <= 1`, sinh 03–05/11). Mấy dòng này **chưa bao giờ hiện trong game**: `mv2_suggest` đã lọc `updated_at > now() - 7 days` và `mv2_is_test(name, garden)`. Cái Ares thấy là 18 dòng của **Mít/Thăng Long** sinh ngày 20/11, `lv` tới 22 nên lọt qua cả hai phép lọc.
+- 11 đường theo dõi bị xoá: **9 là trùng** (người đó đã theo cả dòng đang dùng — "Như xinh đẹp" theo Mít 5 lần), 2 là **tự theo dòng cũ của chính mình** (nù, Test). Không ai mất bạn thật.
+- Kiểm sau khi dọn: 0 đường theo dõi treo; chạy lại y phép lọc của `mv2_suggest` cho 5 người đang chơi → số dòng gợi ý = số người khác nhau; `group by follower, followee having count(*) > 1` → **rỗng**.
+- Muốn bỏ sao lưu khi đã yên tâm: `drop table mv2_farms_bak_21_11, mv2_follows_bak_21_11;` — **chỉ khi Ares cho phép**.
