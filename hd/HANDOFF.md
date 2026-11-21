@@ -11,7 +11,7 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 |---|---|
 | Bản live | **v174** (21/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
 | Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v174, khớp live). Mỗi bản = một script vá: `live/v173.html` → `fix174.py` → `live/v174.html`. Bản v174 dựng lại ra file giống từng byte |
-| Việc kế tiếp | **v175: cây cổ tích + bấm bong bóng trên giàn.** Cây cổ tích đang mọc quá gần nhau (cặp gần nhất 1,71 đơn vị, cả 11 cặp đều dưới 4) và `FT` chưa có ô phần thưởng nào — chờ anh Ares chọn: giãn khoảng + cho ra lần lượt, hay cho mỗi cây một tác dụng riêng cho vườn, hay cả hai. Bấm vô cây trên giàn: đo bằng `plotHit0`, chạm ngang thân cây trúng đúng ô **0%** (ô liếp thường 100%) vì tia bấm chỉ thấy bong bóng với mặt đất, xuyên qua giàn rồi rơi cách liếp hơn 0,14. Đã chẩn ra, chưa sửa. Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
+| Việc kế tiếp | **v175: cây cổ tích + bấm bong bóng trên giàn.** Cây cổ tích đang mọc quá gần nhau (cặp gần nhất 1,71 đơn vị, cả 11 cặp đều dưới 4) và `FT` chưa có ô phần thưởng nào — chờ anh Ares chọn: giãn khoảng + cho ra lần lượt, hay cho mỗi cây một tác dụng riêng cho vườn, hay cả hai. Phần chạm vô giàn **đã sửa xong trong `fix175.py`** (chưa đẩy, chờ anh Ares nói "Đẩy v175"). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
 | Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v174**, bản 156). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
@@ -547,6 +547,35 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+
+## v175 (21/11/2026) — chạm vô giàn trúng đúng giàn — ĐÃ DỰNG, CHƯA ĐẨY
+
+`python3 fix175.py live/v174.html live/v175.html`. Ares nhắn "Làm đi" 21/11, sau khi em chẩn xong phần giàn của v175. Phần **cây cổ tích** của v175 vẫn chờ anh chọn hướng, chưa đụng tới.
+
+**Lỗi:** `plotHit0` chỉ "thấy" ba thứ — bong bóng, tán cây trái (`treeHitAt`), rồi mặt đất. Giàn cao 1,05 không có gì để tia chạm bắt, nên tia xuyên qua giàn, rơi xuống đất phía sau rồi trả về một liếp khác. Khối chạm `v.hit` của giàn vốn đã nằm sẵn trong `HITS` từ lâu, nhưng `plotHit0` lọc `HITS` theo `PL[...].tree` nên không ai hỏi tới nó.
+
+**Cách sửa:** thêm `gianHitAt(cx, cy)`, hỏi ngay sau `treeHitAt` và trước mặt đất. Nó bắt tia vô **đúng hình đang vẽ** của giàn — `PV[id].crop` (dây, lá, trái, đã gộp còn 4 mesh) và `PV[id].gianG` (khung giàn tự dựng) — rồi dò ngược `userData.gplot` lên nhóm cha để ra id liếp.
+
+**Vì sao không dùng khối hộp bao quanh:** đã thử trước, hỏng. Máy quay nhìn chéo từ trên xuống, nên khối hộp cao 1,2 của giàn đổ bóng chạm lên một dải đất rộng chừng 1,46 đơn vị phía sau — nuốt trọn liếp A2b (0/27 điểm, trước đó 22/27). Giàn là khung trống, nhìn xuyên qua thấy liếp sau rõ ràng, nên ăn cú chạm ở đó là sai. Bắt theo hình thật thì chạm vô khoảng trống giữa hai cọc vẫn xuống tới liếp phía sau như cũ.
+
+**Đo (390x844, khổ qua đang lớn trên hai đoạn giàn G/Gb, rải chấm khắp chỗ màn hình đang vẽ dây — 913 điểm):**
+
+| | trúng giàn | ra liếp khác | không trúng gì |
+|---|---|---|---|
+| v174 | 148 (16%) | 502 (55%) | 263 (29%) |
+| v175 | 912 (99,9%) | 1 | 0 |
+
+Ảnh so sánh đã gửi anh Ares (dựng bằng `bando.js` + `ghep.js` trong scratchpad, không commit).
+
+**Bài kiểm:** `node tGian175.js mv2_t175b.html` (đã commit, cần máy chủ `hd/lp` ở cổng 8777). 6 mục: chạm vô dây/trái giàn, liếp thường không bị giàn cướp cú chạm, bong bóng vẫn thắng, hái giàn ăn thiệt, chạm khung giàn tự dựng trên ô đất trống, không lỗi chạy. v175 đạt hết; chạy ngược lại trên `mv2_t174b.html` thì mục 1 và 5 hỏng — đó là mốc trước khi vá.
+
+**Mấy chỗ lệch bài kiểm có ghi lại mà KHÔNG phải do bản vá** (chạy trên v174 ra y hệt): tán cây trái T5 ăn 4 cú chạm của liếp C1; bờ giữa hai nửa liếp lệch 2 cú mỗi chỗ; mép liếp D1 bắt hụt 2 cú về phía giàn (`plotNear` ngưỡng 0,14); bong bóng của B2b và của Gb chồng nhau trên màn hình. Để đó, chưa sửa.
+
+**Giá chạy:** 200 lần bắt tia = 1,3 ms, chỉ chạy lúc đặt ngón xuống. Không đụng vòng vẽ.
+
+**Cổng:** `node --check` sạch · `uiluat.py` ra `LECH LUAT 0` · `uicheck` ra `khac nhau 0 loi trang 0` ở 390x844, 360x740, 1280x800 · bài kiểm v174 (`tgop174.js`, `tsave174.js`) chạy lại trên v175 vẫn đạt hết.
+
+**Chưa làm:** chưa đẩy (chờ "Đẩy v175"), chưa đụng cây cổ tích, chưa thử trên iPhone thật, giàn trống chưa trồng gì ở G/Gb vẫn chỉ chạm được ở phần chân (khung tĩnh dựng chung một mesh với cảnh, không tách ra bắt tia theo từng đoạn được) — giàn tự dựng trên ô đất trống thì chạm khung được, vì khung đó dựng riêng theo từng ô.
 
 ## v174 (21/11/2026) — chống mất vườn, bớt nóng máy, ba lỗi người chơi báo
 
