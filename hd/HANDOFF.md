@@ -9,10 +9,10 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 
 | Thứ | Ở đâu / trạng thái |
 |---|---|
-| Bản live | **v175** (22/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v175, khớp live). Bản mới nhất là **v176, đã dựng, CHƯA ĐẨY** (`live/v175.html` → `fix176.py` → `live/v176.html`). Mỗi bản = một script vá |
-| Việc kế tiếp | **Đẩy v176** (chặng 1 cây cổ tích: giãn cấp, một lúc một cây, giãn chỗ mọc) khi anh Ares nhắn "Đẩy v176". Rồi **chặng 2: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Còn **icon khô trùng**: `ICON.khocadong` đang mượn hình `ICON.khocasac` (dòng alias trong `vuon3d.html`), hai món cùng cấp 9 cùng đơn vị "xâu" nên đơn hàng không phân biệt được — cần nặn `O.khocadong` riêng (mẹt cá đồng lớn nhỏ không đều, khác dáng xâu treo que), gửi hình anh duyệt trước. Cặp `canho → caro` cũng mượn hình, chờ anh nói có sửa không. Phần chạm vô giàn **đã xong và đã đẩy** trong v175 (22/11). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
-| Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v175**, bản 157). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
+| Bản live | **v176** (22/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v176, khớp live). Mỗi bản = một script vá: `live/v175.html` → `fix176.py` → `live/v176.html` |
+| Việc kế tiếp | **Chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Còn **icon khô trùng**: `ICON.khocadong` đang mượn hình `ICON.khocasac` (dòng alias trong `vuon3d.html`), hai món cùng cấp 9 cùng đơn vị "xâu" nên đơn hàng không phân biệt được — cần nặn `O.khocadong` riêng (mẹt cá đồng lớn nhỏ không đều, khác dáng xâu treo que), gửi hình anh duyệt trước. Cặp `canho → caro` cũng mượn hình, chờ anh nói có sửa không. Phần chạm vô giàn **đã xong và đã đẩy** trong v175 (22/11). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
+| Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v176**, bản 158). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
 | Rà nhiệm vụ theo cấp v101: quyết định, kết quả bot (Claude Doc) | https://claude.ai/artifact/7dy5ceisV6jpudW7E4KFsm |
@@ -550,7 +550,7 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 
 ## v176 (22/11/2026) — cây cổ tích chặng 1: giãn cấp, một lúc một cây, giãn chỗ mọc
 
-**BẢN NHÁP — đã dựng, CHƯA ĐẨY.** `fix176.py`, v175 → v176. Anh Ares: "gĩan khoảng cách xuất hiện ra để cách level hơn thì mới thấy, bây giờ 1 level xuất hiện 2 cây. Còn khoảng cách mọc thì giãn ra xíu cũng đc" → nhắn "Làm chặng 1".
+`fix176.py`, v175 → v176. Anh Ares: "gĩan khoảng cách xuất hiện ra để cách level hơn thì mới thấy, bây giờ 1 level xuất hiện 2 cây. Còn khoảng cách mọc thì giãn ra xíu cũng đc" → nhắn "Làm chặng 1".
 
 **Đo trên v175 trước khi sửa**
 - Cấp mở: 6, 9, 12, 14, 16, 18 — bốn cây cuối chỉ cách nhau 2 cấp.
@@ -566,6 +566,14 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 **Cổng:** `node --check` sạch · `uiluat.py` ra `LECH LUAT 0` · uicheck ra 0 ở 390×844, 360×740, 1280×800 · bài kiểm mới `hd/tCay176.js` (13 mục: một lúc một cây, cấp mở, khoảng cách, không đứng trên liếp, không lỗi chạy) **ĐẠT HẾT**. Chạy: `node tCay176.js mv2_t176.html` (cần máy chủ `lp/` ở cổng 8777: `cd hd/lp && python3 -m http.server 8777 --bind 127.0.0.1`, và `python3 gen_test2.py uihook.js live/v176.html lp/mv2_t176.html` để dựng trang thử).
 
 **Chưa làm:** chặng 2 (mỗi cây một tác dụng) — đụng tới xu, chờ anh Ares chốt số. Icon khô trùng (`ICON.khocadong` mượn hình `ICON.khocasac`) cũng chưa sửa, cần nặn mô hình mới và gửi hình anh duyệt trước.
+
+**Đẩy xong (22/11)** — anh Ares nhắn "Đẩy v176".
+- `cp live/v176.html live/vuon3d.html` (giống từng byte) → commit `f9e2176` trên `mietvuon2-dev` → `cd hd && python3 buildsite.py` → `../mietvuon2/index.html`. Đã kiểm bản dựng đúng công thức `head + src.replace(title) + '\n</body></html>\n'` (ra `True`); so với bản live cũ chỉ khác đúng phần cây cổ tích.
+- `mietvuon2/index.html` chỉ commit trên `main`, và **không checkout được** (tên file đụng nhau chỉ khác hoa thường: `hd/tDD.js` ↔ `hd/tDd.js` và 8 cặp nữa). Vẫn dựng commit bằng plumbing, không đụng cây làm việc: `git hash-object -w` → `GIT_INDEX_FILE` tạm + `read-tree <commit main cũ>` + `update-index --cacheinfo` + `write-tree` + `commit-tree` + `update-ref refs/heads/main`. Cách này còn tránh được một bẫy: bốn file nhạc `mietvuon2/nhac/*.m4a` có trên `main` mà **không có trong cây làm việc** — commit thường sẽ xoá mất chúng; `read-tree` thì giữ nguyên. Đã kiểm `git diff --stat c135757 main` chỉ đổi một file.
+- `git push origin mietvuon2-dev main main:mietvuon2-online` → `main` và `mietvuon2-online` cùng ở `2444b60`.
+- Nhớ `git fetch origin '+refs/heads/*:refs/remotes/origin/*'` (hoặc `git ls-remote --heads origin`): `remote.origin.fetch` ở máy này chỉ theo `mietvuon2-dev`, nên `origin/main` hay bị cũ.
+- Đo bản live thật: HTTP 200, 2.513.492 byte, `const BUILD = 'v176'`, có `ftHold`/`ftGive`, và giống hệt file mình dựng.
+- Artifact game đẩy lên **bản 158** (đã tải lại kiểm: `BUILD = 'v176'`, chứa trọn nguồn). Changelog Doc thêm mục v176 (rev 180). File trong Project vẫn kẹt ở v105.
 
 ## v175 (21–22/11/2026) — chạm vô giàn trúng đúng giàn
 
