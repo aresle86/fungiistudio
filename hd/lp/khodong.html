@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Khô cá đồng · coi thử</title><script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script>
+<style>body{margin:0;padding:18px 20px;background:#F6EEDC;font:600 14px/1.5 system-ui,sans-serif;color:#4A2F1E}
+h2{font-size:16px;margin:18px 0 8px}p{font-weight:500;margin:4px 0 10px;max-width:640px}
+table{border-collapse:separate;border-spacing:16px 6px}td{text-align:center;vertical-align:middle}
+.b{width:150px;height:150px;background:#FFF8EA;border-radius:18px}
+.s{width:44px;height:44px;background:#FFF8EA;border-radius:9px}
+.lbl{text-align:right;width:92px;font-weight:600;color:#6B4529}
+.card{display:inline-flex;align-items:center;gap:10px;background:#FFF8EA;border:2px solid #E8DFCC;border-radius:14px;padding:10px 14px;margin:0 10px 0 0}
+.card img{width:44px;height:44px}.card b{font-size:14px}.card small{display:block;font-weight:500;color:#8A6A4A}</style></head><body>
+<script src="./ic119.js"></script>
+<script type="module">
+import * as T from 'three';
+const TOONG=(()=>{const d=new Uint8Array([92,92,92,255,150,150,150,255,214,214,214,255,255,255,255,255]),t=new T.DataTexture(d,4,1,T.RGBAFormat);t.minFilter=t.magFilter=T.NearestFilter;t.generateMipmaps=false;t.needsUpdate=true;return t})();const H={};
+function toonMat(m){if(!m||!m.color||m.isMeshBasicMaterial)return m;const c=m.color.clone();c.getHSL(H);if(H.s>.04&&H.s<.62)c.setHSL(H.h,Math.min(.66,H.s*1.2+.03),Math.min(.92,H.l*1.03+.01));else if(H.s>=.62)c.setHSL(H.h,H.s*.9,H.l);return new T.MeshToonMaterial({color:c,gradientMap:TOONG,side:m.side,transparent:m.transparent,opacity:m.opacity,depthWrite:m.depthWrite})}
+const MC={},mt=c=>MC[c]||(MC[c]=new T.MeshStandardMaterial({color:c,flatShading:true,roughness:.85,side:T.DoubleSide}));
+const add=(p,geo,c,x=0,y=0,z=0,r,s)=>{const m=new T.Mesh(geo,mt(c));m.position.set(x,y,z);if(r)m.rotation.set(...r);if(s)m.scale.set(...s);p.add(m);return m};
+const ri=new T.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});ri.setPixelRatio(2);ri.setSize(220,220);ri.setClearColor(0,0);
+const O=window.IC119(T,add),KS=['khocasac','khocadong','khocaloc','otkho','chuoiphoi'],N={khocasac:'Khô cá sặc',khocadong:'Khô cá đồng',khocaloc:'Khô cá lóc',otkho:'Ớt khô (nia sẵn có)',chuoiphoi:'Chuối phơi (nia sẵn có)'},U={khocasac:'cấp 9 · xâu · 80 xu',khocadong:'cấp 9 · xâu · 75 xu',khocaloc:'cấp 11 · con · 150 xu'},out={};
+for(const k of KS){const sc=new T.Scene(),root=new T.Group();sc.add(root);O[k](root);sc.add(new T.HemisphereLight('#fff4e2','#94a474',1.5));sc.add(new T.AmbientLight('#fff',.2));const l=new T.DirectionalLight('#fff0d8',1.7);l.position.set(-3,8,4);sc.add(l);
+ sc.traverse(o=>{if(o.isMesh)o.material=toonMat(o.material)});const bb=new T.Box3().setFromObject(root),c=bb.getCenter(new T.Vector3()),s=bb.getSize(new T.Vector3()).length()*.42,cm=new T.OrthographicCamera(-s,s,s,-s,.01,100);cm.position.copy(c).add(new T.Vector3(.3,.4,1).normalize().multiplyScalar(20));cm.lookAt(c);ri.render(sc,cm);out[k]=ri.domElement.toDataURL('image/png')}
+const row=(cls)=>KS.map(k=>`<td><img class="${cls}" src="${out[k]}"></td>`).join('');
+document.body.insertAdjacentHTML('beforeend',
+`<h2>Hình lớn</h2>
+<table><tr><td class=lbl></td>${KS.map(k=>`<td>${N[k]}</td>`).join('')}</tr>
+<tr><td class=lbl></td>${row('b')}</tr>
+<tr><td class=lbl>Cỡ thật trong game</td>${row('s')}</tr></table>
+<h2>Khi hiện trong một đơn hàng</h2>
+<p>Đây là chỗ anh nói không phân biệt được. Hai món đầu cùng cấp 9, cùng bán theo xâu.</p>
+<div>${KS.slice(0,2).map(k=>`<span class="card"><img src="${out[k]}"><span><b>${N[k]}</b><small>${U[k]}</small></span></span>`).join('')}</div>`);
+window.__done=1;
+</script></body></html>

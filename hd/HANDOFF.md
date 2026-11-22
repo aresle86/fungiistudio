@@ -10,7 +10,7 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 | Thứ | Ở đâu / trạng thái |
 |---|---|
 | Bản live | **v176** (22/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v176, khớp live). Mỗi bản = một script vá: `live/v175.html` → `fix176.py` → `live/v176.html` |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v176, khớp live). Bản mới nhất là **v177, đã dựng, CHƯA ĐẨY** (`live/v176.html` → `fix177.py` → `live/v177.html`). Mỗi bản = một script vá |
 | Việc kế tiếp | **Chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Còn **icon khô trùng**: `ICON.khocadong` đang mượn hình `ICON.khocasac` (dòng alias trong `vuon3d.html`), hai món cùng cấp 9 cùng đơn vị "xâu" nên đơn hàng không phân biệt được — cần nặn `O.khocadong` riêng (mẹt cá đồng lớn nhỏ không đều, khác dáng xâu treo que), gửi hình anh duyệt trước. Cặp `canho → caro` cũng mượn hình, chờ anh nói có sửa không. Phần chạm vô giàn **đã xong và đã đẩy** trong v175 (22/11). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
 | Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v176**, bản 158). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
@@ -547,6 +547,22 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+
+## v177 (22/11/2026) — Khô cá đồng có hình riêng
+
+**BẢN NHÁP — đã dựng, CHƯA ĐẨY.** `fix177.py`, v176 → v177. Anh Ares: "t thấy có 2 icon khô bị trùng lặp ko biết là khô gì là khô gì khi nhận đc order" → coi hình xong nhắn "Duyệt, gắn vô".
+
+**Gốc lỗi:** bảng mượn hình trong `vuon3d.html` có dòng `['khocadong', 'khocasac']` — Khô cá đồng **cố ý** xài chung hình với Khô cá sặc, và `O.khocadong` chưa từng được nặn (đếm trong file ra 0). Hai món lại trùng nhau gần hết: cùng cấp 9, cùng đơn vị "xâu", cùng phơi 6 tiếng, chỉ khác giá (80 với 75) và nguyên liệu (sacran với canho). Nên thẻ đơn hàng hiện hai dòng y như nhau.
+
+**Đã vá**
+1. Nặn `O.khocadong`: cái **mẹt** (`nia()`, dùng chung với Ớt khô và Chuối phơi nên không lạc kiểu) với **năm con cá đồng lớn nhỏ không đều** (dài .26 tới .42), nằm xoay đủ hướng, mỗi con có sống lưng sẫm `#7A5226` và con mắt. Dáng **nằm**, khác hẳn dáng **đứng** (xâu treo que tre) của Khô cá sặc — ở cỡ thật 44px một bên là cái que ngang, một bên là dĩa tròn sẫm. Hàm **không gọi `R()`** nên chuỗi ngẫu nhiên của mấy icon dựng sau giữ nguyên.
+2. Bỏ `['khocadong', 'khocasac']` khỏi bảng mượn hình. `ICON[k]` tự dựng từ `O` (vòng lặp `for (const k in O)` trong phần ic119), nên có hình riêng liền. Cặp `canho → caro` **giữ nguyên** — anh Ares chưa yêu cầu đổi.
+
+**Nặn hai lần:** lần đầu để cá bè (`H = L * .5`), nhìn ra củ khoai chứ không ra con cá, và cá nhỏ so với mẹt. Lần hai làm thon (`H = L * .34`), thêm sống lưng + mắt, phóng to cho đầy mẹt như mấy món nia khác.
+
+**Nguồn hình:** `lp/ic119.js` là bản gốc dùng chung cho trang thử và bản vá vào game — đã thêm `O.khocadong` vô đó trước, rồi mới chép y nguyên vô `fix177.py`. Trang coi thử: `lp/khodong.html` (so Khô cá sặc · Khô cá đồng · Khô cá lóc · Ớt khô · Chuối phơi, cả cỡ lớn lẫn cỡ thật 44px, kèm hai thẻ đơn hàng). Tên món đã thêm vô bảng `N` của `lp/icolab.html`.
+
+**Cổng:** `node --check` sạch · `uiluat.py` ra `LECH LUAT 0` · uicheck ra 0 ở 390×844, 360×740, 1280×800 · `tCay176.js` chạy lại trên v177 vẫn **đạt hết 13 mục**.
 
 ## v176 (22/11/2026) — cây cổ tích chặng 1: giãn cấp, một lúc một cây, giãn chỗ mọc
 
