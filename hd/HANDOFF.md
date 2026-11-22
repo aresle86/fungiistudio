@@ -9,10 +9,10 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 
 | Thứ | Ở đâu / trạng thái |
 |---|---|
-| Bản live | **v174** (21/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v174, khớp live). Mỗi bản = một script vá: `live/v173.html` → `fix174.py` → `live/v174.html`. Bản v174 dựng lại ra file giống từng byte |
-| Việc kế tiếp | **v175: cây cổ tích + bấm bong bóng trên giàn.** Cây cổ tích đang mọc quá gần nhau (cặp gần nhất 1,71 đơn vị, cả 11 cặp đều dưới 4) và `FT` chưa có ô phần thưởng nào — chờ anh Ares chọn: giãn khoảng + cho ra lần lượt, hay cho mỗi cây một tác dụng riêng cho vườn, hay cả hai. Phần chạm vô giàn **đã sửa xong trong `fix175.py`** (chưa đẩy, chờ anh Ares nói "Đẩy v175"). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
-| Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v174**, bản 156). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
+| Bản live | **v175** (22/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v175, khớp live). Mỗi bản = một script vá: `live/v174.html` → `fix175.py` → `live/v175.html`. Bản v175 dựng lại ra file giống từng byte |
+| Việc kế tiếp | **v175: cây cổ tích + bấm bong bóng trên giàn.** Cây cổ tích đang mọc quá gần nhau (cặp gần nhất 1,71 đơn vị, cả 11 cặp đều dưới 4) và `FT` chưa có ô phần thưởng nào — chờ anh Ares chọn: giãn khoảng + cho ra lần lượt, hay cho mỗi cây một tác dụng riêng cho vườn, hay cả hai. Phần chạm vô giàn **đã xong và đã đẩy** trong v175 (22/11). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
+| Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v175**, bản 157). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
 | Rà nhiệm vụ theo cấp v101: quyết định, kết quả bot (Claude Doc) | https://claude.ai/artifact/7dy5ceisV6jpudW7E4KFsm |
@@ -548,9 +548,9 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
 
-## v175 (21/11/2026) — chạm vô giàn trúng đúng giàn — ĐÃ DỰNG, CHƯA ĐẨY
+## v175 (21–22/11/2026) — chạm vô giàn trúng đúng giàn
 
-`python3 fix175.py live/v174.html live/v175.html`. Ares nhắn "Làm đi" 21/11, sau khi em chẩn xong phần giàn của v175. Phần **cây cổ tích** của v175 vẫn chờ anh chọn hướng, chưa đụng tới.
+`python3 fix175.py live/v174.html live/v175.html`. Ares nhắn "Làm đi" 21/11 sau khi em chẩn xong phần giàn, rồi "Đẩy v175" 22/11. Phần **cây cổ tích** của v175 vẫn chờ anh chọn hướng, chưa đụng tới.
 
 **Lỗi:** `plotHit0` chỉ "thấy" ba thứ — bong bóng, tán cây trái (`treeHitAt`), rồi mặt đất. Giàn cao 1,05 không có gì để tia chạm bắt, nên tia xuyên qua giàn, rơi xuống đất phía sau rồi trả về một liếp khác. Khối chạm `v.hit` của giàn vốn đã nằm sẵn trong `HITS` từ lâu, nhưng `plotHit0` lọc `HITS` theo `PL[...].tree` nên không ai hỏi tới nó.
 
@@ -575,7 +575,26 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 
 **Cổng:** `node --check` sạch · `uiluat.py` ra `LECH LUAT 0` · `uicheck` ra `khac nhau 0 loi trang 0` ở 390x844, 360x740, 1280x800 · bài kiểm v174 (`tgop174.js`, `tsave174.js`) chạy lại trên v175 vẫn đạt hết.
 
-**Chưa làm:** chưa đẩy (chờ "Đẩy v175"), chưa đụng cây cổ tích, chưa thử trên iPhone thật, giàn trống chưa trồng gì ở G/Gb vẫn chỉ chạm được ở phần chân (khung tĩnh dựng chung một mesh với cảnh, không tách ra bắt tia theo từng đoạn được) — giàn tự dựng trên ô đất trống thì chạm khung được, vì khung đó dựng riêng theo từng ô.
+**Chưa làm:** chưa đụng cây cổ tích, chưa thử trên iPhone thật, giàn trống chưa trồng gì ở G/Gb vẫn chỉ chạm được ở phần chân (khung tĩnh dựng chung một mesh với cảnh, không tách ra bắt tia theo từng đoạn được) — giàn tự dựng trên ô đất trống thì chạm khung được, vì khung đó dựng riêng theo từng ô.
+
+**Đẩy xong (22/11)**
+- `cp live/v175.html live/vuon3d.html` → `python3 buildsite.py` → `mietvuon2/index.html`. Bản dựng khớp đúng công thức `head + nguồn (đổi tiêu đề) + "\n</body></html>\n"`; khác bản live cũ đúng 3 chỗ (hằng `BUILD`, hàm `gianHitAt`, một dòng trong `plotHit0`).
+- `mietvuon2-dev` ở `b43e4bc`; `main` và `mietvuon2-online` cùng `c135757`. GitHub Pages dựng xong `c135757`, `curl` ra `HTTP 200 · 2513311 bytes · BUILD = 'v175'`, có `gianHitAt` trong trang.
+- **Mốc máy chủ kẹt (vẫn còn):** `git fetch origin` thường không cập nhật `origin/main` và `origin/mietvuon2-online` vì `remote.origin.fetch` chỉ theo `mietvuon2-dev`. Cách chữa tại chỗ: `git fetch origin '+refs/heads/*:refs/remotes/origin/*'`, hoặc `git ls-remote --heads origin` để đọc thẳng trạng thái thật trên server.
+- **Không đổi nhánh được trên máy này:** `git checkout main` bị chặn vì kho có cặp file chỉ khác nhau chữ hoa/thường (`hd/tDD.js` ↔ `hd/tDd.js`, `tBub/tbub`, `tCloud/tcloud`, `tErr/terr`, `tExp/texp`, `tLv/tlv`, `tNg/tng`, `tSh/tsh`, `tTop/ttop`), mà macOS không phân biệt hoa thường nên git luôn thấy chúng "đang sửa". Cách đi vòng đã dùng: không đổi nhánh, dựng thẳng commit cho `main` bằng lệnh nền —
+  ```
+  BLOB=$(git hash-object -w <ban-dung>)
+  GIT_INDEX_FILE=<file-tam> git read-tree main
+  GIT_INDEX_FILE=<file-tam> git update-index --cacheinfo 100644,$BLOB,mietvuon2/index.html
+  TREE=$(GIT_INDEX_FILE=<file-tam> git write-tree)
+  COMMIT=$(git commit-tree $TREE -p main -m "...")
+  git update-ref refs/heads/main $COMMIT
+  ```
+  Cách này không đụng tới thư mục làm việc. Muốn chữa gốc thì phải đổi tên một bên trong cặp file trùng.
+- `mietvuon2/index.html` **được theo dõi trên cả hai nhánh** nhưng chỉ commit trên `main`; bản trên `mietvuon2-dev` là bản cũ, cố ý để vậy (giống cách làm v174).
+- Artifact game đã lên v175 (bản 157, version id `1795321813-a02e`), đẩy từ `hd/live/vuon3d.html`. Đọc lại `index.html` của bản đã đẩy để kiểm: ra `BUILD = 'v175'`, có `gianHitAt`, nguồn nằm trọn trong trang (dịch vụ Artifact bọc thêm 546 ký tự khung trang).
+- Doc kịch bản (5zrepCFVxTCYk3zmhfgAuU) đã thêm dòng changelog v175 vào cuối danh sách (rev 179).
+- `claude/mietvuon/miet-vuon-2.0.html` trong Project **vẫn ở v105** — phiên Claude Code không với tới file Project, anh Ares phải mở Project cập nhật tay.
 
 ## v174 (21/11/2026) — chống mất vườn, bớt nóng máy, ba lỗi người chơi báo
 
