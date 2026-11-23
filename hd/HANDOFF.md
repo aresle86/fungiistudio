@@ -10,8 +10,8 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 | Thứ | Ở đâu / trạng thái |
 |---|---|
 | Bản live | **v180** (23/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v180, khớp live). Bản mới nhất là **v181, đã dựng, CHƯA ĐẨY** (`live/v180.html` → `fix181.py` → `live/v181.html`). Mỗi bản = một script vá |
-| Việc kế tiếp | **Đẩy v181** (đơn đặt trước trái cây) khi anh Ares nhắn "Đẩy v181". **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm. **Chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Rồi **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v180, khớp live). Bản mới nhất là **v182, đã dựng, CHƯA ĐẨY** (`live/v180.html` → `fix181.py` → `live/v181.html` → `fix182.py` → `live/v182.html`). Mỗi bản = một script vá |
+| Việc kế tiếp | **Đẩy v182** (gồm luôn v181) khi anh Ares nhắn đẩy — anh Ares: "Sửa rồi đẩy 1 lần". **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm. **Chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Rồi **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước |
 | Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v180**, bản 162). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
@@ -547,6 +547,30 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+
+## v182 (23/11/2026) — bảng ao cá nói ra cái lợi, thay vì giấu
+
+**BẢN NHÁP — đã dựng, CHƯA ĐẨY.** `fix182.py`, v181 → v182. Anh Ares: "t vẫn ko hiểu có sẵn cá thả xuống miễn phí thì người chơi đc lợi gì?"
+
+**Cái lợi có thật**, đọc từ `aoLuoi()`: đủ số cá đã thả, **cộng thêm 1 con cho mỗi 2 con** (`de = Math.floor(ok.length / 2)`) · **2 bó lục bình** mỗi ngày (nếu tới cấp và hôm nay chưa vớt) · **1 phần bùn ao** bỏ hố ủ (nếu có hố ủ) · **2 kinh nghiệm mỗi con**. Một mẻ **24 giờ** (`AONUOI`). Thả **miễn phí** nếu cá có sẵn trong kho, không có thì `aoGiong(k) = max(2, sell - 15)` xu. Ao nhỏ 6 con · vừa 10 · lớn 15 (`AOT`).
+**Tiền lời mỗi ngày, ao vừa 10 con:** cá sặc rằn 90 xu · cá rô phi 110 · cá rô đồng 125 · cá trê vàng 200 · cá lóc 225 · **cá tra lớn 700**.
+
+**Gốc lỗi là CHỮ, không phải luật.** Bảng có hai câu phụ:
+- ao **trống**: "…Cứ hai con nuôi lớn thì cá đẻ thêm một con." → có nói cái lợi.
+- **đang nuôi**: "Mẻ đầu lớn sau X. Lớn rồi kéo lưới về kho, **cùng món cùng giá với cá câu**." → mất sạch phần cá đẻ, lại thêm vế nghe như thả vô chẳng được gì.
+
+Thả cá vô một con là từ đó **không còn chỗ nào nói vì sao nên thả**. Anh Ares có 4 con trong ao nên từ đầu tới giờ chỉ gặp câu thứ hai. Lục bình, bùn ao, kinh nghiệm thì cả bảng không nhắc — chỉ hiện trong `toast` sau khi đã kéo lưới xong.
+
+**Đã vá** — tính thẳng con số theo số cá đang có, khỏi bắt người chơi nhẩm. Thêm hai hàm nhỏ ngay trên `aoHTML`:
+- `aoLoi(n)` → "6 con — 4 con nuôi với 2 con cá đẻ"; dưới 2 con thì nói "cứ hai con nuôi lớn mới có thêm một con cá đẻ", khỏi ghi "0 con cá đẻ" nghe kỳ.
+- `aoThem()` → " Vớt thêm 2 bó lục bình với một phần bùn ao bỏ hố ủ." **Chỉ ghi cái thiệt sự được**: đúng cấp, hôm nay chưa vớt, và có hố ủ.
+- Câu **đang nuôi**: "Mẻ đầu lớn sau X. Nuôi đủ một ngày thì kéo lưới được …" + `aoThem()`.
+- Thêm một dòng y vậy **ngay dưới nút Kéo lưới** khi cá đã lớn (trước đây chỗ đó không có chữ nào).
+- Cả hai câu viết bằng `L135(vi, en)` nên tiếng Anh không bị bỏ lại. Dòng dịch cũ trong `UIEN` giờ không khớp gì nữa, để đó vô hại.
+
+Không đụng tới xu, số cá, thời gian. **Chỉ là chữ trên bảng.**
+
+**Cổng:** `node --check` sạch · `uiluat.py` ra `LECH LUAT 0` · uicheck ra 0 ở 390×844, 360×740, 1280×800 · `tCay176.js` chạy lại trên v182 vẫn **đạt hết 13 mục**. Thử: dựng đúng ao 4 con như của anh Ares, ao vừa, có hố ủ. Lúc đang nuôi ra 'Mẻ đầu lớn sau 22 giờ. Nuôi đủ một ngày thì kéo lưới được 6 con — 4 con nuôi với 2 con cá đẻ. Vớt thêm 2 bó lục bình với một phần bùn ao bỏ hố ủ.' Lúc cá lớn rồi thì dưới nút Kéo lưới ra dòng y vậy.
 
 ## v181 (23/11/2026) — cây ăn trái mở khoá rồi là hàng xóm bắt đầu đặt
 
