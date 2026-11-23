@@ -10,8 +10,8 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 | Thứ | Ở đâu / trạng thái |
 |---|---|
 | Bản live | **v180** (23/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v180, khớp live). Mỗi bản = một script vá: `live/v179.html` → `fix180.py` → `live/v180.html` |
-| Việc kế tiếp | **Đơn hàng cây ăn trái**: luật hiện tại chỉ đặt trái nào vườn đang có sẵn cây đó, nên 10 cây ăn trái đã mở khoá mà chưa trồng thì **không bao giờ có đơn** — không có đơn thì không có cớ trồng. Rau củ thì **không dính**, mở khoá là được đặt liền, còn được ưu ái vì lâu chưa ai đặt. Ba hướng đã trình anh Ares, chờ chọn: (a) đặt theo gốc trống; (b) lời hẹn của hàng xóm, không bấm giờ — gắn vô bộ `LEAD`/`leadMake` sẵn có, em nghiêng hướng này; (c) nhớ `ST.fg` đã từng hái. **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm. Rồi **chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Còn **icon khô trùng**: `ICON.khocadong` đang mượn hình `ICON.khocasac` (dòng alias trong `vuon3d.html`), hai món cùng cấp 9 cùng đơn vị "xâu" nên đơn hàng không phân biệt được — cần nặn `O.khocadong` riêng (mẹt cá đồng lớn nhỏ không đều, khác dáng xâu treo que), gửi hình anh duyệt trước. Cặp `canho → caro` cũng mượn hình, chờ anh nói có sửa không. Phần chạm vô giàn **đã xong và đã đẩy** trong v175 (22/11). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v180, khớp live). Bản mới nhất là **v181, đã dựng, CHƯA ĐẨY** (`live/v180.html` → `fix181.py` → `live/v181.html`). Mỗi bản = một script vá |
+| Việc kế tiếp | **Đẩy v181** (đơn đặt trước trái cây) khi anh Ares nhắn "Đẩy v181". **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm. **Chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Rồi **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước |
 | Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v180**, bản 162). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
@@ -547,6 +547,27 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+
+## v181 (23/11/2026) — cây ăn trái mở khoá rồi là hàng xóm bắt đầu đặt
+
+**BẢN NHÁP — đã dựng, CHƯA ĐẨY.** `fix181.py`, v180 → v181. Anh Ares: "cây đã mở thì hàng xóm bắt đầu order để cho người chơi còn đi lo trồng."
+
+**Gốc lỗi:** `ordCanMake` với cây ăn trái đòi **vườn đang có sẵn cây đó** (`CROPS[k].tree ? PLOTS.some(P => ST.plots[P.id].crop === k) : ...`). Vòng lẩn quẩn: không có đơn → không có cớ trồng → không trồng → không bao giờ có đơn.
+**Đo trên v180**, vườn cấp 20 chỉ trồng cải với hành: **24 giống mở khoá · 14 được đặt · 10 không bao giờ được đặt** — và cả 10 đều là cây ăn trái (Chuối, Ổi, Khế, Xoài, Dừa, Đu đủ, Mãng cầu, Sung, Bưởi Năm Roi, Vú sữa Lò Rèn). Rau củ **không dính**: mở khoá là đặt được liền, còn được ưu ái vì `vegW` tính "lâu chưa ai đặt" — món chưa đặt bao giờ ăn điểm cao nhất (81 so với 9 của món vừa đặt hôm nay).
+
+**Đã vá:** thêm một loại đơn riêng, **"đơn đặt trước trái cây"** (`o.hen = 1`), sinh ở đầu `ordMake`, cùng chỗ với đơn mâm cơm.
+- Chỉ nhắm cây ăn trái **đã mở khoá mà vườn chưa trồng**.
+- **Một món thôi**, số lượng bằng đúng số lượng trái thường ngày (`yield * .4`, ít nhất 2).
+- **Một lúc một đơn** (`!L0.some(o => o.hen)`), 50% mỗi lần sinh đơn.
+- Lời đơn: "*nghe nói vườn con sắp có xoài, dặn trước một mớ*".
+
+**Vì sao phải có hai cái chốt đó:** bảng đơn chỉ có **3 chỗ** (cấp < 8), 4 (< 14), 5 (≥ 14), và đơn **không có hạn, không phạt** — nó nằm đó tới khi giao hoặc đổi (`ordDrop`, 3 lần một ngày). Đơn nhiều món mà lẫn một trái chưa có cây thì **kẹt cả đơn**, chiếm một chỗ dài ngày. Để một món và một lúc một đơn thì người chơi còn đổi đi được, và đọc ra ngay là "đi trồng cây đi".
+
+**Đường đặt trái cũ giữ nguyên:** trái làm món phụ trong đơn nhiều món (`sideOf('fruit')`, trọng số .2) vẫn theo luật "phải có cây rồi mới đặt", nên đơn thường vẫn giao được như cũ.
+
+**Không đụng tới giá:** đơn này tính tiền bằng đúng công thức chung `val * ORD.mul`.
+
+**Cổng:** `node --check` sạch · `uiluat.py` ra `LECH LUAT 0` · uicheck ra 0 ở 390×844, 360×740, 1280×800 · `tCay176.js` chạy lại trên v181 vẫn **đạt hết 13 mục**. Thử: cấp 12 chưa trồng cây ăn trái nào, sinh 300 đơn thì 151 đơn là đơn đặt trước, **tất cả đều một món**; với bảng đơn thật thì 4 đơn chỉ có **đúng 1** đơn đặt trước, ba đơn kia vẫn nhiều món như cũ. Trồng hết năm gốc rồi thì 200 lần sinh đơn ra **0** đơn đặt trước. Đơn thường: 200 lần, **0 lần** lẫn trái chưa có cây. **Vấp một lần:** lời đơn bị `ordWhyOf` viết đè (chỉ `ghe` / `lead` / `mam` / `quy` mới giữ lời riêng) nên thẻ hiện "mua về cho tụi nhỏ ăn vặt" thay vì lời của mình; đã thêm `hen` vô danh sách đó, và bỏ chữ "mua về" ghép phía trước như đơn mâm cơm.
 
 ## v180 (23/11/2026) — cây ăn trái không cần phủ rơm, trồng ở đâu cũng vậy
 
