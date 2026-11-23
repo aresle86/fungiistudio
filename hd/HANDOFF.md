@@ -10,8 +10,8 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 | Thứ | Ở đâu / trạng thái |
 |---|---|
 | Bản live | **v178** (23/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v178, khớp live). Mỗi bản = một script vá: `live/v177.html` → `fix178.py` → `live/v178.html` |
-| Việc kế tiếp | **Chặng 2 của kho**: mỗi nhóm cụp lại được (mở ra thấy ~6 dòng thay vì 45), và ngoài Chợ đẩy món "chợ cần · giá ×2" với món đang có đơn lên trên cùng — bảng Bán vẫn **chưa sắp**, 41 dòng, món giá ×2 nằm dòng 13. **Chặng 3**: hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món). Rồi **chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Còn **icon khô trùng**: `ICON.khocadong` đang mượn hình `ICON.khocasac` (dòng alias trong `vuon3d.html`), hai món cùng cấp 9 cùng đơn vị "xâu" nên đơn hàng không phân biệt được — cần nặn `O.khocadong` riêng (mẹt cá đồng lớn nhỏ không đều, khác dáng xâu treo que), gửi hình anh duyệt trước. Cặp `canho → caro` cũng mượn hình, chờ anh nói có sửa không. Phần chạm vô giàn **đã xong và đã đẩy** trong v175 (22/11). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v178, khớp live). Bản mới nhất là **v179, đã dựng, CHƯA ĐẨY** (`live/v178.html` → `fix179.py` → `live/v179.html`). Mỗi bản = một script vá |
+| Việc kế tiếp | **Đẩy v179** (kho cụp nhóm, chợ ưu tiên — chặng 2) khi anh Ares nhắn "Đẩy v179". **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm. Rồi **chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Còn **icon khô trùng**: `ICON.khocadong` đang mượn hình `ICON.khocasac` (dòng alias trong `vuon3d.html`), hai món cùng cấp 9 cùng đơn vị "xâu" nên đơn hàng không phân biệt được — cần nặn `O.khocadong` riêng (mẹt cá đồng lớn nhỏ không đều, khác dáng xâu treo que), gửi hình anh duyệt trước. Cặp `canho → caro` cũng mượn hình, chờ anh nói có sửa không. Phần chạm vô giàn **đã xong và đã đẩy** trong v175 (22/11). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
 | Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v178**, bản 160). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
@@ -547,6 +547,26 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+
+## v179 (23/11/2026) — kho cụp nhóm được, chợ đẩy món cần gấp lên trên (chặng 2)
+
+**BẢN NHÁP — đã dựng, CHƯA ĐẨY.** `fix179.py`, v178 → v179. Anh Ares nhắn "Làm chặng 2".
+
+**Còn thiếu gì sau v178:** đã chia nhóm rồi nhưng mở kho ra vẫn đủ 45 dòng một lượt (3.686 px, hơn 4 màn 390×844), và bảng Bán ngoài Chợ chưa đụng tới — 41 dòng, không sắp, món có nhãn "Chợ cần · giá ×2" nằm dòng thứ 13.
+
+**Đã vá ba chỗ**
+1. **Sổ → Kho**: mỗi nhóm thành một thanh bấm được (`.khnh`, cao 44, chữ 16 đậm, mũi ▸/▾), cụp vô xổ ra. Lần đầu: nhóm trên 6 món thì cụp sẵn, từ 6 trở xuống mở sẵn (`kMo`); sau đó nhớ theo ý người chơi trong `ST.khoMo`, lưu vô bản lưu. Thêm nhánh `khonhom` vô bộ bắt bấm của Sổ (`bkov`), đọc `data-o` để biết đang mở hay cụp. Bao hạt giống và Đồ dùng cũng thành nhóm cụp được.
+   **Đo:** kho cấp 20 từ **45 dòng / 3.686 px** còn **8 thanh + 3 dòng / 1.010 px** — hơn 4 màn xuống còn chừng 1,2 màn.
+2. **Chợ → Bán**: thêm mục **"Cần gấp"** trên cùng, gom món `mkcLeft(k) > 0` (chợ mua giá ×2) với món đang có đơn chờ (`ST.ord.list` + `ST.ghe.o`). Phần còn lại chia nhóm `KLU`; gác bếp chia `KGB`. Tiêu đề ở đây dùng `.sub` sẵn có của bảng chợ (`kSub`), không cụp — ra chợ là để coi hết rồi bán.
+3. **Chạm vô lu ngoài vườn** (`openSheet('kho')`): lưới `.it` cũng chia nhóm `KLU` và xếp theo tên.
+
+**Đổi khoá nhóm gác bếp** `kho/mon/khac` → `gkho/gmon/gkhac`: hai bảng cùng có khoá `khac`, mà `ST.khoMo` lưu theo khoá, nên cụp "Trứng và thứ khác" của kho lu là tắt luôn "Thứ khác" của gác bếp.
+
+**`kNhomHTML` giờ nhận thêm hai tham số**: `cup` (1 = thanh cụp được, 0 = tiêu đề thường) và `de` (hàm vẽ tiêu đề, mặc định `kDe`, bảng chợ truyền `kSub`).
+
+**Vấp một lần:** `.khnh` lần đầu để `border-radius:12px`, `uiluat.py` báo `LECH LUAT 1 {'bo-goc': 1}` — bộ bo góc chỉ nhận 0/1/2/4/6/10/16/24. Đổi thành 10 là sạch. **Thang bo góc khác thang khoảng cách** (khoảng cách nhận 12, bo góc không), dễ nhầm.
+
+**Cổng:** `node --check` sạch · `uiluat.py` ra `LECH LUAT 0` · uicheck ra 0 ở 390×844, 360×740, 1280×800 · `tCay176.js` chạy lại trên v179 vẫn **đạt hết 13 mục**. Thử tay trong trình duyệt: bấm thanh "Rau" thì dòng hiện từ 3 lên 11 và thanh đổi sang trạng thái mở; bảng Bán ra đúng thứ tự `Cần gấp · 3` → `Rau · 6` → `Trái · 7` → `Cá · 8` → `Trứng và thứ khác · 1` → `Gác bếp` → `Đồ khô, đồ muối · 9` → `Món nấu · 8`.
 
 ## v178 (22/11/2026) — bảng Kho chia nhóm, có tiêu đề (chặng 1)
 
