@@ -10,8 +10,8 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 | Thứ | Ở đâu / trạng thái |
 |---|---|
 | Bản live | **v179** (23/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v179, khớp live). Mỗi bản = một script vá: `live/v178.html` → `fix179.py` → `live/v179.html` |
-| Việc kế tiếp | **Hai chuyện anh Ares báo 23/11, đang soát:** (1) "cây ko thấy có trạng thái phủ rơm, game yêu cầu phủ rơm tất cả nhưng cây ko thể hiện chuyện đó"; (2) "có người chơi tới cấp rồi nhưng ko thấy có đơn hàng yêu cầu bán trái đó hoặc rau củ đó nên ko trồng luôn, cái này có đúng không?". **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm. Rồi **chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Còn **icon khô trùng**: `ICON.khocadong` đang mượn hình `ICON.khocasac` (dòng alias trong `vuon3d.html`), hai món cùng cấp 9 cùng đơn vị "xâu" nên đơn hàng không phân biệt được — cần nặn `O.khocadong` riêng (mẹt cá đồng lớn nhỏ không đều, khác dáng xâu treo que), gửi hình anh duyệt trước. Cặp `canho → caro` cũng mượn hình, chờ anh nói có sửa không. Phần chạm vô giàn **đã xong và đã đẩy** trong v175 (22/11). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v179, khớp live). Bản mới nhất là **v180, đã dựng, CHƯA ĐẨY** (`live/v179.html` → `fix180.py` → `live/v180.html`). Mỗi bản = một script vá |
+| Việc kế tiếp | **Đẩy v180** (cây ăn trái không cần phủ rơm) khi anh Ares nhắn "Đẩy v180". Rồi **đơn hàng cây ăn trái**: luật hiện tại chỉ đặt trái nào vườn đang có sẵn cây đó, nên 10 cây ăn trái đã mở khoá mà chưa trồng thì **không bao giờ có đơn** — không có đơn thì không có cớ trồng. Rau củ thì **không dính**, mở khoá là được đặt liền, còn được ưu ái vì lâu chưa ai đặt. Ba hướng đã trình anh Ares, chờ chọn: (a) đặt theo gốc trống; (b) lời hẹn của hàng xóm, không bấm giờ — gắn vô bộ `LEAD`/`leadMake` sẵn có, em nghiêng hướng này; (c) nhớ `ST.fg` đã từng hái. **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm. Rồi **chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Còn **icon khô trùng**: `ICON.khocadong` đang mượn hình `ICON.khocasac` (dòng alias trong `vuon3d.html`), hai món cùng cấp 9 cùng đơn vị "xâu" nên đơn hàng không phân biệt được — cần nặn `O.khocadong` riêng (mẹt cá đồng lớn nhỏ không đều, khác dáng xâu treo que), gửi hình anh duyệt trước. Cặp `canho → caro` cũng mượn hình, chờ anh nói có sửa không. Phần chạm vô giàn **đã xong và đã đẩy** trong v175 (22/11). Rồi tới **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước; còn vài con số chờ anh chốt. Việc đã gác: **Làm lại HUD theo bộ khung chung** (ref 2 bảng gỗ + ghim giấy, ref 3 icon nhiều chữ ít): hướng đi trong `hd/hud-huongdi.md`, hình hiện trạng `hud/tongquan_*.png`. Đã qua 4 vòng mock (`hd/tKhung.js` dựng ngay trên khung gỗ cũ của game, chụp `hd/mock/khung2_*.png`); anh chê mock 1 (khung gỗ mới) và mock 2–3 (menu đóng khung, bo góc lệch, inset gây lé, vòng tròn, chữ tối đổ bóng). **Hệ thống thành phần** `hd/hud-hethong.md` (4 loại nút, 1 loại thanh 2 cỡ, 1 badge, bo góc 16/10/6, luật bóng chữ, menu giữ kiểu cũ) đang chờ anh chốt rồi mới áp vào game. Tab Sổ bản `tabso.css` **không duyệt** (anh chê, quá giống web), bỏ |
 | Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v179**, bản 161). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
@@ -547,6 +547,30 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+
+## v180 (23/11/2026) — cây ăn trái không cần phủ rơm, trồng ở đâu cũng vậy
+
+**BẢN NHÁP — đã dựng, CHƯA ĐẨY.** `fix180.py`, v179 → v180. Anh Ares: "gốc cây có đc game tính, mà đó là gốc cây trồng ở đất mới, ko phải gốc cây có sẵn" → chọn hướng "Cây không cần rơm".
+
+**Lần đầu em soát hụt.** Em chỉ thử năm gốc có sẵn T1–T5 rồi kết luận "gốc cây không được tính", và báo anh Ares như vậy. Anh Ares quả quyết là có — và anh đúng. Chỗ em chưa thử là **cây ăn trái trồng trên liếp đất mới**.
+
+**Gốc lỗi:** `mulchBeds()` lọc theo **loại ô đất** (`!P.tree`), không hỏi trên ô đó đang trồng gì. Mà liếp đất mới vẫn là liếp thường, nên trồng cây ăn trái lên là vẫn bị đếm vô việc "Phủ rơm kín các liếp".
+
+**Đo trên v179** (vườn cấp 20, mở hết ô): trồng **xoài** lên `H1` (bãi hông nhà), `S1` (mé sông), `C1` (liếp ngoài) → **cả ba đều bị đếm**; cùng cây xoài đó đứng ở `T1` (gốc có sẵn) thì **không**. Cùng một cây, đứng chỗ này phải phủ rơm, đứng chỗ kia thì không.
+
+**Đo thêm chuyện nhìn thấy:** so điểm ảnh lúc có rơm với lúc không, trong ô vuông 92×92 quanh tâm liếp — liếp trống **11,0%** đổi màu · liếp trồng cải **9,4%** · **liếp trồng xoài 7,6%**. Rơm có vẽ, nhưng thân với tán cây che mất gần một phần ba; ở mức phóng to lúc chơi thì gần như không phân biệt được.
+
+**Đã vá** — hỏi theo **cây đang trồng**, không hỏi theo loại ô đất. Không đụng tới xu, sản lượng hay số rơm; chỉ bớt việc phải làm.
+- `laCayTrai(id)` mới: ô này đang trồng cây ăn trái hay không.
+- `mulchBeds()` và `canMulch()` bỏ qua ô đang trồng cây ăn trái → không bị đếm vô thẻ việc, không mời phủ ngoài vườn, nút "Đi làm ›" của thẻ việc cũng thôi chỉ vô đó (nó đi theo `mulchBeds`).
+- Bảng của ô trồng cây ăn trái **và** của gốc có sẵn: ô "Rơm phủ" đổi thành một câu giải thích, đúng kiểu câu sẵn có của giàn — giàn ghi "Giàn trên mương · Rễ sát mương · không cần tưới", cây giờ ghi **"Gốc cây · Rễ ăn sâu · không cần phủ rơm"**. Trước đây gốc có sẵn **im re**, không nói gì, nên người chơi không có cách nào biết.
+- Bỏ nút "Phủ rơm" ở ô trồng cây ăn trái.
+
+**Không kẹt khi vườn toàn cây:** `mulchCheck` đã lo sẵn — `x.have = Math.min(x.need, E.length ? m : 1)`, không còn liếp nào thì việc tự tính là xong.
+
+**Chữ thẻ việc giữ nguyên** "Phủ rơm kín các liếp" — giờ con số đếm đã khớp với chữ "liếp" rồi. (`ensureTasks` có một bước tự đổi tên thẻ cũ về đúng chuỗi này, đụng vô là phải sửa cả đó.)
+
+**Cổng:** `node --check` sạch · `uiluat.py` ra `LECH LUAT 0` · uicheck ra 0 ở 390×844, 360×740, 1280×800 · `tCay176.js` chạy lại trên v180 vẫn **đạt hết 13 mục**. Thử lại đúng cảnh đã phát hiện lỗi: vườn cấp 20 mở hết ô đếm **34 liếp**; trồng xoài lên C2, H4, S4 thì còn **31**, và đúng ba ô đó rớt khỏi danh sách. Bảng của liếp trồng xoài và của gốc T1 đều ra câu "Gốc cây · Rễ ăn sâu · không cần phủ rơm", không còn nút Phủ rơm; liếp trồng cải vẫn có đủ ô "Rơm phủ" và nút.
 
 ## v179 (23/11/2026) — kho cụp nhóm được, chợ đẩy món cần gấp lên trên (chặng 2)
 
