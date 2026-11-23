@@ -9,10 +9,10 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 
 | Thứ | Ở đâu / trạng thái |
 |---|---|
-| Bản live | **v180** (23/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v180, khớp live). Bản mới nhất là **v182, đã dựng, CHƯA ĐẨY** (`live/v180.html` → `fix181.py` → `live/v181.html` → `fix182.py` → `live/v182.html`). Mỗi bản = một script vá |
-| Việc kế tiếp | **Đẩy v182** (gồm luôn v181) khi anh Ares nhắn đẩy — anh Ares: "Sửa rồi đẩy 1 lần". **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm. **Chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Rồi **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước |
-| Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v180**, bản 162). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
+| Bản live | **v182** (23/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v182, khớp live). Mỗi bản = một script vá: `live/v180.html` → `fix181.py` → `live/v181.html` → `fix182.py` → `live/v182.html` |
+| Việc kế tiếp | **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm — anh Ares nói dùng thử v179 coi còn thấy thiếu không rồi tính. **Chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), và có thể thêm ô tìm. **Chặng 2 cây cổ tích: mỗi cây một tác dụng** — năm cây chưa có gì (chỉ Sọ Dừa có `sdHelp`), `FT` chưa có ô phần thưởng; đụng tới xu nên chờ anh chốt số. Rồi **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước |
+| Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v182**, bản 163). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
 | Rà nhiệm vụ theo cấp v101: quyết định, kết quả bot (Claude Doc) | https://claude.ai/artifact/7dy5ceisV6jpudW7E4KFsm |
@@ -550,7 +550,7 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 
 ## v182 (23/11/2026) — bảng ao cá nói ra cái lợi, thay vì giấu
 
-**BẢN NHÁP — đã dựng, CHƯA ĐẨY.** `fix182.py`, v181 → v182. Anh Ares: "t vẫn ko hiểu có sẵn cá thả xuống miễn phí thì người chơi đc lợi gì?"
+`fix182.py`, v181 → v182. Anh Ares: "t vẫn ko hiểu có sẵn cá thả xuống miễn phí thì người chơi đc lợi gì?"
 
 **Cái lợi có thật**, đọc từ `aoLuoi()`: đủ số cá đã thả, **cộng thêm 1 con cho mỗi 2 con** (`de = Math.floor(ok.length / 2)`) · **2 bó lục bình** mỗi ngày (nếu tới cấp và hôm nay chưa vớt) · **1 phần bùn ao** bỏ hố ủ (nếu có hố ủ) · **2 kinh nghiệm mỗi con**. Một mẻ **24 giờ** (`AONUOI`). Thả **miễn phí** nếu cá có sẵn trong kho, không có thì `aoGiong(k) = max(2, sell - 15)` xu. Ao nhỏ 6 con · vừa 10 · lớn 15 (`AOT`).
 **Tiền lời mỗi ngày, ao vừa 10 con:** cá sặc rằn 90 xu · cá rô phi 110 · cá rô đồng 125 · cá trê vàng 200 · cá lóc 225 · **cá tra lớn 700**.
@@ -572,9 +572,11 @@ Không đụng tới xu, số cá, thời gian. **Chỉ là chữ trên bảng.*
 
 **Cổng:** `node --check` sạch · `uiluat.py` ra `LECH LUAT 0` · uicheck ra 0 ở 390×844, 360×740, 1280×800 · `tCay176.js` chạy lại trên v182 vẫn **đạt hết 13 mục**. Thử: dựng đúng ao 4 con như của anh Ares, ao vừa, có hố ủ. Lúc đang nuôi ra 'Mẻ đầu lớn sau 22 giờ. Nuôi đủ một ngày thì kéo lưới được 6 con — 4 con nuôi với 2 con cá đẻ. Vớt thêm 2 bó lục bình với một phần bùn ao bỏ hố ủ.' Lúc cá lớn rồi thì dưới nút Kéo lưới ra dòng y vậy.
 
+**Đẩy xong (23/11), v181 với v182 đẩy chung một lần** — anh Ares: "Sửa rồi đẩy 1 lần". Cùng một đường như mấy bản trước: `cp live/v182.html live/vuon3d.html` → commit `3ca992d` trên `mietvuon2-dev` → `buildsite.py` (kiểm đúng công thức, ra `True`) → commit `main` bằng plumbing trên nền `f3dd7e1` (**không checkout**; `read-tree` giữ nguyên bốn file nhạc chỉ có trên `main`) → `61a62d4` → push `mietvuon2-dev main main:mietvuon2-online`. So với bản live cũ chỉ đổi một file, 12 dòng thêm 4 dòng bớt. Bản live thật: HTTP 200, 2.520.145 byte, `BUILD = 'v182'`, có `aoLoi` và lời đơn đặt trước, giống hệt file mình dựng. Artifact game **bản 163**, changelog Doc thêm mục v181 với v182 (rev 185).
+
 ## v181 (23/11/2026) — cây ăn trái mở khoá rồi là hàng xóm bắt đầu đặt
 
-**BẢN NHÁP — đã dựng, CHƯA ĐẨY.** `fix181.py`, v180 → v181. Anh Ares: "cây đã mở thì hàng xóm bắt đầu order để cho người chơi còn đi lo trồng."
+`fix181.py`, v180 → v181. Anh Ares: "cây đã mở thì hàng xóm bắt đầu order để cho người chơi còn đi lo trồng."
 
 **Gốc lỗi:** `ordCanMake` với cây ăn trái đòi **vườn đang có sẵn cây đó** (`CROPS[k].tree ? PLOTS.some(P => ST.plots[P.id].crop === k) : ...`). Vòng lẩn quẩn: không có đơn → không có cớ trồng → không trồng → không bao giờ có đơn.
 **Đo trên v180**, vườn cấp 20 chỉ trồng cải với hành: **24 giống mở khoá · 14 được đặt · 10 không bao giờ được đặt** — và cả 10 đều là cây ăn trái (Chuối, Ổi, Khế, Xoài, Dừa, Đu đủ, Mãng cầu, Sung, Bưởi Năm Roi, Vú sữa Lò Rèn). Rau củ **không dính**: mở khoá là đặt được liền, còn được ưu ái vì `vegW` tính "lâu chưa ai đặt" — món chưa đặt bao giờ ăn điểm cao nhất (81 so với 9 của món vừa đặt hôm nay).
