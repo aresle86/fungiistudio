@@ -10,8 +10,8 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 | Thứ | Ở đâu / trạng thái |
 |---|---|
 | Bản live | **v182** (23/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v182, khớp live). Bản mới nhất là **v184, đã dựng, CHƯA ĐẨY** (`live/v182.html` → `fix183.py` → `live/v183.html` → `fix184.py` → `live/v184.html`). Mỗi bản = một script vá |
-| Việc kế tiếp | **Đẩy v183 + v184** khi anh Ares nhắn (hai bản đi chung một lần cho gọn). Rồi **chốt hướng cây cổ tích ở đình làng** — ý của người chơi, anh Ares thấy hay, em đã đề xuất ba hướng (xem mục dưới), chờ anh chọn. Rồi **chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), có thể thêm ô tìm — anh Ares nói dùng thử v179 coi còn thấy thiếu không rồi tính. Rồi **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v182, khớp live). Bản mới nhất là **v185, đã dựng, CHƯA ĐẨY** (`live/v182.html` → `fix183.py` → `live/v183.html` → `fix184.py` → `live/v184.html` → `fix185.py` → `live/v185.html`). Mỗi bản = một script vá |
+| Việc kế tiếp | **Đẩy v183 + v184 + v185** khi anh Ares nhắn (ba bản đi chung một lần cho gọn; v185 sửa lỗi anh báo từ iPhone nên nên đẩy sớm). Rồi **thêm cỡ màn ngắn vô bộ đo** — xem mục v185. Rồi **chốt hướng cây cổ tích ở đình làng** — ý của người chơi, anh Ares thấy hay, em đã đề xuất ba hướng (xem mục dưới), chờ anh chọn. Rồi **chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), có thể thêm ô tìm — anh Ares nói dùng thử v179 coi còn thấy thiếu không rồi tính. Rồi **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước |
 | Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v182**, bản 163). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
@@ -547,6 +547,49 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+
+## v185 (24/11/2026) — ba lỗi ở chợ nổi, anh Ares báo từ iPhone thật
+
+**BẢN NHÁP — đã dựng, CHƯA ĐẨY.** `fix185.py`, v184 → v185. Anh Ares: *"Có lỗi ở chợ, báo số sai và ux bị lệch"*, kèm hai tấm hình chụp iPhone trên bản live v182; sau đó anh khoanh đỏ **cục xu** và nói *"Ý t là cái này"*.
+
+### 1. Cục xu rớt xuống một hàng riêng, treo lơ lửng (cái anh khoanh)
+
+Thanh trên đầu là một hàng `flex` có `flex-wrap:wrap`, trong đó `.top .coin` có `margin-left:auto`. Ra chợ thì luật
+
+```css
+body.chon .ui.top > :not(#avb):not(.coin){visibility:hidden}
+```
+
+giấu đồng hồ đi — **nhưng `visibility:hidden` vẫn giữ nguyên chỗ ngồi**. Hàng trên đầu thành: đệm 16 + hình đại diện 116 + khe 8 + chỗ trống của đồng hồ 128 + khe 8 + cục xu 156 = 432, quá khổ màn 393. Cục xu rớt xuống hàng hai, `margin-left:auto` đẩy nó sát phải, chừa một lỗ trống to bên trái. Đúng y hình.
+
+**Sửa:** đổi `visibility:hidden` thành `display:none`. Đo lại ở 393×640: cục xu lên cùng hàng với hình đại diện (cả hai `top` 12), thanh trên đầu **từ 137 xuống 88** — trả lại 49 điểm màn cho cảnh chợ. Đây là luật duy nhất trong game giấu từng món trong `.ui.top`; mấy luật kia (`bookon`, `sap`, `greet`) giấu nguyên cả thanh nên không vỡ hàng.
+
+### 2. "Trên xuồng con · 10/10 món" trong khi trên xuồng còn 5
+
+`cnbOn(b) = b.my.reduce(…q) + (b.sd || 0)`, với `b.sd` = số món bà con **đã mua trong ngày** (`cnbSync` đặt từ `mv2_ben_collect`). Con số đó đúng cho hạn mức "mỗi ngày chất được 10 món" (dùng ở `cnbPut` và `room`), nhưng nhãn ghi *"Trên xuồng con"* nên đọc vô là sai: chất 10, bán 5, còn 5 trên xuồng, nhãn vẫn kêu 10.
+
+**Sửa:** tách hai con số.
+- Nhãn đếm đúng cái đang nằm trên xuồng: `nOn = b.my.reduce(…q)`.
+- Chưa bán món nào (`b.sd === 0`) thì nhãn vẫn là `nOn/10` như cũ — không mất thông tin còn mấy chỗ.
+- Bán rồi thì nhãn là `· 5 món`, và thêm một dòng riêng: *"Hôm nay con chất 10/10 món, bà con mua rồi 5."* (tiếng Anh: *"You loaded 10/10 today — neighbours have bought 5."*)
+
+`b.sd` có được dọn mỗi ngày không: có, `cnbS()` đặt `b.sd = 0` khi qua ngày mới. Không có lỗi tồn.
+
+### 3. Màn ngắn thì bảng trùm lên thanh xu
+
+Luật điện thoại `@media (max-width:560px)` cho `.sheet` cao `74dvh` và cách đáy 10 điểm. `.sheet` đo theo **content-box** (viền 7+7, đệm 8+16) nên cao thiệt = `max-height + 38`. Trên máy anh, trình duyệt ăn mất một khúc màn nên chỉ còn chừng **640 điểm** cao thay vì 844: bảng cao 512, đáy 630, **đỉnh 118** — mà thanh HUD nằm 0–141. Bảng cắt ngang cục xu.
+
+**Sửa:** `max-height:min(74dvh,calc(100dvh - 200px - env(safe-area-inset-top) - env(safe-area-inset-bottom)))`. Chừa 150 điểm trên đầu cho HUD (đo thiệt cao 137–143): 10 + 150 + 38 = 198, lấy tròn 200. Đo lại ở 640: đỉnh bảng **152**, cách HUD 16 điểm. **Màn cao từ 808 điểm trở lên không đổi một li**; 360×740 nhích 3,6 điểm.
+
+### Vì sao máy đo không bắt được
+
+`uicheck.js` xưa giờ chỉ chạy ba cỡ **390×844, 360×740, 1280×800** — không cỡ nào đủ ngắn để lòi lỗi 1 với lỗi 3 ra. Một iPhone thiệt có thanh trình duyệt chỉ còn chừng 640 điểm cao.
+
+Đã chạy thử **393×640**: `TONG {"sat": 23} khac nhau 4 loi trang 0` — tức 23 chỗ hai nút cách nhau dưới 8 điểm, nằm ở màn Tết (`tet-chip`, `tet-het`) và vài màn khác, **không có lỗi chạy nào**. Đây là lỗi cũ có sẵn, không phải v185 đẻ ra. **Việc kế tiếp:** dọn hết 23 chỗ đó rồi thêm 393×640 vô bộ cổng bắt buộc, để từ nay đo bốn cỡ. Chưa làm trong v185 vì đó là việc riêng, không nên trộn vô bản sửa lỗi.
+
+### Cổng
+
+`node --check` sạch · `uiluat.py` → `LECH LUAT 0 {}` · uicheck `khac nhau 0 loi trang 0` ở 390×844, 360×740, 1280×800 · `tCay176.js` **ĐẠT HẾT 13/13**. Đo thật trong trình duyệt ở 393×640 (đúng cỡ màn máy anh): cục xu nằm cùng hàng hình đại diện, bảng đỉnh 152 không đụng HUD, nhãn ra *"Trên xuồng con · 5 món"* + dòng hạn mức, tiếng Anh đúng. Lỗi console chỉ có `ERR_UNSAFE_PORT` của bàn thử. **Chưa thử lại trên iPhone thật của anh.**
 
 ## Ý đang chờ anh chốt (24/11/2026) — cây cổ tích ở đình làng
 
