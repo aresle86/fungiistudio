@@ -191,6 +191,9 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .check .cfix{font-size:13px;color:var(--ink2)}
 .check .cnh{margin-top:4px}
 .pcol .hint{margin:0;font-size:13px;color:var(--ink2)}
+.rowline{margin:0;font:12px/1.5 var(--mono);color:var(--ink2);overflow-wrap:anywhere}
+.minirow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.detail .ai dd small{display:block;color:var(--ink3);font-size:12px;margin-top:3px}
 .tipjar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 14px;background:var(--card);border:1.5px solid var(--ink);padding:14px 16px;transition:box-shadow .3s,transform .3s}
 .tipjar p{margin:0;font:italic 400 20px/1.2 var(--serif)}
 .tipjar p small{display:block;font:12px/1.4 var(--mono);font-style:normal;color:var(--ink2);margin-top:4px}
@@ -520,6 +523,58 @@ const INTENTS=[
  {id:'energy',name:'Urgency and chaos',why:'A shoulder-held camera feels like someone is really there, running with them.',job:'urgency: raw, live, documentary energy',size:'MS',lens:63,move:'handheld',dur:4,ease:'lin',amt:1},
  {id:'detail',name:'Point to a detail',why:'Shifting focus tells the audience exactly where to look, without moving the camera.',job:'attention shift: guide the eye from one subject to another',size:'MCU',lens:63,move:'rack',dur:3,ease:'io',amt:1}
 ];
+const AI_M={
+ static:'AI often opens on an empty frame, or adds a drift nobody asked for. Say who is already in frame at frame one, and that the camera is locked off.',
+ pan:'AI often pans into empty space, or drifts back. Name what the pan lands on, and say the frame holds there.',
+ tilt:'AI often starts on the face and has nowhere to tilt. Name the first thing in frame and the last: feet first, then face.',
+ whip:'A whip shorter than about 0.8 seconds tends to come back as a plain cut with no blur. Give it a trigger, enough time, and a landing frame.',
+ dutch:'AI can swap left and right when asked to tilt the frame. Say the roll tilts the frame only, and nobody changes sides.',
+ roll:'AI often stops at a tilt, or spins the world instead of the camera. Give the full 360\u00b0, the axis, and say it settles level.',
+ zoom:'Ask for a zoom and you often get a push-in. Say the camera stays in place, and give the field of view at the start and at the end.',
+ crash:'Without a hold before and after, a crash zoom reads as a glitch, and AI may add a second one. Say one zoom, what triggers it, and the hold.',
+ rack:'With nothing in the foreground there is nothing to rack from, so AI softens the whole frame. Put a named object close to the lens first.',
+ dollyZoom:'AI often flattens it into a plain push-in. Say what stays the same size and what stretches away behind it.',
+ dollyIn:'Ask for a push-in and you may get a zoom. Say the camera physically moves closer and the lens stays locked.',
+ dollyOut:'AI often pulls back to reveal nothing. Say what comes into frame as the camera retreats.',
+ truck:'AI may turn the camera instead of sliding it. Say the camera keeps the same facing while it travels sideways.',
+ pedestal:'AI often tilts instead of rising. Say the camera rises and the view stays level.',
+ orbit:'AI often keeps the camera still and turns the subject instead. Say what is behind the subject at the start of the arc and at the end.',
+ lowArc:'AI drifts back up to eye level. Give the lens height above the ground and say it stays there for the whole arc.',
+ reveal:'AI often shows the subject from frame one, so nothing is revealed. Say the foreground object fills the first frame and hides them.',
+ crane:'AI can let the subject drift or shrink away as the camera rises. Pin where they stand and say they stay in frame.',
+ aerialOrbit:'AI tends to fly lower and closer than a drone would. Give the height in metres and say the radius stays constant.',
+ drone:'AI often never lands the move. Say where the descent ends and what the last frame holds.',
+ overhead:'AI slides into a high angle instead of looking straight down. Say the camera points straight down from directly above.',
+ tracking:'AI can reverse the direction of travel, or swing round to the face. Say the subject walks away from camera and their back stays to us.',
+ leading:'AI lets the distance breathe, or turns it into a follow from behind. Say the camera moves backward at the subject\u2019s speed, face to camera.',
+ gimbal:'AI adds shake, or freezes the arc. Say the move is smooth and give the arc: from where, to where.',
+ handheld:'AI makes it either too smooth or a digital jitter. Describe a camera on a shoulder: step bounce, small corrections, a face that stays readable.',
+ fpv:'AI flies through walls. Name the real gap the camera threads, and where the flight ends.',
+ pov:'AI puts the character inside their own point of view. Say no body is visible, and what the eyes are moving toward.'};
+const AI_L={
+ 107:'A number alone does not hold. The model reads the lens from what is in frame: put something close to the lens and deep space behind it.',
+ 84:'AI drifts toward a comfortable middle lens. Keep the place in the sentence: what is near, what is far, what sits at the edges.',
+ 75:'AI narrows it into a normal lens. Keep two things in frame at once: a person, and the place they are moving through.',
+ 63:'Close to the middle AI prefers, so it usually holds. If the frame comes back tighter than asked, say how much of the surroundings must stay visible.',
+ 47:'This is the lens AI falls back to when a prompt is unclear, so it rarely needs defending.',
+ 29:'AI keeps the background sharp and wide. Say the background sits close behind the subject and falls soft.',
+ 18:'AI moves the camera in instead of using a long lens. Describe a camera far away: flattened layers, something soft in the foreground.'};
+const AI_S={
+ EWS:'Small faces cannot act. Write what the body does: a step back, a turn, shoulders dropping.',
+ WS:'AI crops in to a medium. Say head to toe, with ground visible under the feet.',
+ MS:'AI drifts wider or tighter during the shot. Say where the bottom of the frame cuts the body: at the waist.',
+ MCU:'Usually holds. If the hands matter, say so, or they fall out of frame.',
+ CU:'AI lets the eyes go dead, or closes them. Say the eyes are open and where they are looking.',
+ ECU:'AI pulls back to an ordinary close-up. Name the one detail that fills the frame, and say nothing else is visible.'};
+MOVES.forEach(m=>m.ai=AI_M[m.id]);LENSES.forEach(l=>l.ai=AI_L[l.id]);SIZES.forEach(z=>z.ai=AI_S[z.id]);
+/* a move, the way a shot list would name it */
+const ROW_M={static:'locked-off static camera',pan:'pan to screen-right',tilt:'tilt up, feet to face',whip:'whip pan to screen-right',dutch:'Dutch angle, 16\u00b0 roll',
+ zoom:'slow zoom in, camera position fixed',crash:'crash zoom in',rack:'rack focus, foreground to subject',dollyZoom:'dolly zoom',dollyIn:'slow dolly in toward the subject',
+ dollyOut:'slow dolly out away from the subject',truck:'truck to screen-right',pedestal:'pedestal up, view level',orbit:'arc 70\u00b0 around the subject',crane:'crane up to a high angle',
+ roll:'360\u00b0 camera roll',lowArc:'low-angle arc, lens 0.3 m above the ground',reveal:'lateral reveal past a foreground object',aerialOrbit:'aerial orbit, about 8 m high',
+ drone:'drone push, descending',overhead:'overhead, rotating 90\u00b0',tracking:'follow from behind',leading:'leading shot, camera moves backward',gimbal:'gimbal glide, gentle arc',
+ handheld:'handheld leading shot',fpv:'FPV fly-through',pov:'first-person point of view'};
+const MAPREF='@map \u2014 top-down placement map. Take positions and the camera side only. Ignore its colours, flat shapes and grid.';
 const STEPS=[
  {key:'intro',t:'Start',cap:'A tiny film plaza. One hero in pink, a few friends around, and quiet grey everywhere else so you always know where to look.'},
  {key:'intent',t:'Intent',q:'What is this moment about?',
@@ -538,7 +593,7 @@ const STEPS=[
   intro:'',cap:'Your full shot, playing on loop.'}
 ];
 
-const S={intent:null,step:0,reached:0,size:'MS',lens:47,move:'static',group:'turn',mode:'frame',base:null,map:false,mapTouched:false,dur:4.5,ease:'io',amt:1};
+const S={intent:null,step:0,reached:0,size:'MS',lens:47,move:'static',group:'turn',mode:'frame',base:null,map:false,mapTouched:false,dur:4.5,ease:'io',amt:1,kit:null};
 const EASES={io:{n:'Ease in-out',f:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,p:'starts and ends gently (ease in-out)'},
   in:{n:'Ease in',f:t=>t*t*t,p:'starts slow and keeps accelerating (ease in)'},
   out:{n:'Ease out',f:t=>1-Math.pow(1-t,3),p:'starts fast and settles to a stop (ease out)'},
@@ -608,9 +663,9 @@ function timingBlock(m){
 }
 function timingLine(m){
   if(m.id==='static')return '';
-  if(DEV[m.id]){const c=clipLen();return '\nTiming: hold for about '+n1(c.a)+' seconds, the '+c.word+' takes about '+n2(c.b)+' seconds, then the landing frame holds.';}
+  if(DEV[m.id]){const c=clipLen();return 'Hold for about '+n1(c.a)+' seconds, the '+c.word+' takes about '+n2(c.b)+' seconds, then the landing frame holds.';}
   const amtOk=AMT_MOVES.has(m.id)&&m.id!=='zoom'&&m.id!=='dollyZoom';
-  return '\nMove timing: after a 1-second hold, the camera move runs over about '+S.dur.toFixed(1)+' seconds and '+EASES[S.ease].p+(amtOk?', with a '+AMTS[S.amt].p+' amount of movement':'')+', then the frame holds.';
+  return 'After a 1-second hold, the camera move runs over about '+S.dur.toFixed(1)+' seconds and '+EASES[S.ease].p+(amtOk?', with a '+AMTS[S.amt].p+' amount of movement':'')+', then the frame holds.';
 }
 function optList(items,cur,tagFn,key){
   let h='<div class="opts" role="radiogroup" aria-label="Options">';
@@ -618,7 +673,7 @@ function optList(items,cur,tagFn,key){
   return h+'</div>';
 }
 function detail(it,title,kick){
-  return '<div class="detail">'+(kick?'<span class="kicker">'+kick+'</span>':'')+'<h3>'+title+'</h3><dl><div><dt>What it is</dt><dd>'+it.what+'</dd></div><div><dt>Use it when</dt><dd>'+it.use+'</dd></div><div class="watch"><dt>Watch out</dt><dd>'+it.watch+'</dd></div></dl></div>';
+  return '<div class="detail">'+(kick?'<span class="kicker">'+kick+'</span>':'')+'<h3>'+title+'</h3><dl><div><dt>What it is</dt><dd>'+it.what+'</dd></div><div><dt>Use it when</dt><dd>'+it.use+'</dd></div><div class="watch"><dt>Watch out</dt><dd>'+it.watch+'</dd></div>'+(it.ai?'<div class="ai"><dt>AI often slips here</dt><dd>'+it.ai+'<small>A common slip with AI video models. A first thing to try, not a law.</small></dd></div>':'')+'</dl></div>';
 }
 function nav(prev,next){return '<div class="nav"><button class="btn ghost" type="button" id="prev">'+prev+'</button>'+(next?'<button class="btn go" type="button" id="next">'+next+'</button>':'')+'</div>';}
 function warnings(){
@@ -652,15 +707,26 @@ function notes(){
   if(it&&FACE_MOMENTS.includes(it.id)&&s.id==='WS')n.push('This moment is read on the face. At wide the face is small, so let the body carry it, or move in.');
   return n;
 }
-function promptText(){return (S.intent?'Shot job: '+intentObj().job+'.\n':'')+promptBody();}
-function promptBody(){
+function promptParts(){
   const s=actualSize(),l=ln(),d=base(),m0=mv(),m=Object.assign({},m0,{p:S.ease==='io'?m0.p:m0.p.replace(/^Slow (\w)/,(x,c)=>c.toUpperCase())});
-  if(m.id==='fpv')return 'Wide FPV look, about 100° diagonal field of view.\n'+m.p+timingLine(m);
-  if(['aerialOrbit','drone','overhead'].includes(m.id))return 'Wide aerial look, about 84\u00b0 diagonal field of view.\n'+m.p+timingLine(m);
-  if(m.id==='pov')return 'Point-of-view framing at eye level, about 1.3 m above the ground, '+Math.max(63,l.id)+'° diagonal field of view.\n'+m.p+timingLine(m);
-  const lensLine=['zoom','crash','dollyZoom'].includes(m.id)?'Starts at '+l.id+'° diagonal field of view, '+l.p+'; '+(m.id==='zoom'?'the zoom ends at ':m.id==='crash'?'the crash zoom lands at ':'the field of view widens to ')+zEnd(m.id)+'°.':l.id+'° diagonal field of view, '+l.p+'. Lens locked for the whole shot.';
-  return s.p+'\n'+lensLine+'\nCamera about '+fm(d)+' from the subject, '+(m.id==='lowArc'?'low, about 0.3 m above the ground, looking up':m.id==='crane'?'starting at eye level, roughly '+s.camY.toFixed(1)+' m above the ground':'at eye level, roughly '+s.camY.toFixed(1)+' m above the ground')+'.\n'+m.p+timingLine(m);
+  let optics,camera=m.p;
+  if(m.id==='fpv')optics='Wide FPV look, about 100° diagonal field of view.';
+  else if(['aerialOrbit','drone','overhead'].includes(m.id))optics='Wide aerial look, about 84° diagonal field of view.';
+  else if(m.id==='pov')optics='Point-of-view framing at eye level, about 1.3 m above the ground, '+Math.max(63,l.id)+'° diagonal field of view.';
+  else{
+    optics=s.p+'\n'+(['zoom','crash','dollyZoom'].includes(m.id)?'Starts at '+l.id+'° diagonal field of view, '+l.p+'; '+(m.id==='zoom'?'the zoom ends at ':m.id==='crash'?'the crash zoom lands at ':'the field of view widens to ')+zEnd(m.id)+'°.':l.id+'° diagonal field of view, '+l.p+'. Lens locked for the whole shot.');
+    camera='Camera about '+fm(d)+' from the subject, '+(m.id==='lowArc'?'low, about 0.3 m above the ground, looking up':m.id==='crane'?'starting at eye level, roughly '+s.camY.toFixed(1)+' m above the ground':'at eye level, roughly '+s.camY.toFixed(1)+' m above the ground')+'.\n'+m.p;}
+  return {job:S.intent?intentObj().job:'',optics,camera,timing:timingLine(m)};
 }
+function promptText(){const p=promptParts();
+  return (p.job?'SHOT JOB\n'+p.job.charAt(0).toUpperCase()+p.job.slice(1)+'.\n\n':'')+'OPTICS\n'+p.optics+'\n\nCAMERA\n'+p.camera+(p.timing?'\n\nACTION TIMING\n'+p.timing:'');}
+const kitText=()=>S.kit.map(id=>LENSES.find(z=>z.id===id).mm+'mm').join(' / ');
+function rowText(){const s=actualSize(),l=ln(),m=mv(),sf=selfFramed(m.id);
+  return 'SIZE '+(sf?'set by the move':s.tag)+' | LENS '+(sf?'set by the move':'~'+l.mm+'mm ('+l.id+'° diagonal)')+' | CAMERA '+(sf||m.id==='lowArc'?'':'eye-level, ')+ROW_M[m.id]+' | MOVE '+(m.id==='static'?'none':S.dur.toFixed(1)+' s, '+EASES[S.ease].n.toLowerCase())+' | JOIN \u2014'+(S.kit?' | LENS KIT '+kitText():'');}
+function copyBtn(id,get){const b=document.getElementById(id);if(!b)return;const lab=b.textContent,no=()=>{b.textContent='Select the text to copy';};
+  b.onclick=()=>{try{navigator.clipboard.writeText(get()).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent=lab,1400);},no);}catch(e){no();}};}
+function saveMap(){const c=document.getElementById('cvmap');if(!c.toBlob)return;
+  c.toBlob(b=>{if(!b)return;const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='shotlab-set-map.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);});}
 const STEP_COLORS={intro:'#F2FFA0',intent:'#FF55BB',size:'#2BD1B0',lens:'#6EE8FF',move:'#0096E8',out:'#FFB8B0'};
 const explain=document.getElementById('explain');
 const KOFI='https://ko-fi.com/fungiistudio';
@@ -716,6 +782,9 @@ function draw(){
       '<div class="nav"><button class="btn ghost" type="button" id="prev">Back</button><button class="btn" type="button" id="again">Start a new shot</button></div>';
     x='<div class="check '+(w.length?'bad':'ok')+'"><b>'+(w.length?'Feasibility: '+w.length+' conflict'+(w.length>1?'s':''):'Feasibility: these choices work together')+'</b>'+(w.length?'<ul>'+w.map(q=>'<li>'+q+'</li>').join('')+'</ul>'+(w.fix?'<span class="cfix">Fix it in this order: camera distance, then lens, then height or angle. If none of them works, it is two shots.</span>':''):'')+(nt.length?'<b class="cnh">Worth a thought</b><ul>'+nt.map(q=>'<li>'+q+'</li>').join('')+'</ul>':'')+'</div>'+
       '<div class="pcol"><div class="prompt"><div class="h"><span>Camera block · Seedance</span><button class="btn sm" type="button" id="copy">Copy</button></div><pre id="ptext"></pre></div>'+(promptText().includes('[')?'<p class="hint">Swap the words in [brackets] for something from your own scene.</p>':'')+
+      '<p class="hint">This is the camera part only. Your prompt still needs who is in frame at frame one, the location and the light.</p>'+
+      '<div class="card"><span class="kicker">For your shot list</span><p class="rowline" id="rowtext"></p><div class="minirow"><button class="btn sm" type="button" id="rowcopy">Copy as shot-list row</button></div></div>'+
+      '<div class="card"><span class="kicker">The set map as a position reference</span><p class="rowline">'+MAPREF+'</p><div class="minirow"><button class="btn sm" type="button" id="mapsave">Save set map (PNG)</button><button class="btn sm" type="button" id="mapcopy">Copy reference line</button></div></div>'+
       '<div class="tipjar" id="tipjar"><p>Did this help?<small>Shot Lab is free. A small tip keeps it free and growing.</small></p><a href="'+KOFI+'" target="_blank" rel="noopener">Buy Fungii a coffee <span class="cup" aria-hidden="true">\u2615</span></a></div>'+
       '<div class="tipjar idea"><p>Got an idea to make it better?<small>A move we should add, a step that confused you, anything. We read every one.</small></p><a href="'+FEEDBACK+'" data-idea>Share an idea \u2709</a></div></div>';
   }
@@ -744,6 +813,9 @@ function draw(){
   Q('[data-goto]').forEach(b=>b.onclick=()=>go(+b.dataset.goto));
   const mf=document.getElementById('mf'),mp=document.getElementById('mp');
   if(mf){mf.onclick=()=>{S.mode='frame';S.base=null;redraw();};mp.onclick=()=>{S.mode='pos';redraw();};}
+  const rt=document.getElementById('rowtext');if(rt)rt.textContent=rowText();
+  copyBtn('rowcopy',rowText);copyBtn('mapcopy',()=>MAPREF);
+  const ms=document.getElementById('mapsave');if(ms)ms.onclick=saveMap;
   const cp=document.getElementById('copy');
   if(cp)cp.onclick=()=>{const t=promptText(),ok=()=>{cp.textContent='Copied';setTimeout(()=>cp.textContent='Copy',1400);const tj=document.getElementById('tipjar');if(tj){tj.classList.add('lit');setTimeout(()=>tj.classList.remove('lit'),1800);}},
     sel=()=>{const r=document.createRange();r.selectNodeContents(pt);const g=getSelection();g.removeAllRanges();g.addRange(r);cp.textContent='Selected · press Ctrl+C';};
