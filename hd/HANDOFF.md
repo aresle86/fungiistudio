@@ -9,10 +9,10 @@ Nói chuyện với anh Ares bằng tiếng Việt. Mọi chữ trong game là t
 
 | Thứ | Ở đâu / trạng thái |
 |---|---|
-| Bản live | **v182** (23/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
-| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v182, khớp live). Bản mới nhất là **v185, đã dựng, CHƯA ĐẨY** (`live/v182.html` → `fix183.py` → `live/v183.html` → `fix184.py` → `live/v184.html` → `fix185.py` → `live/v185.html`). Mỗi bản = một script vá |
-| Việc kế tiếp | **Đẩy v183 + v184 + v185** khi anh Ares nhắn (ba bản đi chung một lần cho gọn; v185 sửa lỗi anh báo từ iPhone nên nên đẩy sớm). Rồi **thêm cỡ màn ngắn vô bộ đo** — xem mục v185. Rồi **chốt hướng cây cổ tích ở đình làng** — ý của người chơi, anh Ares thấy hay, em đã đề xuất ba hướng (xem mục dưới), chờ anh chọn. Rồi **chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), có thể thêm ô tìm — anh Ares nói dùng thử v179 coi còn thấy thiếu không rồi tính. Rồi **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước |
-| Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v182**, bản 163). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
+| Bản live | **v185** (25/11/2026), https://fungiistudio.com/mietvuon2. Commit trên `main` và `mietvuon2-online` (repo `aresle86/fungiistudio`), xem `git log main -1` |
+| Nguồn game | `hd/live/vuon3d.html` trên nhánh **`mietvuon2-dev`** (= v185, khớp live). Mỗi bản = một script vá: `live/v182.html` → `fix183.py` → `live/v183.html` → `fix184.py` → `live/v184.html` → `fix185.py` → `live/v185.html` |
+| Việc kế tiếp | **Thêm cỡ màn ngắn vô bộ đo** — dọn 23 chỗ `sat` có sẵn ở 393×640 rồi thêm cỡ đó vô cổng bắt buộc, để máy đo thấy được màn điện thoại thiệt có thanh trình duyệt (xem mục v185). Rồi **chốt hướng cây cổ tích ở đình làng** — ý của người chơi, anh Ares thấy hay, em đã đề xuất ba hướng (xem mục dưới), chờ anh chọn. Rồi **chặng 3 của kho** (chưa bàn, chưa duyệt): hàng nút lọc (Tất cả · Rau · Trái · Cá · Khô · Món), có thể thêm ô tìm — anh Ares nói dùng thử v179 coi còn thấy thiếu không rồi tính. Rồi **cấp 21–30** theo `hd/ke-hoach-cap-21-30.md`, chặng A (Chợ huyện + tiệm may) trước |
+| Artifact game | https://claude.ai/artifact/DkesRLV6eCUtN56HxQnwiT (**v185**, bản 164). Đẩy `hd/live/vuon3d.html` (nguồn thuần, không phải `mietvuon2/index.html`) |
 | File trong Project "Farming game" | `claude/mietvuon/miet-vuon-2.0.html` (**v105 — kẹt từ lâu**, phiên làm việc trong Claude Code không với tới file Project; ai mở Project thì cập nhật tay) |
 | Kịch bản toàn cảnh + changelog từng bản (Claude Doc) | https://claude.ai/artifact/5zrepCFVxTCYk3zmhfgAuU |
 | Rà nhiệm vụ theo cấp v101: quyết định, kết quả bot (Claude Doc) | https://claude.ai/artifact/7dy5ceisV6jpudW7E4KFsm |
@@ -547,6 +547,10 @@ Creative director, chạy Fungii Studio (TP.HCM). Mạnh về concept, hình ả
 - Khung hỏi `#sapChips` được chặn không chui xuống dưới bảng Túi đồ (áp cho mọi khung hỏi).
 - Lời Ngoại `sap3` nói một lần; `sap1` nhắc thêm cây trái.
 - uicheck thêm `sap-cay-dat`, `sap-cay-keo`, `sap-cay-tha`, `sap-cay-hoi`, `sap-cay-xong` (bot chưa mở Sau nhà nên bước tự bật `ST.qd[12]` rồi trả lại; `pl0(crop, g)` nhận g là tỉ lệ 0..1). uiluat 0, uicheck 3 cỡ 0, WebKit vô 100% không đứng. Chưa thử iPhone thật.
+
+**Đẩy xong (25/11), v183 + v184 + v185 đẩy chung một lần** — anh Ares nhắn "Đẩy cả ba". Cùng một đường như mấy bản trước: `cp live/v185.html live/vuon3d.html` → commit `afaf81f` trên `mietvuon2-dev` → `buildsite.py` → kiểm ngược đúng công thức `head + nguồn (đổi tiêu đề) + "\n</body></html>\n"`, ra `True` → commit `main` bằng plumbing trên nền `61a62d4` (**không checkout**; `read-tree` giữ nguyên bốn file nhạc chỉ có trên `main`, đã kiểm còn đủ) → `c08a86c` → push `mietvuon2-dev main main:mietvuon2-online`. So với bản live cũ chỉ đổi một file, 21 dòng thêm 8 dòng bớt. Bản live thật: HTTP 200, 2.523.111 byte, `BUILD = 'v185'`, có đủ vết của cả ba bản (`FTLOI`, `ttGi`, `display:none` ở thanh chợ, dòng "Hôm nay con chất"), **giống hệt từng byte** với bản mình dựng. Artifact game **bản 164** (version id `1795580567-5c42`), changelog Doc thêm ba mục v183, v184, v185 (rev 186).
+
+*Lưu ý nhỏ về Artifact:* dịch vụ Artifact cảnh báo trang có chỗ cho người xem tải file mà khung Artifact không cấp quyền tải — đó là nút xuất bản lưu trong game, trên bản live thật thì chạy được, chỉ bản Artifact là không. Lỗi có sẵn từ lâu, không phải v185 đẻ ra.
 
 ## v185 (24/11/2026) — ba lỗi ở chợ nổi, anh Ares báo từ iPhone thật
 
