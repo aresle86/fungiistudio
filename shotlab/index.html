@@ -244,6 +244,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .tipjar a{font:12px/1 var(--pix);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-decoration:none;background:var(--lime);border:1.5px solid var(--ink);border-radius:999px;padding:11px 16px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap}
 .cup{font:22px/0 system-ui,sans-serif;vertical-align:-3px;margin-left:4px}
 .foot .cup{font-size:16px;vertical-align:-2px}
+.foot .fine{flex-basis:100%}
 .tipjar a{display:inline-flex;align-items:center;gap:2px}
 .tipjar a:hover{background:#E6F58A}.tipjar a:focus-visible{outline:2px solid #0096E8;outline-offset:2px}
 #ideaDlg{border:1.5px solid var(--ink);border-radius:0;padding:0;width:min(560px,calc(100vw - 32px));background:var(--card);color:var(--ink);box-shadow:8px 8px 0 #6EE8FF}
@@ -310,7 +311,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
       <div class="explain" id="explain" aria-live="polite"></div>
     </section>
   </main>
-  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a> · <a href="mailto:hello@fungiistudio.com?subject=Shot%20Lab%20idea&amp;body=Hi%20Fungii%2C%0A%0AAn%20idea%20to%20make%20Shot%20Lab%20better%3A%0A%0A%0AWhat%20I%20was%20trying%20to%20do%3A%0A%0A%0A%28Optional%29%20A%20camera%20move%2C%20lens%20or%20moment%20I%27d%20love%20to%20see%20added%3A%0A%0A" data-idea>Send an idea</a> · <a href="https://ko-fi.com/fungiistudio" target="_blank" rel="noopener">Tip us on Ko-fi <span class="cup" aria-hidden="true">☕</span></a></span></footer>
+  <footer class="foot"><span>Fungii Shot Lab · camera language for AI video</span><span>Made by <a href="https://fungiistudio.com" target="_blank" rel="noopener">Fungii Studio</a> · <a href="mailto:hello@fungiistudio.com?subject=Shot%20Lab%20idea&amp;body=Hi%20Fungii%2C%0A%0AAn%20idea%20to%20make%20Shot%20Lab%20better%3A%0A%0A%0AWhat%20I%20was%20trying%20to%20do%3A%0A%0A%0A%28Optional%29%20A%20camera%20move%2C%20lens%20or%20moment%20I%27d%20love%20to%20see%20added%3A%0A%0A" data-idea>Send an idea</a> · <a href="https://ko-fi.com/fungiistudio" target="_blank" rel="noopener">Tip us on Ko-fi <span class="cup" aria-hidden="true">☕</span></a></span><span class="fine">Anonymous usage count: lessons opened, buttons pressed. No cookies, no personal data.</span></footer>
   <dialog id="ideaDlg" aria-labelledby="ideaT">
     <form id="ideaForm" method="dialog">
       <div class="ih"><span class="kicker">Shot Lab · ideas</span><button type="button" class="ix" id="ideaX" aria-label="Close">✕</button></div>
@@ -638,6 +639,19 @@ const STEPS=[
   intro:'',cap:'Your full shot, playing on loop.'}
 ];
 
+/* Anonymous usage count. Sends an event name; the server keeps a date, that name and a number.
+   No cookie, no id, nothing stored on the device. Each event counts once per page load.
+   Off when the browser asks not to be tracked, and anywhere but the real site. ?count=log prints instead of sending. */
+const hit=(()=>{const seen={},q=[];let t=0;
+  const dnt=navigator.doNotTrack==='1'||window.doNotTrack==='1'||navigator.globalPrivacyControl===true,
+    log=/[?&]count=log\b/.test(location.search),on=!dnt&&/(^|\.)fungiistudio\.com$/.test(location.hostname);
+  const send=()=>{clearTimeout(t);t=0;const e=q.splice(0);if(!e.length)return;
+    if(log){console.info('count',e.join(' '));return;}
+    try{fetch('https://zgfanxtjdvioxpgpbcke.supabase.co/functions/v1/shotlab-count',{method:'POST',keepalive:true,headers:{'content-type':'application/json',apikey:'sb_publishable_C9yQE4moNWh6YPf6Oofdjg_hHrutuok'},body:JSON.stringify({e})}).catch(()=>{});}catch(_){}};
+  addEventListener('pagehide',send);
+  return e=>{if(!(on||log)||seen[e])return;seen[e]=1;q.push(e);if(!t)t=setTimeout(send,1200);};})();
+window.__hit=hit;
+const CEV={rowcopy:'copy_row',mapcopy:'copy_mapref'};
 const S={intent:null,step:0,reached:0,size:'MS',lens:47,move:'static',group:'turn',mode:'frame',base:null,map:false,mapTouched:false,dur:4.5,ease:'io',amt:1,kit:null,lesson:1,ls:0};
 const EASES={io:{n:'Ease in-out',f:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,p:'starts and ends gently (ease in-out)'},
   in:{n:'Ease in',f:t=>t*t*t,p:'starts slow and keeps accelerating (ease in)'},
@@ -770,8 +784,8 @@ const kitText=()=>S.kit.map(id=>LENSES.find(z=>z.id===id).mm+'mm').join(' / ');
 function rowText(){const s=actualSize(),l=ln(),m=mv(),sf=selfFramed(m.id);
   return 'SIZE '+(sf?'set by the move':s.tag)+' | LENS '+(sf?'set by the move':'~'+l.mm+'mm ('+l.id+'° diagonal)')+' | CAMERA '+(sf||m.id==='lowArc'?'':'eye-level, ')+ROW_M[m.id]+' | MOVE '+(m.id==='static'?'none':S.dur.toFixed(1)+' s, '+EASES[S.ease].n.toLowerCase())+' | JOIN \u2014'+(S.kit?' | LENS KIT '+kitText():'');}
 function copyBtn(id,get){const b=document.getElementById(id);if(!b)return;const lab=b.textContent,no=()=>{b.textContent='Select the text to copy';};
-  b.onclick=()=>{try{navigator.clipboard.writeText(get()).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent=lab,1400);},no);}catch(e){no();}};}
-function saveMap(){const c=document.getElementById('cvmap');if(!c.toBlob)return;
+  b.onclick=()=>{hit(CEV[id]||'l'+S.lesson+'_copy');try{navigator.clipboard.writeText(get()).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent=lab,1400);},no);}catch(e){no();}};}
+function saveMap(){const c=document.getElementById('cvmap');if(!c.toBlob)return;hit('save_map');
   c.toBlob(b=>{if(!b)return;const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='shotlab-set-map.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);});}
 const STEP_COLORS={intro:'#F2FFA0',intent:'#FF55BB',size:'#2BD1B0',lens:'#6EE8FF',move:'#0096E8',out:'#FFB8B0'};
 const explain=document.getElementById('explain');
@@ -781,7 +795,7 @@ function tipCard(){return '<div class="card tip"><span class="kicker">How to use
 function draw(){
   drawLessons();
   if(S.lesson!==1){drawLesson();return;}
-  drawSteps();
+  drawSteps();if(STEPS[S.step].key==='out')hit('l1_out');
   const st=STEPS[S.step];let h='',x='';
   document.documentElement.style.setProperty('--acc',STEP_COLORS[st.key]);
   if(st.key==='intro'){
@@ -865,7 +879,7 @@ function draw(){
   copyBtn('rowcopy',rowText);copyBtn('mapcopy',()=>MAPREF);
   const ms=document.getElementById('mapsave');if(ms)ms.onclick=saveMap;
   const cp=document.getElementById('copy');
-  if(cp)cp.onclick=()=>{const t=promptText(),ok=()=>{cp.textContent='Copied';setTimeout(()=>cp.textContent='Copy',1400);const tj=document.getElementById('tipjar');if(tj){tj.classList.add('lit');setTimeout(()=>tj.classList.remove('lit'),1800);}},
+  if(cp)cp.onclick=()=>{hit('copy_prompt');const t=promptText(),ok=()=>{cp.textContent='Copied';setTimeout(()=>cp.textContent='Copy',1400);const tj=document.getElementById('tipjar');if(tj){tj.classList.add('lit');setTimeout(()=>tj.classList.remove('lit'),1800);}},
     sel=()=>{const r=document.createRange();r.selectNodeContents(pt);const g=getSelection();g.removeAllRanges();g.addRange(r);cp.textContent='Selected · press Ctrl+C';};
     try{navigator.clipboard.writeText(t).then(ok,sel);}catch(e){sel();}};
   document.getElementById('caption').textContent=st.cap;
@@ -930,7 +944,7 @@ const lkey=()=>S.lesson===1?'':LX[S.lesson][S.ls].key;
 const lessonsEl=document.getElementById('lessons');
 function drawLessons(){
   lessonsEl.innerHTML=LNAMES.slice(1).map((n,i)=>'<button type="button" data-l="'+(i+1)+'" aria-current="'+(S.lesson===i+1)+'"><b>'+n[0]+'</b><span>'+n[1]+'</span></button>').join('');
-  lessonsEl.querySelectorAll('button').forEach(b=>b.onclick=()=>{S.lesson=+b.dataset.l;S.ls=0;restart();draw();});
+  lessonsEl.querySelectorAll('button').forEach(b=>b.onclick=()=>{S.lesson=+b.dataset.l;S.ls=0;if(S.lesson>1)hit('l'+S.lesson);restart();draw();});
   if(S.lesson===1){const cm=document.getElementById('cvmap');cm.style.touchAction='';cm.style.cursor='';hudL=null;}
 }
 function drawLSteps(){const sts=LX[S.lesson];stepsEl.innerHTML='';
@@ -946,7 +960,7 @@ const lintro=(n,lead,intro,list,btn)=>'<div class="in"><span class="kicker">Fung
 const lhead=(st,i,n)=>'<div class="in"><span class="kicker">Step '+i+' of '+n+' · '+st.t+'</span><h2>'+st.q+'</h2><p class="intro">'+st.intro+'</p>';
 const lsum=(k,v,to)=>'<div><span><span class="k">'+k+'</span><br><span class="val">'+v+'</span></span><button class="btn sm" data-goto="'+to+'" type="button">Change</button></div>';
 function drawLesson(){
-  const L=S.lesson,sts=LX[L],st=sts[S.ls],k=st.key;
+  const L=S.lesson,sts=LX[L],st=sts[S.ls],k=st.key;if(S.ls===sts.length-1)hit('l'+L+'_end');
   drawLSteps();document.documentElement.style.setProperty('--acc',LCOL[S.ls%LCOL.length]);
   const hx=L===2?l2ui(st,k):L===3?l3ui(st,k):l4ui(st,k);
   panel.innerHTML=hx[0];explain.innerHTML=hx[1];panel.scrollTop=0;
@@ -1101,7 +1115,7 @@ function l4sketch(){const c=document.getElementById('sk');if(!c)return;const w=c
 function l4bind(Q,keep){
   Q('[data-kit]').forEach(b=>b.onclick=()=>{const id=+b.dataset.kit,i=S4.pick.indexOf(id);if(i>=0)S4.pick.splice(i,1);else S4.pick.push(id);S4.last=id;keep();});
   copyBtn('kitcopy',l4kit);
-  const ku=document.getElementById('kituse');if(ku)ku.onclick=()=>{S.kit=S4.pick.slice().sort((a,b)=>b-a);keep();};
+  const ku=document.getElementById('kituse');if(ku)ku.onclick=()=>{hit('kit_on');S.kit=S4.pick.slice().sort((a,b)=>b-a);keep();};
   const ko=document.getElementById('kitoff');if(ko)ko.onclick=()=>{S.kit=null;keep();};
   Q('.opt[data-k="l4lens"]').forEach(b=>b.onclick=()=>{S4.lens=+b.dataset.v;keep();});
   Q('[data-giant]').forEach(b=>b.onclick=()=>{S4.giant=b.dataset.giant==='1';keep();});
@@ -1602,6 +1616,9 @@ const _frame=frame;
 frame=function(now){_frame(now);minis.forEach(m=>drawMini(m,now));
   if(fpsEl){if(fL)fW=Math.max(fW,now-fL);fL=now;fN++;if(!fT)fT=now;
     if(now-fT>=1000){fpsEl.textContent=Math.round(fN*1000/(now-fT))+' fps \u00b7 slowest frame '+Math.round(fW)+' ms';fN=0;fT=now;fW=0;}}};
+hit('open');
+['pointerdown','keydown'].forEach(n=>addEventListener(n,()=>hit('use'),{once:true,passive:true}));
+document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('a[href*="ko-fi.com"]'))hit('tip');});
 draw();requestAnimationFrame(frame);
 })();
 </script>
@@ -1613,7 +1630,7 @@ draw();requestAnimationFrame(frame);
   if(!dlg||typeof dlg.showModal!=='function')return;           // old browsers keep the plain email link
   var say=function(t,c){msg.className=c||'';msg.innerHTML=t;};
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-idea]');if(!a)return;
-    e.preventDefault();say('');go.disabled=false;go.textContent='Send idea';dlg.showModal();setTimeout(function(){txt.focus();},30);});
+    e.preventDefault();if(window.__hit)window.__hit('idea_open');say('');go.disabled=false;go.textContent='Send idea';dlg.showModal();setTimeout(function(){txt.focus();},30);});
   document.getElementById('ideaX').onclick=function(){dlg.close();};
   dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
   form.addEventListener('submit',function(e){e.preventDefault();
