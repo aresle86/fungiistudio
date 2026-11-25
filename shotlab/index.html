@@ -219,6 +219,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .clips{display:grid;gap:6px;margin:0;padding:0;list-style:none;font-size:14px}
 .clips li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:6px}
 .clips li span{font:12px/1.4 var(--mono);color:var(--ink2);text-align:right}
+.clips li.over b,.clips li.over span{color:#C4161C}
 .meter{margin:0;font:800 17px/1.2 var(--grot)}
 .acts{display:grid;gap:4px;margin:0;padding-left:20px;font-size:14px}
 .acts .drop{color:var(--ink3);text-decoration:line-through}
@@ -938,9 +939,9 @@ const JOINS={scene:['New scene','A different place or time. A fresh generation.'
  match:['Match cut','Opens from the last frame of the clip before.','the next clip opens from the last frame of this one; generate this one at final resolution first.'],
  continuous:['One take','Extends the clip before, with no cut.','the next clip extends this one; generate this one at final resolution first.']};
 const DEPJ=j=>j==='match'||j==='continuous';
-const S3={cut:[true,true,true],len:4,acts:['walks in','stops'],join:['cut','match'],draft:true};
+const S3={cut:[true,true,true],mul:1,cap:15,len:4,acts:['walks in','stops'],join:['cut','match'],draft:true};
 const S4={pick:[84,47,29],last:47,lens:47,giant:false};
-let LMAP=null,MAPT=null,hudL=null,lastShot=-1;
+let LMAP=null,MAPT=null,hudL=null,lastShot=-1,l2thumb=0;
 const lkey=()=>S.lesson===1?'':LX[S.lesson][S.ls].key;
 const lessonsEl=document.getElementById('lessons');
 function drawLessons(){
@@ -987,8 +988,8 @@ function l2ui(st,k){let h='',x='';
     x=lcard('Why this lesson','On one of our films, a single group of clips took nine generations. Nearly every miss was a broken cut, not an ugly picture.')+
       lcard('How it works','Two shots play one after the other on the same set. Change one thing about the second shot and watch what the cut does.');
   }else if(k==='line'){const r=l2sides(),p=l2preset();
-    h=lhead(st,1,3)+'<div class="lrow">'+[['same','Same side'],['close','Closer, same side'],['across','Across the line']].map(q=>lbtn('b',q[0],p===q[0],q[1])).join('')+'</div>'+
-      (r&&r.flip?'<label class="chk"><input type="checkbox" id="l2p"'+(S2.purpose?' checked':'')+'> I am crossing on purpose</label>':'')+'</div>'+nav('Back','Next: first frame');
+    h=lhead(st,1,3)+'<div class="lrow">'+[['same','Same side'],['close','Closer, same side'],['across','Across the line'],['purpose','Cross on purpose']].map(q=>lbtn('b',q[0],q[0]==='purpose'?p==='across'&&S2.purpose:p===q[0]&&!(p==='across'&&S2.purpose),q[1])).join('')+'</div>'+
+      (r&&r.flip&&p!=='across'?'<label class="chk"><input type="checkbox" id="l2p"'+(S2.purpose?' checked':'')+'> I am crossing on purpose</label>':'')+'</div>'+nav('Back','Next: first frame');
     x='<div class="card"><span class="kicker">What the audience sees</span><div class="frames"><figure><canvas id="fa"></canvas>Last frame of A</figure><figure><canvas id="fb"></canvas>First frame of B</figure></div><div id="l2r"></div></div>'+
       lcard('Check it, do not guess it','List what the viewer steers by: each person, a doorway, a parked car. Note which half of the frame each one sits in just before the cut, and just after. The two lists should match.');
   }else if(k==='first'){const o=S2.first;
@@ -1021,11 +1022,10 @@ function l2readout(){const el=document.getElementById('l2r');if(!el)return;const
   const side=p=>!p.vis?'out of frame':p.x<0?'left half':'right half';
   el.innerHTML='<p class="sides"><b></b><b>Shot A</b><b>Shot B</b><span>Hero</span><span>'+side(r.pa[0])+'</span><span>'+side(r.pb[0])+'</span><span>Friend</span><span>'+side(r.pa[1])+'</span><span>'+side(r.pb[1])+'</span></p>'+
     (r.flip?(S2.purpose?lverd(true,'Crossed on purpose. That works when the prompt says so and restates who is on which side.'):lverd(false,'They swap sides on the cut. The audience reads it as two people jumping to new places.')):lverd(true,'Left stays left, right stays right. The cut holds.'));
-  [['fa',r.pa],['fb',r.pb]].forEach(q=>{const c=document.getElementById(q[0]);if(!c)return;const w=c.clientWidth||160,hh=w*9/16,d=Math.min(2,devicePixelRatio||1);c.width=Math.round(w*d);c.height=Math.round(hh*d);
-    const g=c.getContext('2d');g.setTransform(d,0,0,d,0,0);g.fillStyle='#ECEBE6';g.fillRect(0,0,w,hh);g.strokeStyle='#C9C5BE';g.lineWidth=1;g.beginPath();g.moveTo(w/2,0);g.lineTo(w/2,hh);g.stroke();
-    q[1].forEach((p,i)=>{if(!p.vis)return;const px=w/2+p.x*w/2,py=hh/2-p.y*hh/2,rr=Math.max(4,hh*.55/p.d);g.fillStyle=i?'#2BD1B0':'#FF1F8E';g.fillRect(px-rr*.6,py+rr*.7,rr*1.2,rr*2.4);g.fillStyle='#F0B08C';g.beginPath();g.arc(px,py,rr*.8,0,7);g.fill();});});}
+  ['fa','fb'].forEach(q=>{const c=document.getElementById(q);if(!c)return;const w=c.clientWidth||160,d=Math.min(2,devicePixelRatio||1);c.width=Math.round(w*d);c.height=Math.round(w*9/16*d);});
+  l2thumb=1;}
 function l2bind(Q,keep){
-  Q('[data-b]').forEach(b=>b.onclick=()=>{const p=PRESB[b.dataset.b];S2.bx=p[0];S2.bz=p[1];restart();keep();});
+  Q('[data-b]').forEach(b=>b.onclick=()=>{const k=b.dataset.b,p=PRESB[k==='purpose'?'across':k];S2.purpose=k==='purpose';S2.bx=p[0];S2.bz=p[1];restart();keep();});
   const cp=document.getElementById('l2p');if(cp)cp.onchange=()=>{S2.purpose=cp.checked;keep();};
   Q('[data-first]').forEach(b=>b.onclick=()=>{S2.first=b.dataset.first;restart();keep();});
   Q('[data-who]').forEach(b=>b.onclick=()=>{S2.who=b.dataset.who;restart();keep();});
@@ -1035,18 +1035,18 @@ function l2bind(Q,keep){
 
 /* ---- lesson 03: plan the generation ---- */
 function l3clips(){const out=[];let cur=[0];for(let i=1;i<SH3.length;i++){if(S3.cut[i-1]){out.push(cur);cur=[i];}else cur.push(i);}out.push(cur);
-  return out.map(ix=>{const sum=ix.reduce((a,i)=>a+SH3[i].dur,0);return {ix,sum,gen:Math.max(MIN_CLIP,Math.ceil(sum))};});}
+  return out.map(ix=>{const sum=ix.reduce((a,i)=>a+SH3[i].dur*S3.mul,0),gen=Math.max(MIN_CLIP,Math.ceil(sum));return {ix,sum,gen,over:gen>S3.cap};});}
 const l3names=c=>'shot'+(c.ix.length>1?'s '+(c.ix[0]+1)+'–'+(c.ix[c.ix.length-1]+1):' '+(c.ix[0]+1));
 function l3ui(st,k){let h='',x='';
   if(k==='intro'){
     h=lintro('03','Decide what one generation carries before you write it.','A film divides three ways. A beat is a piece of story. A shot is what runs between two cuts. A clip is one generation, and it can carry one shot or several. The story fixes the shots. The clips are yours to group.',
       [['Clips','How many generations a beat needs.'],['Density','How much action fits in the seconds.'],['Joins','How one clip meets the next, and what it costs.'],['Prompt','A clip with several shots, written down.']],'Start with clips');
     x=lcard('Three words, three sizes','Beat → Clip → Shot. Keeping them apart is half the planning: you cut the film in shots, and you pay for it in clips.');
-  }else if(k==='clip'){const cl=l3clips(),gen=cl.reduce((a,c)=>a+c.gen,0),use=SH3.reduce((a,q)=>a+q.dur,0);
-    h=lhead(st,1,3)+'<div class="strip3">'+SH3.map((q,i)=>'<div class="sh" id="sh'+i+'" style="flex:'+q.dur+'">'+(i+1)+' · '+q.n+'<span>'+q.dur+' s</span></div>'+
+  }else if(k==='clip'){const cl=l3clips(),gen=cl.reduce((a,c)=>a+c.gen,0),use=SH3.reduce((a,q)=>a+q.dur*S3.mul,0),ov=cl.filter(c=>c.over);
+    h=lhead(st,1,3)+'<div class="strip3">'+SH3.map((q,i)=>'<div class="sh" id="sh'+i+'" style="flex:'+q.dur+'">'+(i+1)+' · '+q.n+'<span>'+n1(q.dur*S3.mul)+' s</span></div>'+
       (i<SH3.length-1?'<button type="button" class="cutb" data-cut="'+i+'" aria-pressed="'+S3.cut[i]+'" aria-label="'+(S3.cut[i]?'A new clip starts here. Click to join the two shots.':'Same clip. Click to split.')+'">'+(S3.cut[i]?'✂':'+')+'</button>':'')).join('')+
-      '</div><p class="hint" style="margin:0;font-size:13px;color:var(--ink2)">✂ a new clip starts here · + same clip. Click to switch.</p></div>'+nav('Back','Next: density');
-    x='<div class="card"><span class="kicker">Your generations</span><ul class="clips">'+cl.map((c,i)=>'<li><b>Clip '+(i+1)+'</b><span>'+l3names(c)+' · '+n1(c.sum)+' s of film → generate '+c.gen+' s</span></li>').join('')+'</ul><p class="meter">You generate '+gen+' s to use '+n1(use)+' s.</p></div>'+
+      '</div><p class="hint" style="margin:0;font-size:13px;color:var(--ink2)">✂ a new clip starts here · + same clip. Click to switch.</p><span class="kicker">How long the beat runs</span><div class="lrow">'+[1,2,4].map(v=>lbtn('mul',v,S3.mul===v,9*v+' s')).join('')+'</div><span class="kicker">Longest clip your model makes</span><div class="lrow">'+[[15,'15 s \u00b7 Seedance 2.0'],[30,'30 s \u00b7 Seedance 2.5']].map(q=>lbtn('cap',q[0],S3.cap===q[0],q[1])).join('')+'</div></div>'+nav('Back','Next: density');
+    x='<div class="card"><span class="kicker">Your generations</span><ul class="clips">'+cl.map((c,i)=>'<li'+(c.over?' class="over"':'')+'><b>Clip '+(i+1)+'</b><span>'+l3names(c)+' · '+n1(c.sum)+' s of film → '+(c.over?'needs '+c.gen+' s, over the '+S3.cap+' s ceiling':'generate '+c.gen+' s')+'</span></li>').join('')+'</ul><p class="meter">'+(ov.length?'This plan cannot be generated yet.':'You generate '+gen+' s to use '+n1(use)+' s.')+'</p></div>'+(ov.length?lverd(false,(ov.length>1?'Some clips are':'One clip is')+' longer than a single generation can be. Add a cut inside '+(ov.length>1?'them':'it')+', or use a model with a higher ceiling.'):'')+
       lcard('Merge or split','Merge short shots that share a place, a light and the same people: faces and light stay consistent, and nothing is thrown away. Split off a shot you expect to redo, because regenerating a clip regenerates every shot in it. A clip also has a ceiling: 15 s on Seedance 2.0, 30 s on Seedance 2.5 (checked November 2026).');
   }else if(k==='fit'){const cap=Math.max(1,Math.round(S3.len/2)),over=S3.acts.length>cap;
     h=lhead(st,2,3)+'<span class="kicker">Shot length</span><div class="lrow">'+[2,4,6,8].map(v=>lbtn('len',v,S3.len===v,v+' s')).join('')+'</div><span class="kicker">What happens in it</span><div class="lrow">'+ACTS3.map(a=>lbtn('act',a,S3.acts.includes(a),a)).join('')+'</div></div>'+nav('Back','Next: joins');
@@ -1070,7 +1070,7 @@ function l3ui(st,k){let h='',x='';
   }
   return [h,x];}
 function l3text(){const cl=l3clips(),c=cl[0];let t=0,o='FORMAT MODE\n'+(c.ix.length>1?'Timed multi-shot. Cuts only at the stated seconds; the camera does not cut on its own.':'One continuous shot. The camera does not cut on its own.')+'\n\nACTION TIMING\n';
-  c.ix.forEach((i,jx)=>{const q=SH3[i],z=SIZES.find(w=>w.id===q.size),m=MOVES.find(w=>w.id===q.move),a=t,b=t+q.dur;
+  c.ix.forEach((i,jx)=>{const q=SH3[i],z=SIZES.find(w=>w.id===q.size),m=MOVES.find(w=>w.id===q.move),a=t,b=t+q.dur*S3.mul;
     o+=(jx?n1(a)+' s — HARD CUT\n':'')+n1(a)+'–'+n1(b)+' s — SHOT '+(jx+1)+': '+(jx?'THE FIRST FRAME OF SHOT '+(jx+1)+': [who is where, mid-action]. ':'')+z.p+' '+q.lens+'° diagonal field of view. '+m.p+'\n';t=b;});
   if(c.gen>t)o+=n1(t)+'–'+c.gen+' s — tail: the last frame holds. Cut it away in the edit; no new action.\n';
   if(cl.length>1)o+='\nJOIN TO THE NEXT CLIP\n'+JOINS[S3.join[0]][0]+': '+JOINS[S3.join[0]][2];
@@ -1078,6 +1078,8 @@ function l3text(){const cl=l3clips(),c=cl[0];let t=0,o='FORMAT MODE\n'+(c.ix.len
 function l3bind(Q,keep){
   Q('[data-cut]').forEach(b=>b.onclick=()=>{const i=+b.dataset.cut;S3.cut[i]=!S3.cut[i];keep();});
   Q('[data-len]').forEach(b=>b.onclick=()=>{S3.len=+b.dataset.len;keep();});
+  Q('[data-mul]').forEach(b=>b.onclick=()=>{S3.mul=+b.dataset.mul;keep();});
+  Q('[data-cap]').forEach(b=>b.onclick=()=>{S3.cap=+b.dataset.cap;keep();});
   Q('[data-act]').forEach(b=>b.onclick=()=>{const a=b.dataset.act,i=S3.acts.indexOf(a);if(i>=0)S3.acts.splice(i,1);else S3.acts.push(a);keep();});
   Q('[data-draft]').forEach(b=>b.onclick=()=>{S3.draft=b.dataset.draft==='1';keep();});
   [0,1].forEach(i=>Q('[data-join'+i+']').forEach(b=>b.onclick=()=>{S3.join[i]=b.dataset['join'+i];keep();}));
@@ -1379,6 +1381,7 @@ function frame(now){
    for(let i=0;i<4;i++)DP['leg'+i].rotation.x=dogWalk?Math.sin(wt*1.3+(i===0||i===3?0:Math.PI))*.6:0;
    CP.tail.rotation.z=Math.sin(el*1.6)*.35;CP.head.rotation.y=Math.sin(el*.7)*.25;}
 
+  if(l2thumb)l2thumbs();
   cam.position.set(o.c[0],o.c[1],o.c[2]);
   if(o.step)cam.position.y+=Math.abs(Math.sin(wt))*.025;
   if(o.up)cam.up.set(o.up[0],o.up[1],o.up[2]);else cam.up.set(0,1,0);cam.lookAt(o.l[0],o.l[1],o.l[2]);cam.rotateY(o.yaw);cam.rotateX(o.pitch);cam.rotateZ(o.roll);
@@ -1428,6 +1431,12 @@ function moveB(e){const r=cvmE.getBoundingClientRect();setB((e.clientX-r.left-MA
 cvmE.addEventListener('pointerdown',e=>{if(S.lesson!==2||lkey()!=='line'||!MAPT)return;dragB=true;try{cvmE.setPointerCapture(e.pointerId);}catch(_){}moveB(e);e.preventDefault();});
 cvmE.addEventListener('pointermove',e=>{if(dragB)moveB(e);});
 ['pointerup','pointercancel'].forEach(n=>cvmE.addEventListener(n,()=>{if(dragB){dragB=false;draw();}}));
+/* the two small frames of the line step: the real set, seen from camera A and camera B */
+function l2thumbs(){if(!l2thumb||S.lesson!==2||lkey()!=='line')return;l2thumb=0;occluder.visible=false;
+  [['fa',L2A],['fb',l2B()]].forEach(q=>{const c=document.getElementById(q[0]),C=q[1];if(!c||!c.width)return;
+    cam.position.set(C.c[0],C.c[1],C.c[2]);cam.up.set(0,1,0);cam.lookAt(C.l[0],C.l[1],C.l[2]);cam.fov=C.fov;cam.updateProjectionMatrix();R.render(scene,cam);
+    const w=c.width,h=c.height,g=c.getContext('2d');g.setTransform(1,0,0,1,0,0);g.drawImage(cv,0,0,w,h);
+    g.strokeStyle='rgba(255,255,255,.8)';g.lineWidth=Math.max(1,w/220);g.setLineDash([w/50,w/50]);g.beginPath();g.moveTo(w/2,0);g.lineTo(w/2,h);g.stroke();g.setLineDash([]);});}
 function l2Frame(el){const k=lkey(),T=2.8,seg=dragB?1:Math.floor(el/T)%2,q=(el%T)/T,far=[-2.6,-3.6,.6,0];let o,x,map;
   if(k==='first'){const A=!seg,m=S2.first,hz=A?4-2.5*q:m==='cont'?1.5-2.5*q:m==='restart'?4-2.5*q:-2.2;
     o=mkO(A?L2F.A:L2F.B,[0,hz],Math.PI,A||m!=='ahead');x={dog:far};
