@@ -9,12 +9,16 @@ const SB = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SE
 const ORIGINS = (Deno.env.get("ALLOWED_ORIGINS") ?? "https://fungiistudio.com,https://www.fungiistudio.com,https://aresle86.github.io").split(",").map((s) => s.trim());
 const EVENTS = new Set([
   "open", "use",                                   // page loaded · first touch of any control
+  "s_intent", "s_size", "s_lens", "s_move",        // lesson 01: a step was reached
+  "conflict",                                      // lesson 01: the feasibility check showed a conflict
   "l2", "l3", "l4",                                // a lesson opened
   "l1_out", "l2_end", "l3_end", "l4_end",          // reached the last step of a lesson
   "copy_prompt", "copy_row", "copy_mapref", "save_map", // lesson 01 outputs
   "l2_copy", "l3_copy", "l4_copy",                 // a lesson's text copied
   "kit_on",                                        // the film's lens kit switched on for lesson 01
   "idea_open", "tip",                              // idea form opened · Ko-fi link clicked
+  // lesson 01: the Movement in the prompt when Copy was pressed
+  ...("static,pan,tilt,whip,dutch,zoom,crash,rack,dollyzoom,dollyin,dollyout,truck,pedestal,orbit,crane,roll,lowarc,reveal,aerialorbit,drone,overhead,tracking,leading,gimbal,handheld,fpv,pov").split(",").map((m) => "mv_" + m),
 ]);
 
 function cors(req: Request) {
@@ -36,7 +40,7 @@ Deno.serve(async (req) => {
   let b: Record<string, unknown>;
   try { b = await req.json(); } catch { return done(req, 400); }
   const list = Array.isArray(b.e) ? b.e : [b.e];
-  const events = [...new Set(list.filter((x): x is string => typeof x === "string" && EVENTS.has(x)))].slice(0, 8);
+  const events = [...new Set(list.filter((x): x is string => typeof x === "string" && EVENTS.has(x)))].slice(0, 12);
   if (!events.length) return done(req);
   const { error } = await SB.rpc("shotlab_bump", { p_events: events });
   if (error) { console.error("shotlab_bump failed", error.message); return done(req, 500); }

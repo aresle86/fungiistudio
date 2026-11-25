@@ -795,7 +795,7 @@ function tipCard(){return '<div class="card tip"><span class="kicker">How to use
 function draw(){
   drawLessons();
   if(S.lesson!==1){drawLesson();return;}
-  drawSteps();if(STEPS[S.step].key==='out')hit('l1_out');
+  drawSteps();{const k=STEPS[S.step].key;if(k==='out')hit('l1_out');else if(k!=='intro')hit('s_'+k);}
   const st=STEPS[S.step];let h='',x='';
   document.documentElement.style.setProperty('--acc',STEP_COLORS[st.key]);
   if(st.key==='intro'){
@@ -835,7 +835,7 @@ function draw(){
       '<p class="ginfo">'+g.info+'</p>'+tileList(MOVES.filter(q=>q.g===S.group),S.move)+'</div>'+nav('Back','See my prompt');
     x=detail(m,m.name,DEVICES[m.id]?'Movement \u00b7 device':'Movement')+timingBlock(m)+tipCard();
   }else{
-    const w=warnings(),nt=notes(),s=actualSize(),l=ln(),m=mv(),sf=selfFramed(m.id);
+    const w=warnings(),nt=notes(),s=actualSize(),l=ln(),m=mv(),sf=selfFramed(m.id);if(w.length)hit('conflict');
     const row=(k,v,step)=>'<div><span><span class="k">'+k+'</span><br><span class="val">'+v+'</span></span><button class="btn sm" data-goto="'+IX(step)+'" type="button">Change</button></div>';
     h='<div class="in"><span class="kicker">Your shot</span><h2>'+st.q+'</h2><p class="intro">Every choice can still change. Press Change to go back to that step.</p>'+
       '<div class="sum">'+(S.intent?row('Intent',intentObj().name,'intent'):'')+row('Shot size',sf?'Set by the move':s.name,'size')+
@@ -879,7 +879,7 @@ function draw(){
   copyBtn('rowcopy',rowText);copyBtn('mapcopy',()=>MAPREF);
   const ms=document.getElementById('mapsave');if(ms)ms.onclick=saveMap;
   const cp=document.getElementById('copy');
-  if(cp)cp.onclick=()=>{hit('copy_prompt');const t=promptText(),ok=()=>{cp.textContent='Copied';setTimeout(()=>cp.textContent='Copy',1400);const tj=document.getElementById('tipjar');if(tj){tj.classList.add('lit');setTimeout(()=>tj.classList.remove('lit'),1800);}},
+  if(cp)cp.onclick=()=>{hit('copy_prompt');hit('mv_'+S.move.toLowerCase());const t=promptText(),ok=()=>{cp.textContent='Copied';setTimeout(()=>cp.textContent='Copy',1400);const tj=document.getElementById('tipjar');if(tj){tj.classList.add('lit');setTimeout(()=>tj.classList.remove('lit'),1800);}},
     sel=()=>{const r=document.createRange();r.selectNodeContents(pt);const g=getSelection();g.removeAllRanges();g.addRange(r);cp.textContent='Selected · press Ctrl+C';};
     try{navigator.clipboard.writeText(t).then(ok,sel);}catch(e){sel();}};
   document.getElementById('caption').textContent=st.cap;
@@ -894,6 +894,7 @@ function hud(){
   const parts=sf?['<span class="rec"><i></i>'+m.name+'</span>']:['<span class="rec"><i></i>'+s.tag+'</span>','<span>'+l.id+'° · ~'+l.mm+'mm</span>','<span>'+fm(base())+'</span>'];
   if(plays()&&!sf)parts.push('<span>'+m.name+'</span>');
   const nw=S.step<IX('out')?warnings().length:0;
+  if(nw)hit('conflict');
   if(nw)parts.splice(1,0,'<button type="button" class="wc" id="wc" title="See what clashes">'+nw+' conflict'+(nw>1?'s':'')+'</button>');
   H.innerHTML=parts.join('');
   const wc=document.getElementById('wc');if(wc)wc.onclick=()=>go(IX('out'));
