@@ -98,6 +98,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .lg.subj{width:10px;height:10px;border-radius:50%;background:#FF1F8E}
 .lg.fr{width:26px;height:10px;background:radial-gradient(circle at 5px 5px,#2BD1B0 4px,transparent 4.5px),radial-gradient(circle at 13px 5px,#1E1C1F 4px,transparent 4.5px),radial-gradient(circle at 21px 5px,#FFB8B0 4px,transparent 4.5px)}
 .lg.hgt{width:6px;height:12px;background:#111}
+.lg.blk{height:0;border-top:3px solid #FF4F33}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;border-top:1.5px solid var(--ink);padding-top:18px;position:relative;font:10px/1.6 var(--pix);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
 .foot::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--stripe)}
 .foot a{color:var(--ink);text-underline-offset:3px}
@@ -106,6 +107,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .chips span{font:12px/1 var(--mono);border:1px solid rgba(245,245,243,.35);padding:6px 8px}
 .chips .rec{display:inline-flex;align-items:center;gap:6px;border-color:var(--lime);color:var(--lime)}
 .chips .rec i{width:7px;height:7px;border-radius:50%;background:#FF4F33}
+.chips .wc{font:12px/1 var(--mono);border:1px solid #FF4F33;background:#FF4F33;color:#111;padding:6px 8px;cursor:pointer}
 .tools{display:flex;gap:6px;flex-wrap:wrap}
 .tools .btn{background:transparent;color:var(--paper);border-color:rgba(245,245,243,.55)}
 .tools .btn[aria-pressed="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
@@ -186,6 +188,9 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .check.bad{background:#FFE6E0}
 .check b{font:800 14px/1.2 var(--grot)}
 .check ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.check .cfix{font-size:13px;color:var(--ink2)}
+.check .cnh{margin-top:4px}
+.pcol .hint{margin:0;font-size:13px;color:var(--ink2)}
 .tipjar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 14px;background:var(--card);border:1.5px solid var(--ink);padding:14px 16px;transition:box-shadow .3s,transform .3s}
 .tipjar p{margin:0;font:italic 400 20px/1.2 var(--serif)}
 .tipjar p small{display:block;font:12px/1.4 var(--mono);font-style:normal;color:var(--ink2);margin-top:4px}
@@ -250,7 +255,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
         <figure class="mapcard">
           <figcaption class="maphead"><b>Set map</b><span>Seen from above · grid 1 m</span></figcaption>
           <div class="mapwrap"><canvas id="cvmap" role="img" aria-label="Set map seen from above, showing the camera, what it sees and the character"></canvas><span class="dist" id="dist">Camera</span></div>
-          <div class="legend"><span><i class="lg cam"></i>Camera</span><span><i class="lg cone"></i>What it sees</span><span><i class="lg path"></i>Camera path</span><span><i class="lg subj"></i>Hero</span><span><i class="lg fr"></i>Friends</span><span><i class="lg hgt"></i>Camera height</span></div>
+          <div class="legend"><span><i class="lg cam"></i>Camera</span><span><i class="lg cone"></i>What it sees</span><span><i class="lg path"></i>Camera path</span><span><i class="lg blk"></i>Blocked</span><span><i class="lg subj"></i>Hero</span><span><i class="lg fr"></i>Friends</span><span><i class="lg hgt"></i>Camera height</span></div>
         </figure>
       </div>
       <p class="caption" id="caption"></p>
@@ -294,7 +299,7 @@ const SIZES=[
   what:'The place fills the frame. Your character is a small figure inside it.',
   use:'Opening a scene, showing where we are, or making someone feel small and alone.',
   watch:'Faces are too small to act. Tell the story with posture and movement.',
-  p:'Extreme wide shot: the character is small inside the full plaza, the environment dominates the frame.'},
+  p:'Extreme wide shot: the character is small inside the full location, the environment dominates the frame.'},
  {id:'WS',name:'Wide',tag:'WS',h:2.3,look:.92,camY:1.2,
   what:'Head to toe, with room around them.',
   use:'Full-body action, entrances, and showing where someone stands in the space.',
@@ -326,12 +331,17 @@ const LENSES=[
   what:'A huge field of view. Close things look big, far things look very far.',
   use:'Epic spaces, action right at the lens, a feeling of being overwhelmed.',
   watch:'Never for face close-ups. Noses and foreheads stretch.',
-  p:'aggressive ultra-wide rectilinear look: near objects loom large and the background stretches deep'},
+  p:'aggressive wide rectilinear look: near objects loom large and the background stretches deep'},
  {id:84,mm:24,name:'Wide',
   what:'Wide, with only mild distortion.',
   use:'Wide shots that keep the setting while faces still read. The safe choice for action.',
   watch:'Keep faces away from the frame edges.',
   p:'classic wide rectilinear character, environment kept in context'},
+ {id:75,mm:28,name:'Wide reportage',
+  what:'Wide enough to hold the place, close enough to stay with one person.',
+  use:'Energetic coverage, following someone on the move, two people in one frame.',
+  watch:'Faces near the frame edges still stretch a little. Keep them toward the middle.',
+  p:'wide reportage perspective, the subject and their surroundings both in play'},
  {id:63,mm:35,name:'Moderate wide',
   what:'Feels like standing in the place with them.',
   use:'Documentary, everyday life, dialogue with context.',
@@ -380,7 +390,7 @@ const MOVES=[
   what:'A very fast pan that blurs everything in between. Here it snaps to the girl waving.',
   use:'Snapping attention somewhere new, energetic transitions.',
   watch:'One per shot. It needs a clear trigger and a clear landing.',
-  p:'Hold on the subject, then one fast whip pan to screen-right with natural motion blur, landing in a stable held frame.'},
+  p:'Hold on the subject, then one whip pan to screen-right lasting about 0.9 seconds, with natural motion blur, landing in a stable held frame.'},
  {id:'dutch',g:'turn',name:'Dutch angle',
   what:'The camera rolls sideways so the horizon tilts.',
   use:'Unease, tension, a world that feels off balance.',
@@ -415,7 +425,7 @@ const MOVES=[
   what:'The whole camera travels away from the subject.',
   use:'Revealing the setting, ending a scene, leaving someone behind.',
   watch:'Plan what gets revealed. An empty reveal falls flat.',
-  p:'Slow dolly pull-back away from the subject, gradually revealing the plaza around them; lens locked.'},
+  p:'Slow dolly pull-back away from the subject, gradually revealing the location around them; lens locked.'},
  {id:'truck',g:'move',name:'Truck',
   what:'The whole camera slides sideways without turning.',
   use:'Showing depth, revealing what sits beside the subject.',
@@ -435,7 +445,7 @@ const MOVES=[
   what:'The camera rises and looks down at the subject.',
   use:'Endings, or showing a character small within the world.',
   watch:'AI models can drift the subject. Lock their position in the prompt.',
-  p:'The camera cranes up from eye level to a high angle above the plaza, looking down at the subject and revealing the set.'},
+  p:'The camera cranes up from eye level to a high angle above the location, looking down at the subject and revealing the space around them.'},
  {id:'roll',g:'turn',name:'Camera roll',
   what:'The camera spins a full turn around its own lens axis.',
   use:'Dreams, disorientation, a world turning upside down.',
@@ -450,17 +460,17 @@ const MOVES=[
   what:'The camera slides sideways past something in the foreground to reveal the subject.',
   use:'Surprise entrances, discovering a character, opening a scene.',
   watch:'The foreground object must fully hide the subject at the start.',
-  p:'Lateral reveal: the camera trucks sideways past a dark foreground pillar that hides the subject in the first frame, revealing them as it clears, then settles.'},
+  p:'Lateral reveal: the camera trucks sideways past [a foreground object: a pillar, a wall edge, a tree] that hides the subject in the first frame, revealing them as it clears, then settles.'},
  {id:'aerialOrbit',g:'air',name:'Aerial orbit',
   what:'A drone circles the subject from high above.',
   use:'Epic establishing moments, showing a character in their world.',
   watch:'It sets its own height and lens. Faces will be small.',
-  p:'Aerial drone orbit: the camera circles the subject from about 8 m high at a constant radius, looking down at them, the plaza turning beneath.'},
+  p:'Aerial drone orbit: the camera circles the subject from about 8 m high at a constant radius, looking down at them, the ground turning beneath.'},
  {id:'drone',g:'air',name:'Drone push',
   what:'A drone glides forward and descends toward the subject.',
   use:'Openers, arriving at a location, finding the character.',
   watch:'It sets its own height and lens. Land the move before the cut.',
-  p:'Drone push: the camera starts high and far over the plaza, glides forward and descends smoothly toward the subject, ending at a wide frame.'},
+  p:'Drone push: the camera starts high and far over the location, glides forward and descends smoothly toward the subject, ending at a wide frame.'},
  {id:'overhead',g:'air',name:'Overhead rotation',
   what:'Looking straight down from above while the camera slowly rotates.',
   use:'Graphic compositions, dreamy or detached moments.',
@@ -470,7 +480,7 @@ const MOVES=[
   what:'The camera follows the subject from behind as they walk away.',
   use:'Going somewhere with them, curiosity about where they lead.',
   watch:'We lose the face. Use it when the destination matters more.',
-  p:'The subject walks away from camera toward the archway; the camera follows from behind at a steady distance, keeping their back centered.'},
+  p:'The subject walks away from camera toward [a landmark ahead]; the camera follows from behind at a steady distance, keeping their back centered.'},
  {id:'leading',g:'follow',name:'Leading shot',
   what:'The camera moves backward ahead of the subject as they walk toward us.',
   use:'Walk-and-talk dialogue, determined characters, keeping the face.',
@@ -490,12 +500,12 @@ const MOVES=[
   what:'A drone flies fast and low, threading through openings.',
   use:'Openers, energy, showing a whole space in one breath.',
   watch:'It sets its own framing and lens. Plan the path through real gaps.',
-  p:'FPV drone fly-through: the camera skims low past the subject at speed, banks, threads through the stone archway and climbs above the plaza, wide lens.'},
+  p:'FPV drone fly-through: the camera skims low past the subject at speed, banks, threads through [an opening: a doorway, an arch, a gap between buildings] and climbs above the location, wide lens.'},
  {id:'pov',g:'follow',name:'POV',
   what:'We see through the character’s eyes.',
   use:'Putting the audience inside the character’s experience.',
   watch:'The character is not in frame. It sets its own framing.',
-  p:'Point-of-view shot through the character’s eyes: subtle walking head-bob, moving toward the archway, no body visible.'}
+  p:'Point-of-view shot through the character’s eyes: subtle walking head-bob, moving toward [a landmark ahead], no body visible.'}
 ];
 const INTENTS=[
  {id:'establish',name:'Show where we are',why:'Before anything happens, the audience needs the place. A wide frame and a slow pan let them take in the world first.',job:'geography and atmosphere: establish the location before the story starts',size:'EWS',lens:84,move:'pan',dur:6,ease:'io',amt:1},
@@ -553,6 +563,19 @@ function base(){if(S.base==null)S.base=distFor(sz(),ln());return S.base;}
 function actualSize(){const fh=2*base()*Math.tan(rad(vfov(S.lens))/2);let b=SIZES[0],bd=1e9;SIZES.forEach(s=>{const d=Math.abs(Math.log(s.h/fh));if(d<bd){bd=d;b=s;}});return S.mode==='pos'?b:sz();}
 const fm=d=>d<10?d.toFixed(1)+' m':Math.round(d)+' m';
 const selfFramed=id=>['fpv','pov','aerialOrbit','drone','overhead'].includes(id);
+/* zooms land on a lens step: zoom in = 1/2/3 steps tighter by Amount, crash zoom = 2 tighter, dolly zoom = 2/3/4 wider */
+const ZS=[107,84,75,63,47,29,18,12,8];
+function zEnd(k){const i=ZS.indexOf(S.lens),n=k==='crash'?2:k==='zoom'?[1,2,3][S.amt]:-[2,3,4][S.amt];return ZS[Math.max(0,Math.min(ZS.length-1,i+n))];}
+const zr=k=>Math.tan(rad(vfov(zEnd(k)))/2)/Math.tan(rad(vfov(S.lens))/2);
+/* timed devices keep a fixed length in seconds whatever the Duration slider says; a whip under 0.8 s tends to come back as a plain cut */
+const DEV={whip:.9,crash:.35},dW=id=>Math.min(.6,DEV[id]/S.dur);
+const DEVICES={crash:'A crash zoom',dollyZoom:'A dolly zoom',whip:'A whip pan',dutch:'A Dutch angle',roll:'A camera roll'};
+const MIN_CLIP=4; /* shortest clip Seedance generates, in seconds (checked November 2026) */
+const n1=x=>String(+x.toFixed(1)),n2=x=>String(+x.toFixed(2));
+function clipLen(){const id=S.move,tot=Math.max(MIN_CLIP,Math.ceil(S.dur+2));
+  if(DEV[id]){const b=dW(id)*S.dur,a=1+S.dur*(.5-dW(id)/2);return {tot,a,b,c:tot-a-b,word:id==='whip'?'whip':'crash zoom'};}
+  return {tot,a:1,b:S.dur,c:tot-1-S.dur,word:'move'};}
+function clipText(){const c=clipLen();return 'Clip length: about '+c.tot+' s ('+n1(c.a)+' s hold \u00b7 '+n2(c.b)+' s '+c.word+' \u00b7 '+n1(c.c)+' s hold). Seedance will not generate under '+MIN_CLIP+' s.';}
 
 /* ================= UI ================= */
 const panel=document.getElementById('panel'),stepsEl=document.getElementById('steps');
@@ -578,15 +601,16 @@ function timingBlock(m){
   if(m.id==='static')return '';
   const amtOk=AMT_MOVES.has(m.id);
   return '<div class="timing"><div class="th"><b>Timing</b><span class="kicker">Goes into your prompt</span></div>'+
-    '<div class="row"><div class="lab"><label for="dur">Duration</label><output id="durv">'+S.dur.toFixed(1)+' s</output></div><input type="range" id="dur" min="2" max="8" step="0.5" value="'+S.dur+'"></div>'+
+    '<div class="row"><div class="lab"><label for="dur">'+(DEV[m.id]?'Beat duration':'Move duration')+'</label><output id="durv">'+S.dur.toFixed(1)+' s</output></div><input type="range" id="dur" min="2" max="8" step="0.5" value="'+S.dur+'"><p class="note" id="clipv">'+clipText()+'</p></div>'+
     '<div class="row"><div class="lab">Speed curve</div><div class="eases" role="group" aria-label="Speed curve">'+Object.keys(EASES).map(k=>'<button type="button" data-ease="'+k+'" aria-pressed="'+(S.ease===k)+'">'+curveSvg(EASES[k].f)+EASES[k].n+'</button>').join('')+'</div></div>'+
     (amtOk?'<div class="row"><div class="lab">Amount</div><div class="amts" role="group" aria-label="Amount">'+AMTS.map((a,i)=>'<button type="button" data-amt="'+i+'" aria-pressed="'+(S.amt===i)+'">'+a.n+'</button>').join('')+'</div></div>':'')+
     '<p class="note">'+({io:'Gentle start and stop. The safe, cinematic default.',in:'Builds up. Good for tension that grows.',out:'Hits first, then settles. Good for reveals and impacts.',lin:'Constant speed. Feels mechanical, like a machine or security camera.'})[S.ease]+'</p></div>';
 }
 function timingLine(m){
   if(m.id==='static')return '';
-  const amtOk=AMT_MOVES.has(m.id);
-  return '\nMove timing: the camera move runs over about '+S.dur.toFixed(1)+' seconds and '+EASES[S.ease].p+(amtOk?', with a '+AMTS[S.amt].p+' amount of movement':'')+'.';
+  if(DEV[m.id]){const c=clipLen();return '\nTiming: hold for about '+n1(c.a)+' seconds, the '+c.word+' takes about '+n2(c.b)+' seconds, then the landing frame holds.';}
+  const amtOk=AMT_MOVES.has(m.id)&&m.id!=='zoom'&&m.id!=='dollyZoom';
+  return '\nMove timing: after a 1-second hold, the camera move runs over about '+S.dur.toFixed(1)+' seconds and '+EASES[S.ease].p+(amtOk?', with a '+AMTS[S.amt].p+' amount of movement':'')+', then the frame holds.';
 }
 function optList(items,cur,tagFn,key){
   let h='<div class="opts" role="radiogroup" aria-label="Options">';
@@ -601,7 +625,8 @@ function warnings(){
   const s=actualSize(),l=ln(),m=mv(),d=base(),w=[];
   if(selfFramed(m.id))return w;
   if(l.id>=84&&(s.id==='CU'||s.id==='ECU'))w.push('A '+l.id+'° lens at '+s.name.toLowerCase()+' puts the camera '+fm(d)+' from the face. Expect a stretched nose and a distorted face. Try 47° or 29°.');
-  if(d>25)w.push('The camera has to stand about '+fm(d)+' away. That only works outdoors or as a long-distance observation shot.');
+  if(w.length)w.fix=true;
+  if(d>25){w.push('The camera has to stand about '+fm(d)+' away. That only works outdoors or as a long-distance observation shot.');w.fix=true;}
   if((m.id==='handheld'||m.id==='whip')&&s.id==='ECU')w.push('Fast or shaky movement at extreme close-up makes the frame jump. Pull back to a close-up.');
   if(['tracking','leading','gimbal','handheld'].includes(m.id)&&(s.id==='ECU'||s.id==='CU'))w.push('Moving with a walking subject this tight easily loses the framing. Use medium to wide.');
   if(m.id==='lowArc'&&(s.id==='ECU'||s.id==='EWS'))w.push('A low-angle arc needs the body in frame. Use wide to medium.');
@@ -611,7 +636,21 @@ function warnings(){
   if(m.id==='crash'&&s.id==='ECU')w.push('Already at extreme close-up, a crash zoom has nowhere to go. Start wider.');
   if((m.id==='dollyZoom'||m.id==='rack')&&s.id==='EWS')w.push('This move needs a clear subject near the camera. At extreme wide the effect disappears.');
   if(m.id==='dutch'&&s.id==='EWS')w.push('A Dutch angle on a vast space can read as a mistake. It works best when a character is clearly in frame.');
+  const it=intentObj();
+  if(it&&FACE_MOMENTS.includes(it.id)&&s.id==='EWS')w.push('This moment is read on the face, and at extreme wide the face is too small to act. Move in to a medium close-up, or tell it with the whole body.');
+  if(it&&it.id==='walk'&&['whip','crash','roll'].includes(m.id))w.push('A spoken line under a '+m.name.toLowerCase()+' is hard to follow. While someone talks, keep one calm, motivated move.');
+  if(m.id==='dollyZoom'&&l.id>=84)w.push('A dolly zoom needs room to widen. Start it from 47° or longer.');
+  const hit=blockedBy();
+  if(hit){w.push('The camera path runs through '+hit+'.');w.fix=true;}
   return w;
+}
+const FACE_MOMENTS=['realize','shock','walk'];
+function notes(){
+  const s=actualSize(),m=mv(),n=[],it=intentObj();
+  if(selfFramed(m.id))return n;
+  if(DEVICES[m.id])n.push(DEVICES[m.id]+' is a device, not everyday coverage. Use it once, on purpose, when something in the story calls for it.');
+  if(it&&FACE_MOMENTS.includes(it.id)&&s.id==='WS')n.push('This moment is read on the face. At wide the face is small, so let the body carry it, or move in.');
+  return n;
 }
 function promptText(){return (S.intent?'Shot job: '+intentObj().job+'.\n':'')+promptBody();}
 function promptBody(){
@@ -619,7 +658,7 @@ function promptBody(){
   if(m.id==='fpv')return 'Wide FPV look, about 100° diagonal field of view.\n'+m.p+timingLine(m);
   if(['aerialOrbit','drone','overhead'].includes(m.id))return 'Wide aerial look, about 84\u00b0 diagonal field of view.\n'+m.p+timingLine(m);
   if(m.id==='pov')return 'Point-of-view framing at eye level, about 1.3 m above the ground, '+Math.max(63,l.id)+'° diagonal field of view.\n'+m.p+timingLine(m);
-  const lensLine=['zoom','crash','dollyZoom'].includes(m.id)?'Starts at '+l.id+'° diagonal field of view, '+l.p+'.':l.id+'° diagonal field of view, '+l.p+'. Lens locked for the whole shot.';
+  const lensLine=['zoom','crash','dollyZoom'].includes(m.id)?'Starts at '+l.id+'° diagonal field of view, '+l.p+'; '+(m.id==='zoom'?'the zoom ends at ':m.id==='crash'?'the crash zoom lands at ':'the field of view widens to ')+zEnd(m.id)+'°.':l.id+'° diagonal field of view, '+l.p+'. Lens locked for the whole shot.';
   return s.p+'\n'+lensLine+'\nCamera about '+fm(d)+' from the subject, '+(m.id==='lowArc'?'low, about 0.3 m above the ground, looking up':m.id==='crane'?'starting at eye level, roughly '+s.camY.toFixed(1)+' m above the ground':'at eye level, roughly '+s.camY.toFixed(1)+' m above the ground')+'.\n'+m.p+timingLine(m);
 }
 const STEP_COLORS={intro:'#F2FFA0',intent:'#FF55BB',size:'#2BD1B0',lens:'#6EE8FF',move:'#0096E8',out:'#FFB8B0'};
@@ -634,7 +673,7 @@ function draw(){
   if(st.key==='intro'){
     h='<div class="in"><span class="kicker">Fungii Lab · Lesson 01</span><p class="lead">Call the shot before you write the prompt.</p>'+
       '<p class="intro">AI video models follow camera language better than adjectives. Start from what the moment means, then learn the three decisions behind every shot.</p>'+
-      '<ol class="path">'+STEPS.slice(1,5).map((s2,i)=>'<li><span class="n" style="background:'+STEP_COLORS[s2.key]+'">'+(i+1)+'</span><div><b>'+s2.t+'</b><span>'+['What the moment is about. 11 story moments.','How much of the character we see. 6 sizes.','How the space around them feels. 6 lenses.','What the camera does, and why. 27 moves.'][i]+'</span></div></li>').join('')+'</ol></div>'+
+      '<ol class="path">'+STEPS.slice(1,5).map((s2,i)=>'<li><span class="n" style="background:'+STEP_COLORS[s2.key]+'">'+(i+1)+'</span><div><b>'+s2.t+'</b><span>'+['What the moment is about. 11 story moments.','How much of the character we see. 6 sizes.','How the space around them feels. 7 lenses.','What the camera does, and why. 27 moves.'][i]+'</span></div></li>').join('')+'</ol></div>'+
       '<div class="nav"><span></span><button class="btn go" type="button" id="next">Start with the moment</button></div>';
     x='<div class="card"><span class="kicker">How it works</span><ol class="howto">'+
       '<li><b>Read on the left.</b> Each step asks one question and explains the options.</li>'+
@@ -666,17 +705,17 @@ function draw(){
     h='<div class="in"><span class="kicker">Step 4 of 4 · Movement</span><h2>'+st.q+'</h2><p class="intro">'+st.intro+'</p>'+
       '<div class="tabs" role="tablist">'+GROUPS.map(q=>'<button type="button" role="tab" class="tab" data-g="'+q.id+'" aria-selected="'+(q.id===S.group)+'"><b>'+q.q+'</b><span>'+q.sub+' · '+MOVES.filter(z=>z.g===q.id).length+'</span></button>').join('')+'</div>'+
       '<p class="ginfo">'+g.info+'</p>'+tileList(MOVES.filter(q=>q.g===S.group),S.move)+'</div>'+nav('Back','See my prompt');
-    x=detail(m,m.name,'Movement')+timingBlock(m)+tipCard();
+    x=detail(m,m.name,DEVICES[m.id]?'Movement \u00b7 device':'Movement')+timingBlock(m)+tipCard();
   }else{
-    const w=warnings(),s=actualSize(),l=ln(),m=mv(),sf=selfFramed(m.id);
+    const w=warnings(),nt=notes(),s=actualSize(),l=ln(),m=mv(),sf=selfFramed(m.id);
     const row=(k,v,step)=>'<div><span><span class="k">'+k+'</span><br><span class="val">'+v+'</span></span><button class="btn sm" data-goto="'+IX(step)+'" type="button">Change</button></div>';
     h='<div class="in"><span class="kicker">Your shot</span><h2>'+st.q+'</h2><p class="intro">Every choice can still change. Press Change to go back to that step.</p>'+
       '<div class="sum">'+(S.intent?row('Intent',intentObj().name,'intent'):'')+row('Shot size',sf?'Set by the move':s.name,'size')+
       row('Lens',sf?'Set by the move':l.id+'° '+l.name+' · ~'+l.mm+'mm','lens')+row('Movement',m.name,'move')+
       (m.id==='static'?'':row('Timing',S.dur.toFixed(1)+' s · '+EASES[S.ease].n+(AMT_MOVES.has(m.id)?' · '+AMTS[S.amt].n:''),'move'))+'</div></div>'+
       '<div class="nav"><button class="btn ghost" type="button" id="prev">Back</button><button class="btn" type="button" id="again">Start a new shot</button></div>';
-    x='<div class="check '+(w.length?'bad':'ok')+'"><b>'+(w.length?'Feasibility: '+w.length+' conflict'+(w.length>1?'s':''):'Feasibility: these choices work together')+'</b>'+(w.length?'<ul>'+w.map(q=>'<li>'+q+'</li>').join('')+'</ul>':'')+'</div>'+
-      '<div class="pcol"><div class="prompt"><div class="h"><span>Camera block · Seedance</span><button class="btn sm" type="button" id="copy">Copy</button></div><pre id="ptext"></pre></div>'+
+    x='<div class="check '+(w.length?'bad':'ok')+'"><b>'+(w.length?'Feasibility: '+w.length+' conflict'+(w.length>1?'s':''):'Feasibility: these choices work together')+'</b>'+(w.length?'<ul>'+w.map(q=>'<li>'+q+'</li>').join('')+'</ul>'+(w.fix?'<span class="cfix">Fix it in this order: camera distance, then lens, then height or angle. If none of them works, it is two shots.</span>':''):'')+(nt.length?'<b class="cnh">Worth a thought</b><ul>'+nt.map(q=>'<li>'+q+'</li>').join('')+'</ul>':'')+'</div>'+
+      '<div class="pcol"><div class="prompt"><div class="h"><span>Camera block · Seedance</span><button class="btn sm" type="button" id="copy">Copy</button></div><pre id="ptext"></pre></div>'+(promptText().includes('[')?'<p class="hint">Swap the words in [brackets] for something from your own scene.</p>':'')+
       '<div class="tipjar" id="tipjar"><p>Did this help?<small>Shot Lab is free. A small tip keeps it free and growing.</small></p><a href="'+KOFI+'" target="_blank" rel="noopener">Buy Fungii a coffee <span class="cup" aria-hidden="true">\u2615</span></a></div>'+
       '<div class="tipjar idea"><p>Got an idea to make it better?<small>A move we should add, a step that confused you, anything. We read every one.</small></p><a href="'+FEEDBACK+'" data-idea>Share an idea \u2709</a></div></div>';
   }
@@ -692,7 +731,7 @@ function draw(){
     restart();draw();panel.scrollTop=keep;const nb=panel.querySelector('.opt[data-v="'+v+'"]');if(nb)nb.focus({preventScroll:true});
   });
   const dr=document.getElementById('dur');
-  if(dr)dr.oninput=()=>{S.dur=+dr.value;document.getElementById('durv').textContent=S.dur.toFixed(1)+' s';restart();};
+  if(dr)dr.oninput=()=>{S.dur=+dr.value;document.getElementById('durv').textContent=S.dur.toFixed(1)+' s';document.getElementById('clipv').textContent=clipText();restart();};
   const redraw=()=>{const keep=panel.scrollTop;draw();panel.scrollTop=keep;};
   Q('[data-ease]').forEach(b=>b.onclick=()=>{S.ease=b.dataset.ease;restart();redraw();});
   Q('[data-amt]').forEach(b=>b.onclick=()=>{S.amt=+b.dataset.amt;restart();redraw();});
@@ -720,7 +759,10 @@ function hud(){
   const s=actualSize(),l=ln(),m=mv(),sf=plays()&&selfFramed(m.id);
   const parts=sf?['<span class="rec"><i></i>'+m.name+'</span>']:['<span class="rec"><i></i>'+s.tag+'</span>','<span>'+l.id+'° · ~'+l.mm+'mm</span>','<span>'+fm(base())+'</span>'];
   if(plays()&&!sf)parts.push('<span>'+m.name+'</span>');
+  const nw=S.step<IX('out')?warnings().length:0;
+  if(nw)parts.splice(1,0,'<button type="button" class="wc" id="wc" title="See what clashes">'+nw+' conflict'+(nw>1?'s':'')+'</button>');
   H.innerHTML=parts.join('');
+  const wc=document.getElementById('wc');if(wc)wc.onclick=()=>go(IX('out'));
 }
 document.getElementById('treplay').onclick=()=>restart();
 let t0=performance.now();function restart(){t0=performance.now();}
@@ -910,12 +952,12 @@ function pose(id,p,e,el,d,v0,cy,ly){
   switch(id){
     case 'pan':o.yaw=-rad(38)*e;break;
     case 'tilt':o.pitch=-rad(40)*(1-e);break;
-    case 'whip':{const k=clamp((p-.45)/.09);o.yaw=-rad(80)*easeIO(k);o.aft=(k>0&&k<1)?.9:0;break;}
+    case 'whip':{const w=dW('whip'),k=clamp((p-.5+w/2)/w);o.yaw=-rad(80)*easeIO(k);o.aft=(k>0&&k<1)?.9:0;break;}
     case 'dutch':o.roll=rad(16)*e;break;
-    case 'zoom':o.fov=v0*(1-.55*e);break;
-    case 'crash':{const k=clamp((p-.5)/.07);o.fov=v0*(1-.62*(1-Math.pow(1-k,3)));break;}
+    case 'zoom':o.fov=deg(2*Math.atan(Math.tan(rad(v0)/2)*(1+(zr('zoom')-1)*clamp(e/AMTS[S.amt].v))));break;
+    case 'crash':{const w=dW('crash'),k=clamp((p-.5+w/2)/w);o.fov=deg(2*Math.atan(Math.tan(rad(v0)/2)*(1+(zr('crash')-1)*(1-Math.pow(1-k,3)))));break;}
     case 'rack':o.rack=e;break;
-    case 'dollyZoom':{const dz=d*.55*e,nd=d-dz;o.c[2]=FZ+nd;o.fov=deg(2*Math.atan(Math.tan(rad(v0)/2)*d/nd));break;}
+    case 'dollyZoom':{const r=1+(zr('dollyZoom')-1)*clamp(e/AMTS[S.amt].v),nd=d/r;o.c[2]=FZ+nd;o.fov=deg(2*Math.atan(Math.tan(rad(v0)/2)*r));break;}
     case 'dollyIn':o.c[2]=FZ+d*(1-.45*e);break;
     case 'dollyOut':o.c[2]=FZ+d*(1+.9*e);break;
     case 'truck':{const A=Math.max(1.2,d*.3),x=-A+2*A*e;o.c[0]=x;o.l[0]=x;break;}
@@ -962,7 +1004,7 @@ function frame(now){
    let gp=H.girl,dp=H.dog,cpos=H.cat,dogWalk=false,wave=0,happy=0;
    const land=(dg,dist)=>{const th=rad(dg),x=cb[0]-Math.sin(th)*dist,z=cb[1]-Math.cos(th)*dist;return [x,z,Math.atan2(cb[0]-x,cb[1]-z),0];};
    if(id==='pan'){dp=land(-38*aV,Math.max(2,live.d*.6));happy=e0;}
-   if(id==='whip'){gp=land(-80,Math.max(2.2,live.d*.6));wave=clamp((p-.5)/.15);}
+   if(id==='whip'){gp=land(-80,Math.max(2.2,live.d*.6));wave=clamp((p-.5-dW('whip')/2)/.15);}
    if(['tracking','leading','gimbal','handheld'].includes(id)){const hr=o.hr;dp=[o.h[0]+.75*Math.cos(hr)+.1*Math.sin(hr),o.h[1]-.75*Math.sin(hr)+.1*Math.cos(hr),hr,0];dogWalk=o.walk;}
    girl.position.set(gp[0],gp[3],gp[1]);girl.rotation.y=gp[2];
    dog.position.set(dp[0],dp[3]+(dogWalk?Math.abs(Math.sin(wt*1.3))*.03:0),dp[1]);dog.rotation.y=dp[2];
@@ -1006,7 +1048,7 @@ function frame(now){
 /* ---------- set map: a 2D floor plan drawn from the real scene layout and the real move math ---------- */
 const cvm=document.getElementById('cvmap'),distEl=document.getElementById('dist');
 const PLAN={
-  blds:[[-9,-16,8,6],[1,-18,9,6],[11,-15,7,6],[-17,-28,10,8],[-4,-32,10,8],[10,-30,10,8],[22,-26,8,8],[-14,-6,5,10],[14,-6,5,10]],
+  blds:[[-9,-16,8,6,12],[1,-18,9,6,16],[11,-15,7,6,10],[-17,-28,10,8,22],[-4,-32,10,8,28],[10,-30,10,8,20],[22,-26,8,8,16],[-14,-6,5,10,8],[14,-6,5,10,9]],
   walls:[[-7.5,-3,.45,14],[7.5,-3,.45,14]],
   planters:[[-4.2,-1,1.6,9],[4.2,-1,1.6,9]],
   trees:[[-4.2,-4],[-4.2,-1],[-4.2,2],[4.2,-4],[4.2,-1],[4.2,2]],
@@ -1015,19 +1057,33 @@ const PLAN={
   tower:[-6.5,-11,1.2],
   car:[5.95,-.6,1.5,3.1]
 };
+/* what a camera at (x, height y, z) would be standing inside, or null */
+function hitAt(x,y,z){const P=PLAN,m=.15,inR=(r,w,d)=>Math.abs(x-r[0])<=w/2+m&&Math.abs(z-r[1])<=d/2+m;
+  for(const b of P.blds)if(y<b[4]&&inR(b,b[2],b[3]))return 'a building';
+  if(y<9&&Math.hypot(x-P.tower[0],z-P.tower[1])<=P.tower[2]+m)return 'the tower';
+  for(const b of P.pillars)if(y<4.2&&inR(b,b[2],b[3]))return 'the arch';
+  for(const b of P.planters)if(y<3&&inR(b,b[2],b[3]))return 'a planter and its trees';
+  if(y<1.5&&inR(P.car,P.car[2],P.car[3]))return 'the parked car';
+  for(const b of P.walls)if(y<1.1&&inR(b,b[2],b[3]))return 'the low wall';
+  return null;}
+function blockedBy(){
+  if(!window.THREE||selfFramed(S.move))return null;
+  const d=base(),v=vfov(S.lens),y=sz().camY,ly=sz().look;
+  for(let i=0;i<=48;i++){const p=i/48,e0=EASES[S.ease].f(p),e=AMT_MOVES.has(S.move)?e0*AMTS[S.amt].v:e0,c=pose(S.move,p,e,p*4,d,v,y,ly).c,h=hitAt(c[0],c[1],c[2]);if(h)return h;}
+  return null;}
 let plan={key:null},view=null,mapTick=0;
 function planKey(id,T){return [S.step===0?'intro':id,T.d.toFixed(2),T.v.toFixed(1),T.y.toFixed(2),S.amt,S.ease].join('|');}
 function makePlan(key,id,T){
-  const cams=[],heros=[];let maxH=0;
+  const cams=[],heros=[],blk=[];let maxH=0;
   for(let i=0;i<=48;i++){const p=i/48;let c,h;
     if(S.step===0){const a=Math.sin(p*Math.PI*2)*.55;c=[Math.sin(a)*T.d,T.y,FZ+Math.cos(a)*T.d];h=[0,0];}
     else{const e0=EASES[S.ease].f(p),e=AMT_MOVES.has(id)?e0*AMTS[S.amt].v:e0;const o=pose(id,p,e,p*4,T.d,T.v,T.y,T.ly);c=o.c;h=o.h;}
-    cams.push([c[0],c[2]]);heros.push(h);maxH=Math.max(maxH,c[1]);}
+    cams.push([c[0],c[2]]);heros.push(h);maxH=Math.max(maxH,c[1]);blk.push(S.step===0||selfFramed(id)?null:hitAt(c[0],c[1],c[2]));}
   let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9;
   cams.concat(heros).forEach(q=>{x0=Math.min(x0,q[0]);x1=Math.max(x1,q[0]);z0=Math.min(z0,q[1]);z1=Math.max(z1,q[1]);});
   x0=Math.min(x0,-2.5);x1=Math.max(x1,2.5);z0=Math.min(z0,-3);z1=Math.max(z1,2);
   const heroMoves=heros.some(q=>Math.abs(q[0]-heros[0][0])+Math.abs(q[1]-heros[0][1])>.05);
-  return {key,cams,heros,heroMoves,maxH:Math.max(3,maxH*1.15),cx:(x0+x1)/2,cz:(z0+z1)/2,w:(x1-x0)+3,h:(z1-z0)+3};
+  return {key,cams,heros,blk,heroMoves,maxH:Math.max(3,maxH*1.15),cx:(x0+x1)/2,cz:(z0+z1)/2,w:(x1-x0)+3,h:(z1-z0)+3};
 }
 function drawSetMap(o,id,subjD,T){
   const W=cvm.clientWidth,H=cvm.clientHeight;if(!W||!H)return;
@@ -1063,6 +1119,7 @@ function drawSetMap(o,id,subjD,T){
   const poly=(pts,col,w,dash)=>{g.strokeStyle=col;g.lineWidth=w;g.setLineDash(dash);g.beginPath();pts.forEach((q,i)=>i?g.lineTo(X(q[0]),Y(q[1])):g.moveTo(X(q[0]),Y(q[1])));g.stroke();g.setLineDash([]);};
   if(plan.heroMoves)poly(plan.heros,'rgba(255,31,142,.55)',2,[4,4]);
   poly(plan.cams,'#6E6A64',1.6,[5,4]);
+  if(plan.blk.some(Boolean)){g.strokeStyle='#FF4F33';g.lineWidth=3.5;g.beginPath();plan.blk.forEach((b,i)=>{if(b&&i){g.moveTo(X(plan.cams[i-1][0]),Y(plan.cams[i-1][1]));g.lineTo(X(plan.cams[i][0]),Y(plan.cams[i][1]));}});g.stroke();}
   // what the camera sees
   cam.getWorldDirection(tmp);const cx=X(cam.position.x),cz=Y(cam.position.z),hl=Math.hypot(tmp.x,tmp.z);
   const half=rad(hfov(cam.fov))/2;
@@ -1143,8 +1200,12 @@ function drawMini(m,now){
   g.save();g.translate(cx,cyy);g.rotate(ang);g.fillStyle='#111';g.fillRect(-9,-6,12,12);g.fillStyle='#FF1F8E';g.fillRect(3,-4,5,8);g.restore();
   if(id==='reveal'&&o.occ){g.fillStyle='#3A3D40';const ox=X(o.occ[0]),oz=Y(o.occ[2]),r=o.occ[3]*sc/2;g.fillRect(ox-r,oz-r,2*r,2*r);}
 }
+const fpsEl=/[?&]fps=1/.test(location.search)?document.createElement('span'):null;let fN=0,fT=0,fW=0,fL=0;
+if(fpsEl){fpsEl.style.cssText='position:absolute;left:8px;top:8px;z-index:5;font:12px/1 "Share Tech Mono",monospace;background:#111;color:#F2FFA0;padding:6px 8px';fpsEl.textContent='measuring\u2026';document.getElementById('stage').appendChild(fpsEl);}
 const _frame=frame;
-frame=function(now){_frame(now);minis.forEach(m=>drawMini(m,now));};
+frame=function(now){_frame(now);minis.forEach(m=>drawMini(m,now));
+  if(fpsEl){if(fL)fW=Math.max(fW,now-fL);fL=now;fN++;if(!fT)fT=now;
+    if(now-fT>=1000){fpsEl.textContent=Math.round(fN*1000/(now-fT))+' fps \u00b7 slowest frame '+Math.round(fW)+' ms';fN=0;fT=now;fW=0;}}};
 draw();requestAnimationFrame(frame);
 })();
 </script>
