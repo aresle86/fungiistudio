@@ -235,6 +235,7 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .cov td{text-align:right;padding:4px 3px;border-top:1px solid var(--line)}
 .cov td.x{color:#B3361F}
 .cov td.far{color:var(--ink3)}
+.cov button[data-rl][aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--ink)}
 .cov button{font:inherit;border:1.5px solid var(--line);background:transparent;padding:5px 6px;cursor:pointer;width:100%;text-align:left;white-space:nowrap}
 .cov tr.kin button{border-color:var(--ink);background:var(--acc)}
 .minirow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -926,6 +927,8 @@ const LX={
  4:[{key:'intro',t:'Start',cap:'The same hero at a medium shot. The lens decides how the place behind them feels.'},
   {key:'kit',t:'Lens kit',q:'Which three or four lenses carry this film?',cap:'The hero at a medium shot through the lens you clicked last.',
    intro:'Tick three or four. The table shows how far the camera has to stand for each shot size on this set. A good kit reaches every size you need from a distance the place allows.'},
+  {key:'room',t:'Your room',q:'Will they fit in your room?',cap:'One hero, head to toe, through the lens you clicked last. Your own room is drawn beside the table.',
+   intro:'The table before this one was for one person on an open set. Now put in your own numbers: how many people, how tall, how big the room. A lens only works if the camera can get far enough back.'},
   {key:'near',t:'Near and far',q:'Who looks big?',cap:'The friend stands 4 m behind the hero. Watch her size change while his stays the same.',
    intro:'Same two people, same spots, same size for the hero. Only the lens changes, and the camera moves to keep the hero’s framing.'},
   {key:'size',t:'Unusual size',q:'What if the size is unusual?',cap:'Two friends side by side on one ground line.',
@@ -940,7 +943,7 @@ const JOINS={scene:['New scene','A different place or time. A fresh generation.'
  continuous:['One take','Extends the clip before, with no cut.','the next clip extends this one; generate this one at final resolution first.']};
 const DEPJ=j=>j==='match'||j==='continuous';
 const S3={cut:[true,true,true],mul:1,cap:15,len:4,acts:['walks in','stops'],join:['cut','match'],draft:true};
-const S4={pick:[84,47,29],last:47,lens:47,giant:false};
+const S4={pick:[84,47,29],last:47,lens:47,giant:false,room:{n:3,kid:[false,false,false,false,false],place:'bed',size:'full'}};
 let LMAP=null,MAPT=null,hudL=null,lastShot=-1,l2thumb=0;
 const lkey=()=>S.lesson===1?'':LX[S.lesson][S.ls].key;
 const lessonsEl=document.getElementById('lessons');
@@ -1092,25 +1095,70 @@ const l4text=()=>'@size_sketch — pencil height comparison of [character A] and
 function l4ui(st,k){let h='',x='';
   if(k==='intro'){
     h=lintro('04','Pick your lenses once, for the whole film.','Lesson 01 chose a lens for one shot. A film holds together when a few lenses do all the work, and when the size of things on screen is decided, not left to the model.',
-      [['Lens kit','Three or four lenses for every shot.'],['Near and far','How a lens changes who looks big.'],['Unusual size','Keeping a giant a giant.']],'Start with the kit');
+      [['Lens kit','Three or four lenses for every shot.'],['Your room','Which lenses the walls allow.'],['Near and far','How a lens changes who looks big.'],['Unusual size','Keeping a giant a giant.']],'Start with the kit');
     x=lcard('Why a kit','Each lens draws space its own way. Change lens on every shot and the film looks like several films cut together.');
   }else if(k==='kit'){const pk=S4.pick,n=pk.length,on=S.kit&&S.kit.length===n&&pk.every(q=>S.kit.includes(q));
-    h=lhead(st,1,3)+'<table class="cov"><tr><th></th>'+SIZES.map(z=>'<th>'+z.tag+'</th>').join('')+'</tr>'+
+    h=lhead(st,1,4)+'<table class="cov"><tr><th></th>'+SIZES.map(z=>'<th>'+z.tag+'</th>').join('')+'</tr>'+
       LENSES.map(l=>'<tr'+(pk.includes(l.id)?' class="kin"':'')+'><td><button type="button" data-kit="'+l.id+'" aria-pressed="'+pk.includes(l.id)+'">~'+l.mm+'mm · '+l.id+'°</button></td>'+SIZES.map(z=>{const d=distFor(z,l);return '<td'+(d<.5?' class="x"':d>25?' class="far"':'')+'>'+(d<10?d.toFixed(1):Math.round(d))+'</td>';}).join('')+'</tr>').join('')+
-      '</table><p class="hint" style="margin:0;font-size:13px;color:var(--ink2)">Camera distance in metres for each shot size. Red is closer than half a metre. Grey is further than 25 m.</p></div>'+nav('Back','Next: near and far');
+      '</table><p class="hint" style="margin:0;font-size:13px;color:var(--ink2)">Camera distance in metres for each shot size. Red is closer than half a metre. Grey is further than 25 m.</p></div>'+nav('Back','Next: your room');
     x='<div class="card"><span class="kicker">Your kit · '+n+' lens'+(n===1?'':'es')+'</span><p class="rowline">'+l4kit()+'</p><div class="minirow"><button class="btn sm" type="button" id="kitcopy">Copy kit</button><button class="btn sm" type="button" id="kituse"'+(n<2||on?' disabled':'')+'>'+(on?'Kit is on in Lesson 01':'Use this kit in Lesson 01')+'</button>'+(S.kit?'<button class="btn sm" type="button" id="kitoff">Turn the kit off</button>':'')+'</div></div>'+
       lverd(n>=3&&n<=4,n<3?'Pick at least three: something wide, something normal, something long.':n>4?'More than four and the film starts to look like several films. Drop one.':'A kit of '+n+'. Every shot in the film picks from these.')+
       lcard('Distance first, then lens','When a frame does not fit, move the camera first. Switch lens second, and only to another lens in the kit.');
+  }else if(k==='room'){hit('l4_room');const r=S4.room,m=l4room(),open=!m.P[1],kit=S4.pick.slice().sort((a,b)=>b-a),fits=id=>m.wide&&m.need({id})<=m.free,ok=kit.filter(fits),no=kit.filter(id=>!fits(id)),nm=id=>'~'+LENSES.find(z=>z.id===id).mm+'mm',
+      L=LENSES.find(z=>z.id===S4.last)||LENSES[1],dn=m.need(L),fit=fits(L.id);
+    h=lhead(st,2,4)+'<span class="kicker">People in the frame</span><div class="lrow">'+[1,2,3,4,5].map(v=>lbtn('rn',v,r.n===v,v)).join('')+'</div>'+
+      '<span class="kicker">Tap one to switch adult and child</span><div class="lrow">'+m.hs.map((q,i)=>lbtn('rk',i,r.kid[i],'ABCDE'[i]+' · '+(r.kid[i]?'Child 1.2 m':'Adult 1.7 m'))).join('')+'</div>'+
+      '<span class="kicker">The room</span><div class="lrow">'+Object.keys(ROOMS).map(q=>lbtn('rp',q,r.place===q,ROOMS[q][0]+(ROOMS[q][1]?' · '+ROOMS[q][1]+' × '+ROOMS[q][2]+' m':''))).join('')+'</div>'+
+      '<span class="kicker">The framing</span><div class="lrow">'+lbtn('rs','full',r.size==='full','Head to toe')+lbtn('rs','waist',r.size==='waist','Waist up')+'</div>'+
+      '<table class="cov"><tr><th></th><th>NEEDS</th><th>ROOM GIVES</th><th></th></tr>'+LENSES.map(l=>{const d=m.need(l),f=fits(l.id);return '<tr'+(S4.pick.includes(l.id)?' class="kin"':'')+'><td><button type="button" data-rl="'+l.id+'" aria-pressed="'+(L.id===l.id)+'">~'+l.mm+'mm · '+l.id+'°</button></td><td>'+fm(d)+'</td><td>'+(open?'open':fm(m.free))+'</td><td'+(f?'':' class="x"')+'>'+(f?'fits':!m.wide?'too narrow':fm(d-m.free)+' short')+'</td></tr>';}).join('')+
+      '</table><p class="hint">How far back the camera has to stand to hold everyone, against how far back the room lets it go. Filled rows are your kit. Click a lens to see its frame.</p></div>'+nav('Back','Next: near and far');
+    const vd=!kit.length?[false,'Pick a kit in the step before, then come back.']:open?[true,'No walls, so every lens in the kit fits. Pick a room to see what walls do.']:!m.wide?[false,'They do not fit across this room in a row. Fewer people, or a bigger room.']:!ok.length?[false,'No lens in your kit holds this frame in this room. Add a wider lens to the kit, frame tighter, or put fewer people in the shot.']:[true,'In this room your kit holds this frame with '+ok.map(nm).join(', ')+'.'+(no.length?' '+no.map(nm).join(', ')+' cannot get far enough back.':'')];
+    if(!vd[0]&&kit.length)hit('l4_nofit');
+    x='<div class="card"><span class="kicker">Your room from above</span><canvas id="rm" style="width:100%;aspect-ratio:4/3;display:block;background:#FBFAF6;border:1px solid var(--line)"></canvas><span class="kicker">The frame · ~'+L.mm+'mm · '+L.id+'°</span><canvas id="rf" style="width:100%;aspect-ratio:16/9;display:block;background:#FBFAF6;border:1px solid var(--line)"></canvas><p class="meter">'+
+      (fit?(open?'Fits. Nothing stops the camera here.':'Fits with '+fm(m.free-dn)+' to spare.'):!m.wide?'Does not fit. '+r.n+' people side by side need '+fm(m.W+.4)+' across. The room is '+fm(m.P[1])+' wide.':'Does not fit. This lens needs '+fm(dn)+'. The room gives you '+fm(m.free)+'.')+'</p></div>'+
+      lverd(vd[0],vd[1])+
+      lcard('The room picks the lens','Outdoors you can always step back. In a room the wall decides. Take the widest frame the story needs, in the tightest room it happens in, and make sure one lens in the kit can hold it.')+
+      lcard('How this is worked out','Everyone stands in a row, 0.5 m off the far wall. The camera keeps 0.3 m off the wall behind it and looks down the long side of the room.');
   }else if(k==='near'){const l=LENSES.find(z=>z.id===S4.lens),d=distFor(SIZES[2],l),pct=Math.round(95*d/(d+4));
-    h=lhead(st,2,3)+optList(LENSES,S4.lens,q=>'~'+q.mm+'mm · '+q.id+'°','l4lens')+'</div>'+nav('Back','Next: unusual size');
+    h=lhead(st,3,4)+optList(LENSES,S4.lens,q=>'~'+q.mm+'mm · '+q.id+'°','l4lens')+'</div>'+nav('Back','Next: unusual size');
     x='<div class="card"><span class="kicker">In frame</span><p class="meter">The friend reads at '+pct+'% of the hero’s height.</p><p>The friend stands 4 m behind the hero. The camera is '+fm(d)+' from the hero to keep a medium shot.</p></div>'+
       lcard('Size on screen is a camera decision','A wide lens makes whoever is near tower over whoever is far. A long lens brings them close to equal. If a model hands you the wrong sizes, check the lens and the distance before you rewrite the people.');
   }else{const g=S4.giant;
-    h=lhead(st,3,3)+'<div class="lrow">'+lbtn('giant','0',!g,'Same height')+lbtn('giant','1',g,'Make the friend a giant')+'</div></div><div class="nav"><button class="btn ghost" type="button" id="prev">Back</button><span></span></div>';
+    h=lhead(st,4,4)+'<div class="lrow">'+lbtn('giant','0',!g,'Same height')+lbtn('giant','1',g,'Make the friend a giant')+'</div></div><div class="nav"><button class="btn ghost" type="button" id="prev">Back</button><span></span></div>';
     x='<div class="card"><span class="kicker">What held in our tests</span><canvas id="sk" style="width:100%;aspect-ratio:16/9;display:block;background:#FBFAF6;border:1px solid var(--line)"></canvas><p>A plain pencil sketch of exactly these two, full height, on one ground line. No colour, no labels. Attach it as a reference in every clip where both appear. Written ratios slipped, and so did colour charts. This comes from one film of ours, so treat it as a first thing to try.</p></div>'+
       '<div class="pcol">'+lprompt('Size lock · Seedance','sp')+'<p class="hint">Swap the words in [brackets] for your own characters, the ratio, and the mark on the body that fits them.</p></div>';
   }
   return [h,x];}
+const ROOMS={bed:['Bedroom',3,4],living:['Living room',4,5.5],cafe:['Café corner',6,8],open:['Open ground',0,0]};
+/* the room step: who is in the frame, how big the room is, and how far back each lens has to stand */
+function l4room(){const r=S4.room,P=ROOMS[r.place],hs=r.kid.slice(0,r.n).map(q=>q?1.2:1.7),hi=Math.max(...hs),lo=Math.min(...hs),
+    W=.6*(r.n-1)+.5,y0=r.size==='full'?-.05*hi:.55*lo,y1=hi*1.07,free=P[1]?P[2]-.8:Infinity,wide=!P[1]||W<=P[1]-.4,
+    need=l=>{const t=Math.tan(rad(vfov(l.id))/2);return Math.max((y1-y0)/2/t,W*1.1/2/(t*16/9));};
+  return {P,hs,W,y0,y1,free,wide,need};}
+function l4roomDraw(){const a=document.getElementById('rm'),b=document.getElementById('rf');if(!a||!b)return;
+  const r=S4.room,m=l4room(),L=LENSES.find(z=>z.id===S4.last)||LENSES[1],dn=m.need(L),open=!m.P[1],fit=m.wide&&dn<=m.free,dc=open?dn:Math.min(dn,m.free),
+    t=Math.tan(rad(vfov(L.id))/2),pd=Math.min(2,devicePixelRatio||1),INK='#161616',RED='#C4161C',xs=m.hs.map((q,i)=>(i-(r.n-1)/2)*.6);
+  const prep=(c,ar)=>{const w=c.clientWidth||300,h=w/ar;c.width=Math.round(w*pd);c.height=Math.round(h*pd);const g=c.getContext('2d');g.setTransform(pd,0,0,pd,0,0);g.fillStyle='#FBFAF6';g.fillRect(0,0,w,h);g.lineJoin='round';return [g,w,h];};
+  {const [g,w,h]=prep(a,4/3),zm=Math.max(m.P[2]||0,.5+dn+.7),xw=Math.max(m.P[1]||0,m.W+1.4),sc=Math.min((w-28)/xw,(h-28)/zm),X=x=>w/2+x*sc,Z=z=>14+z*sc;
+    g.strokeStyle='#E4E1D8';g.lineWidth=1;g.beginPath();for(let i=Math.ceil(-xw/2);i<=xw/2;i++){g.moveTo(X(i),Z(0));g.lineTo(X(i),Z(zm));}for(let i=0;i<=zm;i++){g.moveTo(X(-xw/2),Z(i));g.lineTo(X(xw/2),Z(i));}g.stroke();
+    if(!open){g.strokeStyle=INK;g.lineWidth=2.5;g.strokeRect(X(-m.P[1]/2),Z(0),m.P[1]*sc,m.P[2]*sc);}
+    const cone=(z,col,dash)=>{const hw=(z-.5)*t*16/9,k=z/(z-.5||1);g.strokeStyle=col;g.lineWidth=1.3;g.setLineDash(dash?[4,4]:[]);g.beginPath();g.moveTo(X(-hw*k),Z(0));g.lineTo(X(0),Z(z));g.lineTo(X(hw*k),Z(0));g.stroke();g.setLineDash([]);
+      g.fillStyle=col;g.beginPath();g.moveTo(X(0),Z(z)-7);g.lineTo(X(0)-6,Z(z)+5);g.lineTo(X(0)+6,Z(z)+5);g.closePath();g.fill();};
+    cone(.5+dc,INK,false);if(!fit&&m.wide)cone(.5+dn,RED,true);
+    g.font='600 11px system-ui,sans-serif';g.textBaseline='middle';
+    g.fillStyle=INK;g.textAlign='left';g.fillText('camera',X(0)+10,Z(.5+dc));
+    if(!fit&&m.wide){g.fillStyle=RED;g.fillText('needs to be here',X(0)+10,Z(.5+dn));}
+    xs.forEach((x,i)=>{const rr=(r.kid[i]?.17:.23)*sc;g.beginPath();g.arc(X(x),Z(.5),Math.max(4,rr),0,7);g.fillStyle=r.kid[i]?'#FF55BB':'#F2FFA0';g.fill();g.strokeStyle=INK;g.lineWidth=1.5;g.stroke();
+      if(rr>6){g.fillStyle=INK;g.textAlign='center';g.font='700 '+Math.min(11,rr*1.3)+'px system-ui,sans-serif';g.fillText('ABCDE'[i],X(x),Z(.5)+.5);}});
+    g.fillStyle='#6B6B6B';g.textAlign='left';g.font='10px system-ui,sans-serif';g.fillText('1 m squares',6,h-8);}
+  {const [g,w,h]=prep(b,16/9),sc=h/(2*dc*t),gy=h/2+(m.y0+m.y1)/2*sc;
+    g.strokeStyle='#6B6B6B';g.lineWidth=1.6;g.beginPath();g.moveTo(0,gy);g.lineTo(w,gy);g.stroke();
+    xs.forEach((x,i)=>{const ht=m.hs[i]*sc,xc=w/2+x*sc,rr=ht*.085,bw=ht*.26,top=gy-ht+2*rr,hip=gy-ht*.47;
+      g.fillStyle='#FBFAF6';g.beginPath();g.arc(xc,gy-ht+rr,rr,0,7);g.fill();g.stroke();g.fillRect(xc-bw/2,top,bw,hip-top);g.strokeRect(xc-bw/2,top,bw,hip-top);
+      g.beginPath();g.moveTo(xc-bw*.28,hip);g.lineTo(xc-bw*.28,gy);g.moveTo(xc+bw*.28,hip);g.lineTo(xc+bw*.28,gy);g.stroke();
+      g.fillStyle='#161616';g.textAlign='center';g.textBaseline='middle';g.font='700 '+Math.max(9,Math.min(16,bw*.5))+'px system-ui,sans-serif';g.fillText('ABCDE'[i],xc,top+(hip-top)/2);});
+    if(!fit){g.strokeStyle=RED;g.lineWidth=4;g.strokeRect(2,2,w-4,h-4);}}
+}
 function l4sketch(){const c=document.getElementById('sk');if(!c)return;const w=c.clientWidth||300,hh=w*9/16,d=Math.min(2,devicePixelRatio||1);c.width=Math.round(w*d);c.height=Math.round(hh*d);
   const g=c.getContext('2d');g.setTransform(d,0,0,d,0,0);g.fillStyle='#FBFAF6';g.fillRect(0,0,w,hh);g.strokeStyle='#6B6B6B';g.lineWidth=1.6;g.lineJoin='round';
   const gy=hh*.9,H=hh*(S4.giant?.44:.62),fig=(xc,ht)=>{const r=ht*.17,bw=ht*.3,top=gy-ht+2*r;g.beginPath();g.arc(xc,gy-ht+r,r,0,7);g.stroke();g.strokeRect(xc-bw/2,top,bw,gy-top-ht*.2);g.beginPath();g.moveTo(xc-bw*.28,gy-ht*.2);g.lineTo(xc-bw*.28,gy);g.moveTo(xc+bw*.28,gy-ht*.2);g.lineTo(xc+bw*.28,gy);g.stroke();};
@@ -1123,7 +1171,12 @@ function l4bind(Q,keep){
   Q('.opt[data-k="l4lens"]').forEach(b=>b.onclick=()=>{S4.lens=+b.dataset.v;keep();});
   Q('[data-giant]').forEach(b=>b.onclick=()=>{S4.giant=b.dataset.giant==='1';keep();});
   const t=document.getElementById('sp');if(t){t.textContent=l4text();copyBtn('spc',l4text);}
-  l4sketch();
+  Q('[data-rn]').forEach(b=>b.onclick=()=>{S4.room.n=+b.dataset.rn;keep();});
+  Q('[data-rk]').forEach(b=>b.onclick=()=>{const i=+b.dataset.rk;S4.room.kid[i]=!S4.room.kid[i];keep();});
+  Q('[data-rp]').forEach(b=>b.onclick=()=>{S4.room.place=b.dataset.rp;keep();});
+  Q('[data-rs]').forEach(b=>b.onclick=()=>{S4.room.size=b.dataset.rs;keep();});
+  Q('[data-rl]').forEach(b=>b.onclick=()=>{S4.last=+b.dataset.rl;keep();});
+  l4sketch();l4roomDraw();
 }
 
 /* ================= 3D set ================= */
@@ -1454,8 +1507,8 @@ function l3Frame(el){const tot=SH3.reduce((a,q)=>a+q.dur,0),t=el%tot;let i=0,a=0
   return {o,x:o.walk?{dog:[o.h[0]+.75*Math.cos(o.hr)+.1*Math.sin(o.hr),o.h[1]-.75*Math.sin(o.hr)+.1*Math.cos(o.hr),o.hr,0],dogWalk:true}:{},p:t/tot,shot:i,hud:'SHOT '+(i+1)+' · '+z.tag+' · '+l.id+'°',map:{key:'l3'+i,sample:f}};}
 function l4Frame(el){const k=lkey(),MS=SIZES[2];
   if(k==='size')return {o:mkO({c:[0,1.5,7.7],l:[0,1.3,.2],fov:vfov(47)},[-.6,0],0,false),x:{girl:[.6,0,0,0],gs:S4.giant?1.7:1},p:0,hud:'TWO SHOT · 47°',map:{key:'l4s',pts:[[-3,-2],[3,8.6]]}};
-  const l=LENSES.find(w=>w.id===(k==='near'?S4.lens:S4.last))||LENSES[4],o=pose('static',0,0,el,distFor(MS,l),vfov(l.id),MS.camY,MS.look);
-  return {o,x:k==='near'?{girl:[.9,-3.8,0,0]}:{},p:0,hud:'MS · '+l.id+'° · ~'+l.mm+'mm',map:{key:'l4'+k+l.id,sample:()=>o}};}
+  const Z=k==='room'?SIZES[1]:MS,l=LENSES.find(w=>w.id===(k==='near'?S4.lens:S4.last))||LENSES[4],o=pose('static',0,0,el,distFor(Z,l),vfov(l.id),Z.camY,Z.look);
+  return {o,x:k==='near'?{girl:[.9,-3.8,0,0]}:{},p:0,hud:Z.tag+' · '+l.id+'° · ~'+l.mm+'mm',map:{key:'l4'+k+l.id,sample:()=>o}};}
 function lessonFrame(el){const r=S.lesson===2?l2Frame(el):S.lesson===3?l3Frame(el):l4Frame(el);LMAP=r.map;return r;}
 function planFrom(m){let cams=m.cams||[],heros=m.heros||[],pts=(m.pts||[]).slice(),maxH=3;
   if(m.sample){cams=[];heros=[];for(let i=0;i<=24;i++){const o=m.sample(i/24);cams.push([o.c[0],o.c[2]]);heros.push(o.h);maxH=Math.max(maxH,o.c[1]*1.15);}pts=pts.concat(cams,heros,[[-2.5,-3],[2.5,2]]);}

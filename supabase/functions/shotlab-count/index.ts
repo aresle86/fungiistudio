@@ -16,6 +16,7 @@ const EVENTS = new Set([
   "copy_prompt", "copy_row", "copy_mapref", "save_map", // lesson 01 outputs
   "l2_copy", "l3_copy", "l4_copy",                 // a lesson's text copied
   "kit_on",                                        // the film's lens kit switched on for lesson 01
+  "l4_room", "l4_nofit",                           // lesson 04: the room step opened · no kit lens fits the room
   "idea_open", "tip",                              // idea form opened · Ko-fi link clicked
   // lesson 01: the Movement in the prompt when Copy was pressed
   ...("static,pan,tilt,whip,dutch,zoom,crash,rack,dollyzoom,dollyin,dollyout,truck,pedestal,orbit,crane,roll,lowarc,reveal,aerialorbit,drone,overhead,tracking,leading,gimbal,handheld,fpv,pov").split(",").map((m) => "mv_" + m),
